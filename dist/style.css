@@ -1,0 +1,586 @@
+/* html {
+	background-color: #000;
+	filter: invert(100%) brightness(75%);
+} */
+body {
+  font-family: "IBM Plex Mono", monospace;
+  line-height: 1.45em;
+}
+
+strong, .strong {
+  font-weight: bold;
+}
+
+[contenteditable]:hover, [contenteditable]:focus {
+  color: #1d65ff;
+}
+
+.sheet {
+  margin: 0 auto;
+  padding: 50px;
+  width: 550px;
+}
+
+section {
+  margin-bottom: 1em;
+  padding-bottom: 1em;
+  border-bottom: 1px solid #ddd;
+}
+
+.row {
+  display: flex;
+  justify-content: space-between;
+}
+.row-left {
+  justify-content: flex-start;
+}
+.row-spaced {
+  justify-content: space-around;
+}
+
+.label {
+  display: block;
+  padding: 0.1em 0.5em;
+  font-size: 0.8em;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.label-inline {
+  display: inline-block;
+}
+
+.box {
+  border: 1px solid #000;
+}
+.box-lite {
+  border: none;
+  border-top: 1px solid #ddd;
+}
+.box-lite:last-child {
+  border-right: none;
+}
+.row-left .box {
+  margin-right: 1em;
+}
+.row-left .box:last-child {
+  margin-right: 0;
+}
+
+.col-2 {
+  -webkit-columns: 2;
+          columns: 2;
+}
+
+.sep {
+  margin: 0 -0.25em;
+}
+
+.field {
+  display: inline-block;
+  border: none;
+  padding: 0.25em;
+  width: auto;
+  min-width: 0;
+  max-width: none;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 1em;
+  line-height: 1em;
+  color: #000;
+  background-color: transparent;
+}
+.field:hover, .field:focus {
+  background-color: #f3f3f3;
+  color: #1d65ff;
+}
+.reverse .field {
+  color: #fff;
+  background-color: #000;
+}
+.reverse .field:hover, .reverse .field:focus {
+  background-color: #222;
+  color: #6294ff;
+}
+
+.field.size-0 {
+  width: 0.85em;
+}
+
+.field-number.size-0 {
+  width: 1.6em;
+}
+
+.field.size-1 {
+  width: 0.85em;
+}
+
+.field-number.size-1 {
+  width: 1.6em;
+}
+
+.field.size-2 {
+  width: 1.45em;
+}
+
+.field-number.size-2 {
+  width: 2.2em;
+}
+
+.field.size-3 {
+  width: 2.05em;
+}
+
+.field-number.size-3 {
+  width: 2.8em;
+}
+
+.field.size-4 {
+  width: 2.65em;
+}
+
+.field-number.size-4 {
+  width: 3.4em;
+}
+
+.field.size-5 {
+  width: 3.25em;
+}
+
+.field-number.size-5 {
+  width: 4em;
+}
+
+.field.size-6 {
+  width: 3.85em;
+}
+
+.field-number.size-6 {
+  width: 4.6em;
+}
+
+.field.size-7 {
+  width: 4.45em;
+}
+
+.field-number.size-7 {
+  width: 5.2em;
+}
+
+.field.size-8 {
+  width: 5.05em;
+}
+
+.field-number.size-8 {
+  width: 5.8em;
+}
+
+.field.size-9 {
+  width: 5.65em;
+}
+
+.field-number.size-9 {
+  width: 6.4em;
+}
+
+.field.size-10 {
+  width: 6.25em;
+}
+
+.field-number.size-10 {
+  width: 7em;
+}
+
+.field.size-11 {
+  width: 6.85em;
+}
+
+.field-number.size-11 {
+  width: 7.6em;
+}
+
+.field.size-12 {
+  width: 7.45em;
+}
+
+.field-number.size-12 {
+  width: 8.2em;
+}
+
+.field.size-13 {
+  width: 8.05em;
+}
+
+.field-number.size-13 {
+  width: 8.8em;
+}
+
+.field.size-14 {
+  width: 8.65em;
+}
+
+.field-number.size-14 {
+  width: 9.4em;
+}
+
+.field.size-15 {
+  width: 9.25em;
+}
+
+.field-number.size-15 {
+  width: 10em;
+}
+
+.field.size-16 {
+  width: 9.85em;
+}
+
+.field-number.size-16 {
+  width: 10.6em;
+}
+
+.field.size-17 {
+  width: 10.45em;
+}
+
+.field-number.size-17 {
+  width: 11.2em;
+}
+
+.field.size-18 {
+  width: 11.05em;
+}
+
+.field-number.size-18 {
+  width: 11.8em;
+}
+
+.field.size-19 {
+  width: 11.65em;
+}
+
+.field-number.size-19 {
+  width: 12.4em;
+}
+
+.field.size-20 {
+  width: 12.25em;
+}
+
+.field-number.size-20 {
+  width: 13em;
+}
+
+.field.size-21 {
+  width: 12.85em;
+}
+
+.field-number.size-21 {
+  width: 13.6em;
+}
+
+.field.size-22 {
+  width: 13.45em;
+}
+
+.field-number.size-22 {
+  width: 14.2em;
+}
+
+.field.size-23 {
+  width: 14.05em;
+}
+
+.field-number.size-23 {
+  width: 14.8em;
+}
+
+.field.size-24 {
+  width: 14.65em;
+}
+
+.field-number.size-24 {
+  width: 15.4em;
+}
+
+.field.size-25 {
+  width: 15.25em;
+}
+
+.field-number.size-25 {
+  width: 16em;
+}
+
+.field.size-26 {
+  width: 15.85em;
+}
+
+.field-number.size-26 {
+  width: 16.6em;
+}
+
+.field.size-27 {
+  width: 16.45em;
+}
+
+.field-number.size-27 {
+  width: 17.2em;
+}
+
+.field.size-28 {
+  width: 17.05em;
+}
+
+.field-number.size-28 {
+  width: 17.8em;
+}
+
+.field.size-29 {
+  width: 17.65em;
+}
+
+.field-number.size-29 {
+  width: 18.4em;
+}
+
+.field.size-30 {
+  width: 18.25em;
+}
+
+.field-number.size-30 {
+  width: 19em;
+}
+
+.field.size-31 {
+  width: 18.85em;
+}
+
+.field-number.size-31 {
+  width: 19.6em;
+}
+
+.field.size-32 {
+  width: 19.45em;
+}
+
+.field-number.size-32 {
+  width: 20.2em;
+}
+
+.field.size-33 {
+  width: 20.05em;
+}
+
+.field-number.size-33 {
+  width: 20.8em;
+}
+
+.field.size-34 {
+  width: 20.65em;
+}
+
+.field-number.size-34 {
+  width: 21.4em;
+}
+
+.field.size-35 {
+  width: 21.25em;
+}
+
+.field-number.size-35 {
+  width: 22em;
+}
+
+.field.size-36 {
+  width: 21.85em;
+}
+
+.field-number.size-36 {
+  width: 22.6em;
+}
+
+.field.size-37 {
+  width: 22.45em;
+}
+
+.field-number.size-37 {
+  width: 23.2em;
+}
+
+.field.size-38 {
+  width: 23.05em;
+}
+
+.field-number.size-38 {
+  width: 23.8em;
+}
+
+.field.size-39 {
+  width: 23.65em;
+}
+
+.field-number.size-39 {
+  width: 24.4em;
+}
+
+.field.size-40 {
+  width: 24.25em;
+}
+
+.field-number.size-40 {
+  width: 25em;
+}
+
+.field.size-41 {
+  width: 24.85em;
+}
+
+.field-number.size-41 {
+  width: 25.6em;
+}
+
+.field.size-42 {
+  width: 25.45em;
+}
+
+.field-number.size-42 {
+  width: 26.2em;
+}
+
+.field.size-43 {
+  width: 26.05em;
+}
+
+.field-number.size-43 {
+  width: 26.8em;
+}
+
+.field.size-44 {
+  width: 26.65em;
+}
+
+.field-number.size-44 {
+  width: 27.4em;
+}
+
+.field.size-45 {
+  width: 27.25em;
+}
+
+.field-number.size-45 {
+  width: 28em;
+}
+
+.field.size-46 {
+  width: 27.85em;
+}
+
+.field-number.size-46 {
+  width: 28.6em;
+}
+
+.field.size-47 {
+  width: 28.45em;
+}
+
+.field-number.size-47 {
+  width: 29.2em;
+}
+
+.field.size-48 {
+  width: 29.05em;
+}
+
+.field-number.size-48 {
+  width: 29.8em;
+}
+
+.field.size-49 {
+  width: 29.65em;
+}
+
+.field-number.size-49 {
+  width: 30.4em;
+}
+
+.field.size-50 {
+  width: 30.25em;
+}
+
+.field-number.size-50 {
+  width: 31em;
+}
+
+.block {
+  display: block;
+}
+.block.centered {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.vert-after {
+  margin-bottom: 1em;
+}
+
+.vert-center {
+  display: flex;
+  align-items: center;
+}
+
+.padded {
+  padding: 5px 10px;
+}
+
+.small {
+  font-size: 0.75em;
+}
+
+.normal {
+  font-size: 1rem;
+}
+
+.huge {
+  font-size: 1.5em;
+}
+
+.muted {
+  color: #999;
+}
+
+.centered, .text-center {
+  text-align: center;
+}
+
+.text-left {
+  text-align: left;
+}
+
+.text-right {
+  text-align: right;
+}
+
+.strong {
+  font-weight: bold;
+}
+
+.reverse {
+  background: #000;
+  color: #fff;
+}
+
+.title {
+  font-weight: bold;
+}
+
+.meta {
+  font-style: italic;
+}
+
+.ability, .saving-throw {
+  width: 65px;
+}
+
+.skill-modifier {
+  display: inline-block;
+  width: 20px;
+  text-align: right;
+}

@@ -1,0 +1,201 @@
+@import './mixins';
+
+$text: 'IBM Plex Mono', monospace;
+
+/* html {
+	background-color: #000;
+	filter: invert(100%) brightness(75%);
+} */
+
+body {
+	font-family: $text;
+	line-height: 1.45em;
+}
+
+li {
+	//margin: 0.25em 0;
+}
+
+strong, .strong {
+	font-weight: bold;
+}
+
+[contenteditable] {
+	&:hover, &:focus {
+		color: #1d65ff;
+	}
+}
+
+.sheet {
+	margin: 0 auto;
+	padding: 50px;
+	width: 550px;
+}
+
+section {
+	margin-bottom: 1em;
+	padding-bottom: 1em;
+	border-bottom: 1px solid #ddd;
+}
+
+.row {
+	display: flex;
+	justify-content: space-between;
+	
+	&-left {
+		justify-content: flex-start;
+	}
+
+	&-spaced {
+		justify-content: space-around;
+	}
+}
+
+.label {
+	display: block;
+	padding: 0.1em 0.5em;
+	font-size: 0.8em;
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+
+	&-inline {
+		display: inline-block;
+	}
+}
+
+.box {
+	border: 1px solid #000;
+
+	&-lite {
+		border: none;
+		border-top: 1px solid #ddd;
+
+		&:last-child {
+			border-right: none;
+		}
+	}
+	
+	.row-left & {
+		margin-right: 1em;
+		
+		&:last-child {
+			margin-right: 0;
+		}
+	}
+}
+
+.col-2 {
+	columns: 2;
+}
+
+.sep {
+	margin: 0 -0.25em;
+}
+
+.field {
+	display: inline-block;
+	border: none;
+	padding: 0.25em;
+	width: auto;
+	min-width: 0;
+	max-width: none;
+	font-family: $text;
+	font-size: 1em;
+	line-height: 1em;
+	color: #000;
+	background-color: transparent;
+
+	&:hover, &:focus {
+		background-color: #f3f3f3;
+		color: #1d65ff;
+	}
+
+	.reverse & {
+		color: #fff;
+		background-color: #000;
+
+		&:hover, &:focus {
+			background-color: #222;
+			color: #6294ff;
+		}
+	}
+}
+
+@include field-sizes();
+
+.block {
+	display: block;
+
+	&.centered {
+		margin-left: auto;
+		margin-right: auto;
+	}
+}
+
+.vert-after {
+	margin-bottom: 1em;
+}
+
+.vert-center {
+	display: flex;
+	align-items: center;
+}
+
+.padded {
+	padding: 5px 10px;
+}
+
+.small {
+	font-size: 0.75em;
+}
+
+.normal {
+	font-size: 1rem;
+}
+
+.huge {
+	font-size: 1.5em;
+}
+
+.muted {
+	color: #999;
+}
+
+.centered, .text-center {
+	text-align: center;
+}
+
+.text-left {
+	text-align: left;
+}
+
+.text-right {
+	text-align: right;
+}
+
+.strong {
+	font-weight: bold;
+}
+
+.reverse {
+	background: #000;
+	color: #fff;
+}
+
+.title {
+	font-weight: bold;
+}
+
+.meta {
+	font-style: italic;
+}
+
+.ability, .saving-throw {
+	width: 65px;
+}
+
+.skill-modifier {
+	display: inline-block;
+	width: 20px;
+	text-align: right;
+}
