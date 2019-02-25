@@ -23,6 +23,18 @@
         <skills></skills>
 
         <attacks></attacks>
+
+        <text-section title="Equipment"></text-section>
+
+        <text-section title="Other Proficiencies & Languages"></text-section>
+
+        <text-section title="Feature & Traits"></text-section>
+
+        <text-section title="Character Backstory"></text-section>
+
+        <text-section title="Treasure"></text-section>
+
+        <text-section title="Alies & Organizations"></text-section>
     </div>
 </template>
 
@@ -34,6 +46,7 @@ import Abilities from './Abilities';
 import Skills from './Skills';
 import Proficiency from './Proficiency';
 import Attacks from './Attacks';
+import TextSection from './TextSection';
 
 export default {
     name: 'Sheet',
@@ -64,7 +77,8 @@ export default {
         'abilities': Abilities,
         'skills': Skills,
         'proficiency': Proficiency,
-        'attacks': Attacks
+        'attacks': Attacks,
+        'text-section': TextSection
     },
 
     mounted() {

@@ -16,7 +16,7 @@ table {
 }
 
 tbody tr {
-  border-top: 1px solid #000;
+  border-top: 1px solid #ddd;
 }
 
 th {
@@ -43,6 +43,9 @@ section {
   margin-bottom: 1em;
   padding-bottom: 1em;
   border-bottom: 1px solid #ddd;
+}
+section > .label {
+  margin-bottom: 1em;
 }
 
 .row {
@@ -601,4 +604,11 @@ section {
   display: inline-block;
   width: 20px;
   text-align: right;
+}
+
+.quill-editor {
+  font-family: "IBM Plex Mono", monospace;
+}
+.quill-editor [contenteditable] {
+  color: #000;
 }
