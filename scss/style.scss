@@ -12,12 +12,26 @@ body {
 	line-height: 1.45em;
 }
 
-li {
-	//margin: 0.25em 0;
-}
-
 strong, .strong {
 	font-weight: bold;
+}
+
+table {
+	width: 100%;
+}
+
+tbody tr {
+	border-top: 1px solid #000;
+}
+
+th {
+	padding: 0.1em 0.5em;
+	font-size: 0.8em;
+	font-weight: bold;
+}
+
+td {
+	padding: 0.25em 0;
 }
 
 [contenteditable] {

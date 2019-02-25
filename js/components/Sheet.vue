@@ -21,6 +21,8 @@
         <abilities></abilities>
         
         <skills></skills>
+
+        <attacks></attacks>
     </div>
 </template>
 
@@ -31,6 +33,7 @@ import Vitals from './Vitals';
 import Abilities from './Abilities';
 import Skills from './Skills';
 import Proficiency from './Proficiency';
+import Attacks from './Attacks';
 
 export default {
     name: 'Sheet',
@@ -60,7 +63,8 @@ export default {
         'vitals': Vitals,
         'abilities': Abilities,
         'skills': Skills,
-        'proficiency': Proficiency
+        'proficiency': Proficiency,
+        'attacks': Attacks
     },
 
     mounted() {
