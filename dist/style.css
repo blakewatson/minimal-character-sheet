@@ -44,6 +44,9 @@ section {
   padding-bottom: 1em;
   border-bottom: 1px solid #ddd;
 }
+section:last-child {
+  border-bottom: none;
+}
 section > .label {
   margin-bottom: 1em;
 }

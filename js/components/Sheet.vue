@@ -10,7 +10,7 @@
 
         <attacks></attacks>
 
-        <text-section title="Equipment"></text-section>
+        <equipment></equipment>
 
         <text-section title="Other Proficiencies & Languages"></text-section>
 
@@ -31,6 +31,7 @@ import Abilities from './Abilities';
 import Skills from './Skills';
 import Proficiency from './Proficiency';
 import Attacks from './Attacks';
+import Equipment from './Equipment';
 import TextSection from './TextSection';
 
 export default {
@@ -42,6 +43,7 @@ export default {
         'skills': Skills,
         'proficiency': Proficiency,
         'attacks': Attacks,
+        'equipment': Equipment,
         'text-section': TextSection
     }
 }

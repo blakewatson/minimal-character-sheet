@@ -51,6 +51,10 @@ section {
 	padding-bottom: 1em;
 	border-bottom: 1px solid #ddd;
 
+	&:last-child {
+		border-bottom: none;
+	}
+
 	> .label {
 		margin-bottom: 1em;
 	}
