@@ -1,33 +1,42 @@
 <template>
     <div id="sheet" class="sheet">
+        <tabs @update-view="view = $event"></tabs>
+
         <bio></bio>
 
-        <proficiency></proficiency>
-        
-        <abilities></abilities>
-        
-        <skills></skills>
+        <div class="page" v-show="view === 'main'">
+            <proficiency></proficiency>
+            
+            <abilities></abilities>
+            
+            <skills></skills>
 
-        <attacks></attacks>
+            <attacks></attacks>
 
-        <equipment></equipment>
+            <equipment></equipment>
 
-        <text-section title="Other Proficiencies & Languages"></text-section>
+            <text-section title="Other Proficiencies & Languages"></text-section>
 
-        <text-section title="Feature & Traits"></text-section>
+            <text-section title="Feature & Traits"></text-section>
+        </div>
 
-        <spells></spells>
+        <div class="page" v-show="view === 'spells'">
+            <spells></spells>
+        </div>
 
-        <text-section title="Character Backstory"></text-section>
-
-        <text-section title="Treasure"></text-section>
-
-        <text-section title="Alies & Organizations"></text-section>
+        <div class="page" v-show="view === 'details'">
+            <text-section title="Character Backstory"></text-section>
+    
+            <text-section title="Treasure"></text-section>
+    
+            <text-section title="Alies & Organizations"></text-section>
+        </div>
     </div>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
+import Tabs from './Tabs';
 import Bio from './Bio';
 import Abilities from './Abilities';
 import Skills from './Skills';
@@ -40,7 +49,14 @@ import TextSection from './TextSection';
 export default {
     name: 'Sheet',
 
+    data() {
+        return {
+            'view': 'main'
+        };
+    },
+
     components: {
+        'tabs': Tabs,
         'bio': Bio,
         'abilities': Abilities,
         'skills': Skills,

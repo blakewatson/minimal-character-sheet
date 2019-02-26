@@ -5,6 +5,7 @@
                 class="block size-full text-left"
                 :class="{ 'field-focus': item === '' }"
                 :value="item"
+                placeholder="…"
                 @update-value="updateItem(i, $event)"></field>
         </li>
     </ul>

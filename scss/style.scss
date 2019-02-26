@@ -38,22 +38,11 @@ td {
 	padding: 0.25em 0;
 }
 
-[contenteditable] {
-	&:hover, &:focus {
-		color: #1d65ff;
-	}
-}
-
-.sheet {
-	margin: 0 auto;
-	padding: 50px;
-	width: 550px;
-}
-
 section {
-	margin-bottom: 1em;
-	padding-bottom: 1em;
+	margin: 1em auto;
+	padding: 0 50px 1em 50px;
 	border-bottom: 1px solid #ddd;
+	width: 550px;
 
 	&:last-child {
 		border-bottom: none;
@@ -247,5 +236,34 @@ section {
 
 	[contenteditable] {
 		color: #000;
+	}
+}
+
+nav {
+	margin-bottom: 2em;
+	width: 100%;
+	text-align: center;
+	background-color: #000;
+
+	li {
+		display: inline-block;
+		margin: 0;
+	}
+
+	button {
+		unset: all;
+		display: inline-block;
+		appearance: none;
+		border: none;
+		padding: 0.5em 0.5em;
+		font-family: $text;
+		font-size: 1rem;
+		background-color: #000;
+		color: #fff;
+		cursor: pointer;
+
+		&:hover, &:focus {
+			color: #6294ff;
+		}
 	}
 }
