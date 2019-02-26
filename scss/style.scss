@@ -16,6 +16,10 @@ strong, .strong {
 	font-weight: bold;
 }
 
+li {
+	margin: 0.25em 0;
+}
+
 table {
 	width: 100%;
 }
@@ -141,9 +145,17 @@ section {
 			color: #6294ff;
 		}
 	}
+
+	&-focus {
+		border: 1px solid #f3f3f3;
+	}
 }
 
 @include field-sizes();
+
+.field.size-full {
+	width: 100%;
+}
 
 .block {
 	display: block;
@@ -152,6 +164,14 @@ section {
 		margin-left: auto;
 		margin-right: auto;
 	}
+}
+
+.float-left {
+	float: left;
+}
+
+.float-right {
+	float: right;
 }
 
 .vert-after {

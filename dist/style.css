@@ -11,6 +11,10 @@ strong, .strong {
   font-weight: bold;
 }
 
+li {
+  margin: 0.25em 0;
+}
+
 table {
   width: 100%;
 }
@@ -123,6 +127,9 @@ section > .label {
 .reverse .field:hover, .reverse .field:focus {
   background-color: #222;
   color: #6294ff;
+}
+.field-focus {
+  border: 1px solid #f3f3f3;
 }
 
 .field.size-0 {
@@ -533,12 +540,24 @@ section > .label {
   width: 31em;
 }
 
+.field.size-full {
+  width: 100%;
+}
+
 .block {
   display: block;
 }
 .block.centered {
   margin-left: auto;
   margin-right: auto;
+}
+
+.float-left {
+  float: left;
+}
+
+.float-right {
+  float: right;
 }
 
 .vert-after {

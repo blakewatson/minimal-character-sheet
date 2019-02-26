@@ -16,6 +16,8 @@
 
         <text-section title="Feature & Traits"></text-section>
 
+        <spells></spells>
+
         <text-section title="Character Backstory"></text-section>
 
         <text-section title="Treasure"></text-section>
@@ -32,6 +34,7 @@ import Skills from './Skills';
 import Proficiency from './Proficiency';
 import Attacks from './Attacks';
 import Equipment from './Equipment';
+import Spells from './Spells';
 import TextSection from './TextSection';
 
 export default {
@@ -44,6 +47,7 @@ export default {
         'proficiency': Proficiency,
         'attacks': Attacks,
         'equipment': Equipment,
+        'spells': Spells,
         'text-section': TextSection
     }
 }
