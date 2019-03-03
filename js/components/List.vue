@@ -26,7 +26,6 @@ export default {
 
     methods: {
         updateItem(i, value) {
-            console.log(i, value);
             Vue.set(this.items, i, value);
 
             var itemsLength = this.items.length;

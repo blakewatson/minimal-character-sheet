@@ -3,6 +3,8 @@
 	filter: invert(100%) brightness(75%);
 } */
 body {
+  padding: 0 50px;
+  overflow-y: scroll;
   font-family: "IBM Plex Mono", monospace;
   line-height: 1.45em;
 }
@@ -35,7 +37,7 @@ td {
 
 section {
   margin: 1em auto;
-  padding: 0 50px 1em 50px;
+  padding-bottom: 1em;
   border-bottom: 1px solid #ddd;
   width: 550px;
 }
@@ -551,6 +553,12 @@ section > .label {
   float: right;
 }
 
+.clearfix:after {
+  content: "";
+  display: table;
+  clear: both;
+}
+
 .vert-after {
   margin-bottom: 1em;
 }
@@ -626,9 +634,17 @@ section > .label {
   color: #000;
 }
 
+.spell-slots {
+  padding: 0 2em;
+}
+.spell-slots-total {
+  font-weight: bold;
+}
+
 nav {
-  margin-bottom: 2em;
-  width: 100%;
+  display: block;
+  margin: 0 auto 2em auto;
+  width: 550px;
   text-align: center;
   background-color: #000;
 }

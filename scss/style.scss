@@ -8,6 +8,8 @@ $text: 'IBM Plex Mono', monospace;
 } */
 
 body {
+	padding: 0 50px;
+	overflow-y: scroll;
 	font-family: $text;
 	line-height: 1.45em;
 }
@@ -40,7 +42,7 @@ td {
 
 section {
 	margin: 1em auto;
-	padding: 0 50px 1em 50px;
+	padding-bottom: 1em;
 	border-bottom: 1px solid #ddd;
 	width: 550px;
 
@@ -163,6 +165,10 @@ section {
 	float: right;
 }
 
+.clearfix {
+	@include clearfix;
+}
+
 .vert-after {
 	margin-bottom: 1em;
 }
@@ -239,9 +245,18 @@ section {
 	}
 }
 
+.spell-slots {
+	padding: 0 2em;
+
+	&-total {
+		font-weight: bold;
+	}
+}
+
 nav {
-	margin-bottom: 2em;
-	width: 100%;
+	display: block;
+	margin: 0 auto 2em auto;
+	width: 550px;
 	text-align: center;
 	background-color: #000;
 

@@ -945,6 +945,144 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./js/components/SpellGroup.vue":
+/*!**************************************!*\
+  !*** ./js/components/SpellGroup.vue ***!
+  \**************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SpellGroup_vue_vue_type_template_id_9cb1a190___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SpellGroup.vue?vue&type=template&id=9cb1a190& */ "./js/components/SpellGroup.vue?vue&type=template&id=9cb1a190&");
+/* harmony import */ var _SpellGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpellGroup.vue?vue&type=script&lang=js& */ "./js/components/SpellGroup.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SpellGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SpellGroup_vue_vue_type_template_id_9cb1a190___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SpellGroup_vue_vue_type_template_id_9cb1a190___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "js/components/SpellGroup.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./js/components/SpellGroup.vue?vue&type=script&lang=js&":
+/*!***************************************************************!*\
+  !*** ./js/components/SpellGroup.vue?vue&type=script&lang=js& ***!
+  \***************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib??ref--4-0!../../node_modules/vue-loader/lib??vue-loader-options!./SpellGroup.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellGroup.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellGroup_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./js/components/SpellGroup.vue?vue&type=template&id=9cb1a190&":
+/*!*********************************************************************!*\
+  !*** ./js/components/SpellGroup.vue?vue&type=template&id=9cb1a190& ***!
+  \*********************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellGroup_vue_vue_type_template_id_9cb1a190___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib??vue-loader-options!./SpellGroup.vue?vue&type=template&id=9cb1a190& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellGroup.vue?vue&type=template&id=9cb1a190&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellGroup_vue_vue_type_template_id_9cb1a190___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellGroup_vue_vue_type_template_id_9cb1a190___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
+/***/ "./js/components/SpellList.vue":
+/*!*************************************!*\
+  !*** ./js/components/SpellList.vue ***!
+  \*************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SpellList_vue_vue_type_template_id_77d76316___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SpellList.vue?vue&type=template&id=77d76316& */ "./js/components/SpellList.vue?vue&type=template&id=77d76316&");
+/* harmony import */ var _SpellList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpellList.vue?vue&type=script&lang=js& */ "./js/components/SpellList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport *//* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+
+var component = Object(_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _SpellList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_1__["default"],
+  _SpellList_vue_vue_type_template_id_77d76316___WEBPACK_IMPORTED_MODULE_0__["render"],
+  _SpellList_vue_vue_type_template_id_77d76316___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"],
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) { var api; }
+component.options.__file = "js/components/SpellList.vue"
+/* harmony default export */ __webpack_exports__["default"] = (component.exports);
+
+/***/ }),
+
+/***/ "./js/components/SpellList.vue?vue&type=script&lang=js&":
+/*!**************************************************************!*\
+  !*** ./js/components/SpellList.vue?vue&type=script&lang=js& ***!
+  \**************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib??ref--4-0!../../node_modules/vue-loader/lib??vue-loader-options!./SpellList.vue?vue&type=script&lang=js& */ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellList.vue?vue&type=script&lang=js&");
+/* empty/unused harmony star reexport */ /* harmony default export */ __webpack_exports__["default"] = (_node_modules_babel_loader_lib_index_js_ref_4_0_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellList_vue_vue_type_script_lang_js___WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./js/components/SpellList.vue?vue&type=template&id=77d76316&":
+/*!********************************************************************!*\
+  !*** ./js/components/SpellList.vue?vue&type=template&id=77d76316& ***!
+  \********************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellList_vue_vue_type_template_id_77d76316___WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!../../node_modules/vue-loader/lib??vue-loader-options!./SpellList.vue?vue&type=template&id=77d76316& */ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellList.vue?vue&type=template&id=77d76316&");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "render", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellList_vue_vue_type_template_id_77d76316___WEBPACK_IMPORTED_MODULE_0__["render"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return _node_modules_vue_loader_lib_loaders_templateLoader_js_vue_loader_options_node_modules_vue_loader_lib_index_js_vue_loader_options_SpellList_vue_vue_type_template_id_77d76316___WEBPACK_IMPORTED_MODULE_0__["staticRenderFns"]; });
+
+
+
+/***/ }),
+
 /***/ "./js/components/Spells.vue":
 /*!**********************************!*\
   !*** ./js/components/Spells.vue ***!
@@ -1786,7 +1924,6 @@ __webpack_require__.r(__webpack_exports__);
   },
   methods: {
     updateItem: function updateItem(i, value) {
-      console.log(i, value);
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.items, i, value);
       var itemsLength = this.items.length;
 
@@ -2142,6 +2279,112 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellGroup.vue?vue&type=script&lang=js&":
+/*!***********************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./js/components/SpellGroup.vue?vue&type=script&lang=js& ***!
+  \***********************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _SpellList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SpellList */ "./js/components/SpellList.vue");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'SpellGroup',
+  props: ['level'],
+  data: function data() {
+    return {
+      totalSlots: 0,
+      expendedSlots: 0
+    };
+  },
+  components: {
+    'spell-list': _SpellList__WEBPACK_IMPORTED_MODULE_0__["default"],
+    'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }
+});
+
+/***/ }),
+
+/***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellList.vue?vue&type=script&lang=js&":
+/*!**********************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./js/components/SpellList.vue?vue&type=script&lang=js& ***!
+  \**********************************************************************************************************************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
+/* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
+
+/* harmony default export */ __webpack_exports__["default"] = ({
+  name: 'SpellList',
+  data: function data() {
+    return {
+      spellItems: [{
+        name: '',
+        prepared: false
+      }]
+    };
+  },
+  methods: {
+    updateSpellName: function updateSpellName(i, value) {
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.spellItems[i], 'name', value);
+      var itemsLength = this.spellItems.length;
+
+      if (this.spellItems[itemsLength - 1].name !== '') {
+        this.spellItems.push({
+          name: '',
+          prepared: false
+        });
+      }
+    },
+    updateSpellPrepared: function updateSpellPrepared(i, e) {
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.spellItems[i], 'prepared', e.target.checked);
+    }
+  },
+  components: {
+    'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js?!./node_modules/vue-loader/lib/index.js?!./js/components/Spells.vue?vue&type=script&lang=js&":
 /*!*******************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib??ref--4-0!./node_modules/vue-loader/lib??vue-loader-options!./js/components/Spells.vue?vue&type=script&lang=js& ***!
@@ -2154,6 +2397,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
 /* harmony import */ var _List__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./List */ "./js/components/List.vue");
+/* harmony import */ var _SpellGroup__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SpellGroup */ "./js/components/SpellGroup.vue");
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
@@ -2192,6 +2436,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+
 
 
 
@@ -2208,7 +2463,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities'])),
   components: {
     'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'list': _List__WEBPACK_IMPORTED_MODULE_2__["default"]
+    'list': _List__WEBPACK_IMPORTED_MODULE_2__["default"],
+    'spell-group': _SpellGroup__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 });
 
@@ -3483,6 +3739,138 @@ render._withStripped = true
 
 /***/ }),
 
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellGroup.vue?vue&type=template&id=9cb1a190&":
+/*!***************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./js/components/SpellGroup.vue?vue&type=template&id=9cb1a190& ***!
+  \***************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "div",
+    [
+      _c("div", { staticClass: "box box-lite clearfix" }, [
+        _c("span", { staticClass: "label float-left reverse" }, [
+          _vm._v(_vm._s(_vm.level))
+        ]),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "spell-slots" },
+          [
+            _c("span", { staticClass: "label label-inline" }, [
+              _vm._v("Slots:")
+            ]),
+            _vm._v(" "),
+            _c("field", {
+              staticClass: "spell-slots-total",
+              attrs: { value: _vm.totalSlots, type: "number", min: "0" },
+              on: {
+                "update-value": function($event) {
+                  _vm.totalSlots = $event
+                }
+              }
+            }),
+            _vm._v(" "),
+            _c("span", { staticClass: "label label-inline" }, [
+              _vm._v("Expended:")
+            ]),
+            _vm._v(" "),
+            _c("field", {
+              staticClass: "spell-slots-expended",
+              attrs: {
+                value: _vm.expendedSlots,
+                type: "number",
+                min: "0",
+                max: _vm.totalSlots
+              },
+              on: {
+                "update-value": function($event) {
+                  _vm.expendedSlots = $event
+                }
+              }
+            })
+          ],
+          1
+        )
+      ]),
+      _vm._v(" "),
+      _c("spell-list")
+    ],
+    1
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
+/***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./js/components/SpellList.vue?vue&type=template&id=77d76316&":
+/*!**************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./js/components/SpellList.vue?vue&type=template&id=77d76316& ***!
+  \**************************************************************************************************************************************************************************************************/
+/*! exports provided: render, staticRenderFns */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "render", function() { return render; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "staticRenderFns", function() { return staticRenderFns; });
+var render = function() {
+  var _vm = this
+  var _h = _vm.$createElement
+  var _c = _vm._self._c || _h
+  return _c(
+    "ul",
+    _vm._l(_vm.spellItems, function(item, i) {
+      return _c(
+        "li",
+        { staticClass: "spell-item row" },
+        [
+          _c("input", {
+            attrs: { type: "checkbox" },
+            domProps: { value: item.prepared },
+            on: {
+              change: function($event) {
+                return _vm.updateSpellPrepared(i, $event)
+              }
+            }
+          }),
+          _vm._v(" "),
+          _c("field", {
+            staticClass: "size-full text-left",
+            class: { "field-focus": item.name === "" },
+            attrs: { value: item.name, placeholder: "…" },
+            on: {
+              "update-value": function($event) {
+                return _vm.updateSpellName(i, $event)
+              }
+            }
+          })
+        ],
+        1
+      )
+    }),
+    0
+  )
+}
+var staticRenderFns = []
+render._withStripped = true
+
+
+
+/***/ }),
+
 /***/ "./node_modules/vue-loader/lib/loaders/templateLoader.js?!./node_modules/vue-loader/lib/index.js?!./js/components/Spells.vue?vue&type=template&id=e855f068&":
 /*!***********************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/vue-loader/lib/loaders/templateLoader.js??vue-loader-options!./node_modules/vue-loader/lib??vue-loader-options!./js/components/Spells.vue?vue&type=template&id=e855f068& ***!
@@ -3498,113 +3886,135 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("section", [
-    _c("h1", { staticClass: "label centered" }, [_vm._v("Spellcasting")]),
-    _vm._v(" "),
-    _c("div", { staticClass: "row vert-after" }, [
-      _c(
-        "div",
-        { staticClass: "box box-lite" },
-        [
-          _c("span", { staticClass: "label centered" }, [_vm._v("Class")]),
-          _vm._v(" "),
-          _c("field", {
-            staticClass: "centered block",
-            attrs: { value: _vm.spClass, placeholder: "Druid" },
-            on: {
-              "update-value": function($event) {
-                _vm.spClass = $event
-              }
-            }
-          })
-        ],
-        1
-      ),
+  return _c(
+    "section",
+    [
+      _c("h1", { staticClass: "label centered" }, [_vm._v("Spellcasting")]),
       _vm._v(" "),
-      _c("div", { staticClass: "box box-lite" }, [
-        _c("span", { staticClass: "label centered" }, [_vm._v("Ability")]),
+      _c("div", { staticClass: "row vert-after" }, [
+        _c(
+          "div",
+          { staticClass: "box box-lite" },
+          [
+            _c("span", { staticClass: "label centered" }, [_vm._v("Class")]),
+            _vm._v(" "),
+            _c("field", {
+              staticClass: "centered block",
+              attrs: { value: _vm.spClass, placeholder: "Druid" },
+              on: {
+                "update-value": function($event) {
+                  _vm.spClass = $event
+                }
+              }
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c("div", { staticClass: "box box-lite" }, [
+          _c("span", { staticClass: "label centered" }, [_vm._v("Ability")]),
+          _vm._v(" "),
+          _c(
+            "select",
+            {
+              directives: [
+                {
+                  name: "model",
+                  rawName: "v-model",
+                  value: _vm.spAbility,
+                  expression: "spAbility"
+                }
+              ],
+              on: {
+                change: function($event) {
+                  var $$selectedVal = Array.prototype.filter
+                    .call($event.target.options, function(o) {
+                      return o.selected
+                    })
+                    .map(function(o) {
+                      var val = "_value" in o ? o._value : o.value
+                      return val
+                    })
+                  _vm.spAbility = $event.target.multiple
+                    ? $$selectedVal
+                    : $$selectedVal[0]
+                }
+              }
+            },
+            _vm._l(_vm.abilities, function(a) {
+              return _c("option", { domProps: { value: a.name } }, [
+                _vm._v(_vm._s(a.name))
+              ])
+            }),
+            0
+          )
+        ]),
         _vm._v(" "),
         _c(
-          "select",
-          {
-            directives: [
-              {
-                name: "model",
-                rawName: "v-model",
-                value: _vm.spAbility,
-                expression: "spAbility"
+          "div",
+          { staticClass: "box" },
+          [
+            _c("span", { staticClass: "label centered reverse" }, [
+              _vm._v("Spell Save DC")
+            ]),
+            _vm._v(" "),
+            _c("field", {
+              staticClass: "centered block padded huge",
+              attrs: { value: _vm.spSave },
+              on: {
+                "update-value": function($event) {
+                  _vm.spSave = $event
+                }
               }
-            ],
-            on: {
-              change: function($event) {
-                var $$selectedVal = Array.prototype.filter
-                  .call($event.target.options, function(o) {
-                    return o.selected
-                  })
-                  .map(function(o) {
-                    var val = "_value" in o ? o._value : o.value
-                    return val
-                  })
-                _vm.spAbility = $event.target.multiple
-                  ? $$selectedVal
-                  : $$selectedVal[0]
+            })
+          ],
+          1
+        ),
+        _vm._v(" "),
+        _c(
+          "div",
+          { staticClass: "box" },
+          [
+            _c("span", { staticClass: "label centered reverse" }, [
+              _vm._v("Attack Bonus")
+            ]),
+            _vm._v(" "),
+            _c("field", {
+              staticClass: "centered block padded huge",
+              attrs: { value: _vm.spAttack },
+              on: {
+                "update-value": function($event) {
+                  _vm.spAttack = $event
+                }
               }
-            }
-          },
-          _vm._l(_vm.abilities, function(a) {
-            return _c("option", { domProps: { value: a.name } }, [
-              _vm._v(_vm._s(a.name))
-            ])
-          }),
-          0
+            })
+          ],
+          1
         )
       ]),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "box" },
-        [
-          _c("span", { staticClass: "label centered reverse" }, [
-            _vm._v("Spell Save DC")
-          ]),
-          _vm._v(" "),
-          _c("field", {
-            staticClass: "centered block padded huge",
-            attrs: { value: _vm.spSave },
-            on: {
-              "update-value": function($event) {
-                _vm.spSave = $event
-              }
-            }
-          })
-        ],
-        1
-      ),
+      _c("div", [_vm._m(0), _vm._v(" "), _c("list")], 1),
       _vm._v(" "),
-      _c(
-        "div",
-        { staticClass: "box" },
-        [
-          _c("span", { staticClass: "label centered reverse" }, [
-            _vm._v("Attack Bonus")
-          ]),
-          _vm._v(" "),
-          _c("field", {
-            staticClass: "centered block padded huge",
-            attrs: { value: _vm.spAttack },
-            on: {
-              "update-value": function($event) {
-                _vm.spAttack = $event
-              }
-            }
-          })
-        ],
-        1
-      )
-    ]),
-    _vm._v(" "),
-    _c("div", [_vm._m(0), _vm._v(" "), _c("list")], 1)
-  ])
+      _c("spell-group", { attrs: { level: "1" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "2" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "3" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "4" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "5" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "6" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "7" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "8" } }),
+      _vm._v(" "),
+      _c("spell-group", { attrs: { level: "9" } })
+    ],
+    1
+  )
 }
 var staticRenderFns = [
   function() {

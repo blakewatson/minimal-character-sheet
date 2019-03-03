@@ -29,6 +29,16 @@
             </div>
             <list></list>
         </div>
+
+        <spell-group level="1"></spell-group>
+        <spell-group level="2"></spell-group>
+        <spell-group level="3"></spell-group>
+        <spell-group level="4"></spell-group>
+        <spell-group level="5"></spell-group>
+        <spell-group level="6"></spell-group>
+        <spell-group level="7"></spell-group>
+        <spell-group level="8"></spell-group>
+        <spell-group level="9"></spell-group>
     </section>
 </template>
 
@@ -36,6 +46,7 @@
 import { mapState } from 'vuex';
 import Field from './Field';
 import List from './List';
+import SpellGroup from './SpellGroup';
 
 export default {
     name: 'Spells',
@@ -55,7 +66,8 @@ export default {
 
     components: {
         'field': Field,
-        'list': List
+        'list': List,
+        'spell-group': SpellGroup
     }
 }
 </script>
