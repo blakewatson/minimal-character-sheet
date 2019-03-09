@@ -1,0 +1,14 @@
+<include href="templates/header.html" />
+
+<div class="container">
+    <check if="@success">
+        <h1>Account confirmed</h1>
+        <p>You can now <a href="/login">log in to your account</a>.</p>
+    </check>
+
+    <check if="@error_message">
+        <h1>{{ @error_message }}</h1>
+    </check>
+</div>
+
+<include href="templates/footer.html" />

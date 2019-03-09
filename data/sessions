@@ -1,0 +1,65 @@
+{
+    "5c7dcf3e972f44.15129377": {
+        "session_id": "kj78s535nmum3lrtdt5r2n2ml9",
+        "data": "csrf|s:12:\"y054np85tsro\";testing|s:11:\"hello world\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1551767413
+    },
+    "5c7dfd667e7fd5.76587882": {
+        "session_id": "n7rcot44t2usjbn40ctu96fts4",
+        "data": "csrf|s:13:\"3456njc76zuo0\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1551760742
+    },
+    "5c7f276d6c38f3.48890614": {
+        "session_id": "arbe2irvn72b9pcmg6devsbn9r",
+        "data": "csrf|s:13:\"16rnj1xsupapk\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1551911500
+    },
+    "5c80bf73905f90.59174806": {
+        "session_id": "d1ndd2jf5u4jd92qkhft0sbag4",
+        "data": "csrf|s:13:\"2ii9bz8msvmsk\";user|N;email|s:21:\"blake@blakewatson.com\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1551942706
+    },
+    "5c81bb8c684576.05599123": {
+        "session_id": "s43sopq0jvnoh4r9b5jjm1scbj",
+        "data": "csrf|s:13:\"13koawa8dkw56\";email|s:21:\"blake@blakewatson.com\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1552008399
+    },
+    "5c81bccb187b89.77523163": {
+        "session_id": "ee4gvfmoh57nkjjo02bnst7fd5",
+        "data": "csrf|s:13:\"3005npm5q0e88\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1552009862
+    },
+    "5c83084d5eb4a1.92771852": {
+        "session_id": "q6r5rkomrhlvo4rhsnmf46j53q",
+        "data": "csrf|s:12:\"su9o2991dt01\";email|s:21:\"blake@blakewatson.com\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1552097362
+    },
+    "5c8335fdcd07d0.93566927": {
+        "session_id": "tqjlo4c6f24l1m4dss57lcg5go",
+        "data": "csrf|s:13:\"1ac8kfsrni2yc\";email|s:21:\"blake@blakewatson.com\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1552163856
+    },
+    "5c83548a4f9801.32128558": {
+        "session_id": "m14m9vp15cfodfb3dnu3a9fo2g",
+        "data": "csrf|s:13:\"1mgg6fpwng38k\";email|s:21:\"blake@blakewatson.com\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1552113583
+    }
+}

@@ -1,0 +1,15 @@
+<include href="templates/header.html" />
+
+<h1>Special Content</h1>
+
+<div class="container">
+    <p><a href="/logout">Logout</a></p>
+
+    <repeat group="{{ @sheets }}" value="{{ @sheet }}">
+        <p><a href="/sheet/{{ @sheet.id }}">{{ @sheet.name }}</a></p>
+    </repeat>
+
+    <p><a href="/add-sheet">Add a character sheet</a></p>
+</div>
+
+<include href="templates/footer.html" />

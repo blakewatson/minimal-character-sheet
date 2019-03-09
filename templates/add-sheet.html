@@ -1,0 +1,10 @@
+<include href="templates/header.html" />
+
+<form action="" method="POST">
+    <label for="sheet-name" class="label block">What&rsquo;s your character&rsquo;s name?</label>
+    <input type="text" class="field field-visible" id="sheet-name" name="sheet_name">
+    <button type="submit">Create Sheet</button>
+    <input type="hidden" name="csrf" value="{{ @CSRF }}">
+</form>
+
+<include href="templates/footer.html" />

@@ -124,6 +124,9 @@ section > .label {
 .field-focus {
   border: 1px solid #f3f3f3;
 }
+.field-visible {
+  background-color: #f3f3f3;
+}
 
 .field.size-0 {
   width: 0.85em;

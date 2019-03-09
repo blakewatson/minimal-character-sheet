@@ -1,0 +1,46 @@
+<include href="templates/header.html" />
+
+    <div class="container">
+        <h1>Register</h1>
+
+        <check if="isset( @success_message )">
+            <true>
+                <p>{{ @success_message }}</p>
+            </true>
+
+            <false>
+                <check if="isset( @error_message )">
+                    <p class="danger">{{ @error_message }}</p>
+                </check>
+                
+                <form action="/register" method="post">
+                    <p>
+                        <label for="user" class="label block">Username</label>
+                        <input type="text" id="user" name="user" class="field field-visible">
+                    </p>
+
+                    <p>
+                        <label for="email" class="label block">Email</label>
+                        <input type="email" id="email" name="email" class="field field-visible">
+                    </p>
+
+                    <p>
+                        <label for="pw1" class="label block">Password</label>
+                        <input type="text" id="pw1" name="pw1" class="field field-visible">
+                    </p>
+
+                    <p>
+                        <label for="pw2" class="label block">Confirm Password</label>
+                        <input type="text" id="pw2" name="pw2" class="field field-visible">
+                    </p>
+
+                    <input type="hidden" name="phone">
+                    <input type="hidden" name="csrf" value="{{ @CSRF }}">
+
+                    <p><button type="submit">Create User</button></p>
+                </form>
+            </false>
+        </check>
+    </div>
+
+<include href="templates/footer.html" />

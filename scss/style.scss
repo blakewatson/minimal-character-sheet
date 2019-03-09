@@ -140,6 +140,10 @@ section {
 	&-focus {
 		border: 1px solid #f3f3f3;
 	}
+
+	&-visible {
+		background-color: #f3f3f3;
+	}
 }
 
 @include field-sizes();
