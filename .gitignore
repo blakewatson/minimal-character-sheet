@@ -1,3 +1,6 @@
+# Don’t put user data in the repo
+data
+
 Thumbs.db
 .project
 .DS_Store
