@@ -5,5 +5,21 @@
         "pw": "$2y$10$U97HYwhsGL3qMNq8Ygc3ruEKPwag31VmTk1sNrufyGfNruwqm\/IlK",
         "confirmed": true,
         "token": null
+    },
+    "5c849de2cd4e22.35489835": {
+        "user": "matt",
+        "email": "kingblake@gmail.com",
+        "pw": "$2y$10$CPVuJyXk7XRTFN\/uOOJoQe\/OSQwMPShvBQvQkRkykJzjfyzrKET36",
+        "confirmed": false,
+        "token": {
+            "id": null,
+            "interval": null,
+            "clear": null,
+            "hash": "$2y$10$9CAgnSIBpjNRPhyTMFc7jOK941\/a5JogI4mhRWGWYxs4T8fJnwDEq",
+            "expiry": "2019-03-10 23:17:22",
+            "one_time": true,
+            "mapper": null,
+            "life_in_hours": 23
+        }
     }
 }

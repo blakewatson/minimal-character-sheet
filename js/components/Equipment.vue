@@ -9,33 +9,30 @@
             </div>
         </div>
 
-        <quill-editor></quill-editor>
+        <quill-editor :initial-contents="equipmentText" @quill-text-change="updateEquipment"></quill-editor>
     </section>
 </template>
 
 <script>
 import Vue from 'vue';
+import { mapState } from 'vuex';
 import QuillEditor from './QuillEditor';
 import Field from './Field';
 
 export default {
     name: 'Equipment',
 
-    data() {
-        return {
-            coins: [
-                { name: 'cp', amount: 0 },
-                { name: 'sp', amount: 0 },
-                { name: 'ep', amount: 0 },
-                { name: 'gp', amount: 5 },
-                { name: 'pp', amount: 0 }
-            ]
-        };
+    computed: {
+        ...mapState(['coins', 'equipmentText'])
     },
 
     methods: {
-        updateAmount(i, value) {
-            Vue.set(this.coins[i], 'amount', value);
+        updateAmount(i, val) {
+            this.$store.commit('updateCoins', { i, amount: val });
+        },
+
+        updateEquipment(val) {
+            this.$store.commit('updateEquipment', { val });
         }
     },
 

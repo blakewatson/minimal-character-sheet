@@ -1473,6 +1473,17 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     levelData: _level_data__WEBPACK_IMPORTED_MODULE_2__["default"],
     level: 5,
+    characterName: 'Constantine',
+    race: 'Half-elf',
+    className: 'Druid',
+    xp: 11000,
+    alignment: 'LG',
+    hp: 38,
+    maxHp: 38,
+    tempHp: 0,
+    hitDie: '5d8',
+    totalHitDie: 5,
+    ac: 12,
     abilities: [{
       name: 'STR',
       score: 12
@@ -1510,7 +1521,39 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     }, {
       name: 'CHA',
       proficient: false
-    }]
+    }],
+    attacks: [{
+      id: 0,
+      name: '',
+      attackBonus: 0,
+      damage: ''
+    }],
+    coins: [{
+      name: 'cp',
+      amount: 0
+    }, {
+      name: 'sp',
+      amount: 0
+    }, {
+      name: 'ep',
+      amount: 0
+    }, {
+      name: 'gp',
+      amount: 5
+    }, {
+      name: 'pp',
+      amount: 0
+    }],
+    equipmentText: {},
+    proficienciesText: {},
+    featuresText: {},
+    backstoryText: {},
+    treasureText: {},
+    organizationsText: {},
+    spClass: '',
+    spAbility: 'WIS',
+    spSave: '',
+    spAttack: ''
   },
   getters: {
     modifiers: function modifiers(state) {
@@ -1551,9 +1594,70 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     updateLevel: function updateLevel(state, payload) {
       state.level = payload.level;
+    },
+    updateBio: function updateBio(state, payload) {
+      var allowedFields = ["characterName", "race", "className", "xp", "alignment"];
+      var field = payload.field;
+      if (!allowedFields.includes(field)) return;
+      if (!state.hasOwnProperty(field)) return;
+      state[field] = payload.val;
+    },
+    updateVitals: function updateVitals(state, payload) {
+      var allowedFields = ['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac'];
+      var field = payload.field;
+      if (!allowedFields.includes(field)) return;
+      if (!state.hasOwnProperty(field)) return;
+      state[field] = payload.val;
+    },
+    updateAttacks: function updateAttacks(state, payload) {
+      if (payload.i >= state.attacks.length) return;
+      if (!state.attacks[payload.i].hasOwnProperty(payload.field)) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.attacks[payload.i], payload.field, payload.val);
+    },
+    addAttack: function addAttack(state, payload) {
+      var attack = {
+        id: Date.now(),
+        name: '',
+        attackBonus: 0,
+        damage: ''
+      };
+      state.attacks.push(attack);
+    },
+    deleteAttack: function deleteAttack(state, payload) {
+      if (payload.i >= state.attacks.length) return;
+      state.attacks.splice(i, 0);
+    },
+    updateCoins: function updateCoins(state, payload) {
+      if (payload.i >= state.coins.length) return;
+      if (typeof payload.amount !== 'number') return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.coins, payload.i, payload.amount);
+    },
+    updateEquipment: function updateEquipment(state, payload) {
+      state.equipmentText = payload.val;
+    },
+    updateTextField: function updateTextField(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      state[payload.field] = payload.val;
+    },
+    updateSpellInfo: function updateSpellInfo(state, payload) {
+      var allowedFields = ["spClass", "spAbility", "spSave", "spAttack"];
+      var field = payload.field;
+      if (!allowedFields.includes(field)) return;
+      if (!state.hasOwnProperty(field)) return;
+      state[field] = payload.val;
     }
   }
 }));
+
+function objectIsEmpty(obj) {
+  for (var prop in obj) {
+    if (prop === 'id') continue;
+    if (!obj.hasOwnProperty(prop)) continue;
+    if (obj[prop]) return false;
+  }
+
+  return true;
+}
 
 /***/ }),
 
@@ -1676,28 +1780,21 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Attacks',
-  data: function data() {
-    return {
-      attacks: [{
-        name: 'Quarterstaff',
-        attackBonus: 4,
-        damage: '1d8 + 1 bludgeoning'
-      }, {
-        name: 'Dagger',
-        attackBonus: 3,
-        damage: '1d4 slashing'
-      }, {
-        name: 'Shortbow',
-        attackBonus: 3,
-        damage: '1d6 piercing'
-      }]
-    };
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['attacks']), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['modifiers'])),
+  methods: {
+    updateAttacks: function updateAttacks(i, field, val) {
+      this.$store.commit('updateAttacks', {
+        i: i,
+        field: field,
+        val: val
+      });
+    }
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['modifiers'])),
   components: {
     'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
@@ -1744,20 +1841,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Bio',
-  data: function data() {
-    return {
-      characterName: 'Constantine',
-      race: 'Half-elf',
-      className: 'Druid',
-      xp: 11000,
-      alignment: 'LG'
-    };
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['level'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['level', 'characterName', 'className', 'race', 'alignment', 'xp'])),
   methods: {
     updateLevel: function updateLevel(level) {
       this.$store.commit('updateLevel', {
         level: level
+      });
+    },
+    updateBio: function updateBio(field, val) {
+      this.$store.commit('updateBio', {
+        field: field,
+        val: val
       });
     }
   },
@@ -1780,8 +1874,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1797,39 +1896,29 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Equipment',
-  data: function data() {
-    return {
-      coins: [{
-        name: 'cp',
-        amount: 0
-      }, {
-        name: 'sp',
-        amount: 0
-      }, {
-        name: 'ep',
-        amount: 0
-      }, {
-        name: 'gp',
-        amount: 5
-      }, {
-        name: 'pp',
-        amount: 0
-      }]
-    };
-  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['coins', 'equipmentText'])),
   methods: {
-    updateAmount: function updateAmount(i, value) {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.coins[i], 'amount', value);
+    updateAmount: function updateAmount(i, val) {
+      this.$store.commit('updateCoins', {
+        i: i,
+        amount: val
+      });
+    },
+    updateEquipment: function updateEquipment(val) {
+      this.$store.commit('updateEquipment', {
+        val: val
+      });
     }
   },
   components: {
-    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_1__["default"],
-    'field': _Field__WEBPACK_IMPORTED_MODULE_2__["default"]
+    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_2__["default"],
+    'field': _Field__WEBPACK_IMPORTED_MODULE_3__["default"]
   }
 });
 
@@ -1996,6 +2085,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'QuillEditor',
+  props: ['initialContents'],
   data: function data() {
     return {
       editor: null,
@@ -2015,8 +2105,15 @@ __webpack_require__.r(__webpack_exports__);
         }]]
       }
     });
+
+    if (this.initialContents) {
+      this.editor.setContents(this.initialContents);
+    }
+
     this.editor.on('text-change', function () {
       _this.contents = _this.editor.getContents();
+
+      _this.$emit('quill-text-change', _this.contents);
     });
   }
 });
@@ -2454,13 +2551,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   name: 'Spells',
   data: function data() {
     return {
-      spClass: '',
-      spAbility: 'WIS',
-      spSave: '',
-      spAttack: ''
+      'spAbility': ''
     };
   },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities', 'spClass', 'spSave', 'spAttack'])),
+  methods: {
+    updateSpellInfo: function updateSpellInfo(field, val) {
+      this.$store.commit('updateSpellInfo', {
+        field: val
+      });
+    }
+  },
   components: {
     'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"],
     'list': _List__WEBPACK_IMPORTED_MODULE_2__["default"],
@@ -2509,7 +2610,12 @@ __webpack_require__.r(__webpack_exports__);
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2518,11 +2624,26 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TextSection',
-  props: ['title'],
+  props: ['title', 'field'],
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipmentText', 'proficienciesText', 'featuresText', 'backstoryText', 'treasureText', 'organizationsText']), {
+    textField: function textField() {
+      if (!this.hasOwnProperty(this.field)) return '';
+      return this[this.field];
+    }
+  }),
+  methods: {
+    updateTextField: function updateTextField(val) {
+      this.$store.commit('updateTextField', {
+        field: this.field,
+        val: val
+      });
+    }
+  },
   components: {
-    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -2538,6 +2659,11 @@ __webpack_require__.r(__webpack_exports__);
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2575,22 +2701,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Vitals',
-  data: function data() {
-    return {
-      hp: 38,
-      maxHp: 38,
-      tempHp: 0,
-      hitDie: '5d8',
-      totalHitDie: 5,
-      ac: 12
-    };
-  },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac'])),
   methods: {
     update: function update(item, e) {
       var value = e.target.innerText;
       this[item] = value;
+    },
+    updateVitals: function updateVitals(field, val) {
+      this.$store.commit('updateVitals', {
+        field: val
+      });
     }
   },
   components: {
@@ -3186,23 +3309,62 @@ var render = function() {
       _vm._v(" "),
       _c(
         "tbody",
-        _vm._l(_vm.attacks, function(a) {
-          return _c("tr", [
-            _c("td", [_c("field", { attrs: { value: a.name } })], 1),
-            _vm._v(" "),
+        _vm._l(_vm.attacks, function(a, i) {
+          return _c("tr", { key: a.id }, [
             _c(
               "td",
               [
-                _c("field", { attrs: { type: "number", value: a.attackBonus } })
+                _c("field", {
+                  staticClass: "size-full text-left",
+                  attrs: { value: a.name },
+                  on: {
+                    "update-value": function($event) {
+                      return _vm.updateAttacks(i, "name", $event)
+                    }
+                  }
+                })
               ],
               1
             ),
             _vm._v(" "),
-            _c("td", [_c("field", { attrs: { value: a.damage } })], 1)
+            _c(
+              "td",
+              [
+                _c("field", {
+                  attrs: { type: "number", value: a.attackBonus },
+                  on: {
+                    "update-value": function($event) {
+                      return _vm.updateAttacks(i, "attackBonus", $event)
+                    }
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "td",
+              [
+                _c("field", {
+                  staticClass: "size-full text-left",
+                  attrs: { value: a.damage },
+                  on: {
+                    "update-value": function($event) {
+                      return _vm.updateAttacks(i, "damage", $event)
+                    }
+                  }
+                })
+              ],
+              1
+            )
           ])
         }),
         0
       )
+    ]),
+    _vm._v(" "),
+    _c("button", { staticClass: "button", attrs: { type: "button" } }, [
+      _vm._v("+")
     ])
   ])
 }
@@ -3256,7 +3418,7 @@ var render = function() {
             attrs: { align: "left", value: _vm.race, placeholder: "Race" },
             on: {
               "update-value": function($event) {
-                _vm.race = $event
+                return _vm.updateBio("race", $event)
               }
             }
           }),
@@ -3271,7 +3433,7 @@ var render = function() {
             },
             on: {
               "update-value": function($event) {
-                _vm.className = $event
+                return _vm.updateBio("className", $event)
               }
             }
           }),
@@ -3287,7 +3449,7 @@ var render = function() {
             attrs: { value: _vm.xp, type: "number", placeholder: "XP" },
             on: {
               "update-value": function($event) {
-                _vm.xp = $event
+                return _vm.updateBio("xp", $event)
               }
             }
           }),
@@ -3302,7 +3464,7 @@ var render = function() {
             },
             on: {
               "update-value": function($event) {
-                _vm.alignment = $event
+                return _vm.updateBio("alignment", $event)
               }
             }
           })
@@ -3370,7 +3532,10 @@ var render = function() {
         0
       ),
       _vm._v(" "),
-      _c("quill-editor")
+      _c("quill-editor", {
+        attrs: { "initial-contents": _vm.equipmentText },
+        on: { "quill-text-change": _vm.updateEquipment }
+      })
     ],
     1
   )
@@ -3610,10 +3775,15 @@ var render = function() {
           _c("equipment"),
           _vm._v(" "),
           _c("text-section", {
-            attrs: { title: "Other Proficiencies & Languages" }
+            attrs: {
+              title: "Other Proficiencies & Languages",
+              field: "proficienciesText"
+            }
           }),
           _vm._v(" "),
-          _c("text-section", { attrs: { title: "Feature & Traits" } })
+          _c("text-section", {
+            attrs: { title: "Feature & Traits", field: "featuresText" }
+          })
         ],
         1
       ),
@@ -3649,11 +3819,20 @@ var render = function() {
           staticClass: "page"
         },
         [
-          _c("text-section", { attrs: { title: "Character Backstory" } }),
+          _c("text-section", {
+            attrs: { title: "Character Backstory", field: "backstoryText" }
+          }),
           _vm._v(" "),
-          _c("text-section", { attrs: { title: "Treasure" } }),
+          _c("text-section", {
+            attrs: { title: "Treasure", field: "treasureText" }
+          }),
           _vm._v(" "),
-          _c("text-section", { attrs: { title: "Alies & Organizations" } })
+          _c("text-section", {
+            attrs: {
+              title: "Allies & Organizations",
+              field: "organizationsText"
+            }
+          })
         ],
         1
       )
@@ -3903,7 +4082,7 @@ var render = function() {
               attrs: { value: _vm.spClass, placeholder: "Druid" },
               on: {
                 "update-value": function($event) {
-                  _vm.spClass = $event
+                  return _vm.updateSpellInfo("spClass", $event)
                 }
               }
             })
@@ -3926,6 +4105,9 @@ var render = function() {
                 }
               ],
               on: {
+                "update-value": function($event) {
+                  return _vm.updateSpellInfo("spAbility", $event)
+                },
                 change: function($event) {
                   var $$selectedVal = Array.prototype.filter
                     .call($event.target.options, function(o) {
@@ -3963,7 +4145,7 @@ var render = function() {
               attrs: { value: _vm.spSave },
               on: {
                 "update-value": function($event) {
-                  _vm.spSave = $event
+                  return _vm.updateSpellInfo("spSave", $event)
                 }
               }
             })
@@ -3984,7 +4166,7 @@ var render = function() {
               attrs: { value: _vm.spAttack },
               on: {
                 "update-value": function($event) {
-                  _vm.spAttack = $event
+                  return _vm.updateSpellInfo("spAttack", $event)
                 }
               }
             })
@@ -4122,7 +4304,10 @@ var render = function() {
     [
       _c("p", { staticClass: "label centered" }, [_vm._v(_vm._s(_vm.title))]),
       _vm._v(" "),
-      _c("quill-editor")
+      _c("quill-editor", {
+        attrs: { "initial-contents": _vm.textField },
+        on: { "quill-text-change": _vm.updateTextField }
+      })
     ],
     1
   )
@@ -4160,7 +4345,7 @@ var render = function() {
           attrs: { classNames: "huge block padded", value: _vm.ac },
           on: {
             "update-value": function($event) {
-              _vm.ac = $event
+              return _vm.updateVitals("ac", $event)
             }
           }
         })
@@ -4179,7 +4364,7 @@ var render = function() {
           attrs: { value: _vm.hp },
           on: {
             "update-value": function($event) {
-              _vm.hp = $event
+              return _vm.updateVitals("hp", $event)
             }
           }
         }),
@@ -4189,7 +4374,7 @@ var render = function() {
           attrs: { value: _vm.maxHp },
           on: {
             "update-value": function($event) {
-              _vm.maxHp = $event
+              return _vm.updateVitals("maxHp", $event)
             }
           }
         })
@@ -4208,7 +4393,7 @@ var render = function() {
           attrs: { value: _vm.tempHp },
           on: {
             "update-value": function($event) {
-              _vm.tempHp = $event
+              return _vm.updateVitals("tempHp", $event)
             }
           }
         })
@@ -4227,7 +4412,7 @@ var render = function() {
           attrs: { value: _vm.hitDie },
           on: {
             "update-value": function($event) {
-              _vm.hitDie = $event
+              return _vm.updateVitals("hitDie", $event)
             }
           }
         }),
@@ -4237,7 +4422,7 @@ var render = function() {
           attrs: { value: _vm.totalHitDie },
           on: {
             "update-value": function($event) {
-              _vm.totalHitDie = $event
+              return _vm.updateVitals("totalHitDie", $event)
             }
           }
         })

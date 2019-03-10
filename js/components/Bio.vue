@@ -2,14 +2,14 @@
         <section>
             <p class="title">{{ characterName }}</p>
             <p class="meta vert-after">
-                <field align="left" :value="race" placeholder="Race" @update-value="race = $event"></field>
+                <field align="left" :value="race" placeholder="Race" @update-value="updateBio('race', $event);"></field>
                 <span class="sep">&middot;</span>
-                <field align="left" :value="className" placeholder="Class" @update-value="className = $event"></field>
+                <field align="left" :value="className" placeholder="Class" @update-value="updateBio('className', $event)"></field>
                 <field :value="level" type="number" placeholder="Level" @update-value="updateLevel"></field>
                 <span class="sep">&middot;</span>
-                <field :value="xp" type="number" placeholder="XP" @update-value="xp = $event"></field> XP
+                <field :value="xp" type="number" placeholder="XP" @update-value="updateBio('xp', $event)"></field> XP
                 <span class="sep">&middot;</span>
-                <field align="left" :value="alignment" placeholder="Alignment" @update-value="alignment = $event"></field>
+                <field align="left" :value="alignment" placeholder="Alignment" @update-value="updateBio('alignment', $event)"></field>
             </p>
             
             <vitals></vitals>
@@ -24,24 +24,18 @@ import Vitals from './Vitals';
 export default {
     name: 'Bio',
 
-    data() {
-        return {
-            characterName: 'Constantine',
-            race: 'Half-elf',
-            className: 'Druid',
-            xp: 11000,
-            alignment: 'LG'
-        };
-    },
-
     computed: {
-        ...mapState(['level'])
+        ...mapState(['level','characterName', 'className', 'race', 'alignment', 'xp'])
     },
 
     methods: {
         updateLevel(level) {
             this.$store.commit('updateLevel', { level: level });
-        }
+        },
+
+        updateBio(field, val) {
+            this.$store.commit('updateBio', { field, val });
+        },
     },
 
     components: {

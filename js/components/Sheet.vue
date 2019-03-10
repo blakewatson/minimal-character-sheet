@@ -15,9 +15,9 @@
 
             <equipment></equipment>
 
-            <text-section title="Other Proficiencies & Languages"></text-section>
+            <text-section title="Other Proficiencies & Languages" field="proficienciesText"></text-section>
 
-            <text-section title="Feature & Traits"></text-section>
+            <text-section title="Feature & Traits" field="featuresText"></text-section>
         </div>
 
         <div class="page" v-show="view === 'spells'">
@@ -25,11 +25,11 @@
         </div>
 
         <div class="page" v-show="view === 'details'">
-            <text-section title="Character Backstory"></text-section>
+            <text-section title="Character Backstory" field="backstoryText"></text-section>
     
-            <text-section title="Treasure"></text-section>
+            <text-section title="Treasure" field="treasureText"></text-section>
     
-            <text-section title="Alies & Organizations"></text-section>
+            <text-section title="Allies & Organizations" field="organizationsText"></text-section>
         </div>
     </div>
 </template>

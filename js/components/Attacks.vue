@@ -10,13 +10,14 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="a in attacks">
-                    <td><field :value="a.name"></field></td>
-                    <td><field type="number" :value="a.attackBonus"></field></td>
-                    <td><field :value="a.damage"></field></td>
+                <tr v-for="(a, i) in attacks" :key="a.id">
+                    <td><field class="size-full text-left" :value="a.name" @update-value="updateAttacks(i, 'name', $event)"></field></td>
+                    <td><field type="number" :value="a.attackBonus" @update-value="updateAttacks(i, 'attackBonus', $event)"></field></td>
+                    <td><field class="size-full text-left" :value="a.damage" @update-value="updateAttacks(i, 'damage', $event)"></field></td>
                 </tr>
             </tbody>
         </table>
+        <button type="button" class="button">+</button>
     </section>
 </template>
 
@@ -27,18 +28,15 @@ import Field from './Field';
 export default {
     name: 'Attacks',
 
-    data() {
-        return {
-            attacks: [
-                { name: 'Quarterstaff', attackBonus: 4, damage: '1d8 + 1 bludgeoning' },
-                { name: 'Dagger', attackBonus: 3, damage: '1d4 slashing' },
-                { name: 'Shortbow', attackBonus: 3, damage: '1d6 piercing' }
-            ]
-        };
+    computed: {
+        ...mapState(['attacks']),
+        ...mapGetters(['modifiers'])
     },
 
-    computed: {
-        ...mapGetters(['modifiers'])
+    methods: {
+        updateAttacks(i, field, val) {
+            this.$store.commit('updateAttacks', { i, field, val });
+        }
     },
 
     components: {
