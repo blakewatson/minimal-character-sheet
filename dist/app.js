@@ -1522,12 +1522,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       name: 'CHA',
       proficient: false
     }],
-    attacks: [{
-      id: 0,
-      name: '',
-      attackBonus: 0,
-      damage: ''
-    }],
+    attacks: [],
     coins: [{
       name: 'cp',
       amount: 0
@@ -1625,7 +1620,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     deleteAttack: function deleteAttack(state, payload) {
       if (payload.i >= state.attacks.length) return;
-      state.attacks.splice(i, 0);
+      state.attacks.splice(payload.i, 1);
     },
     updateCoins: function updateCoins(state, payload) {
       if (payload.i >= state.coins.length) return;
@@ -1781,6 +1776,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -1792,6 +1788,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         i: i,
         field: field,
         val: val
+      });
+    },
+    deleteAttack: function deleteAttack(i) {
+      this.$store.commit('deleteAttack', {
+        i: i
       });
     }
   },
@@ -3304,68 +3305,107 @@ var render = function() {
   return _c("section", [
     _c("p", { staticClass: "label centered" }, [_vm._v("Attacks & Weapons")]),
     _vm._v(" "),
-    _c("table", [
-      _vm._m(0),
-      _vm._v(" "),
-      _c(
-        "tbody",
-        _vm._l(_vm.attacks, function(a, i) {
-          return _c("tr", { key: a.id }, [
-            _c(
-              "td",
-              [
-                _c("field", {
-                  staticClass: "size-full text-left",
-                  attrs: { value: a.name },
-                  on: {
-                    "update-value": function($event) {
-                      return _vm.updateAttacks(i, "name", $event)
+    _c(
+      "table",
+      {
+        directives: [
+          {
+            name: "show",
+            rawName: "v-show",
+            value: _vm.attacks.length > 0,
+            expression: "attacks.length > 0"
+          }
+        ]
+      },
+      [
+        _vm._m(0),
+        _vm._v(" "),
+        _c(
+          "tbody",
+          _vm._l(_vm.attacks, function(a, i) {
+            return _c("tr", { key: a.id, staticClass: "attack" }, [
+              _c(
+                "td",
+                [
+                  _c("field", {
+                    staticClass: "size-full text-left",
+                    attrs: { value: a.name },
+                    on: {
+                      "update-value": function($event) {
+                        return _vm.updateAttacks(i, "name", $event)
+                      }
                     }
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "td",
-              [
-                _c("field", {
-                  attrs: { type: "number", value: a.attackBonus },
-                  on: {
-                    "update-value": function($event) {
-                      return _vm.updateAttacks(i, "attackBonus", $event)
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("field", {
+                    attrs: { type: "number", value: a.attackBonus },
+                    on: {
+                      "update-value": function($event) {
+                        return _vm.updateAttacks(i, "attackBonus", $event)
+                      }
                     }
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "td",
-              [
-                _c("field", {
-                  staticClass: "size-full text-left",
-                  attrs: { value: a.damage },
-                  on: {
-                    "update-value": function($event) {
-                      return _vm.updateAttacks(i, "damage", $event)
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c(
+                "td",
+                [
+                  _c("field", {
+                    staticClass: "size-full text-left",
+                    attrs: { value: a.damage },
+                    on: {
+                      "update-value": function($event) {
+                        return _vm.updateAttacks(i, "damage", $event)
+                      }
                     }
-                  }
-                })
-              ],
-              1
-            )
-          ])
-        }),
-        0
-      )
-    ]),
+                  })
+                ],
+                1
+              ),
+              _vm._v(" "),
+              _c("td", [
+                _c(
+                  "button",
+                  {
+                    staticClass: "button button-delete",
+                    attrs: { type: "button" },
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteAttack(i)
+                      }
+                    }
+                  },
+                  [_vm._v("-")]
+                )
+              ])
+            ])
+          }),
+          0
+        )
+      ]
+    ),
     _vm._v(" "),
-    _c("button", { staticClass: "button", attrs: { type: "button" } }, [
-      _vm._v("+")
-    ])
+    _c(
+      "button",
+      {
+        staticClass: "button",
+        attrs: { type: "button" },
+        on: {
+          click: function($event) {
+            return _vm.$store.commit("addAttack")
+          }
+        }
+      },
+      [_vm._v("+")]
+    )
   ])
 }
 var staticRenderFns = [

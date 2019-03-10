@@ -35,7 +35,7 @@ export default new Vuex.Store({
             { name: 'WIS', proficient: true },
             { name: 'CHA', proficient: false }
         ],
-        attacks: [{ id: 0, name: '', attackBonus: 0, damage: '' }],
+        attacks: [],
         coins: [
             { name: 'cp', amount: 0 },
             { name: 'sp', amount: 0 },
@@ -128,7 +128,7 @@ export default new Vuex.Store({
 
         deleteAttack(state, payload) {
             if(payload.i >= state.attacks.length) return;
-            state.attacks.splice(i, 0);
+            state.attacks.splice(payload.i, 1);
         },
 
         updateCoins(state, payload) {

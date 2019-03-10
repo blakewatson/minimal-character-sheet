@@ -1,7 +1,7 @@
 <template>
     <section>
         <p class="label centered">Attacks & Weapons</p>
-        <table>
+        <table v-show="attacks.length > 0">
             <thead>
                 <tr>
                     <th class="text-left">Name</th>
@@ -10,14 +10,15 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(a, i) in attacks" :key="a.id">
+                <tr v-for="(a, i) in attacks" :key="a.id" class="attack">
                     <td><field class="size-full text-left" :value="a.name" @update-value="updateAttacks(i, 'name', $event)"></field></td>
                     <td><field type="number" :value="a.attackBonus" @update-value="updateAttacks(i, 'attackBonus', $event)"></field></td>
                     <td><field class="size-full text-left" :value="a.damage" @update-value="updateAttacks(i, 'damage', $event)"></field></td>
+                    <td><button type="button" class="button button-delete" @click="deleteAttack(i)">-</button></td>
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="button">+</button>
+        <button type="button" class="button" @click="$store.commit('addAttack')">+</button>
     </section>
 </template>
 
@@ -36,6 +37,10 @@ export default {
     methods: {
         updateAttacks(i, field, val) {
             this.$store.commit('updateAttacks', { i, field, val });
+        },
+
+        deleteAttack(i) {
+            this.$store.commit('deleteAttack', { i });
         }
     },
 

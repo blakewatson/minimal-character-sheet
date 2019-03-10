@@ -630,6 +630,13 @@ section > .label {
   text-align: right;
 }
 
+.attack .button-delete {
+  opacity: 0;
+}
+.attack:hover .button-delete, .attack:focus .button-delete {
+  opacity: 1;
+}
+
 .quill-editor {
   font-family: "IBM Plex Mono", monospace;
 }

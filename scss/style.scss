@@ -241,6 +241,18 @@ section {
 	text-align: right;
 }
 
+.attack {
+	.button-delete {
+		opacity: 0;
+	}
+
+	&:hover, &:focus {
+		.button-delete {
+			opacity: 1;
+		}
+	}
+}
+
 .quill-editor {
 	font-family: $text;
 
