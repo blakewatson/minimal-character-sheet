@@ -1,37 +1,57 @@
 <template>
-    <ul>
-        <li v-for="(item, i) in items" class="spell-item">
-            <field
-                class="block size-full text-left"
-                :class="{ 'field-focus': item === '' }"
-                :value="item"
-                placeholder="…"
-                @update-value="updateItem(i, $event)"></field>
-        </li>
-    </ul>
+    <div>
+        <ul>
+            <li v-for="(item, i) in items" class="spell-item row deletable">
+                <field
+                    class="size-full text-left"
+                    :class="{ 'field-focus': item === '' }"
+                    :value="item"
+                    placeholder="…"
+                    @update-value="updateItem(i, $event)"></field>
+                <button type="button" class="button" @click="deleteItem(i)">-</button>
+            </li>
+        </ul>
+        <button type="button" class="button" @click="addToList">+</button>
+    </div>
 </template>
 
 <script>
 import Vue from 'vue';
+import { mapState } from 'vuex';
 import Field from './Field';
 
 export default {
     name: 'List',
 
-    data() {
-        return {
-            items: ['']
-        };
+    props: ['listField'],
+
+    computed: {
+        items() {
+            return this.$store.state[this.listField];
+        }
     },
 
     methods: {
-        updateItem(i, value) {
-            Vue.set(this.items, i, value);
+        updateItem(i, val) {
+            this.$store.commit('updateListField', {
+                field: this.listField,
+                i: i,
+                val: val
+            });
+        },
 
-            var itemsLength = this.items.length;
-            if(this.items[itemsLength - 1] !== '') {
-                this.items.push('');
-            }
+        addToList() {
+            this.$store.commit('addToListField', {
+                field: this.listField,
+                item: ''
+            });
+        },
+
+        deleteItem(i) {
+            this.$store.commit('deleteFromListField', {
+                field: this.listField,
+                item: i
+            });
         }
     },
 

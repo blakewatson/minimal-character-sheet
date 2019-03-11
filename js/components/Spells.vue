@@ -27,7 +27,7 @@
                 <span class="label float-left reverse">0</span>
                 <span class="label centered">Cantrips</span>
             </div>
-            <list></list>
+            <list list-field="cantripsList"></list>
         </div>
 
         <spell-group level="1"></spell-group>

@@ -4,12 +4,12 @@
             <span class="label float-left reverse">{{ level }}</span>
             <div class="spell-slots">
                 <span class="label label-inline">Slots:</span>
-                <field :value="totalSlots" type="number" class="spell-slots-total" min="0" @update-value="totalSlots = $event"></field>
+                <field :value="totalSlots" type="number" class="spell-slots-total" min="0" @update-value="updateSlots($event)"></field>
                 <span class="label label-inline">Expended:</span>
-                <field :value="expendedSlots" type="number" class="spell-slots-expended" min="0" :max="totalSlots" @update-value="expendedSlots = $event"></field>
+                <field :value="expendedSlots" type="number" class="spell-slots-expended" min="0" :max="totalSlots" @update-value="totalSlots($event)"></field>
             </div>
         </div>
-        <spell-list></spell-list>
+        <spell-list :list-field="listField"></spell-list>
     </div>
 </template>
 
@@ -22,11 +22,34 @@ export default {
 
     props: ['level'],
 
-    data() {
-        return {
-            totalSlots: 0,
-            expendedSlots: 0
-        };
+    computed: {
+        totalSlots() {
+            return this.$store.state[this.listField].slots;
+        },
+
+        expendedSlots() {
+            return this.$store.state[this.listField].expended;
+        },
+
+        listField() {
+            return `lvl${this.level}Spells`;
+        }
+    },
+
+    methods: {
+        updateSlots(val) {
+            this.$store.commit('updateSpellSlots', {
+                field: this.listField,
+                val: parseInt(val)
+            });
+        },
+
+        updateExpended(val) {
+            this.$store.commit('updateExpendedSlots', {
+                field: this.listField,
+                val: parseInt(val)
+            });
+        }
     },
 
     components: {

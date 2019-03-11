@@ -1548,7 +1548,53 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     spClass: '',
     spAbility: 'WIS',
     spSave: '',
-    spAttack: ''
+    spAttack: '',
+    cantripsList: [],
+    lvl1Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl2Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl3Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl4Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl5Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl6Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl7Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl8Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    },
+    lvl9Spells: {
+      slots: 0,
+      expended: 0,
+      spells: []
+    }
   },
   getters: {
     modifiers: function modifiers(state) {
@@ -1634,12 +1680,49 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       if (!state.hasOwnProperty(payload.field)) return;
       state[payload.field] = payload.val;
     },
+    addToListField: function addToListField(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      state[payload.field].push(payload.item);
+    },
+    updateListField: function updateListField(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field], payload.i, payload.val);
+    },
+    deleteFromListField: function deleteFromListField(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      if (payload.i >= state[payload.field].length) return;
+      state[payload.field].splice(state[payload.i], 1);
+    },
     updateSpellInfo: function updateSpellInfo(state, payload) {
       var allowedFields = ["spClass", "spAbility", "spSave", "spAttack"];
       var field = payload.field;
       if (!allowedFields.includes(field)) return;
       if (!state.hasOwnProperty(field)) return;
       state[field] = payload.val;
+    },
+    addSpell: function addSpell(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      state[payload.field].spells.push(payload.item);
+    },
+    updateSpellName: function updateSpellName(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field].spells[payload.i], 'name', payload.name);
+    },
+    updateSpellPrepared: function updateSpellPrepared(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field].spells[payload.i], 'prepared', payload.prepared);
+    },
+    deleteSpell: function deleteSpell(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      state[payload.field].spells.splice(payload.i, 1);
+    },
+    updateSpellSlots: function updateSpellSlots(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field], 'slots', payload.val);
+    },
+    updateExpendedSlots: function updateExpendedSlots(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field], 'expended', payload.val);
     }
   }
 }));
@@ -1949,7 +2032,7 @@ __webpack_require__.r(__webpack_exports__);
   computed: {
     classAttr: function classAttr() {
       var align = this.align ? this.align : 'center';
-      var value = this.value.toString();
+      var value = this.value ? this.value.toString() : '';
       var placeholder = this.placeholder ? this.placeholder : '';
       var length = value.length > 0 ? value.length : placeholder.length;
       var classNames = this.classNames ? this.classNames : '';
@@ -1989,7 +2072,8 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
 //
 //
 //
@@ -2003,27 +2087,44 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
-  data: function data() {
-    return {
-      items: ['']
-    };
+  props: ['listField'],
+  computed: {
+    items: function items() {
+      return this.$store.state[this.listField];
+    }
   },
   methods: {
-    updateItem: function updateItem(i, value) {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.items, i, value);
-      var itemsLength = this.items.length;
-
-      if (this.items[itemsLength - 1] !== '') {
-        this.items.push('');
-      }
+    updateItem: function updateItem(i, val) {
+      this.$store.commit('updateListField', {
+        field: this.listField,
+        i: i,
+        val: val
+      });
+    },
+    addToList: function addToList() {
+      this.$store.commit('addToListField', {
+        field: this.listField,
+        item: ''
+      });
+    },
+    deleteItem: function deleteItem(i) {
+      this.$store.commit('deleteFromListField', {
+        field: this.listField,
+        item: i
+      });
     }
   },
   components: {
-    'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'field': _Field__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -2408,11 +2509,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SpellGroup',
   props: ['level'],
-  data: function data() {
-    return {
-      totalSlots: 0,
-      expendedSlots: 0
-    };
+  computed: {
+    totalSlots: function totalSlots() {
+      return this.$store.state[this.listField].slots;
+    },
+    expendedSlots: function expendedSlots() {
+      return this.$store.state[this.listField].expended;
+    },
+    listField: function listField() {
+      return "lvl".concat(this.level, "Spells");
+    }
+  },
+  methods: {
+    updateSlots: function updateSlots(val) {
+      this.$store.commit('updateSpellSlots', {
+        field: this.listField,
+        val: parseInt(val)
+      });
+    },
+    updateExpended: function updateExpended(val) {
+      this.$store.commit('updateExpendedSlots', {
+        field: this.listField,
+        val: parseInt(val)
+      });
+    }
   },
   components: {
     'spell-list': _SpellList__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -2448,32 +2568,51 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SpellList',
-  data: function data() {
-    return {
-      spellItems: [{
-        name: '',
-        prepared: false
-      }]
-    };
+  props: ['listField'],
+  computed: {
+    spellItems: function spellItems() {
+      return this.$store.state[this.listField].spells;
+    }
   },
   methods: {
-    updateSpellName: function updateSpellName(i, value) {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.spellItems[i], 'name', value);
-      var itemsLength = this.spellItems.length;
-
-      if (this.spellItems[itemsLength - 1].name !== '') {
-        this.spellItems.push({
-          name: '',
-          prepared: false
-        });
-      }
+    updateSpellName: function updateSpellName(i, name) {
+      this.$store.commit('updateSpellName', {
+        field: this.listField,
+        i: i,
+        name: name
+      });
     },
     updateSpellPrepared: function updateSpellPrepared(i, e) {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.spellItems[i], 'prepared', e.target.checked);
+      console.log(i, e.target.checked);
+      this.$store.commit('updateSpellPrepared', {
+        field: this.listField,
+        i: i,
+        prepared: e.target.checked
+      });
+    },
+    addSpell: function addSpell() {
+      this.$store.commit('addSpell', {
+        field: this.listField,
+        item: {
+          prepared: false,
+          name: '',
+          id: Date.now()
+        }
+      });
+    },
+    deleteSpell: function deleteSpell(i) {
+      this.$store.commit('deleteSpell', {
+        field: this.listField,
+        i: i
+      });
     }
   },
   components: {
@@ -3323,7 +3462,7 @@ var render = function() {
         _c(
           "tbody",
           _vm._l(_vm.attacks, function(a, i) {
-            return _c("tr", { key: a.id, staticClass: "attack" }, [
+            return _c("tr", { key: a.id, staticClass: "attack deletable" }, [
               _c(
                 "td",
                 [
@@ -3634,29 +3773,55 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    _vm._l(_vm.items, function(item, i) {
-      return _c(
-        "li",
-        { staticClass: "spell-item" },
-        [
-          _c("field", {
-            staticClass: "block size-full text-left",
-            class: { "field-focus": item === "" },
-            attrs: { value: item, placeholder: "…" },
-            on: {
-              "update-value": function($event) {
-                return _vm.updateItem(i, $event)
+  return _c("div", [
+    _c(
+      "ul",
+      _vm._l(_vm.items, function(item, i) {
+        return _c(
+          "li",
+          { staticClass: "spell-item row deletable" },
+          [
+            _c("field", {
+              staticClass: "size-full text-left",
+              class: { "field-focus": item === "" },
+              attrs: { value: item, placeholder: "…" },
+              on: {
+                "update-value": function($event) {
+                  return _vm.updateItem(i, $event)
+                }
               }
-            }
-          })
-        ],
-        1
-      )
-    }),
-    0
-  )
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "button",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.deleteItem(i)
+                  }
+                }
+              },
+              [_vm._v("-")]
+            )
+          ],
+          1
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "button",
+        attrs: { type: "button" },
+        on: { click: _vm.addToList }
+      },
+      [_vm._v("+")]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -3994,7 +4159,7 @@ var render = function() {
               attrs: { value: _vm.totalSlots, type: "number", min: "0" },
               on: {
                 "update-value": function($event) {
-                  _vm.totalSlots = $event
+                  return _vm.updateSlots($event)
                 }
               }
             }),
@@ -4013,7 +4178,7 @@ var render = function() {
               },
               on: {
                 "update-value": function($event) {
-                  _vm.expendedSlots = $event
+                  return _vm.totalSlots($event)
                 }
               }
             })
@@ -4022,7 +4187,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("spell-list")
+      _c("spell-list", { attrs: { "list-field": _vm.listField } })
     ],
     1
   )
@@ -4049,39 +4214,65 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c(
-    "ul",
-    _vm._l(_vm.spellItems, function(item, i) {
-      return _c(
-        "li",
-        { staticClass: "spell-item row" },
-        [
-          _c("input", {
-            attrs: { type: "checkbox" },
-            domProps: { value: item.prepared },
-            on: {
-              change: function($event) {
-                return _vm.updateSpellPrepared(i, $event)
+  return _c("div", [
+    _c(
+      "ul",
+      _vm._l(_vm.spellItems, function(item, i) {
+        return _c(
+          "li",
+          { key: item.i, staticClass: "spell-item row deletable" },
+          [
+            _c("input", {
+              attrs: { type: "checkbox" },
+              domProps: { value: item.prepared },
+              on: {
+                change: function($event) {
+                  return _vm.updateSpellPrepared(i, $event)
+                }
               }
-            }
-          }),
-          _vm._v(" "),
-          _c("field", {
-            staticClass: "size-full text-left",
-            class: { "field-focus": item.name === "" },
-            attrs: { value: item.name, placeholder: "…" },
-            on: {
-              "update-value": function($event) {
-                return _vm.updateSpellName(i, $event)
+            }),
+            _vm._v(" "),
+            _c("field", {
+              staticClass: "size-full text-left",
+              class: { "field-focus": item.name === "" },
+              attrs: { value: item.name, placeholder: "…" },
+              on: {
+                "update-value": function($event) {
+                  return _vm.updateSpellName(i, $event)
+                }
               }
-            }
-          })
-        ],
-        1
-      )
-    }),
-    0
-  )
+            }),
+            _vm._v(" "),
+            _c(
+              "button",
+              {
+                staticClass: "button",
+                attrs: { type: "button" },
+                on: {
+                  click: function($event) {
+                    return _vm.deleteSpell(i)
+                  }
+                }
+              },
+              [_vm._v("-")]
+            )
+          ],
+          1
+        )
+      }),
+      0
+    ),
+    _vm._v(" "),
+    _c(
+      "button",
+      {
+        staticClass: "button",
+        attrs: { type: "button" },
+        on: { click: _vm.addSpell }
+      },
+      [_vm._v("+")]
+    )
+  ])
 }
 var staticRenderFns = []
 render._withStripped = true
@@ -4215,7 +4406,15 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("div", [_vm._m(0), _vm._v(" "), _c("list")], 1),
+      _c(
+        "div",
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _c("list", { attrs: { "list-field": "cantripsList" } })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c("spell-group", { attrs: { level: "1" } }),
       _vm._v(" "),
@@ -17612,8 +17811,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })

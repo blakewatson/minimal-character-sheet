@@ -630,10 +630,10 @@ section > .label {
   text-align: right;
 }
 
-.attack .button-delete {
+.deletable .button-delete {
   opacity: 0;
 }
-.attack:hover .button-delete, .attack:focus .button-delete {
+.deletable:hover .button-delete, .deletable:focus .button-delete {
   opacity: 1;
 }
 

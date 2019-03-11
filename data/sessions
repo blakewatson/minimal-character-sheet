@@ -4,6 +4,13 @@
         "data": "csrf|s:13:\"1ac8kfsrni2yc\";email|s:21:\"blake@blakewatson.com\";",
         "ip": "::1",
         "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
-        "stamp": 1552247879
+        "stamp": 1552251242
+    },
+    "5c85cf17f05c85.78354563": {
+        "session_id": "81nvg1f6c5lfpplsnkrf9qbnhd",
+        "data": "csrf|s:13:\"376g06p2w2as8\";email|s:21:\"blake@blakewatson.com\";",
+        "ip": "::1",
+        "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:65.0) Gecko\/20100101 Firefox\/65.0",
+        "stamp": 1552277093
     }
 }

@@ -53,6 +53,16 @@ export default new Vuex.Store({
         spAbility: 'WIS',
         spSave: '',
         spAttack: '',
+        cantripsList: [],
+        lvl1Spells: { slots: 0, expended: 0, spells: [] },
+        lvl2Spells: { slots: 0, expended: 0, spells: [] },
+        lvl3Spells: { slots: 0, expended: 0, spells: [] },
+        lvl4Spells: { slots: 0, expended: 0, spells: [] },
+        lvl5Spells: { slots: 0, expended: 0, spells: [] },
+        lvl6Spells: { slots: 0, expended: 0, spells: [] },
+        lvl7Spells: { slots: 0, expended: 0, spells: [] },
+        lvl8Spells: { slots: 0, expended: 0, spells: [] },
+        lvl9Spells: { slots: 0, expended: 0, spells: [] }
     },
 
     getters: {
@@ -146,12 +156,58 @@ export default new Vuex.Store({
             state[payload.field] = payload.val;
         },
 
+        addToListField(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            state[payload.field].push(payload.item);
+        },
+
+        updateListField(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            Vue.set(state[payload.field], payload.i, payload.val);
+        },
+
+        deleteFromListField(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            if(payload.i >= state[payload.field].length) return;
+            state[payload.field].splice(state[payload.i], 1);
+        },
+
         updateSpellInfo(state, payload) {
             var allowedFields = ["spClass", "spAbility", "spSave", "spAttack"];
             var field = payload.field;
             if(!allowedFields.includes(field)) return;
             if(!state.hasOwnProperty(field)) return;
             state[field] = payload.val;
+        },
+
+        addSpell(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            state[payload.field].spells.push(payload.item);
+        },
+
+        updateSpellName(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            Vue.set(state[payload.field].spells[payload.i], 'name', payload.name);
+        },
+
+        updateSpellPrepared(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            Vue.set(state[payload.field].spells[payload.i], 'prepared', payload.prepared);
+        },
+
+        deleteSpell(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            state[payload.field].spells.splice(payload.i, 1);
+        },
+
+        updateSpellSlots(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            Vue.set(state[payload.field], 'slots', payload.val);
+        },
+
+        updateExpendedSlots(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            Vue.set(state[payload.field], 'expended', payload.val);
         }
     }
 });
