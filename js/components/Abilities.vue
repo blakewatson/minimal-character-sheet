@@ -4,10 +4,10 @@
             <ability v-for="(a, i) in abilities" :ability="a" :modifier="modifiers[i].val" :key="a.name"></ability>
         </div>
         <div class="">
+            <span class="centered label">Saving throws</span>
             <div class="row">
                 <saving-throw v-for="(s, i) in savingThrows" :savingThrow="s" :modifier="modifiers[i].val" :key="s.name"></saving-throw>
             </div>
-            <span class="centered label">Saving throws</span>
         </div>
     </section>
 </template>

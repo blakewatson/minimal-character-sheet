@@ -1522,6 +1522,79 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       name: 'CHA',
       proficient: false
     }],
+    skills: [{
+      name: 'Acrobatics',
+      ability: 'DEX',
+      proficient: false
+    }, {
+      name: 'Animal Handling',
+      ability: 'WIS',
+      proficient: false
+    }, {
+      name: 'Arcana',
+      ability: 'INT',
+      proficient: false
+    }, {
+      name: 'Athletics',
+      ability: 'STR',
+      proficient: false
+    }, {
+      name: 'Deception',
+      ability: 'CHA',
+      proficient: false
+    }, {
+      name: 'History',
+      ability: 'INT',
+      proficient: false
+    }, {
+      name: 'Insight',
+      ability: 'WIS',
+      proficient: false
+    }, {
+      name: 'Intimidation',
+      ability: 'CHA',
+      proficient: false
+    }, {
+      name: 'Investigation',
+      ability: 'INT',
+      proficient: false
+    }, {
+      name: 'Medicine',
+      ability: 'WIS',
+      proficient: false
+    }, {
+      name: 'Nature',
+      ability: 'INT',
+      proficient: false
+    }, {
+      name: 'Perception',
+      ability: 'WIS',
+      proficient: false
+    }, {
+      name: 'Performance',
+      ability: 'CHA',
+      proficient: false
+    }, {
+      name: 'Persuasion',
+      ability: 'CHA',
+      proficient: false
+    }, {
+      name: 'Religion',
+      ability: 'INT',
+      proficient: false
+    }, {
+      name: 'Sleight of Hand',
+      ability: 'DEX',
+      proficient: false
+    }, {
+      name: 'Stealth',
+      ability: 'DEX',
+      proficient: false
+    }, {
+      name: 'Survival',
+      ability: 'WIS',
+      proficient: false
+    }],
     attacks: [],
     coins: [{
       name: 'cp',
@@ -1649,6 +1722,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       if (!allowedFields.includes(field)) return;
       if (!state.hasOwnProperty(field)) return;
       state[field] = payload.val;
+    },
+    updateSkillProficiency: function updateSkillProficiency(state, payload) {
+      if (payload.i >= state.skills.links) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.skills[payload.i], 'proficient', payload.proficient);
     },
     updateAttacks: function updateAttacks(state, payload) {
       if (payload.i >= state.attacks.length) return;
@@ -1806,8 +1883,8 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Ability',
   props: ['ability', 'modifier'],
   methods: {
-    updateScore: function updateScore(e) {
-      var score = parseInt(e.target.innerText);
+    updateScore: function updateScore(val) {
+      var score = parseInt(val);
       this.$store.commit('updateAbilityScore', {
         name: this.ability.name,
         score: score
@@ -2383,84 +2460,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Skills',
-  data: function data() {
-    return {
-      skills: [{
-        name: 'Acrobatics',
-        ability: 'DEX',
-        proficient: false
-      }, {
-        name: 'Animal Handling',
-        ability: 'WIS',
-        proficient: true
-      }, {
-        name: 'Arcana',
-        ability: 'INT',
-        proficient: false
-      }, {
-        name: 'Athletics',
-        ability: 'STR',
-        proficient: false
-      }, {
-        name: 'Deception',
-        ability: 'CHA',
-        proficient: false
-      }, {
-        name: 'History',
-        ability: 'INT',
-        proficient: false
-      }, {
-        name: 'Insight',
-        ability: 'WIS',
-        proficient: false
-      }, {
-        name: 'Intimidation',
-        ability: 'CHA',
-        proficient: false
-      }, {
-        name: 'Investigation',
-        ability: 'INT',
-        proficient: false
-      }, {
-        name: 'Medicine',
-        ability: 'WIS',
-        proficient: false
-      }, {
-        name: 'Nature',
-        ability: 'INT',
-        proficient: false
-      }, {
-        name: 'Perception',
-        ability: 'WIS',
-        proficient: false
-      }, {
-        name: 'Performance',
-        ability: 'CHA',
-        proficient: false
-      }, {
-        name: 'Persuasion',
-        ability: 'CHA',
-        proficient: false
-      }, {
-        name: 'Religion',
-        ability: 'INT',
-        proficient: false
-      }, {
-        name: 'Sleight of Hand',
-        ability: 'DEX',
-        proficient: false
-      }, {
-        name: 'Stealth',
-        ability: 'DEX',
-        proficient: false
-      }, {
-        name: 'Survival',
-        ability: 'WIS',
-        proficient: false
-      }]
-    };
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['modifiers', 'proficiencyBonus'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['skills']), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['modifiers', 'proficiencyBonus'])),
   methods: {
     getSkillModifier: function getSkillModifier(skill) {
       var mod = this.modifiers.reduce(function (acc, m) {
@@ -2471,7 +2471,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       return mod;
     },
     setProficiency: function setProficiency(i) {
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(this.skills[i], 'proficient', !this.skills[i].proficient);
+      var proficient = !this.skills[i].proficient;
+      this.$store.commit('updateSkillProficiency', {
+        i: i,
+        proficient: proficient
+      });
     }
   }
 });
@@ -3360,6 +3364,8 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("div", {}, [
+      _c("span", { staticClass: "centered label" }, [_vm._v("Saving throws")]),
+      _vm._v(" "),
       _c(
         "div",
         { staticClass: "row" },
@@ -3370,9 +3376,7 @@ var render = function() {
           })
         }),
         1
-      ),
-      _vm._v(" "),
-      _c("span", { staticClass: "centered label" }, [_vm._v("Saving throws")])
+      )
     ])
   ])
 }
@@ -3413,7 +3417,11 @@ var render = function() {
       _c("field", {
         staticClass: "centered strong block",
         attrs: { value: _vm.ability.score },
-        on: { "update-value": _vm.updateScore }
+        on: {
+          "update-value": function($event) {
+            return _vm.updateScore($event)
+          }
+        }
       })
     ],
     1

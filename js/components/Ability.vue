@@ -2,7 +2,7 @@
     <div class="box ability">
 		<span class="centered label reverse">{{ ability.name }}</span>
 		<span class="centered huge block padded">{{ modifier | signedNumString }}</span>
-		<field class="centered strong block" :value="ability.score" @update-value="updateScore"></field>
+		<field class="centered strong block" :value="ability.score" @update-value="updateScore($event)"></field>
 	</div>
 </template>
 
@@ -15,8 +15,8 @@ export default {
     props: ['ability', 'modifier'],
     
 	methods: {
-		updateScore(e) {
-			var score = parseInt(e.target.innerText);
+		updateScore(val) {
+			var score = parseInt(val);
 			this.$store.commit('updateAbilityScore', {
                 name: this.ability.name,
                 score: score
