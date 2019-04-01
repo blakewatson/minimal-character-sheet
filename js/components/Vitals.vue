@@ -52,7 +52,7 @@ export default {
         },
 
         updateVitals(field, val) {
-            this.$store.commit('updateVitals', { field: val });
+            this.$store.commit('updateVitals', { field, val });
         }
     },
 

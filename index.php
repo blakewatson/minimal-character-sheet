@@ -13,6 +13,7 @@ $f3->route( 'GET /add-sheet', 'Dashboard->add_sheet' );
 $f3->route( 'POST /add-sheet', 'Dashboard->add_sheet' );
 // sheet view
 $f3->route( 'GET /sheet/@sheet_id', 'Dashboard->sheet_single' );
+$f3->route( 'POST /sheet/@sheet_id', 'Dashboard->save_sheet' );
 
 // login/logout
 $f3->route( 'GET /login', 'Authentication->login_form' );

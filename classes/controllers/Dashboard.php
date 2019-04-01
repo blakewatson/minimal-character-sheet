@@ -22,8 +22,10 @@ class Dashboard {
         $email = $f3->get( 'SESSION.email' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet( $id );
-        $sheet_data = json_encode( $sheet_data );
+        $sheet_data = addslashes( json_encode( $sheet_data ) );
         $f3->set( 'sheet', $sheet_data );
+        $f3->set( 'sheet_id', $id );
+        $this->auth->set_csrf();
         echo \Template::instance()->render( 'templates/sheet.html' );
     }
 
@@ -37,6 +39,30 @@ class Dashboard {
             $this->auth->set_csrf();
             echo \Template::instance()->render( 'templates/add-sheet.html' );
         }
+    }
+
+    public function save_sheet( $f3, $params ) {
+        if( ! $this->auth->verify_ajax_csrf() ) {
+            echo json_encode([ 'success' => false ]);
+            return;
+        }
+
+        $data = file_get_contents( 'php://input' );
+        $sheet = new Sheet( $f3->get( 'DB' ) );
+        $result = $sheet->save_sheet( $params['sheet_id'], $data );
+
+        if( ! $result ) {
+            echo json_encode([ 'success' => false ]);
+            return;
+        }
+
+        $this->auth->set_csrf();
+
+        echo json_encode([
+            'success' => true,
+            'csrf' => $f3->get( 'CSRF' )
+        ]);
+        return;
     }
 
 }

@@ -2,6 +2,8 @@
 
 class Sheet extends \DB\Jig\Mapper {
 
+    public $db;
+
     public function __construct( $db ) {
         $this->db = $db;
         parent::__construct( $db, 'sheet.json' );
@@ -39,6 +41,13 @@ class Sheet extends \DB\Jig\Mapper {
         }
         
         return $sheets;
+    }
+
+    public function save_sheet( $id, $data ) {
+        $this->load( [ '@_id=?', $id ] );
+        if( $this->dry() ) return false;
+        $this->set( 'data', $data );
+        return $this->save();
     }
 
 }

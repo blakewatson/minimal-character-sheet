@@ -51,9 +51,62 @@ export default {
 
     data() {
         return {
-            'view': 'main'
+            view: 'main',
+            autosaveTimer: null
         };
     },
+
+	methods: {
+		autosaveLoop() {
+			// trigger a quick autosave on every key up event
+			window.addEventListener('keyup', e => this.$emit('autosave', 3));
+	
+			// when this event fires, schedule a save
+			this.$on('autosave', (seconds = 10) => {
+				// convert to milliseconds
+				var milliseconds = seconds * 1000;
+	
+				// reset the timer, if running
+				if(this.autosaveTimer !== null) {
+					clearTimeout(this.autosaveTimer);
+					this.autosaveTimer = null;
+				}
+	
+				// run the autosave after the specified delay
+				this.autosaveTimer = setTimeout(() => {
+					console.log('save the character sheet');
+					this.saveSheetState();
+					// go ahead and schedule another autosave
+					this.$emit('autosave');
+				}, milliseconds);
+			});
+	
+			// go ahead and trigger the first autosave
+			this.$emit('autosave');
+		},
+
+		saveSheetState() {
+			this.$store.dispatch('getJSON').then(jsonState => {
+                var sheetId = document.querySelector('#sheet-id').value;
+                var csrf = document.querySelector('#csrf').value;
+
+                fetch(`/sheet/${sheetId}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-AJAX-CSRF': csrf
+                    },
+                    body: jsonState
+                })
+                .then(r => r.json())
+                .then(data => {
+                    if(data.success) {
+                        document.querySelector('#csrf').value = data.csrf;
+                    }
+                });
+			}).catch(reason => console.log(reason));
+		}
+	},
 
     components: {
         'tabs': Tabs,
@@ -65,6 +118,16 @@ export default {
         'equipment': Equipment,
         'spells': Spells,
         'text-section': TextSection
+    },
+
+	mounted() {
+		this.autosaveLoop();
+    },
+    
+    created() {
+        // initialize state with the "sheet" global
+        this.$store.dispatch('initializeState', { sheet })
+        .catch(reason => console.log(reason));
     }
 }
 </script>

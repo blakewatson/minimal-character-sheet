@@ -6,6 +6,8 @@ Vue.use(Vuex);
 
 export default new Vuex.Store({
     state: {
+        id: '',
+        name: '',
         levelData: levelData,
         level: 5,
         characterName: 'Constantine',
@@ -117,6 +119,15 @@ export default new Vuex.Store({
     },
 
     mutations: {
+        replaceState(state, payload) {
+            if(!payload.state) return;
+            if(typeof payload.state !== 'object') return;
+            for(let prop in payload.state) {
+                if(!payload.state.hasOwnProperty(prop)) continue;
+                state[prop] = payload.state[prop];
+            } 
+        },
+
         updateAbilityScore(state, payload) {
             state.abilities.forEach((ability, i) => {
                 if(ability.name === payload.name) {
@@ -233,6 +244,27 @@ export default new Vuex.Store({
         updateExpendedSlots(state, payload) {
             if(!state.hasOwnProperty(payload.field)) return;
             Vue.set(state[payload.field], 'expended', payload.val);
+        }
+    },
+
+    actions: {
+        getJSON({ state }) {
+            return new Promise((resolve, reject) => {
+                try {
+                    var json = JSON.stringify(state);
+                    resolve(json);
+                } catch(err) {
+                    reject(err);
+                }
+            });
+        },
+
+        initializeState({ commit }, payload) {
+            var sheet = JSON.parse(payload.sheet);
+            var state = JSON.parse(sheet.data);
+            state.id = sheet.id;
+            state.name = sheet.name;
+            commit('replaceState', { state });
         }
     }
 });

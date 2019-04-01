@@ -1465,12 +1465,16 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _level_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./level-data */ "./js/level-data.js");
+function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
 
 
 
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__["default"]);
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
+    id: '',
+    name: '',
     levelData: _level_data__WEBPACK_IMPORTED_MODULE_2__["default"],
     level: 5,
     characterName: 'Constantine',
@@ -1699,6 +1703,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 
   },
   mutations: {
+    replaceState: function replaceState(state, payload) {
+      if (!payload.state) return;
+      if (_typeof(payload.state) !== 'object') return;
+
+      for (var prop in payload.state) {
+        if (!payload.state.hasOwnProperty(prop)) continue;
+        state[prop] = payload.state[prop];
+      }
+    },
     updateAbilityScore: function updateAbilityScore(state, payload) {
       state.abilities.forEach(function (ability, i) {
         if (ability.name === payload.name) {
@@ -1800,6 +1813,29 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     updateExpendedSlots: function updateExpendedSlots(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field], 'expended', payload.val);
+    }
+  },
+  actions: {
+    getJSON: function getJSON(_ref) {
+      var state = _ref.state;
+      return new Promise(function (resolve, reject) {
+        try {
+          var json = JSON.stringify(state);
+          resolve(json);
+        } catch (err) {
+          reject(err);
+        }
+      });
+    },
+    initializeState: function initializeState(_ref2, payload) {
+      var commit = _ref2.commit;
+      var sheet = JSON.parse(payload.sheet);
+      var state = JSON.parse(sheet.data);
+      state.id = sheet.id;
+      state.name = sheet.name;
+      commit('replaceState', {
+        state: state
+      });
     }
   }
 }));
@@ -2402,8 +2438,64 @@ __webpack_require__.r(__webpack_exports__);
   name: 'Sheet',
   data: function data() {
     return {
-      'view': 'main'
+      view: 'main',
+      autosaveTimer: null
     };
+  },
+  methods: {
+    autosaveLoop: function autosaveLoop() {
+      var _this = this;
+
+      // trigger a quick autosave on every key up event
+      window.addEventListener('keyup', function (e) {
+        return _this.$emit('autosave', 3);
+      }); // when this event fires, schedule a save
+
+      this.$on('autosave', function () {
+        var seconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+        // convert to milliseconds
+        var milliseconds = seconds * 1000; // reset the timer, if running
+
+        if (_this.autosaveTimer !== null) {
+          clearTimeout(_this.autosaveTimer);
+          _this.autosaveTimer = null;
+        } // run the autosave after the specified delay
+
+
+        _this.autosaveTimer = setTimeout(function () {
+          console.log('save the character sheet');
+
+          _this.saveSheetState(); // go ahead and schedule another autosave
+
+
+          _this.$emit('autosave');
+        }, milliseconds);
+      }); // go ahead and trigger the first autosave
+
+      this.$emit('autosave');
+    },
+    saveSheetState: function saveSheetState() {
+      this.$store.dispatch('getJSON').then(function (jsonState) {
+        var sheetId = document.querySelector('#sheet-id').value;
+        var csrf = document.querySelector('#csrf').value;
+        fetch("/sheet/".concat(sheetId), {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-AJAX-CSRF': csrf
+          },
+          body: jsonState
+        }).then(function (r) {
+          return r.json();
+        }).then(function (data) {
+          if (data.success) {
+            document.querySelector('#csrf').value = data.csrf;
+          }
+        });
+      }).catch(function (reason) {
+        return console.log(reason);
+      });
+    }
   },
   components: {
     'tabs': _Tabs__WEBPACK_IMPORTED_MODULE_1__["default"],
@@ -2415,6 +2507,17 @@ __webpack_require__.r(__webpack_exports__);
     'equipment': _Equipment__WEBPACK_IMPORTED_MODULE_7__["default"],
     'spells': _Spells__WEBPACK_IMPORTED_MODULE_8__["default"],
     'text-section': _TextSection__WEBPACK_IMPORTED_MODULE_9__["default"]
+  },
+  mounted: function mounted() {
+    this.autosaveLoop();
+  },
+  created: function created() {
+    // initialize state with the "sheet" global
+    this.$store.dispatch('initializeState', {
+      sheet: sheet
+    }).catch(function (reason) {
+      return console.log(reason);
+    });
   }
 });
 
@@ -2774,7 +2877,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   props: ['title', 'field'],
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipmentText', 'proficienciesText', 'featuresText', 'backstoryText', 'treasureText', 'organizationsText']), {
     textField: function textField() {
-      if (!this.hasOwnProperty(this.field)) return '';
+      if (!this[this.field]) return '';
       return this[this.field];
     }
   }),
@@ -2856,7 +2959,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     updateVitals: function updateVitals(field, val) {
       this.$store.commit('updateVitals', {
-        field: val
+        field: field,
+        val: val
       });
     }
   },

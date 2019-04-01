@@ -25,7 +25,7 @@ export default {
         ]),
 
         textField() {
-            if(!this.hasOwnProperty(this.field)) return '';
+            if(!this[this.field]) return '';
             return this[this.field];
         }
     },

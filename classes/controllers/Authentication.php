@@ -181,4 +181,11 @@ class Authentication {
         return $this->f3->get( 'SESSION.csrf' ) !== $this->f3->get( 'POST.csrf' );
     }
 
+    public function verify_ajax_csrf() {
+        $csrf = $this->f3->get( 'HEADERS.X-Ajax-Csrf' );
+        if( ! $csrf ) return false;
+        if( $csrf !== $this->f3->get( 'SESSION.csrf' ) ) return false;
+        return true;
+    }
+
 }
