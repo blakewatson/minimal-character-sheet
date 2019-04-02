@@ -3,12 +3,24 @@
         <ul>
             <li v-for="(item, i) in spellItems" :key="item.i" class="spell-item row deletable">
                 <input type="checkbox" :value="item.prepared" @change="updateSpellPrepared(i, $event)">
-                <field
-                    class="size-full text-left"
-                    :class="{ 'field-focus': item.name === '' }"
-                    :value="item.name"
-                    placeholder="…"
-                    @update-value="updateSpellName(i, $event)"></field>
+                <div class="size-full">
+                    <label>Spell name</label>
+                    <field
+                        class="size-full text-left"
+                        :class="{ 'field-focus': item.name === '' }"
+                        :value="item.name"
+                        placeholder="…"
+                        @update-value="updateSpellName(i, $event)"></field>
+                </div>
+                <div class="size-full">
+                    <label>URL</label>
+                    <field
+                        class="size-full text-left"
+                        :class="{ 'field-focus': item.name === '' }"
+                        :value="item.url"
+                        placeholder="…"
+                        @update-value="updateSpellUrl(i, $event)"></field>
+                </div>
                 <button type="button" class="button" @click="deleteSpell(i)">-</button>
             </li>
         </ul>
@@ -40,6 +52,14 @@ export default {
             });
         },
 
+        updateSpellUrl(i, url) {
+            this.$store.commit('updateSpellUrl', {
+                field: this.listField,
+                i: i,
+                url: url
+            });
+        },
+
         updateSpellPrepared(i, e) {
             console.log(i, e.target.checked)
             this.$store.commit('updateSpellPrepared', {
@@ -52,7 +72,7 @@ export default {
         addSpell() {
             this.$store.commit('addSpell', {
                 field: this.listField,
-                item: { prepared: false, name: '', id: Date.now() }
+                item: { prepared: false, name: '', url: '', id: Date.now() }
             });
         },
 

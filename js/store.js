@@ -226,6 +226,11 @@ export default new Vuex.Store({
             Vue.set(state[payload.field].spells[payload.i], 'name', payload.name);
         },
 
+        updateSpellUrl(state, payload) {
+            if(!state.hasOwnProperty(payload.field)) return;
+            Vue.set(state[payload.field].spells[payload.i], 'url', payload.name);
+        },
+
         updateSpellPrepared(state, payload) {
             if(!state.hasOwnProperty(payload.field)) return;
             Vue.set(state[payload.field].spells[payload.i], 'prepared', payload.prepared);

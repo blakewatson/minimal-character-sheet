@@ -1798,6 +1798,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       if (!state.hasOwnProperty(payload.field)) return;
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field].spells[payload.i], 'name', payload.name);
     },
+    updateSpellUrl: function updateSpellUrl(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field].spells[payload.i], 'url', payload.name);
+    },
     updateSpellPrepared: function updateSpellPrepared(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field].spells[payload.i], 'prepared', payload.prepared);
@@ -2141,7 +2145,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Field',
-  props: ['value', 'type', 'align', 'placeholder', 'classNames'],
+  props: ['label', 'value', 'type', 'align', 'placeholder', 'classNames'],
   computed: {
     classAttr: function classAttr() {
       var align = this.align ? this.align : 'center';
@@ -2679,6 +2683,18 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -2697,6 +2713,13 @@ __webpack_require__.r(__webpack_exports__);
         name: name
       });
     },
+    updateSpellUrl: function updateSpellUrl(i, url) {
+      this.$store.commit('updateSpellUrl', {
+        field: this.listField,
+        i: i,
+        url: url
+      });
+    },
     updateSpellPrepared: function updateSpellPrepared(i, e) {
       console.log(i, e.target.checked);
       this.$store.commit('updateSpellPrepared', {
@@ -2711,6 +2734,7 @@ __webpack_require__.r(__webpack_exports__);
         item: {
           prepared: false,
           name: '',
+          url: '',
           id: Date.now()
         }
       });
@@ -4344,16 +4368,45 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c("field", {
-              staticClass: "size-full text-left",
-              class: { "field-focus": item.name === "" },
-              attrs: { value: item.name, placeholder: "…" },
-              on: {
-                "update-value": function($event) {
-                  return _vm.updateSpellName(i, $event)
-                }
-              }
-            }),
+            _c(
+              "div",
+              { staticClass: "size-full" },
+              [
+                _c("label", [_vm._v("Spell name")]),
+                _vm._v(" "),
+                _c("field", {
+                  staticClass: "size-full text-left",
+                  class: { "field-focus": item.name === "" },
+                  attrs: { value: item.name, placeholder: "…" },
+                  on: {
+                    "update-value": function($event) {
+                      return _vm.updateSpellName(i, $event)
+                    }
+                  }
+                })
+              ],
+              1
+            ),
+            _vm._v(" "),
+            _c(
+              "div",
+              { staticClass: "size-full" },
+              [
+                _c("label", [_vm._v("URL")]),
+                _vm._v(" "),
+                _c("field", {
+                  staticClass: "size-full text-left",
+                  class: { "field-focus": item.name === "" },
+                  attrs: { value: item.url, placeholder: "…" },
+                  on: {
+                    "update-value": function($event) {
+                      return _vm.updateSpellUrl(i, $event)
+                    }
+                  }
+                })
+              ],
+              1
+            ),
             _vm._v(" "),
             _c(
               "button",
@@ -4368,8 +4421,7 @@ var render = function() {
               },
               [_vm._v("-")]
             )
-          ],
-          1
+          ]
         )
       }),
       0
@@ -17923,8 +17975,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })
