@@ -1,9 +1,9 @@
 {
     "5cac0837ea56c4.59530383": {
         "session_id": "ekurutkhpdgnghp9mopg9utr8m",
-        "data": "csrf|s:12:\"buuap4p65t4e\";email|s:21:\"blake@blakewatson.com\";",
+        "data": "csrf|s:13:\"311gwnlanh8gk\";email|s:21:\"blake@blakewatson.com\";",
         "ip": "::1",
         "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko\/20100101 Firefox\/66.0",
-        "stamp": 1554790560
+        "stamp": 1554790867
     }
 }

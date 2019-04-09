@@ -292,6 +292,9 @@ section {
 }
 
 .button-add {
+	margin: 10px auto;
+	text-align: center;
+	
 	&:hover, &:focus {
 		border-color: #1d65ff;
 		color: #1d65ff;
@@ -346,8 +349,6 @@ section {
 	}
 
 	.button-add {
-		margin: 10px auto;
-		text-align: center;
 	}
 }
 

@@ -18,7 +18,10 @@
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="button" @click="$store.commit('addAttack')">+</button>
+        <button type="button" class="button button-add" @click="$store.commit('addAttack')">
+            <span class="sr-only">Add an attack</span>
+            <span role="presentation">+</span>
+        </button>
     </section>
 </template>
 

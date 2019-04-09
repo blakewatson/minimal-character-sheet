@@ -681,6 +681,10 @@ section > .label {
   top: -1px;
 }
 
+.button-add {
+  margin: 10px auto;
+  text-align: center;
+}
 .button-add:hover, .button-add:focus {
   border-color: #1d65ff;
   color: #1d65ff;
@@ -721,11 +725,6 @@ section > .label {
 .list-field .ql-tooltip, .spell-list .ql-tooltip {
   z-index: 1;
 }
-.list-field .button-add, .spell-list .button-add {
-  margin: 10px auto;
-  text-align: center;
-}
-
 .spell-slots {
   padding: 0 2em;
 }

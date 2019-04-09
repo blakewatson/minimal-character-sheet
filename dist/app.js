@@ -1979,6 +1979,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3659,7 +3662,7 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "button",
+        staticClass: "button button-add",
         attrs: { type: "button" },
         on: {
           click: function($event) {
@@ -3667,7 +3670,11 @@ var render = function() {
           }
         }
       },
-      [_vm._v("+")]
+      [
+        _c("span", { staticClass: "sr-only" }, [_vm._v("Add an attack")]),
+        _vm._v(" "),
+        _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+      ]
     )
   ])
 }
