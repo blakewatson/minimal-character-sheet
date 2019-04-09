@@ -34,6 +34,10 @@ body {
 	line-height: 1.45em;
 }
 
+.sheet {
+	margin-top: 80px;
+}
+
 strong, .strong {
 	font-weight: bold;
 }
@@ -357,10 +361,15 @@ section {
 
 nav {
 	display: block;
+	position: fixed;
+	top: 0;
+	left: 50%;
+	transform: translateX(-50%);
 	margin: 0 auto 2em auto;
 	width: 550px;
 	text-align: center;
 	background-color: #000;
+	z-index: 10;
 
 	li {
 		display: inline-block;
@@ -381,6 +390,14 @@ nav {
 
 		&:hover, &:focus {
 			color: #6294ff;
+		}
+	}
+
+	.active button {
+		background-color: #1d65ff;
+
+		&:hover, &:focus {
+			color: #fff;
 		}
 	}
 }

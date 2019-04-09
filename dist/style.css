@@ -30,6 +30,10 @@ body {
   line-height: 1.45em;
 }
 
+.sheet {
+  margin-top: 80px;
+}
+
 strong, .strong {
   font-weight: bold;
 }
@@ -731,10 +735,16 @@ section > .label {
 
 nav {
   display: block;
+  position: fixed;
+  top: 0;
+  left: 50%;
+  -webkit-transform: translateX(-50%);
+          transform: translateX(-50%);
   margin: 0 auto 2em auto;
   width: 550px;
   text-align: center;
   background-color: #000;
+  z-index: 10;
 }
 nav li {
   display: inline-block;
@@ -756,4 +766,10 @@ nav button {
 }
 nav button:hover, nav button:focus {
   color: #6294ff;
+}
+nav .active button {
+  background-color: #1d65ff;
+}
+nav .active button:hover, nav .active button:focus {
+  color: #fff;
 }

@@ -2854,6 +2854,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Tabs',
+  props: ['view'],
   methods: {
     updateView: function updateView(view) {
       this.$emit('update-view', view);
@@ -4083,6 +4084,7 @@ var render = function() {
     { staticClass: "sheet", attrs: { id: "sheet" } },
     [
       _c("tabs", {
+        attrs: { view: _vm.view },
         on: {
           "update-view": function($event) {
             _vm.view = $event
@@ -4625,7 +4627,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("nav", [
     _c("ul", [
-      _c("li", [
+      _c("li", { class: { active: _vm.view === "main" } }, [
         _c(
           "button",
           {
@@ -4639,7 +4641,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("li", [
+      _c("li", { class: { active: _vm.view === "spells" } }, [
         _c(
           "button",
           {
@@ -4653,7 +4655,7 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("li", [
+      _c("li", { class: { active: _vm.view === "details" } }, [
         _c(
           "button",
           {

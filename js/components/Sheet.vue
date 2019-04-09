@@ -1,6 +1,6 @@
 <template>
     <div id="sheet" class="sheet">
-        <tabs @update-view="view = $event"></tabs>
+        <tabs :view="view" @update-view="view = $event"></tabs>
 
         <bio></bio>
 
