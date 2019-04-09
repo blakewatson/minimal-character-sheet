@@ -102,6 +102,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+/* -- Event bus -- */
+
+window.sheetEvent = new vue__WEBPACK_IMPORTED_MODULE_0___default.a();
 vue__WEBPACK_IMPORTED_MODULE_0___default.a.filter('signedNumString', function (num) {
   num = parseInt(num);
   if (num > 0) return "+".concat(num);
@@ -1772,16 +1775,19 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     addToListField: function addToListField(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      state[payload.field].push(payload.item);
+      state[payload.field].push({
+        val: payload.val,
+        id: Math.random().toString()
+      });
     },
     updateListField: function updateListField(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field], payload.i, payload.val);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field][payload.i], 'val', payload.val);
     },
     deleteFromListField: function deleteFromListField(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
       if (payload.i >= state[payload.field].length) return;
-      state[payload.field].splice(state[payload.i], 1);
+      state[payload.field].splice(payload.i, 1);
     },
     updateSpellInfo: function updateSpellInfo(state, payload) {
       var allowedFields = ["spClass", "spAbility", "spSave", "spAttack"];
@@ -1797,10 +1803,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     updateSpellName: function updateSpellName(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field].spells[payload.i], 'name', payload.name);
-    },
-    updateSpellUrl: function updateSpellUrl(state, payload) {
-      if (!state.hasOwnProperty(payload.field)) return;
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state[payload.field].spells[payload.i], 'url', payload.name);
     },
     updateSpellPrepared: function updateSpellPrepared(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
@@ -2145,7 +2147,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Field',
-  props: ['label', 'value', 'type', 'align', 'placeholder', 'classNames'],
+  props: ['value', 'type', 'align', 'placeholder', 'classNames'],
   computed: {
     classAttr: function classAttr() {
       var align = this.align ? this.align : 'center';
@@ -2190,7 +2192,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
+//
 //
 //
 //
@@ -2230,18 +2233,19 @@ __webpack_require__.r(__webpack_exports__);
     addToList: function addToList() {
       this.$store.commit('addToListField', {
         field: this.listField,
-        item: ''
+        val: ''
       });
     },
     deleteItem: function deleteItem(i) {
       this.$store.commit('deleteFromListField', {
         field: this.listField,
-        item: i
+        i: i
       });
+      window.sheetEvent.$emit('autosave', 1);
     }
   },
   components: {
-    'field': _Field__WEBPACK_IMPORTED_MODULE_2__["default"]
+    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -2315,14 +2319,7 @@ __webpack_require__.r(__webpack_exports__);
     var _this = this;
 
     this.editor = new Quill(this.$el, {
-      theme: 'snow',
-      modules: {
-        toolbar: [['bold', 'italic', 'underline', 'strike'], [{
-          'list': 'ordered'
-        }, {
-          'list': 'bullet'
-        }]]
-      }
+      theme: 'bubble'
     });
 
     if (this.initialContents) {
@@ -2333,6 +2330,11 @@ __webpack_require__.r(__webpack_exports__);
       _this.contents = _this.editor.getContents();
 
       _this.$emit('quill-text-change', _this.contents);
+    });
+    this.$el.addEventListener('click', function (event) {
+      if (event.target.nodeName === 'A') {
+        window.open(event.target.href, '_blank');
+      }
     });
   }
 });
@@ -2452,10 +2454,10 @@ __webpack_require__.r(__webpack_exports__);
 
       // trigger a quick autosave on every key up event
       window.addEventListener('keyup', function (e) {
-        return _this.$emit('autosave', 3);
+        return window.sheetEvent.$emit('autosave', 2);
       }); // when this event fires, schedule a save
 
-      this.$on('autosave', function () {
+      window.sheetEvent.$on('autosave', function () {
         var seconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
         // convert to milliseconds
         var milliseconds = seconds * 1000; // reset the timer, if running
@@ -2472,11 +2474,11 @@ __webpack_require__.r(__webpack_exports__);
           _this.saveSheetState(); // go ahead and schedule another autosave
 
 
-          _this.$emit('autosave');
+          window.sheetEvent.$emit('autosave');
         }, milliseconds);
       }); // go ahead and trigger the first autosave
 
-      this.$emit('autosave');
+      window.sheetEvent.$emit('autosave');
     },
     saveSheetState: function saveSheetState() {
       this.$store.dispatch('getJSON').then(function (jsonState) {
@@ -2664,15 +2666,7 @@ __webpack_require__.r(__webpack_exports__);
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
-//
-//
-//
-//
-//
-//
-//
-//
+/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
 //
 //
 //
@@ -2702,7 +2696,10 @@ __webpack_require__.r(__webpack_exports__);
   props: ['listField'],
   computed: {
     spellItems: function spellItems() {
-      return this.$store.state[this.listField].spells;
+      return this.$store.state[this.listField].spells.map(function (spell) {
+        spell.id = Math.random().toString();
+        return spell;
+      });
     }
   },
   methods: {
@@ -2713,20 +2710,13 @@ __webpack_require__.r(__webpack_exports__);
         name: name
       });
     },
-    updateSpellUrl: function updateSpellUrl(i, url) {
-      this.$store.commit('updateSpellUrl', {
-        field: this.listField,
-        i: i,
-        url: url
-      });
-    },
     updateSpellPrepared: function updateSpellPrepared(i, e) {
-      console.log(i, e.target.checked);
       this.$store.commit('updateSpellPrepared', {
         field: this.listField,
         i: i,
         prepared: e.target.checked
       });
+      window.sheetEvent.$emit('autosave', 1);
     },
     addSpell: function addSpell() {
       this.$store.commit('addSpell', {
@@ -2744,10 +2734,11 @@ __webpack_require__.r(__webpack_exports__);
         field: this.listField,
         i: i
       });
+      window.sheetEvent.$emit('autosave', 1);
     }
   },
   components: {
-    'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -3909,20 +3900,22 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "list-field" }, [
     _c(
       "ul",
       _vm._l(_vm.items, function(item, i) {
         return _c(
           "li",
-          { staticClass: "spell-item row deletable" },
+          {
+            key: item.id,
+            staticClass: "spell-item row deletable",
+            attrs: { k: item.id }
+          },
           [
-            _c("field", {
-              staticClass: "size-full text-left",
-              class: { "field-focus": item === "" },
-              attrs: { value: item, placeholder: "…" },
+            _c("quill-editor", {
+              attrs: { "initial-contents": item.val },
               on: {
-                "update-value": function($event) {
+                "quill-text-change": function($event) {
                   return _vm.updateItem(i, $event)
                 }
               }
@@ -3931,7 +3924,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "button",
+                staticClass: "button button-delete",
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -3939,7 +3932,11 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("-")]
+              [
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Delete")]),
+                _vm._v(" "),
+                _c("span", { attrs: { role: "presentation" } }, [_vm._v("×")])
+              ]
             )
           ],
           1
@@ -3951,11 +3948,15 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "button",
+        staticClass: "button-add",
         attrs: { type: "button" },
         on: { click: _vm.addToList }
       },
-      [_vm._v("+")]
+      [
+        _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
+        _vm._v(" "),
+        _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+      ]
     )
   ])
 }
@@ -4350,17 +4351,17 @@ var render = function() {
   var _vm = this
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
-  return _c("div", [
+  return _c("div", { staticClass: "spell-list" }, [
     _c(
       "ul",
       _vm._l(_vm.spellItems, function(item, i) {
         return _c(
           "li",
-          { key: item.i, staticClass: "spell-item row deletable" },
+          { key: item.id, staticClass: "spell-item row deletable" },
           [
             _c("input", {
               attrs: { type: "checkbox" },
-              domProps: { value: item.prepared },
+              domProps: { checked: item.prepared },
               on: {
                 change: function($event) {
                   return _vm.updateSpellPrepared(i, $event)
@@ -4372,35 +4373,15 @@ var render = function() {
               "div",
               { staticClass: "size-full" },
               [
-                _c("label", [_vm._v("Spell name")]),
+                _c("label", { staticClass: "sr-only" }, [
+                  _vm._v("Spell name and description")
+                ]),
                 _vm._v(" "),
-                _c("field", {
-                  staticClass: "size-full text-left",
-                  class: { "field-focus": item.name === "" },
-                  attrs: { value: item.name, placeholder: "…" },
+                _c("quill-editor", {
+                  attrs: { "initial-contents": item.name },
                   on: {
-                    "update-value": function($event) {
+                    "quill-text-change": function($event) {
                       return _vm.updateSpellName(i, $event)
-                    }
-                  }
-                })
-              ],
-              1
-            ),
-            _vm._v(" "),
-            _c(
-              "div",
-              { staticClass: "size-full" },
-              [
-                _c("label", [_vm._v("URL")]),
-                _vm._v(" "),
-                _c("field", {
-                  staticClass: "size-full text-left",
-                  class: { "field-focus": item.name === "" },
-                  attrs: { value: item.url, placeholder: "…" },
-                  on: {
-                    "update-value": function($event) {
-                      return _vm.updateSpellUrl(i, $event)
                     }
                   }
                 })
@@ -4411,7 +4392,7 @@ var render = function() {
             _c(
               "button",
               {
-                staticClass: "button",
+                staticClass: "button button-delete",
                 attrs: { type: "button" },
                 on: {
                   click: function($event) {
@@ -4419,7 +4400,11 @@ var render = function() {
                   }
                 }
               },
-              [_vm._v("-")]
+              [
+                _c("span", { staticClass: "sr-only" }, [_vm._v("Delete")]),
+                _vm._v(" "),
+                _c("span", { attrs: { role: "presentation" } }, [_vm._v("×")])
+              ]
             )
           ]
         )
@@ -4430,11 +4415,15 @@ var render = function() {
     _c(
       "button",
       {
-        staticClass: "button",
+        staticClass: "button-add",
         attrs: { type: "button" },
         on: { click: _vm.addSpell }
       },
-      [_vm._v("+")]
+      [
+        _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
+        _vm._v(" "),
+        _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+      ]
     )
   ])
 }

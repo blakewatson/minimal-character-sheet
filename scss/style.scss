@@ -2,6 +2,26 @@
 
 $text: 'IBM Plex Mono', monospace;
 
+.sr-only, .assistive-text {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	padding: 0;
+	margin: -1px;
+	overflow: hidden;
+	clip: rect(0, 0, 0, 0);
+	border: 0;
+}
+.sr-only-focusable:active,
+.sr-only-focusable:focus {
+	position: static;
+	width: auto;
+	height: auto;
+	margin: 0;
+	overflow: visible;
+	clip: auto;
+}
+
 /* html {
 	background-color: #000;
 	filter: invert(100%) brightness(75%);
@@ -58,6 +78,7 @@ section {
 .row {
 	display: flex;
 	justify-content: space-between;
+	align-items: flex-start;
 	
 	&-left {
 		justify-content: flex-start;
@@ -148,7 +169,7 @@ section {
 
 @include field-sizes();
 
-.field.size-full {
+.field.size-full, .size-full {
 	width: 100%;
 }
 
@@ -241,9 +262,46 @@ section {
 	text-align: right;
 }
 
+.button-add, .button-delete {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	appearance: none;
+	margin-left: 5px;
+	padding: 0;
+	border-radius: 100px;
+	border: 1px solid #999;
+	width: 20px;
+	height: 20px;
+	font-family: $text;
+	font-size: 18px;
+	line-height: 18px;
+	background: transparent;
+	color: #999;
+	cursor: pointer;
+
+	// icon alignment hack
+	[role="presentation"] {
+		position: relative;
+		top: -1px;
+	}
+}
+
+.button-add {
+	&:hover, &:focus {
+		border-color: #1d65ff;
+		color: #1d65ff;
+	}
+}
+
 .deletable {
 	.button-delete {
 		opacity: 0;
+
+		&:hover, &:focus {
+			border-color: #ff1d30;
+			color: #ff1d30;
+		}
 	}
 
 	&:hover, &:focus {
@@ -255,9 +313,37 @@ section {
 
 .quill-editor {
 	font-family: $text;
+	background-color: #eee;
 
 	[contenteditable] {
 		color: #000;
+	}
+
+	a:hover {
+		cursor: pointer;
+	}
+}
+
+.ql-editor {
+	overflow: visible;
+}
+
+.list-field, .spell-list {
+	.quill-editor {
+		width: 100%;
+	}
+
+	.ql-editor {
+		padding: 6px 8px;
+	}
+
+	.ql-tooltip {
+		z-index: 1;
+	}
+
+	.button-add {
+		margin: 10px auto;
+		text-align: center;
 	}
 }
 

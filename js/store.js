@@ -194,18 +194,18 @@ export default new Vuex.Store({
 
         addToListField(state, payload) {
             if(!state.hasOwnProperty(payload.field)) return;
-            state[payload.field].push(payload.item);
+            state[payload.field].push({ val: payload.val, id: Math.random().toString() });
         },
 
         updateListField(state, payload) {
             if(!state.hasOwnProperty(payload.field)) return;
-            Vue.set(state[payload.field], payload.i, payload.val);
+            Vue.set(state[payload.field][payload.i], 'val', payload.val);
         },
 
         deleteFromListField(state, payload) {
             if(!state.hasOwnProperty(payload.field)) return;
             if(payload.i >= state[payload.field].length) return;
-            state[payload.field].splice(state[payload.i], 1);
+            state[payload.field].splice(payload.i, 1);
         },
 
         updateSpellInfo(state, payload) {
@@ -224,11 +224,6 @@ export default new Vuex.Store({
         updateSpellName(state, payload) {
             if(!state.hasOwnProperty(payload.field)) return;
             Vue.set(state[payload.field].spells[payload.i], 'name', payload.name);
-        },
-
-        updateSpellUrl(state, payload) {
-            if(!state.hasOwnProperty(payload.field)) return;
-            Vue.set(state[payload.field].spells[payload.i], 'url', payload.name);
         },
 
         updateSpellPrepared(state, payload) {

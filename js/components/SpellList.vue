@@ -1,36 +1,28 @@
 <template>
-    <div>
+    <div class="spell-list">
         <ul>
-            <li v-for="(item, i) in spellItems" :key="item.i" class="spell-item row deletable">
-                <input type="checkbox" :value="item.prepared" @change="updateSpellPrepared(i, $event)">
+            <li v-for="(item, i) in spellItems" :key="item.id" class="spell-item row deletable">
+                <input type="checkbox" :checked="item.prepared" @change="updateSpellPrepared(i, $event)">
                 <div class="size-full">
-                    <label>Spell name</label>
-                    <field
-                        class="size-full text-left"
-                        :class="{ 'field-focus': item.name === '' }"
-                        :value="item.name"
-                        placeholder="…"
-                        @update-value="updateSpellName(i, $event)"></field>
+                    <label class="sr-only">Spell name and description</label>
+                    <quill-editor :initial-contents="item.name" @quill-text-change="updateSpellName(i, $event)"></quill-editor>
                 </div>
-                <div class="size-full">
-                    <label>URL</label>
-                    <field
-                        class="size-full text-left"
-                        :class="{ 'field-focus': item.name === '' }"
-                        :value="item.url"
-                        placeholder="…"
-                        @update-value="updateSpellUrl(i, $event)"></field>
-                </div>
-                <button type="button" class="button" @click="deleteSpell(i)">-</button>
+                <button type="button" class="button button-delete" @click="deleteSpell(i)">
+                    <span class="sr-only">Delete</span>
+                    <span role="presentation">×</span>
+                </button>
             </li>
         </ul>
-        <button type="button" class="button" @click="addSpell">+</button>
+        <button type="button" class="button-add" @click="addSpell">
+            <span class="sr-only">Add list item</span>
+            <span role="presentation">+</span>
+        </button>
     </div>
 </template>
 
 <script>
 import Vue from 'vue';
-import Field from './Field';
+import QuillEditor from './QuillEditor';
 
 export default {
     name: 'SpellList',
@@ -39,7 +31,10 @@ export default {
 
     computed: {
         spellItems() {
-            return this.$store.state[this.listField].spells;
+            return this.$store.state[this.listField].spells.map(spell => {
+                spell.id = Math.random().toString();
+                return spell;
+            });
         }
     },
 
@@ -52,21 +47,14 @@ export default {
             });
         },
 
-        updateSpellUrl(i, url) {
-            this.$store.commit('updateSpellUrl', {
-                field: this.listField,
-                i: i,
-                url: url
-            });
-        },
-
         updateSpellPrepared(i, e) {
-            console.log(i, e.target.checked)
             this.$store.commit('updateSpellPrepared', {
                 field: this.listField,
                 i: i,
                 prepared: e.target.checked
             });
+
+            window.sheetEvent.$emit('autosave', 1);
         },
 
         addSpell() {
@@ -81,11 +69,13 @@ export default {
                 field: this.listField,
                 i: i
             });
+
+            window.sheetEvent.$emit('autosave', 1);
         }
     },
     
     components: {
-        'field': Field
+        'quill-editor': QuillEditor
     }
 }
 </script>

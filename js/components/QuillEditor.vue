@@ -17,13 +17,7 @@ export default {
 
     mounted() {
         this.editor = new Quill(this.$el, {
-            theme: 'snow',
-            modules: {
-                toolbar: [
-                    ['bold', 'italic', 'underline', 'strike'],
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                ]
-            }
+            theme: 'bubble'
         });
 
         if(this.initialContents) {
@@ -33,6 +27,12 @@ export default {
         this.editor.on('text-change', () => {
             this.contents = this.editor.getContents();
             this.$emit('quill-text-change', this.contents);
+        });
+
+        this.$el.addEventListener('click', event => {
+            if(event.target.nodeName === 'A') {
+                window.open(event.target.href, '_blank');
+            }
         });
     }
 }

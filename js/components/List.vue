@@ -1,24 +1,25 @@
 <template>
-    <div>
+    <div class="list-field">
         <ul>
-            <li v-for="(item, i) in items" class="spell-item row deletable">
-                <field
-                    class="size-full text-left"
-                    :class="{ 'field-focus': item === '' }"
-                    :value="item"
-                    placeholder="…"
-                    @update-value="updateItem(i, $event)"></field>
-                <button type="button" class="button" @click="deleteItem(i)">-</button>
+            <li v-for="(item, i) in items" :key="item.id" :k="item.id" class="spell-item row deletable">
+                <quill-editor :initial-contents="item.val" @quill-text-change="updateItem(i, $event)"></quill-editor>
+                <button type="button" class="button button-delete" @click="deleteItem(i)">
+                    <span class="sr-only">Delete</span>
+                    <span role="presentation">×</span>
+                </button>
             </li>
         </ul>
-        <button type="button" class="button" @click="addToList">+</button>
+        <button type="button" class="button-add" @click="addToList">
+            <span class="sr-only">Add list item</span>
+            <span role="presentation">+</span>
+        </button>
     </div>
 </template>
 
 <script>
 import Vue from 'vue';
 import { mapState } from 'vuex';
-import Field from './Field';
+import QuillEditor from './QuillEditor';
 
 export default {
     name: 'List',
@@ -43,20 +44,22 @@ export default {
         addToList() {
             this.$store.commit('addToListField', {
                 field: this.listField,
-                item: ''
+                val: ''
             });
         },
 
         deleteItem(i) {
             this.$store.commit('deleteFromListField', {
                 field: this.listField,
-                item: i
+                i: i
             });
+
+            window.sheetEvent.$emit('autosave', 1);
         }
     },
 
     components: {
-        'field': Field
+        'quill-editor': QuillEditor
     }
 }
 </script>
