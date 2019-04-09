@@ -51,19 +51,13 @@ import SpellGroup from './SpellGroup';
 export default {
     name: 'Spells',
 
-    data() {
-        return {
-            'spAbility': ''
-        };
-    },
-
     computed: {
-        ...mapState(['abilities', 'spClass', 'spSave', 'spAttack'])
+        ...mapState(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack'])
     },
 
     methods: {
         updateSpellInfo(field, val) {
-            this.$store.commit( 'updateSpellInfo', { field: val } );
+            this.$store.commit( 'updateSpellInfo', { field, val } );
         },
     },
 

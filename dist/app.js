@@ -2811,16 +2811,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Spells',
-  data: function data() {
-    return {
-      'spAbility': ''
-    };
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities', 'spClass', 'spSave', 'spAttack'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack'])),
   methods: {
     updateSpellInfo: function updateSpellInfo(field, val) {
       this.$store.commit('updateSpellInfo', {
-        field: val
+        field: field,
+        val: val
       });
     }
   },
