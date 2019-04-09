@@ -34,6 +34,33 @@ body {
   margin-top: 80px;
 }
 
+.container-slim {
+  margin: 0 auto;
+  margin-top: 100px;
+  max-width: 700px;
+}
+
+.container-center-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: calc(100vw - 100px);
+  height: 100vh;
+}
+.container-center-center .inner {
+  display: inline-block;
+}
+
+h1 {
+  font-size: 18px;
+  margin-bottom: 1.5rem;
+  font-weight: bold;
+}
+
+p {
+  margin-bottom: 1rem;
+}
+
 strong, .strong {
   font-weight: bold;
 }
@@ -656,6 +683,26 @@ section > .label {
   text-align: right;
 }
 
+.button-primary {
+  display: inline-block;
+  -webkit-appearance: none;
+     -moz-appearance: none;
+          appearance: none;
+  border: none;
+  margin: 1em 0;
+  padding: 0.5em 0.75em;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  text-align: center;
+  text-decoration: none;
+  background-color: #000;
+  color: #fff;
+  cursor: pointer;
+}
+.button-primary:hover, .button-primary:focus {
+  background-color: #444;
+}
+
 .button-add, .button-delete {
   display: flex;
   justify-content: center;
@@ -725,6 +772,7 @@ section > .label {
 .list-field .ql-tooltip, .spell-list .ql-tooltip {
   z-index: 1;
 }
+
 .spell-slots {
   padding: 0 2em;
 }
@@ -771,4 +819,11 @@ nav .active button {
 }
 nav .active button:hover, nav .active button:focus {
   color: #fff;
+}
+
+/* -- Dashboard --------------------------------------------- */
+.account-actions {
+  position: absolute;
+  top: 20px;
+  right: 20px;
 }

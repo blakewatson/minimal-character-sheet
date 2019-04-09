@@ -21,5 +21,21 @@
             "mapper": null,
             "life_in_hours": 23
         }
+    },
+    "5cac3ea5a385c9.30486455": {
+        "user": "clarissawatson6601",
+        "email": "clarissadwatson@icloud.com",
+        "pw": "$2y$10$2ZWl0IQCSNevFBSdOoKneOQNhhJBZTZldTlGbc0WE9SfBfTHYJk..",
+        "confirmed": false,
+        "token": {
+            "id": null,
+            "interval": null,
+            "clear": null,
+            "hash": "$2y$10$0iO5L3mkabiG12uKurOewu2IZnYPXZYdAFGzwM4GbMXrdndKBYb5W",
+            "expiry": "2019-04-10 01:41:41",
+            "one_time": true,
+            "mapper": null,
+            "life_in_hours": 24
+        }
     }
 }

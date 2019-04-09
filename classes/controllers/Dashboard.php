@@ -25,6 +25,7 @@ class Dashboard {
         $sheet_data = addslashes( json_encode( $sheet_data ) );
         $f3->set( 'sheet', $sheet_data );
         $f3->set( 'sheet_id', $id );
+        $f3->set( 'app', true );
         $this->auth->set_csrf();
         echo \Template::instance()->render( 'templates/sheet.html' );
     }

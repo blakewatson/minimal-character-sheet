@@ -14,7 +14,6 @@ class Authentication {
 
     public function registration_form( $f3 ) {
         $this->set_csrf();
-        var_dump( $f3->get( 'SESSION' ) );
         echo \Template::instance()->render( 'templates/register.html' );
     }
 
@@ -28,8 +27,6 @@ class Authentication {
 
         // check csrf
         if( $this->verify_csrf() ) {
-            var_dump( $f3->get( 'SESSION' ) );
-            var_dump( $f3->get( 'POST' ) );
             $f3->set( 'error_message', 'Something went wrong. User was not created. 2' );
             echo \Template::instance()->render( 'templates/register.html' );
             return;
@@ -113,7 +110,6 @@ class Authentication {
     public function login_form( $f3 ) {
         if( $f3->get( 'SESSION.email' ) ) return $f3->reroute( '/dashboard' );
         $this->set_csrf();
-        var_dump($f3->get( 'SESSION' ));
         echo \Template::instance()->render( 'templates/login.html' );
     }
 

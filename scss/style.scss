@@ -38,6 +38,34 @@ body {
 	margin-top: 80px;
 }
 
+.container-slim {
+	margin: 0 auto;
+	margin-top: 100px;
+	max-width: 700px;
+}
+
+.container-center-center {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	width: calc(100vw - 100px);
+	height: 100vh;
+
+	.inner {
+		display: inline-block;
+	}
+}
+
+h1 {
+	font-size: 18px;
+	margin-bottom: 1.5rem;
+	font-weight: bold;
+}
+
+p {
+	margin-bottom: 1rem;
+}
+
 strong, .strong {
 	font-weight: bold;
 }
@@ -266,6 +294,25 @@ section {
 	text-align: right;
 }
 
+.button-primary {
+	display: inline-block;
+	appearance: none;
+	border: none;
+	margin: 1em 0;
+	padding: 0.5em 0.75em;
+	font-family: $text;
+	font-size: 14px;
+	text-align: center;
+	text-decoration: none;
+	background-color: #000;
+	color: #fff;
+	cursor: pointer;
+
+	&:hover, &:focus {
+		background-color: #444;
+	}
+}
+
 .button-add, .button-delete {
 	display: flex;
 	justify-content: center;
@@ -294,7 +341,7 @@ section {
 .button-add {
 	margin: 10px auto;
 	text-align: center;
-	
+
 	&:hover, &:focus {
 		border-color: #1d65ff;
 		color: #1d65ff;
@@ -347,9 +394,6 @@ section {
 	.ql-tooltip {
 		z-index: 1;
 	}
-
-	.button-add {
-	}
 }
 
 .spell-slots {
@@ -401,4 +445,13 @@ nav {
 			color: #fff;
 		}
 	}
+}
+
+
+/* -- Dashboard --------------------------------------------- */
+
+.account-actions {
+	position: absolute;
+	top: 20px;
+	right: 20px;
 }
