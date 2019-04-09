@@ -1480,20 +1480,20 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     name: '',
     levelData: _level_data__WEBPACK_IMPORTED_MODULE_2__["default"],
     level: 5,
-    characterName: 'Constantine',
-    race: 'Half-elf',
-    className: 'Druid',
-    xp: 11000,
-    alignment: 'LG',
-    hp: 38,
-    maxHp: 38,
+    characterName: '',
+    race: '',
+    className: '',
+    xp: 0,
+    alignment: '',
+    hp: 0,
+    maxHp: 0,
     tempHp: 0,
-    hitDie: '5d8',
-    totalHitDie: 5,
-    ac: 12,
+    hitDie: '0',
+    totalHitDie: 1,
+    ac: 10,
     abilities: [{
       name: 'STR',
-      score: 12
+      score: 10
     }, {
       name: 'DEX',
       score: 10
@@ -1515,7 +1515,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       proficient: false
     }, {
       name: 'DEX',
-      proficient: true
+      proficient: false
     }, {
       name: 'CON',
       proficient: false
@@ -1524,7 +1524,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       proficient: false
     }, {
       name: 'WIS',
-      proficient: true
+      proficient: false
     }, {
       name: 'CHA',
       proficient: false
@@ -1614,7 +1614,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       amount: 0
     }, {
       name: 'gp',
-      amount: 5
+      amount: 0
     }, {
       name: 'pp',
       amount: 0
@@ -1626,7 +1626,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     treasureText: {},
     organizationsText: {},
     spClass: '',
-    spAbility: 'WIS',
+    spAbility: '',
     spSave: '',
     spAttack: '',
     cantripsList: [],
@@ -1836,7 +1836,8 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     initializeState: function initializeState(_ref2, payload) {
       var commit = _ref2.commit;
       var sheet = JSON.parse(payload.sheet);
-      var state = JSON.parse(sheet.data);
+      var state = {};
+      if (sheet.data) state = JSON.parse(sheet.data);
       state.id = sheet.id;
       state.name = sheet.name;
       commit('replaceState', {
@@ -3718,7 +3719,25 @@ var render = function() {
   return _c(
     "section",
     [
-      _c("p", { staticClass: "title" }, [_vm._v(_vm._s(_vm.characterName))]),
+      _c(
+        "p",
+        { staticClass: "title" },
+        [
+          _c("field", {
+            attrs: {
+              align: "left",
+              value: _vm.characterName,
+              placeholder: "Name"
+            },
+            on: {
+              "update-value": function($event) {
+                return _vm.updateBio("characterName", $event)
+              }
+            }
+          })
+        ],
+        1
+      ),
       _vm._v(" "),
       _c(
         "p",

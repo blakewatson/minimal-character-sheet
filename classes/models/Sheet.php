@@ -17,8 +17,7 @@ class Sheet extends \DB\Jig\Mapper {
     }
 
     public function get_sheet( $id ) {
-        $this->findone( [ '@_id', $id ] );
-        $this->load();
+        $this->load( [ '@_id=?', $id ] );
         if( $this->dry() ) return false;
         return [
             'id' => $this->_id,
@@ -38,6 +37,8 @@ class Sheet extends \DB\Jig\Mapper {
                 'name' => $this->name,
                 'data' => $this->data,
             ];
+
+            $this->next();
         }
         
         return $sheets;

@@ -1,6 +1,6 @@
 <template>
         <section>
-            <p class="title">{{ characterName }}</p>
+            <p class="title"><field align="left" :value="characterName" placeholder="Name" @update-value="updateBio('characterName', $event);"></field></p>
             <p class="meta vert-after">
                 <field align="left" :value="race" placeholder="Race" @update-value="updateBio('race', $event);"></field>
                 <span class="sep">&middot;</span>

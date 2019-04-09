@@ -10,19 +10,19 @@ export default new Vuex.Store({
         name: '',
         levelData: levelData,
         level: 5,
-        characterName: 'Constantine',
-        race: 'Half-elf',
-        className: 'Druid',
-        xp: 11000,
-        alignment: 'LG',
-        hp: 38,
-        maxHp: 38,
+        characterName: '',
+        race: '',
+        className: '',
+        xp: 0,
+        alignment: '',
+        hp: 0,
+        maxHp: 0,
         tempHp: 0,
-        hitDie: '5d8',
-        totalHitDie: 5,
-        ac: 12,
+        hitDie: '0',
+        totalHitDie: 1,
+        ac: 10,
         abilities: [
-            { name: 'STR', score: 12 },
+            { name: 'STR', score: 10 },
             { name: 'DEX', score: 10 },
             { name: 'CON', score: 10 },
             { name: 'INT', score: 10 },
@@ -31,10 +31,10 @@ export default new Vuex.Store({
         ],
         savingThrows: [
             { name: 'STR', proficient: false },
-            { name: 'DEX', proficient: true },
+            { name: 'DEX', proficient: false },
             { name: 'CON', proficient: false },
             { name: 'INT', proficient: false },
-            { name: 'WIS', proficient: true },
+            { name: 'WIS', proficient: false },
             { name: 'CHA', proficient: false }
         ],
         skills: [
@@ -62,7 +62,7 @@ export default new Vuex.Store({
             { name: 'cp', amount: 0 },
             { name: 'sp', amount: 0 },
             { name: 'ep', amount: 0 },
-            { name: 'gp', amount: 5 },
+            { name: 'gp', amount: 0 },
             { name: 'pp', amount: 0 }
         ],
         equipmentText: {},
@@ -72,7 +72,7 @@ export default new Vuex.Store({
         treasureText: {},
         organizationsText: {},
         spClass: '',
-        spAbility: 'WIS',
+        spAbility: '',
         spSave: '',
         spAttack: '',
         cantripsList: [],
@@ -261,7 +261,8 @@ export default new Vuex.Store({
 
         initializeState({ commit }, payload) {
             var sheet = JSON.parse(payload.sheet);
-            var state = JSON.parse(sheet.data);
+            var state = {};
+            if(sheet.data) state = JSON.parse(sheet.data);
             state.id = sheet.id;
             state.name = sheet.name;
             commit('replaceState', { state });

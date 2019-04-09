@@ -33,8 +33,9 @@ class Dashboard {
     public function add_sheet( $f3 ) {
         if( $f3->get( 'SERVER.REQUEST_METHOD' ) === 'POST' ) {
             $name = $f3->get( 'POST.sheet_name' );
+            $email = $f3->get( 'SESSION.email' );
             $sheet = new Sheet( $f3->get( 'DB' ) );
-            $sheet->create_sheet( $name );
+            $sheet->create_sheet( $name, $email );
             $f3->reroute( '/dashboard' );
         } else {
             $this->auth->set_csrf();
