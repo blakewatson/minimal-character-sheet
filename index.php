@@ -7,6 +7,11 @@ $f3->set( 'DEBUG', 3 );
 $f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/' );
 $f3->set( 'DB', new \DB\Jig( 'data/' ) );
 
+// homepage
+$f3->route( 'GET /', function( $f3 ) {
+    echo \Template::instance()->render( 'templates/home.html' );
+} );
+
 // dashboard
 $f3->route( 'GET /dashboard', 'Dashboard->sheet_list' );
 $f3->route( 'GET /add-sheet', 'Dashboard->add_sheet' );
