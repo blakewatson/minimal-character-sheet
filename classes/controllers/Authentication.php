@@ -58,7 +58,7 @@ class Authentication {
         if( $result !== false ) {
             $user->email_token();
             // temporary while developing
-            var_dump( $user->token_cleartext );
+            //var_dump( $user->token_cleartext );
         }
 
         $f3->set( 'success_message', 'An email has been sent to the email address provided.' );

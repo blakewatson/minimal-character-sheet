@@ -44,7 +44,7 @@ class User extends \DB\Jig\Mapper {
     }
 
     public function email_token() {
-        $to = $this->email;
+        $to = $this->get( 'email' );
         $from = 'blake@blakewatson.com';
         $subject = 'Confirm your Character Sheet account';
         $headers = array(
@@ -56,8 +56,8 @@ class User extends \DB\Jig\Mapper {
         $url = sprintf(
             '%s/register/confirm/%s/%s',
             $_SERVER['SERVER_NAME'],
-            $this->user,
-            $this->token_cleartext
+            $this->get( 'user' ),
+            $this->get( 'token_cleartext' )
         );
 
         $message = "Click here to confirm your account: \n\n$url";
