@@ -89,14 +89,19 @@ export default {
 			this.$store.dispatch('getJSON').then(jsonState => {
                 var sheetId = document.querySelector('#sheet-id').value;
                 var csrf = document.querySelector('#csrf').value;
+                var formBody = new URLSearchParams();
+                
+                formBody.set('name', this.$store.state.characterName);
+                formBody.set('data', jsonState);
+                formBody = formBody.toString();
 
                 fetch(`/sheet/${sheetId}`, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
+                        'Content-Type': 'application/x-www-form-urlencoded',
                         'X-AJAX-CSRF': csrf
                     },
-                    body: jsonState
+                    body: formBody
                 })
                 .then(r => r.json())
                 .then(data => {

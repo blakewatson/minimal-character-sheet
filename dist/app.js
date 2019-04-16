@@ -1477,7 +1477,6 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     id: '',
-    name: '',
     levelData: _level_data__WEBPACK_IMPORTED_MODULE_2__["default"],
     level: 5,
     characterName: '',
@@ -1839,7 +1838,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       var state = {};
       if (sheet.data) state = JSON.parse(sheet.data);
       state.id = sheet.id;
-      state.name = sheet.name;
+      state.characterName = sheet.name;
       commit('replaceState', {
         state: state
       });
@@ -2485,16 +2484,22 @@ __webpack_require__.r(__webpack_exports__);
       window.sheetEvent.$emit('autosave');
     },
     saveSheetState: function saveSheetState() {
+      var _this2 = this;
+
       this.$store.dispatch('getJSON').then(function (jsonState) {
         var sheetId = document.querySelector('#sheet-id').value;
         var csrf = document.querySelector('#csrf').value;
+        var formBody = new URLSearchParams();
+        formBody.set('name', _this2.$store.state.characterName);
+        formBody.set('data', jsonState);
+        formBody = formBody.toString();
         fetch("/sheet/".concat(sheetId), {
           method: 'POST',
           headers: {
-            'Content-Type': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
             'X-AJAX-CSRF': csrf
           },
-          body: jsonState
+          body: formBody
         }).then(function (r) {
           return r.json();
         }).then(function (data) {
@@ -17988,8 +17993,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })

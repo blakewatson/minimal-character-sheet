@@ -49,9 +49,10 @@ class Dashboard {
             return;
         }
 
-        $data = file_get_contents( 'php://input' );
+        $name = $f3->get( 'REQUEST.name' );
+        $data = $f3->get( 'REQUEST.data' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $result = $sheet->save_sheet( $params['sheet_id'], $data );
+        $result = $sheet->save_sheet( $params['sheet_id'], $name, $data );
 
         if( ! $result ) {
             echo json_encode([ 'success' => false ]);

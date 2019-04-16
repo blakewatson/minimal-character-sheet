@@ -44,9 +44,10 @@ class Sheet extends \DB\Jig\Mapper {
         return $sheets;
     }
 
-    public function save_sheet( $id, $data ) {
+    public function save_sheet( $id, $name, $data ) {
         $this->load( [ '@_id=?', $id ] );
         if( $this->dry() ) return false;
+        $this->set( 'name', $name );
         $this->set( 'data', $data );
         return $this->save();
     }

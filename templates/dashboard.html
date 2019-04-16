@@ -6,7 +6,12 @@
 
 
     <repeat group="{{ @sheets }}" value="{{ @sheet }}">
-        <p><a href="/sheet/{{ @sheet.id }}">{{ @sheet.name }}</a></p>
+        <p><a href="/sheet/{{ @sheet.id }}">
+            <check if="@sheet.name">
+                <true>{{ @sheet.name }}</true>
+                <false>Untitled Character</false>
+            </check>
+        </a></p>
     </repeat>
 
     <p><a href="/add-sheet" class="button-primary">Add a character sheet</a></p>

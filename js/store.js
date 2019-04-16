@@ -7,7 +7,6 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         id: '',
-        name: '',
         levelData: levelData,
         level: 5,
         characterName: '',
@@ -264,7 +263,7 @@ export default new Vuex.Store({
             var state = {};
             if(sheet.data) state = JSON.parse(sheet.data);
             state.id = sheet.id;
-            state.name = sheet.name;
+            state.characterName = sheet.name;
             commit('replaceState', { state });
         }
     }

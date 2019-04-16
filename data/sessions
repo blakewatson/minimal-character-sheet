@@ -1,9 +1,9 @@
 {
-    "5cac0837ea56c4.59530383": {
-        "session_id": "ekurutkhpdgnghp9mopg9utr8m",
-        "data": "csrf|s:13:\"17q32w0oxeja5\";email|s:21:\"blake@blakewatson.com\";",
+    "5cb5685682f8f0.36784415": {
+        "session_id": "09d0ledunp7pc7blampud1f7no",
+        "data": "csrf|s:12:\"95teqljry3oc\";email|s:21:\"blake@blakewatson.com\";",
         "ip": "::1",
         "agent": "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10.14; rv:66.0) Gecko\/20100101 Firefox\/66.0",
-        "stamp": 1555383061
+        "stamp": 1555395343
     }
 }

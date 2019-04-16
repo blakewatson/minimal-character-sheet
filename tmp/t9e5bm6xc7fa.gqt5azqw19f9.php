@@ -6,7 +6,12 @@
 
 
     <?php foreach (($sheets?:[]) as $sheet): ?>
-        <p><a href="/sheet/<?= ($sheet['id']) ?>"><?= ($sheet['name']) ?></a></p>
+        <p><a href="/sheet/<?= ($sheet['id']) ?>">
+            <?php if ($sheet['name']): ?>
+                <?= ($sheet['name']) ?>
+                <?php else: ?>Untitled Character
+            <?php endif; ?>
+        </a></p>
     <?php endforeach; ?>
 
     <p><a href="/add-sheet" class="button-primary">Add a character sheet</a></p>
