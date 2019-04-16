@@ -54,9 +54,9 @@ class User extends \DB\Jig\Mapper {
         );
 
         $url = sprintf(
-            '%s/register/confirm/%s/%s',
+            'https://%s/register/confirm/%s/%s',
             $_SERVER['SERVER_NAME'],
-            $this->get( 'user' ),
+            $this->get( 'email' ),
             $this->token_cleartext
         );
 
