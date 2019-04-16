@@ -1,5 +1,6 @@
 # Don’t put user data in the repo
 data
+!data/.htaccess
 
 Thumbs.db
 .project
