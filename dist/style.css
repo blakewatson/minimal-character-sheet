@@ -793,6 +793,9 @@ nav {
   background-color: #000;
   z-index: 10;
 }
+nav ul {
+  position: relative;
+}
 nav li {
   display: inline-block;
   margin: 0;
@@ -819,6 +822,35 @@ nav .active button {
 }
 nav .active button:hover, nav .active button:focus {
   color: #fff;
+}
+nav .back-button {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+}
+nav .back-button a {
+  display: flex;
+  align-items: center;
+  padding: 0 20px;
+  height: 100%;
+  font-family: "IBM Plex Mono", monospace;
+  font-size: 14px;
+  font-weight: bold;
+  text-decoration: none;
+  color: #fff;
+}
+nav .back-button a img {
+  display: block;
+  position: relative;
+  margin-bottom: 0;
+  vertical-align: center;
+  width: auto;
+  height: 20px;
+}
+nav .back-button a:hover, nav .back-button a:focus {
+  background-color: #1d65ff;
 }
 
 /* -- Dashboard --------------------------------------------- */

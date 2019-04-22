@@ -416,6 +416,10 @@ nav {
 	background-color: #000;
 	z-index: 10;
 
+	ul {
+		position: relative;
+	}
+
 	li {
 		display: inline-block;
 		margin: 0;
@@ -443,6 +447,39 @@ nav {
 
 		&:hover, &:focus {
 			color: #fff;
+		}
+	}
+
+	.back-button {
+		display: block;
+		position: absolute;
+		top: 0;
+		left: 0;
+		height: 100%;
+
+		a {
+			display: flex;
+			align-items: center;
+			padding: 0 20px;
+			height: 100%;
+			font-family: $text;
+			font-size: 14px;
+			font-weight: bold;
+			text-decoration: none;
+			color: #fff;
+
+			img {
+				display: block;
+				position: relative;
+				margin-bottom: 0;
+				vertical-align: center;
+				width: auto;
+				height: 20px;
+			}
+
+			&:hover, &:focus {
+				background-color: #1d65ff;
+			}
 		}
 	}
 }

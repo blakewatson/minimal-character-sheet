@@ -2857,6 +2857,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Tabs',
   props: ['view'],
@@ -4654,6 +4659,8 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c("nav", [
     _c("ul", [
+      _vm._m(0),
+      _vm._v(" "),
       _c("li", { class: { active: _vm.view === "main" } }, [
         _c(
           "button",
@@ -4698,7 +4705,18 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = []
+var staticRenderFns = [
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("li", { staticClass: "back-button" }, [
+      _c("a", { attrs: { href: "/dashboard" } }, [
+        _c("img", { attrs: { src: "/images/back.svg", alt: "Dashboard" } })
+      ])
+    ])
+  }
+]
 render._withStripped = true
 
 

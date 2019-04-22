@@ -1,6 +1,11 @@
 <template>
     <nav>
         <ul>
+            <li class="back-button">
+                <a href="/dashboard">
+                    <img src="/images/back.svg" alt="Dashboard">
+                </a>
+            </li>
             <li :class="{ active: view === 'main' }"><button @click="updateView('main')">Main</button></li>
             <li :class="{ active: view === 'spells' }"><button @click="updateView('spells')">Spells</button></li>
             <li :class="{ active: view === 'details' }"><button @click="updateView('details')">Details</button></li>
