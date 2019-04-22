@@ -27,12 +27,12 @@
     
                         <p>
                             <label for="pw1" class="label block">Password</label>
-                            <input type="text" id="pw1" name="pw1" class="field field-visible">
+                            <input type="password" id="pw1" name="pw1" class="field field-visible">
                         </p>
     
                         <p>
                             <label for="pw2" class="label block">Confirm Password</label>
-                            <input type="text" id="pw2" name="pw2" class="field field-visible">
+                            <input type="password" id="pw2" name="pw2" class="field field-visible">
                         </p>
     
                         <input type="hidden" name="phone">
