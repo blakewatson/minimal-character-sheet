@@ -63,6 +63,7 @@ class Authentication {
         // all good! send confirmation email
         if( $result !== false ) {
             $user->set( 'token', $user->make_token( '1 day' ) );
+            $user->save();
             $this->email_token( $user );
         }
 
