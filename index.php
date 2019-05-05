@@ -1,5 +1,6 @@
 <?php
 
+require_once('./vendor/autoload.php');
 $f3 = require_once 'lib/base.php';
 
 $f3->set( 'DEBUG', 3 );
@@ -27,6 +28,8 @@ $f3->route( 'GET /logout', 'Authentication->logout' );
 
 // registration
 $f3->route( 'GET /register/confirm/@email/@clear_token', 'Authentication->confirm' );
+$f3->route( 'GET /register/confirm/send', 'Authentication->resend_confirmation_form' );
+$f3->route( 'POST /register/confirm/send', 'Authentication->resend_confirmation' );
 $f3->route( 'GET /register', 'Authentication->registration_form' );
 $f3->route( 'POST /register', 'Authentication->register' );
 

@@ -1,5 +1,7 @@
 <?php
 
+use Postmark\PostmarkClient;
+
 class Authentication {
 
     public $f3;
@@ -21,6 +23,7 @@ class Authentication {
         // check honeypot
         if( $f3->get( 'POST.phone' ) !== '' ) {
             $f3->set( 'error_message', 'Something went wrong. User was not created. 1' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/register.html' );
             return;
         }
@@ -28,6 +31,7 @@ class Authentication {
         // check csrf
         if( $this->verify_csrf() ) {
             $f3->set( 'error_message', 'Something went wrong. User was not created. 2' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/register.html' );
             return;
         }
@@ -35,6 +39,7 @@ class Authentication {
         // check passwords match
         if( $f3->get( 'POST.pw1' ) !== $f3->get( 'POST.pw2' ) ) {
             $f3->set( 'error_message', 'Passwords do not match.' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/register.html' );
             return;
         }
@@ -50,15 +55,15 @@ class Authentication {
         // username taken
         if( $result === 'Username already exists.' ) {
             $f3->set( 'error_message', $result );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/register.html' );
             return;
         }
         
-        // all good!
+        // all good! send confirmation email
         if( $result !== false ) {
-            $user->email_token();
-            // temporary while developing
-            //var_dump( $user->token_cleartext );
+            $user->set( 'token', $user->make_token( '1 day' ) );
+            $this->email_token( $user );
         }
 
         $f3->set( 'success_message', 'An email has been sent to the email address provided.' );
@@ -69,7 +74,7 @@ class Authentication {
         $user = new User( $f3->get( 'DB' ) );
         $user->get_by_email( $params['email'] );
 
-        if( $user->dry() ) {
+        if( $user->dry() || $user->get( 'confirmed' ) ) {
             $f3->set( 'error_message', 'Something went wrong.' );
             echo \Template::instance()->render( 'templates/confirm.html' );
             return;
@@ -107,6 +112,46 @@ class Authentication {
         echo \Template::instance()->render( 'templates/confirm.html' );
     }
 
+    public function resend_confirmation_form() {
+        $this->set_csrf();
+        echo \Template::instance()->render( 'templates/re-confirm.html' );
+    }
+
+    public function resend_confirmation( $f3 ) {
+        // check honeypot
+        if( $f3->get( 'POST.username' ) ) {
+            $f3->set( 'error_message', 'Confirmation error. 1' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/re-confirm.html' );
+            return;
+        }
+
+        // check csrf
+        if( $this->verify_csrf() ) {
+            $f3->set( 'error_message', 'Confirmation error. 2' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/re-confirm.html' );
+            return;
+        }
+        
+        // get user by email
+        $user = new User( $f3->get( 'DB' ) );
+        $user->get_by_email( $f3->get( 'POST.email' ) );
+
+        if( $user->dry() || $user->get( 'confirmed' ) ) {
+            $f3->set( 'error_message', 'Something went wrong.' );
+            echo \Template::instance()->render( 'templates/re-confirm.html' );
+            return;
+        }
+
+        $user->set( 'token', $user->make_token( '1 day' ) );
+        $user->save();
+        $this->email_token( $user );
+        
+        $f3->set( 'success_message', 'An email has been sent to the email address provided.' );
+        echo \Template::instance()->render( 'templates/re-confirm.html' );
+    }
+
     public function login_form( $f3 ) {
         if( $f3->get( 'SESSION.email' ) ) return $f3->reroute( '/dashboard' );
         $this->set_csrf();
@@ -117,6 +162,7 @@ class Authentication {
         // check honeypot
         if( $f3->get( 'POST.username' ) ) {
             $f3->set( 'error_message', 'Invalid login. 1' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/login.html' );
             return;
         }
@@ -124,6 +170,7 @@ class Authentication {
         // check csrf
         if( $this->verify_csrf() ) {
             $f3->set( 'error_message', 'Invalid login. 2' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/login.html' );
             return;
         }
@@ -137,6 +184,15 @@ class Authentication {
         $user->get_by_email( $email );
         if( $user->dry() ) {
             $f3->set( 'error_message', 'Invalid login. 3' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/login.html' );
+            return;
+        }
+
+        // check if user has confirmed
+        if( ! $user->get( 'confirmed' ) ) {
+            $f3->set( 'failed_confirmation', true );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/login.html' );
             return;
         }
@@ -144,6 +200,7 @@ class Authentication {
         // verify password
         if( ! password_verify( $pw, $user->get( 'pw' ) ) ) {
             $f3->set( 'error_message', 'Invalid login. 4' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/login.html' );
             return;
         }
@@ -182,6 +239,30 @@ class Authentication {
         if( ! $csrf ) return false;
         if( $csrf !== $this->f3->get( 'SESSION.csrf' ) ) return false;
         return true;
+    }
+
+    public function email_token( $user ) {
+        $client = new PostmarkClient( '0702d221-ba34-4cb2-ba6f-82a28e4d70b7' );
+        $email = $user->get( 'email' );
+        $to = $email;
+        $from = 'minimalcharactersheet@blakewatson.com';
+        $subject = 'Confirm your account';
+
+        $url = sprintf(
+            'https://%s/register/confirm/%s/%s',
+            $_SERVER['SERVER_NAME'],
+            $email,
+            $user->token_cleartext
+        );
+
+        $message = "Click here to confirm your account: \n\n$url";
+
+        $result = $client->sendEmail(
+            $from,
+            $to,
+            $subject,
+            $message
+        );
     }
 
 }

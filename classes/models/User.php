@@ -43,28 +43,6 @@ class User extends \DB\Jig\Mapper {
         return $token;
     }
 
-    public function email_token() {
-        $to = $this->get( 'email' );
-        $from = 'blake@blakewatson.com';
-        $subject = 'Confirm your Character Sheet account';
-        $headers = array(
-            'From' => $from,
-            'Reply-To' => $from,
-            'X-Mailer' => 'PHP/' . phpversion()
-        );
-
-        $url = sprintf(
-            'https://%s/register/confirm/%s/%s',
-            $_SERVER['SERVER_NAME'],
-            $this->get( 'email' ),
-            $this->token_cleartext
-        );
-
-        $message = "Click here to confirm your account: \n\n$url";
-
-        mail( $to, $subject, $message, $headers );
-    }
-
     public function get_token() {
         $token_obj = new Token();
         $token = $this->get( 'token' );

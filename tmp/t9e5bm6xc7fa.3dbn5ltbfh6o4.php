@@ -7,6 +7,10 @@
             <?php if ($error_message): ?>
                 <p><?= ($error_message) ?></p>
             <?php endif; ?>
+
+            <?php if ($failed_confirmation): ?>
+                <p>You must confirm your account before you can log in. Please check your email. Never received the email? <a href="/register/confirm/send">Click here to send a new confirmation email</a>.</p>
+            <?php endif; ?>
     
             <form action="/login" method="post">
                 <p>
@@ -16,7 +20,7 @@
     
                 <p>
                     <label for="pw" class="label block">Password</label>
-                    <input type="text" id="pw" name="pw" class="field field-visible">
+                    <input type="password" id="pw" name="pw" class="field field-visible">
                 </p>
     
                 <input type="hidden" name="username">

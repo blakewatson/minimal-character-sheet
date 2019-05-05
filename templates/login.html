@@ -7,6 +7,10 @@
             <check if="@error_message">
                 <p>{{ @error_message }}</p>
             </check>
+
+            <check if="@failed_confirmation">
+                <p>You must confirm your account before you can log in. Please check your email. Never received the email? <a href="/register/confirm/send">Click here to send a new confirmation email</a>.</p>
+            </check>
     
             <form action="/login" method="post">
                 <p>
