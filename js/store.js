@@ -160,6 +160,11 @@ export default new Vuex.Store({
             Vue.set(state.skills[payload.i], 'proficient', payload.proficient);
         },
 
+        updateSavingThrow(state, payload) {
+            var i = state.savingThrows.findIndex(savingThrow => payload.name === savingThrow.name);
+            Vue.set(state.savingThrows[i], 'proficient', payload.proficient);
+        },
+
         updateAttacks(state, payload) {
             if(payload.i >= state.attacks.length) return;
             if(!state.attacks[payload.i].hasOwnProperty(payload.field)) return;

@@ -1742,6 +1742,12 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       if (payload.i >= state.skills.links) return;
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.skills[payload.i], 'proficient', payload.proficient);
     },
+    updateSavingThrow: function updateSavingThrow(state, payload) {
+      var i = state.savingThrows.findIndex(function (savingThrow) {
+        return payload.name === savingThrow.name;
+      });
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.savingThrows[i], 'proficient', payload.proficient);
+    },
     updateAttacks: function updateAttacks(state, payload) {
       if (payload.i >= state.attacks.length) return;
       if (!state.attacks[payload.i].hasOwnProperty(payload.field)) return;
@@ -2364,16 +2370,35 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SavingThrow',
   props: ['savingThrow', 'modifier'],
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['proficiencyBonus']), {
     saveBonus: function saveBonus() {
+      if (!this.savingThrow) return 0;
       if (this.savingThrow.proficient) return this.modifier + this.proficiencyBonus;
       return this.modifier;
+    },
+    inputId: function inputId() {
+      return "".concat(this.savingThrow.name, "-saving-throw");
     }
-  })
+  }),
+  methods: {
+    toggleProficiency: function toggleProficiency() {
+      if (!this.savingThrow) return;
+      this.$store.commit('updateSavingThrow', {
+        name: this.savingThrow.name,
+        proficient: !this.savingThrow.proficient
+      });
+    }
+  },
+  created: function created() {
+    console.log(this.savingThrow);
+  }
 });
 
 /***/ }),
@@ -2397,6 +2422,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Equipment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Equipment */ "./js/components/Equipment.vue");
 /* harmony import */ var _Spells__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Spells */ "./js/components/Spells.vue");
 /* harmony import */ var _TextSection__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TextSection */ "./js/components/TextSection.vue");
+//
 //
 //
 //
@@ -3494,7 +3520,9 @@ var render = function() {
     ),
     _vm._v(" "),
     _c("div", {}, [
-      _c("span", { staticClass: "centered label" }, [_vm._v("Saving throws")]),
+      _c("span", { staticClass: "centered label" }, [
+        _vm._v("Saving throw proficiency")
+      ]),
       _vm._v(" "),
       _c(
         "div",
@@ -4084,9 +4112,27 @@ var render = function() {
   var _h = _vm.$createElement
   var _c = _vm._self._c || _h
   return _c("div", { staticClass: "saving-throw" }, [
-    _c("span", { staticClass: "centered huge padded block" }, [
-      _vm._v(_vm._s(_vm._f("signedNumString")(_vm.saveBonus)))
-    ])
+    _c(
+      "label",
+      {
+        staticClass: "centered huge padded block",
+        attrs: { for: _vm.inputId }
+      },
+      [
+        _vm._v(
+          "\n        " +
+            _vm._s(_vm._f("signedNumString")(_vm.saveBonus)) +
+            "\n        "
+        ),
+        _vm.savingThrow
+          ? _c("input", {
+              attrs: { type: "checkbox", id: _vm.inputId },
+              domProps: { checked: _vm.savingThrow.proficient },
+              on: { change: _vm.toggleProficiency }
+            })
+          : _vm._e()
+      ]
+    )
   ])
 }
 var staticRenderFns = []
@@ -18011,8 +18057,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })
