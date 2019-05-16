@@ -5,7 +5,7 @@
                 <field align="left" :value="race" placeholder="Race" @update-value="updateBio('race', $event);"></field>
                 <span class="sep">&middot;</span>
                 <field align="left" :value="className" placeholder="Class" @update-value="updateBio('className', $event)"></field>
-                <field :value="level" type="number" placeholder="Level" @update-value="updateLevel"></field>
+                <field :value="level" type="number" min="1" placeholder="Level" @update-value="updateLevel"></field>
                 <span class="sep">&middot;</span>
                 <field :value="xp" type="number" placeholder="XP" @update-value="updateBio('xp', $event)"></field> XP
                 <span class="sep">&middot;</span>
@@ -30,7 +30,7 @@ export default {
 
     methods: {
         updateLevel(level) {
-            this.$store.commit('updateLevel', { level: level });
+            this.$store.commit('updateLevel', { level: parseInt(level) });
         },
 
         updateBio(field, val) {

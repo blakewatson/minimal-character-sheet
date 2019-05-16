@@ -97,7 +97,8 @@ export default new Vuex.Store({
         },
 
         proficiencyBonus(state) {
-            var row = state.levelData.find(data => state.level === data.lvl);
+            var level = state.level;
+            var row = state.levelData.find(data => level === data.lvl);
             if(!row) return 2;
             return row.proficiency;
         }

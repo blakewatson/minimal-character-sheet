@@ -1685,8 +1685,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       });
     },
     proficiencyBonus: function proficiencyBonus(state) {
+      var level = state.level;
       var row = state.levelData.find(function (data) {
-        return state.level === data.lvl;
+        return level === data.lvl;
       });
       if (!row) return 2;
       return row.proficiency;
@@ -2057,7 +2058,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   methods: {
     updateLevel: function updateLevel(level) {
       this.$store.commit('updateLevel', {
-        level: level
+        level: parseInt(level)
       });
     },
     updateBio: function updateBio(field, val) {
@@ -3806,7 +3807,12 @@ var render = function() {
           }),
           _vm._v(" "),
           _c("field", {
-            attrs: { value: _vm.level, type: "number", placeholder: "Level" },
+            attrs: {
+              value: _vm.level,
+              type: "number",
+              min: "1",
+              placeholder: "Level"
+            },
             on: { "update-value": _vm.updateLevel }
           }),
           _vm._v(" "),
