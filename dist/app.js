@@ -1490,6 +1490,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     hitDie: '0',
     totalHitDie: 1,
     ac: 10,
+    speed: 25,
     abilities: [{
       name: 'STR',
       score: 10
@@ -1733,7 +1734,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       state[field] = payload.val;
     },
     updateVitals: function updateVitals(state, payload) {
-      var allowedFields = ['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac'];
+      var allowedFields = ['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed'];
       var field = payload.field;
       if (!allowedFields.includes(field)) return;
       if (!state.hasOwnProperty(field)) return;
@@ -2889,13 +2890,19 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
+//
+//
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Tabs',
   props: ['view'],
   methods: {
     updateView: function updateView(view) {
       this.$emit('update-view', view);
-    }
+    },
+    deleteCharacter: function deleteCharacter() {}
   }
 });
 
@@ -3000,11 +3007,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Vitals',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed'])),
   methods: {
     update: function update(item, e) {
       var value = e.target.innerText;
@@ -4753,6 +4764,14 @@ var render = function() {
           },
           [_vm._v("Details")]
         )
+      ]),
+      _vm._v(" "),
+      _c("li", { staticClass: "delete-character-button" }, [
+        _c("button", { on: { click: _vm.deleteCharacter } }, [
+          _c("img", {
+            attrs: { src: "/images/trash-alt.svg", alt: "Dashboard" }
+          })
+        ])
       ])
     ])
   ])
@@ -4914,6 +4933,25 @@ var render = function() {
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("totalHitDie", $event)
+            }
+          }
+        })
+      ],
+      1
+    ),
+    _vm._v(" "),
+    _c(
+      "div",
+      { staticClass: "box box-lite" },
+      [
+        _c("span", { staticClass: "centered label" }, [_vm._v("Speed")]),
+        _vm._v(" "),
+        _c("field", {
+          staticClass: "huge padded",
+          attrs: { value: _vm.speed },
+          on: {
+            "update-value": function($event) {
+              return _vm.updateVitals("speed", $event)
             }
           }
         })
@@ -18063,8 +18101,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })

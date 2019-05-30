@@ -17,6 +17,10 @@
             <field class="huge padded" :value="hitDie" @update-value="updateVitals('hitDie', $event)"></field>/<field class="normal" :value="totalHitDie" @update-value="updateVitals('totalHitDie', $event)"></field>
         </div>
         <div class="box box-lite">
+            <span class="centered label">Speed</span>
+            <field class="huge padded" :value="speed" @update-value="updateVitals('speed', $event)"></field>
+        </div>
+        <div class="box box-lite">
             <span class="centered label">Death saves</span>
             <div class="row">
                 <span>&#9745;</span>
@@ -42,7 +46,7 @@ export default {
     name: 'Vitals',
 
     computed: {
-        ...mapState(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac'])
+        ...mapState(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed'])
     },
 
     methods: {
