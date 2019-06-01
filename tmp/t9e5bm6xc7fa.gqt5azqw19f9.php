@@ -4,6 +4,11 @@
 <div class="container container-slim">
     <h1>My Characters</h1>
 
+    <?php if ($sheets): ?>
+        <?php else: ?>
+            <p>Nothing to see here. Create a character by clicking the link below.</p>
+        
+    <?php endif; ?>
 
     <?php foreach (($sheets?:[]) as $sheet): ?>
         <p><a href="/sheet/<?= ($sheet['id']) ?>">

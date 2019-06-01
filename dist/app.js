@@ -2898,11 +2898,31 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Tabs',
   props: ['view'],
+  computed: {
+    sheetId: function sheetId() {
+      return this.$store.state.id;
+    }
+  },
   methods: {
     updateView: function updateView(view) {
       this.$emit('update-view', view);
     },
-    deleteCharacter: function deleteCharacter() {}
+    deleteCharacter: function deleteCharacter() {
+      var csrf = document.querySelector('#csrf').value;
+      var areYouSure = confirm('Are you sure you want to *permanantly* delete this character sheet?');
+      if (!areYouSure) return;
+      fetch("/sheet/".concat(this.sheetId), {
+        method: 'delete',
+        headers: {
+          'X-Ajax-Csrf': csrf
+        }
+      }).then(function (r) {
+        return r.json();
+      }).then(function (r) {
+        console.log(r);
+        window.location = '/dashboard';
+      });
+    }
   }
 });
 
@@ -18101,8 +18121,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })

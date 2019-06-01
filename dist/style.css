@@ -823,14 +823,14 @@ nav .active button {
 nav .active button:hover, nav .active button:focus {
   color: #fff;
 }
-nav .back-button {
+nav .back-button, nav .delete-character-button {
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
 }
-nav .back-button a {
+nav .back-button a, nav .delete-character-button a {
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -841,7 +841,7 @@ nav .back-button a {
   text-decoration: none;
   color: #fff;
 }
-nav .back-button a img {
+nav .back-button a img, nav .delete-character-button a img {
   display: block;
   position: relative;
   margin-bottom: 0;
@@ -849,8 +849,29 @@ nav .back-button a img {
   width: auto;
   height: 20px;
 }
-nav .back-button a:hover, nav .back-button a:focus {
+nav .back-button a:hover, nav .back-button a:focus, nav .delete-character-button a:hover, nav .delete-character-button a:focus {
   background-color: #1d65ff;
+}
+nav .delete-character-button {
+  position: absolute;
+  right: 0;
+  left: auto;
+  display: flex;
+  align-items: center;
+  padding: 0;
+  height: 100%;
+  width: auto;
+}
+nav .delete-character-button button {
+  background: transparent;
+}
+nav .delete-character-button img {
+  display: block;
+  height: 20px;
+  width: auto;
+}
+nav .delete-character-button:hover, nav .delete-character-button:focus {
+  background: #b31f1f;
 }
 
 /* -- Dashboard --------------------------------------------- */

@@ -450,7 +450,7 @@ nav {
 		}
 	}
 
-	.back-button {
+	.back-button, .delete-character-button {
 		display: block;
 		position: absolute;
 		top: 0;
@@ -480,6 +480,31 @@ nav {
 			&:hover, &:focus {
 				background-color: #1d65ff;
 			}
+		}
+	}
+
+	.delete-character-button {
+		position: absolute;
+		right: 0;
+		left: auto;
+		display: flex;
+		align-items: center;
+		padding: 0;
+		height: 100%;
+		width: auto;
+
+		button {
+			background: transparent;
+		}
+
+		img {
+			display: block;
+			height: 20px;
+			width: auto;
+		}
+
+		&:hover, &:focus {
+			background: #b31f1f;
 		}
 	}
 }

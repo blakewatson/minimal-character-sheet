@@ -52,4 +52,11 @@ class Sheet extends \DB\Jig\Mapper {
         return $this->save();
     }
 
+    public function delete_sheet( $id ) {
+        error_log('Deleting sheet ' . $id);
+        $this->load( [ '@_id=?', $id ] );
+        if( $this->dry() ) return false;
+        return $this->erase();
+    }
+
 }

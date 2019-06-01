@@ -68,4 +68,15 @@ class Dashboard {
         return;
     }
 
+    public function delete_sheet( $f3, $params ) {
+        if( ! $this->auth->verify_ajax_csrf() ) {
+            echo json_encode([ 'success' => false ]);
+            return;
+        }
+
+        $sheet = new Sheet( $f3->get( 'DB' ) );
+        $result = $sheet->delete_sheet( $params['sheet_id'] );
+        echo json_encode([ 'success' => $result ]);
+    }
+
 }

@@ -4,6 +4,11 @@
 <div class="container container-slim">
     <h1>My Characters</h1>
 
+    <check if="{{ @sheets }}">
+        <false>
+            <p>Nothing to see here. Create a character by clicking the link below.</p>
+        </false>
+    </check>
 
     <repeat group="{{ @sheets }}" value="{{ @sheet }}">
         <p><a href="/sheet/{{ @sheet.id }}">
