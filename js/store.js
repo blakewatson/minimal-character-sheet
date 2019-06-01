@@ -8,7 +8,7 @@ export default new Vuex.Store({
     state: {
         id: '',
         levelData: levelData,
-        level: 5,
+        level: 1,
         characterName: '',
         race: '',
         className: '',
@@ -17,7 +17,7 @@ export default new Vuex.Store({
         hp: 0,
         maxHp: 0,
         tempHp: 0,
-        hitDie: '0',
+        hitDie: '1d8',
         totalHitDie: 1,
         ac: 10,
         speed: 25,
@@ -185,8 +185,7 @@ export default new Vuex.Store({
 
         updateCoins(state, payload) {
             if(payload.i >= state.coins.length) return;
-            if(typeof payload.amount !== 'number') return;
-            Vue.set(state.coins, payload.i, payload.amount);
+            Vue.set(state.coins[payload.i], 'amount', payload.amount);
         },
 
         updateEquipment(state, payload) {

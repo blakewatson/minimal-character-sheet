@@ -1478,7 +1478,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
   state: {
     id: '',
     levelData: _level_data__WEBPACK_IMPORTED_MODULE_2__["default"],
-    level: 5,
+    level: 1,
     characterName: '',
     race: '',
     className: '',
@@ -1487,7 +1487,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     hp: 0,
     maxHp: 0,
     tempHp: 0,
-    hitDie: '0',
+    hitDie: '1d8',
     totalHitDie: 1,
     ac: 10,
     speed: 25,
@@ -1770,8 +1770,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     },
     updateCoins: function updateCoins(state, payload) {
       if (payload.i >= state.coins.length) return;
-      if (typeof payload.amount !== 'number') return;
-      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.coins, payload.i, payload.amount);
+      vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.coins[payload.i], 'amount', payload.amount);
     },
     updateEquipment: function updateEquipment(state, payload) {
       state.equipmentText = payload.val;
@@ -3921,8 +3920,7 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("field", {
-                staticClass: "centered huge padded",
-                attrs: { value: c.amount },
+                attrs: { classNames: "centered huge padded", value: c.amount },
                 on: {
                   "update-value": function($event) {
                     return _vm.updateAmount(i, $event)

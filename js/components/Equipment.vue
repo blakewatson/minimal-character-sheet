@@ -5,7 +5,7 @@
         <div class="row vert-after">
             <div class="box box-lite" v-for="(c, i) in coins">
                 <span class="label centered">{{ c.name }}</span>
-                <field class="centered huge padded" :value="c.amount" @update-value="updateAmount(i, $event)"></field>
+                <field classNames="centered huge padded" :value="c.amount" @update-value="updateAmount(i, $event)"></field>
             </div>
         </div>
 
