@@ -1,5 +1,5 @@
 <template>
-    <section class="row row-spaced">
+    <section class="row row-spaced row-vert-centered">
         <div class="vert-center">
             <span class="label label-inline">Proficiency bonus</span>
             <span class="huge padded">{{ proficiencyBonus | signedNumString }}</span>

@@ -112,6 +112,9 @@ section > .label {
 .row-spaced {
   justify-content: space-around;
 }
+.row-vert-centered {
+  align-items: center;
+}
 
 .label {
   display: block;
