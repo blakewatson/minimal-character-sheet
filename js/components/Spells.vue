@@ -8,8 +8,8 @@
             </div>
             <div class="box box-lite">
                 <span class="label centered">Ability</span>
-                <select v-model="spAbility" @update-value="updateSpellInfo('spAbility', $event)">
-                    <option v-for="a in abilities" :value="a.name">{{ a.name }}</option>
+                <select @input="updateSpellInfo('spAbility', $event.target.value)">
+                    <option v-for="a in abilities" :value="a.name" :selected="spAbility === a.name">{{ a.name }}</option>
                 </select>
             </div>
             <div class="box">
@@ -57,6 +57,7 @@ export default {
 
     methods: {
         updateSpellInfo(field, val) {
+            console.log(val)
             this.$store.commit( 'updateSpellInfo', { field, val } );
         },
     },

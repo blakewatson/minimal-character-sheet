@@ -72,7 +72,7 @@ export default new Vuex.Store({
         treasureText: {},
         organizationsText: {},
         spClass: '',
-        spAbility: '',
+        spAbility: 'WIS',
         spSave: '',
         spAttack: '',
         cantripsList: [],

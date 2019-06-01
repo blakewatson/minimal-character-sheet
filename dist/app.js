@@ -2856,6 +2856,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack'])),
   methods: {
     updateSpellInfo: function updateSpellInfo(field, val) {
+      console.log(val);
       this.$store.commit('updateSpellInfo', {
         field: field,
         val: val
@@ -4608,37 +4609,23 @@ var render = function() {
           _c(
             "select",
             {
-              directives: [
-                {
-                  name: "model",
-                  rawName: "v-model",
-                  value: _vm.spAbility,
-                  expression: "spAbility"
-                }
-              ],
               on: {
-                "update-value": function($event) {
-                  return _vm.updateSpellInfo("spAbility", $event)
-                },
-                change: function($event) {
-                  var $$selectedVal = Array.prototype.filter
-                    .call($event.target.options, function(o) {
-                      return o.selected
-                    })
-                    .map(function(o) {
-                      var val = "_value" in o ? o._value : o.value
-                      return val
-                    })
-                  _vm.spAbility = $event.target.multiple
-                    ? $$selectedVal
-                    : $$selectedVal[0]
+                input: function($event) {
+                  return _vm.updateSpellInfo("spAbility", $event.target.value)
                 }
               }
             },
             _vm._l(_vm.abilities, function(a) {
-              return _c("option", { domProps: { value: a.name } }, [
-                _vm._v(_vm._s(a.name))
-              ])
+              return _c(
+                "option",
+                {
+                  domProps: {
+                    value: a.name,
+                    selected: _vm.spAbility === a.name
+                  }
+                },
+                [_vm._v(_vm._s(a.name))]
+              )
             }),
             0
           )
