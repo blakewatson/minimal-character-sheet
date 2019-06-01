@@ -71,7 +71,8 @@ strong, .strong {
 }
 
 li {
-	margin: 0.25em 0;
+	margin: 0;
+	margin-bottom: 0.5em;
 }
 
 table {
@@ -89,7 +90,7 @@ th {
 }
 
 td {
-	padding: 0.25em 0;
+	padding: 0.25em;
 }
 
 section {
@@ -328,9 +329,9 @@ section {
 }
 
 .button-add, .button-delete {
-	display: flex;
-	justify-content: center;
-	align-items: center;
+	//display: flex;
+	//justify-content: center;
+	//align-items: center;
 	appearance: none;
 	margin-left: 5px;
 	padding: 0;
@@ -340,7 +341,7 @@ section {
 	height: 20px;
 	font-family: $text;
 	font-size: 18px;
-	line-height: 18px;
+	line-height: 16px;
 	background: transparent;
 	color: #999;
 	cursor: pointer;
@@ -353,6 +354,7 @@ section {
 }
 
 .button-add {
+	display: inline-block;
 	margin: 10px auto;
 	text-align: center;
 

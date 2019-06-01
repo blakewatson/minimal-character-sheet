@@ -66,7 +66,8 @@ strong, .strong {
 }
 
 li {
-  margin: 0.25em 0;
+  margin: 0;
+  margin-bottom: 0.5em;
 }
 
 table {
@@ -84,7 +85,7 @@ th {
 }
 
 td {
-  padding: 0.25em 0;
+  padding: 0.25em;
 }
 
 section {
@@ -716,9 +717,6 @@ section > .label {
 }
 
 .button-add, .button-delete {
-  display: flex;
-  justify-content: center;
-  align-items: center;
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
@@ -730,7 +728,7 @@ section > .label {
   height: 20px;
   font-family: "IBM Plex Mono", monospace;
   font-size: 18px;
-  line-height: 18px;
+  line-height: 16px;
   background: transparent;
   color: #999;
   cursor: pointer;
@@ -741,6 +739,7 @@ section > .label {
 }
 
 .button-add {
+  display: inline-block;
   margin: 10px auto;
   text-align: center;
 }

@@ -12,16 +12,18 @@
             <tbody>
                 <tr v-for="(a, i) in attacks" :key="a.id" class="attack deletable">
                     <td><field class="size-full text-left" :value="a.name" @update-value="updateAttacks(i, 'name', $event)"></field></td>
-                    <td><field type="number" :value="a.attackBonus" @update-value="updateAttacks(i, 'attackBonus', $event)"></field></td>
+                    <td class="text-center"><field type="number" :value="a.attackBonus" @update-value="updateAttacks(i, 'attackBonus', $event)"></field></td>
                     <td><field class="size-full text-left" :value="a.damage" @update-value="updateAttacks(i, 'damage', $event)"></field></td>
                     <td><button type="button" class="button button-delete" @click="deleteAttack(i)">-</button></td>
                 </tr>
             </tbody>
         </table>
-        <button type="button" class="button button-add" @click="$store.commit('addAttack')">
-            <span class="sr-only">Add an attack</span>
-            <span role="presentation">+</span>
-        </button>
+        <p class="text-center">
+            <button type="button" class="button button-add" @click="$store.commit('addAttack')">
+                <span class="sr-only">Add an attack</span>
+                <span role="presentation">+</span>
+            </button>
+        </p>
     </section>
 </template>
 

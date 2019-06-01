@@ -1989,6 +1989,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -3678,6 +3680,7 @@ var render = function() {
               _vm._v(" "),
               _c(
                 "td",
+                { staticClass: "text-center" },
                 [
                   _c("field", {
                     attrs: { type: "number", value: a.attackBonus },
@@ -3729,23 +3732,25 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "button button-add",
-        attrs: { type: "button" },
-        on: {
-          click: function($event) {
-            return _vm.$store.commit("addAttack")
+    _c("p", { staticClass: "text-center" }, [
+      _c(
+        "button",
+        {
+          staticClass: "button button-add",
+          attrs: { type: "button" },
+          on: {
+            click: function($event) {
+              return _vm.$store.commit("addAttack")
+            }
           }
-        }
-      },
-      [
-        _c("span", { staticClass: "sr-only" }, [_vm._v("Add an attack")]),
-        _vm._v(" "),
-        _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
-      ]
-    )
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [_vm._v("Add an attack")]),
+          _vm._v(" "),
+          _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = [
