@@ -13,10 +13,12 @@
                 </button>
             </li>
         </ul>
-        <button type="button" class="button-add" @click="addSpell">
-            <span class="sr-only">Add list item</span>
-            <span role="presentation">+</span>
-        </button>
+        <p class="text-center">
+            <button type="button" class="button-add" @click="addSpell">
+                <span class="sr-only">Add list item</span>
+                <span role="presentation">+</span>
+            </button>
+        </p>
     </div>
 </template>
 

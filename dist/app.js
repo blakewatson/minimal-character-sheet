@@ -1626,7 +1626,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     treasureText: {},
     organizationsText: {},
     spClass: '',
-    spAbility: '',
+    spAbility: 'WIS',
     spSave: '',
     spAttack: '',
     cantripsList: [],
@@ -2223,6 +2223,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2705,6 +2707,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vue */ "./node_modules/vue/dist/vue.common.js");
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
+//
+//
 //
 //
 //
@@ -4046,19 +4050,21 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "button-add",
-        attrs: { type: "button" },
-        on: { click: _vm.addToList }
-      },
-      [
-        _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
-        _vm._v(" "),
-        _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
-      ]
-    )
+    _c("p", { staticClass: "text-center" }, [
+      _c(
+        "button",
+        {
+          staticClass: "button-add",
+          attrs: { type: "button" },
+          on: { click: _vm.addToList }
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
+          _vm._v(" "),
+          _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
@@ -4532,19 +4538,21 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _c(
-      "button",
-      {
-        staticClass: "button-add",
-        attrs: { type: "button" },
-        on: { click: _vm.addSpell }
-      },
-      [
-        _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
-        _vm._v(" "),
-        _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
-      ]
-    )
+    _c("p", { staticClass: "text-center" }, [
+      _c(
+        "button",
+        {
+          staticClass: "button-add",
+          attrs: { type: "button" },
+          on: { click: _vm.addSpell }
+        },
+        [
+          _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
+          _vm._v(" "),
+          _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+        ]
+      )
+    ])
   ])
 }
 var staticRenderFns = []
