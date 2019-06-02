@@ -3,7 +3,7 @@
 require_once('./vendor/autoload.php');
 $f3 = require_once 'lib/base.php';
 
-$f3->set( 'DEBUG', 3 );
+$f3->set( 'DEBUG', 0 );
 
 $f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/' );
 $f3->set( 'DB', new \DB\Jig( 'data/' ) );
