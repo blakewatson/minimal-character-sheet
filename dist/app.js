@@ -2071,6 +2071,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
+//
 
 
 
@@ -3829,6 +3834,7 @@ var render = function() {
   var _c = _vm._self._c || _h
   return _c(
     "section",
+    { staticClass: "bio" },
     [
       _c(
         "p",
@@ -3854,8 +3860,22 @@ var render = function() {
         "p",
         { staticClass: "meta vert-after" },
         [
+          _c(
+            "label",
+            {
+              staticClass: "small muted sr-only",
+              attrs: { for: "characterRace" }
+            },
+            [_vm._v("Race")]
+          ),
+          _vm._v(" "),
           _c("field", {
-            attrs: { align: "left", value: _vm.race, placeholder: "Race" },
+            attrs: {
+              id: "characterRace",
+              align: "left",
+              value: _vm.race,
+              placeholder: "Race"
+            },
             on: {
               "update-value": function($event) {
                 return _vm.updateBio("race", $event)
@@ -3865,8 +3885,18 @@ var render = function() {
           _vm._v(" "),
           _c("span", { staticClass: "sep" }, [_vm._v("·")]),
           _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "small muted sr-only",
+              attrs: { for: "characterClass" }
+            },
+            [_vm._v("Class")]
+          ),
+          _vm._v(" "),
           _c("field", {
             attrs: {
+              id: "characterClass",
               align: "left",
               value: _vm.className,
               placeholder: "Class"
@@ -3878,31 +3908,53 @@ var render = function() {
             }
           }),
           _vm._v(" "),
+          _c(
+            "label",
+            { staticClass: "small muted", attrs: { for: "characterLevel" } },
+            [_vm._v("Level")]
+          ),
+          _vm._v(" "),
           _c("field", {
             attrs: {
+              id: "characterLevel",
               value: _vm.level,
               type: "number",
-              min: "1",
-              placeholder: "Level"
+              min: "1"
             },
             on: { "update-value": _vm.updateLevel }
           }),
           _vm._v(" "),
           _c("span", { staticClass: "sep" }, [_vm._v("·")]),
           _vm._v(" "),
+          _c(
+            "label",
+            { staticClass: "small muted", attrs: { for: "characterXp" } },
+            [_vm._v("XP")]
+          ),
+          _vm._v(" "),
           _c("field", {
-            attrs: { value: _vm.xp, type: "number", placeholder: "XP" },
+            attrs: { id: "characterXp", value: _vm.xp, type: "number" },
             on: {
               "update-value": function($event) {
                 return _vm.updateBio("xp", $event)
               }
             }
           }),
-          _vm._v(" XP\n        "),
+          _vm._v(" "),
           _c("span", { staticClass: "sep" }, [_vm._v("·")]),
+          _vm._v(" "),
+          _c(
+            "label",
+            {
+              staticClass: "small muted sr-only",
+              attrs: { for: "characterAlignment" }
+            },
+            [_vm._v("Alignment")]
+          ),
           _vm._v(" "),
           _c("field", {
             attrs: {
+              id: "characterAlignment",
               align: "left",
               value: _vm.alignment,
               placeholder: "Alignment"

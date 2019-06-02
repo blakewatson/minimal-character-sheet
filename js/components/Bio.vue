@@ -1,15 +1,20 @@
 <template>
-        <section>
+        <section class="bio">
             <p class="title"><field align="left" :value="characterName" placeholder="Name" @update-value="updateBio('characterName', $event);"></field></p>
             <p class="meta vert-after">
-                <field align="left" :value="race" placeholder="Race" @update-value="updateBio('race', $event);"></field>
+                <label for="characterRace" class="small muted sr-only">Race</label>
+                <field id="characterRace" align="left" :value="race" placeholder="Race" @update-value="updateBio('race', $event);"></field>
                 <span class="sep">&middot;</span>
-                <field align="left" :value="className" placeholder="Class" @update-value="updateBio('className', $event)"></field>
-                <field :value="level" type="number" min="1" placeholder="Level" @update-value="updateLevel"></field>
+                <label for="characterClass" class="small muted sr-only">Class</label>
+                <field id="characterClass" align="left" :value="className" placeholder="Class" @update-value="updateBio('className', $event)"></field>
+                <label for="characterLevel" class="small muted">Level</label>
+                <field id="characterLevel" :value="level" type="number" min="1" @update-value="updateLevel"></field>
                 <span class="sep">&middot;</span>
-                <field :value="xp" type="number" placeholder="XP" @update-value="updateBio('xp', $event)"></field> XP
+                <label for="characterXp" class="small muted">XP</label>
+                <field id="characterXp" :value="xp" type="number" @update-value="updateBio('xp', $event)"></field>
                 <span class="sep">&middot;</span>
-                <field align="left" :value="alignment" placeholder="Alignment" @update-value="updateBio('alignment', $event)"></field>
+                <label for="characterAlignment" class="small muted sr-only">Alignment</label>
+                <field id="characterAlignment" align="left" :value="alignment" placeholder="Alignment" @update-value="updateBio('alignment', $event)"></field>
             </p>
             
             <vitals></vitals>

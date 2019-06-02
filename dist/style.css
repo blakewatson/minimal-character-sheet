@@ -888,6 +888,12 @@ nav .delete-character-button:hover, nav .delete-character-button:focus {
   background: #b31f1f;
 }
 
+/* -- Bio --------------------------------------------------- */
+.bio label {
+  display: inline-block;
+  margin-right: -0.5em;
+}
+
 /* -- Normal text styles ------------------------------------ */
 .content h2 {
   font-weight: bold;
