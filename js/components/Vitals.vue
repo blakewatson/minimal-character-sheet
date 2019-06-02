@@ -31,7 +31,7 @@
                     @input="updateDeathSaves('successes', i, !save)">
             </div>
             <div class="row">
-                <span class="mini-icon"><img src="/images/skull.svg" alt="Failure"></span>
+                <span class="mini-icon"><img src="/images/death.svg" alt="Failure"></span>
                 <input
                     type="checkbox"
                     v-for="(save, i) in deathSaves.failures"
