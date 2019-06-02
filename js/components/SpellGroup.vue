@@ -6,7 +6,7 @@
                 <span class="label label-inline">Slots:</span>
                 <field :value="totalSlots" type="number" class="spell-slots-total" min="0" @update-value="updateSlots($event)"></field>
                 <span class="label label-inline">Expended:</span>
-                <field :value="expendedSlots" type="number" class="spell-slots-expended" min="0" :max="totalSlots" @update-value="totalSlots($event)"></field>
+                <field :value="expendedSlots" type="number" class="spell-slots-expended" min="0" :max="totalSlots" @update-value="updateExpended($event)"></field>
             </div>
         </div>
         <spell-list :list-field="listField"></spell-list>
