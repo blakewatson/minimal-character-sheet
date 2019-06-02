@@ -19,10 +19,6 @@
   clip: auto;
 }
 
-/* html {
-	background-color: #000;
-	filter: invert(100%) brightness(75%);
-} */
 body {
   padding: 0 50px;
   overflow-y: scroll;
@@ -59,6 +55,10 @@ h1 {
 
 p {
   margin-bottom: 1rem;
+}
+
+a {
+  color: #1d65ff;
 }
 
 strong, .strong {
@@ -794,7 +794,7 @@ section > .label {
   font-weight: bold;
 }
 
-nav {
+.sheet-nav {
   display: block;
   position: fixed;
   top: 0;
@@ -807,14 +807,14 @@ nav {
   background-color: #000;
   z-index: 10;
 }
-nav ul {
+.sheet-nav ul {
   position: relative;
 }
-nav li {
+.sheet-nav li {
   display: inline-block;
   margin: 0;
 }
-nav button {
+.sheet-nav button {
   unset: all;
   display: inline-block;
   -webkit-appearance: none;
@@ -828,23 +828,23 @@ nav button {
   color: #fff;
   cursor: pointer;
 }
-nav button:hover, nav button:focus {
+.sheet-nav button:hover, .sheet-nav button:focus {
   color: #6294ff;
 }
-nav .active button {
+.sheet-nav .active button {
   background-color: #1d65ff;
 }
-nav .active button:hover, nav .active button:focus {
+.sheet-nav .active button:hover, .sheet-nav .active button:focus {
   color: #fff;
 }
-nav .back-button, nav .delete-character-button {
+.sheet-nav .back-button, .sheet-nav .delete-character-button {
   display: block;
   position: absolute;
   top: 0;
   left: 0;
   height: 100%;
 }
-nav .back-button a, nav .delete-character-button a {
+.sheet-nav .back-button a, .sheet-nav .delete-character-button a {
   display: flex;
   align-items: center;
   padding: 0 20px;
@@ -855,7 +855,7 @@ nav .back-button a, nav .delete-character-button a {
   text-decoration: none;
   color: #fff;
 }
-nav .back-button a img, nav .delete-character-button a img {
+.sheet-nav .back-button a img, .sheet-nav .delete-character-button a img {
   display: block;
   position: relative;
   margin-bottom: 0;
@@ -863,10 +863,10 @@ nav .back-button a img, nav .delete-character-button a img {
   width: auto;
   height: 20px;
 }
-nav .back-button a:hover, nav .back-button a:focus, nav .delete-character-button a:hover, nav .delete-character-button a:focus {
+.sheet-nav .back-button a:hover, .sheet-nav .back-button a:focus, .sheet-nav .delete-character-button a:hover, .sheet-nav .delete-character-button a:focus {
   background-color: #1d65ff;
 }
-nav .delete-character-button {
+.sheet-nav .delete-character-button {
   position: absolute;
   right: 0;
   left: auto;
@@ -876,15 +876,15 @@ nav .delete-character-button {
   height: 100%;
   width: auto;
 }
-nav .delete-character-button button {
+.sheet-nav .delete-character-button button {
   background: transparent;
 }
-nav .delete-character-button img {
+.sheet-nav .delete-character-button img {
   display: block;
   height: 20px;
   width: auto;
 }
-nav .delete-character-button:hover, nav .delete-character-button:focus {
+.sheet-nav .delete-character-button:hover, .sheet-nav .delete-character-button:focus {
   background: #b31f1f;
 }
 
@@ -922,4 +922,83 @@ nav .delete-character-button:hover, nav .delete-character-button:focus {
   position: absolute;
   top: 20px;
   right: 20px;
+}
+
+/* -- Dark Mode --------------------------------------------- */
+/* html.dark-mode {
+	background-color: #000;
+	filter: invert(100%) brightness(75%);
+} */
+html.dark-mode {
+  background-color: #1a1a1a;
+  color: #ccc;
+}
+html.dark-mode a {
+  color: #6294ff;
+}
+html.dark-mode a:visited {
+  color: #6294ff;
+}
+html.dark-mode .button-primary, html.dark-mode .button-secondary {
+  border-color: #ccc;
+  background-color: #ccc;
+  color: #1a1a1a;
+}
+html.dark-mode .button-primary:visited, html.dark-mode .button-secondary:visited {
+  color: #1a1a1a;
+}
+html.dark-mode .button-primary:hover, html.dark-mode .button-secondary:hover, html.dark-mode .button-primary:focus, html.dark-mode .button-secondary:focus {
+  background-color: #eee;
+}
+html.dark-mode .reverse {
+  background-color: #ccc;
+  color: #1a1a1a;
+}
+html.dark-mode .reverse .field {
+  background-color: #ccc;
+  color: #1a1a1a;
+}
+html.dark-mode .reverse .field:hover, html.dark-mode .reverse .field:focus {
+  background-color: #eee;
+  color: #1d65ff;
+}
+html.dark-mode .box {
+  border-color: #ccc;
+}
+html.dark-mode .field {
+  color: #ccc;
+}
+html.dark-mode .field-visible {
+  background-color: #333;
+  color: #ccc;
+}
+html.dark-mode .field:hover, html.dark-mode .field:focus {
+  background-color: #333;
+}
+html.dark-mode .sheet-nav {
+  border-bottom: 1px solid #ccc;
+  background-color: #1a1a1a;
+}
+html.dark-mode .sheet-nav button {
+  background-color: #1a1a1a;
+  color: #ccc;
+}
+html.dark-mode .sheet-nav button:hover, html.dark-mode .sheet-nav button:focus {
+  color: #6294ff;
+}
+html.dark-mode .sheet-nav .active button {
+  background-color: #1d65ff;
+}
+html.dark-mode .sheet-nav .active button:hover, html.dark-mode .sheet-nav .active button:focus {
+  color: #fff;
+}
+html.dark-mode .quill-editor {
+  background-color: #222;
+  color: #ccc;
+}
+html.dark-mode .quill-editor [contenteditable] {
+  color: #ccc;
+}
+html.dark-mode .quill-editor a {
+  color: #6294ff;
 }

@@ -1,7 +1,7 @@
 <?php echo $this->render('templates/header.html',NULL,get_defined_vars(),0); ?>
 
 
-<div class="container container-slim">
+<div class="dashboard container container-slim">
     <h1>My Characters</h1>
 
     <?php if ($sheets): ?>
@@ -20,6 +20,15 @@
     <?php endforeach; ?>
 
     <p><a href="/add-sheet" class="button-primary">Add a character sheet</a></p>
+
+    <br><br>
+
+    <h1>Settings</h1>
+
+    <p>
+        <label for="settingDarkMode">Dark Mode (experimental)</label>:
+        <input id="settingDarkMode" type="checkbox">
+    </p>
 
     <div class="account-actions">
         <p><a href="/logout">Logout</a></p>

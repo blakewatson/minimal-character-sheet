@@ -1,5 +1,5 @@
 <template>
-    <nav>
+    <nav class="sheet-nav">
         <ul>
             <li class="back-button">
                 <a href="/dashboard">

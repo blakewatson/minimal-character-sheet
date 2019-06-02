@@ -22,11 +22,6 @@ $text: 'IBM Plex Mono', monospace;
 	clip: auto;
 }
 
-/* html {
-	background-color: #000;
-	filter: invert(100%) brightness(75%);
-} */
-
 body {
 	padding: 0 50px;
 	overflow-y: scroll;
@@ -64,6 +59,10 @@ h1 {
 
 p {
 	margin-bottom: 1rem;
+}
+
+a {
+	color: #1d65ff;
 }
 
 strong, .strong {
@@ -424,7 +423,7 @@ section {
 	}
 }
 
-nav {
+.sheet-nav {
 	display: block;
 	position: fixed;
 	top: 0;
@@ -576,4 +575,106 @@ nav {
 	position: absolute;
 	top: 20px;
 	right: 20px;
+}
+
+
+/* -- Dark Mode --------------------------------------------- */
+
+/* html.dark-mode {
+	background-color: #000;
+	filter: invert(100%) brightness(75%);
+} */
+
+html.dark-mode {
+	background-color: #1a1a1a;
+	color: #ccc;
+
+	a {
+		color: #6294ff;
+
+		&:visited {
+			color: #6294ff;
+		}
+	}
+
+	.button-primary {
+		border-color: #ccc;
+		background-color: #ccc;
+		color: #1a1a1a;
+
+		&:visited {
+			color: #1a1a1a;
+		}
+
+		&:hover, &:focus {
+			background-color: #eee;
+		}
+	}
+
+	.reverse {
+		background-color: #ccc;
+		color: #1a1a1a;
+
+		.field {
+			background-color: #ccc;
+			color: #1a1a1a;
+
+			&:hover, &:focus {
+				background-color: #eee;
+				color: #1d65ff;
+			}
+		}
+	}
+
+	.box {
+		border-color: #ccc
+	}
+
+	.field {
+		color: #ccc;
+
+		&-visible {
+			background-color: #333;
+			color: #ccc;
+		}
+
+		&:hover, &:focus {
+			background-color: #333;
+		}
+	}
+
+	.sheet-nav {
+		border-bottom: 1px solid #ccc;
+		background-color: #1a1a1a;
+
+		button {
+			background-color: #1a1a1a;
+			color: #ccc;
+
+			&:hover, &:focus {
+				color: #6294ff;
+			}
+		}
+
+		.active button {
+			background-color: #1d65ff;
+
+			&:hover, &:focus {
+				color: #fff;
+			}
+		}
+	}
+
+	.quill-editor {
+		background-color: #222;
+		color: #ccc;
+
+		[contenteditable] {
+			color: #ccc;
+		}
+
+		a {
+			color: #6294ff;
+		}
+	}
 }
