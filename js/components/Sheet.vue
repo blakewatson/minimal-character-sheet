@@ -60,10 +60,15 @@ export default {
 	methods: {
 		autosaveLoop() {
 			// trigger a quick autosave on every key up event
-			window.addEventListener('keyup', e => window.sheetEvent.$emit('autosave', 2));
+            // window.addEventListener('keyup', e => window.sheetEvent.$emit('autosave', 2));
+            
+            // trigger a quick autosave upon every store mutation
+            this.$store.subscribe((mutation, state) => {
+                window.sheetEvent.$emit('autosave', 1);
+            });
 	
 			// when this event fires, schedule a save
-			window.sheetEvent.$on('autosave', (seconds = 10) => {
+			window.sheetEvent.$on('autosave', (seconds = 5) => {
 				// convert to milliseconds
 				var milliseconds = seconds * 1000;
 	
@@ -78,7 +83,7 @@ export default {
 					console.log('save the character sheet');
 					this.saveSheetState();
 					// go ahead and schedule another autosave
-					window.sheetEvent.$emit('autosave');
+					// window.sheetEvent.$emit('autosave');
 				}, milliseconds);
 			});
 	

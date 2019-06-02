@@ -2512,12 +2512,14 @@ __webpack_require__.r(__webpack_exports__);
       var _this = this;
 
       // trigger a quick autosave on every key up event
-      window.addEventListener('keyup', function (e) {
-        return window.sheetEvent.$emit('autosave', 2);
+      // window.addEventListener('keyup', e => window.sheetEvent.$emit('autosave', 2));
+      // trigger a quick autosave upon every store mutation
+      this.$store.subscribe(function (mutation, state) {
+        window.sheetEvent.$emit('autosave', 1);
       }); // when this event fires, schedule a save
 
       window.sheetEvent.$on('autosave', function () {
-        var seconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+        var seconds = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 5;
         // convert to milliseconds
         var milliseconds = seconds * 1000; // reset the timer, if running
 
@@ -2531,9 +2533,8 @@ __webpack_require__.r(__webpack_exports__);
           console.log('save the character sheet');
 
           _this.saveSheetState(); // go ahead and schedule another autosave
+          // window.sheetEvent.$emit('autosave');
 
-
-          window.sheetEvent.$emit('autosave');
         }, milliseconds);
       }); // go ahead and trigger the first autosave
 
