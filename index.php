@@ -1,9 +1,23 @@
 <?php
 
+// load packages
 require_once('./vendor/autoload.php');
+
+// bring in Fat Free
 $f3 = require_once 'lib/base.php';
 
-$f3->set( 'DEBUG', 0 );
+// load phpdotenv
+$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv->load();
+
+// require POSTMARK_SECRET
+$dotenv->required( 'POSTMARK_SECRET' );
+
+// set default debug level
+$debug_level = getenv( 'DEBUG' );
+$debug_level = $debug_level ? $debug_level : 0;
+
+$f3->set( 'DEBUG', $debug_level );
 
 $f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/' );
 $f3->set( 'DB', new \DB\Jig( 'data/' ) );

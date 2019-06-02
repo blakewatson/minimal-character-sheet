@@ -1,5 +1,6 @@
 {
     "require": {
-        "wildbit/postmark-php": "^2.6"
+        "wildbit/postmark-php": "^2.6",
+        "vlucas/phpdotenv": "^3.3"
     }
 }

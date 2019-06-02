@@ -243,7 +243,8 @@ class Authentication {
     }
 
     public function email_token( $user ) {
-        $client = new PostmarkClient( '0702d221-ba34-4cb2-ba6f-82a28e4d70b7' );
+        $postmark_secret = getenv( 'POSTMARK_SECRET' );
+        $client = new PostmarkClient( $postmark_secret );
         $email = $user->get( 'email' );
         $to = $email;
         $from = 'minimalcharactersheet@blakewatson.com';
