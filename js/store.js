@@ -21,6 +21,10 @@ export default new Vuex.Store({
         totalHitDie: 1,
         ac: 10,
         speed: 25,
+        deathSaves: {
+            successes: [false, false, false],
+            failures: [false, false, false],
+        },
         abilities: [
             { name: 'STR', score: 10 },
             { name: 'DEX', score: 10 },
@@ -155,6 +159,15 @@ export default new Vuex.Store({
             if(!allowedFields.includes(field)) return;
             if(!state.hasOwnProperty(field)) return;
             state[field] = payload.val;
+        },
+
+        updateDeathSaves(state, payload) {
+            var key = payload.key; // 'successes' or 'failures'
+            var i = payload.i; // 0, 1, 2
+            var val = payload.val; // boolean
+            var deathSaves = { ...state.deathSaves };
+            deathSaves[key][i] = val;
+            state.deathSaves = deathSaves;
         },
 
         updateSkillProficiency(state, payload) {

@@ -1468,6 +1468,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var vue__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(vue__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
 /* harmony import */ var _level_data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./level-data */ "./js/level-data.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 
@@ -1491,6 +1495,10 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     totalHitDie: 1,
     ac: 10,
     speed: 25,
+    deathSaves: {
+      successes: [false, false, false],
+      failures: [false, false, false]
+    },
     abilities: [{
       name: 'STR',
       score: 10
@@ -1739,6 +1747,18 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       if (!allowedFields.includes(field)) return;
       if (!state.hasOwnProperty(field)) return;
       state[field] = payload.val;
+    },
+    updateDeathSaves: function updateDeathSaves(state, payload) {
+      var key = payload.key; // 'successes' or 'failures'
+
+      var i = payload.i; // 0, 1, 2
+
+      var val = payload.val; // boolean
+
+      var deathSaves = _objectSpread({}, state.deathSaves);
+
+      deathSaves[key][i] = val;
+      state.deathSaves = deathSaves;
     },
     updateSkillProficiency: function updateSkillProficiency(state, payload) {
       if (payload.i >= state.skills.links) return;
@@ -3037,11 +3057,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Vitals',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed', 'deathSaves'])),
   methods: {
     update: function update(item, e) {
       var value = e.target.innerText;
@@ -3050,6 +3074,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     updateVitals: function updateVitals(field, val) {
       this.$store.commit('updateVitals', {
         field: field,
+        val: val
+      });
+    },
+    updateDeathSaves: function updateDeathSaves(key, i, val) {
+      console.log(key, i, val);
+      this.$store.commit('updateDeathSaves', {
+        key: key,
+        i: i,
         val: val
       });
     }
@@ -4977,7 +5009,51 @@ var render = function() {
       1
     ),
     _vm._v(" "),
-    _vm._m(0)
+    _c("div", { staticClass: "box box-lite" }, [
+      _c("span", { staticClass: "centered label" }, [_vm._v("Death saves")]),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "row" },
+        [
+          _vm._m(0),
+          _vm._v(" "),
+          _vm._l(_vm.deathSaves.successes, function(save, i) {
+            return _c("input", {
+              attrs: { type: "checkbox" },
+              domProps: { checked: save },
+              on: {
+                input: function($event) {
+                  return _vm.updateDeathSaves("successes", i, !save)
+                }
+              }
+            })
+          })
+        ],
+        2
+      ),
+      _vm._v(" "),
+      _c(
+        "div",
+        { staticClass: "row" },
+        [
+          _vm._m(1),
+          _vm._v(" "),
+          _vm._l(_vm.deathSaves.failures, function(save, i) {
+            return _c("input", {
+              attrs: { type: "checkbox" },
+              domProps: { checked: save },
+              on: {
+                input: function($event) {
+                  return _vm.updateDeathSaves("failures", i, !save)
+                }
+              }
+            })
+          })
+        ],
+        2
+      )
+    ])
   ])
 }
 var staticRenderFns = [
@@ -4985,28 +5061,16 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "box box-lite" }, [
-      _c("span", { staticClass: "centered label" }, [_vm._v("Death saves")]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("span", [_vm._v("☑")]),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } })
-      ]),
-      _vm._v(" "),
-      _c("div", { staticClass: "row" }, [
-        _c("span", [_vm._v("☒")]),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } }),
-        _vm._v(" "),
-        _c("input", { attrs: { type: "checkbox" } })
-      ])
+    return _c("span", { staticClass: "mini-icon" }, [
+      _c("img", { attrs: { src: "/images/check.svg", alt: "Success" } })
+    ])
+  },
+  function() {
+    var _vm = this
+    var _h = _vm.$createElement
+    var _c = _vm._self._c || _h
+    return _c("span", { staticClass: "mini-icon" }, [
+      _c("img", { attrs: { src: "/images/skull.svg", alt: "Failure" } })
     ])
   }
 ]
@@ -18119,8 +18183,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })

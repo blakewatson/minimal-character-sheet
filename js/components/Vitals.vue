@@ -23,16 +23,20 @@
         <div class="box box-lite">
             <span class="centered label">Death saves</span>
             <div class="row">
-                <span>&#9745;</span>
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
+                <span class="mini-icon"><img src="/images/check.svg" alt="Success"></span>
+                <input
+                    type="checkbox"
+                    v-for="(save, i) in deathSaves.successes"
+                    :checked="save"
+                    @input="updateDeathSaves('successes', i, !save)">
             </div>
             <div class="row">
-                <span>&#9746;</span>
-                <input type="checkbox">
-                <input type="checkbox">
-                <input type="checkbox">
+                <span class="mini-icon"><img src="/images/skull.svg" alt="Failure"></span>
+                <input
+                    type="checkbox"
+                    v-for="(save, i) in deathSaves.failures"
+                    :checked="save"
+                    @input="updateDeathSaves('failures', i, !save)">
             </div>
         </div>
     </div>
@@ -46,7 +50,16 @@ export default {
     name: 'Vitals',
 
     computed: {
-        ...mapState(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed'])
+        ...mapState([
+            'hp',
+            'maxHp',
+            'tempHp',
+            'hitDie',
+            'totalHitDie',
+            'ac',
+            'speed',
+            'deathSaves'
+        ])
     },
 
     methods: {
@@ -57,6 +70,11 @@ export default {
 
         updateVitals(field, val) {
             this.$store.commit('updateVitals', { field, val });
+        },
+
+        updateDeathSaves(key, i, val) {
+            console.log(key, i, val);
+            this.$store.commit('updateDeathSaves', { key, i, val });
         }
     },
 

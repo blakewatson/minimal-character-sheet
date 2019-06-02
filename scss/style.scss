@@ -547,6 +547,20 @@ nav {
 }
 
 
+/* -- Images & Icons ---------------------------------------- */
+
+.mini-icon {
+	width: 1em;
+	height: 1em;
+
+	svg {
+		display: block;
+		max-width: 100%;
+		max-height: 100%;
+	}
+}
+
+
 /* -- Dashboard --------------------------------------------- */
 
 .account-actions {
