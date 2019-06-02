@@ -3067,6 +3067,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
@@ -5071,7 +5075,25 @@ var render = function() {
         "div",
         { staticClass: "row" },
         [
-          _vm._m(0),
+          _c("span", { staticClass: "mini-icon" }, [
+            _c(
+              "svg",
+              {
+                attrs: {
+                  xmlns: "http://www.w3.org/2000/svg",
+                  viewBox: "0 0 512 512"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M173.898 439.404l-166.4-166.4c-9.997-9.997-9.997-26.206 0-36.204l36.203-36.204c9.997-9.998 26.207-9.998 36.204 0L192 312.69 432.095 72.596c9.997-9.997 26.207-9.997 36.204 0l36.203 36.204c9.997 9.997 9.997 26.206 0 36.204l-294.4 294.401c-9.998 9.997-26.207 9.997-36.204-.001z"
+                  }
+                })
+              ]
+            )
+          ]),
           _vm._v(" "),
           _vm._l(_vm.deathSaves.successes, function(save, i) {
             return _c("input", {
@@ -5092,7 +5114,27 @@ var render = function() {
         "div",
         { staticClass: "row" },
         [
-          _vm._m(1),
+          _c("span", { staticClass: "mini-icon" }, [
+            _c(
+              "svg",
+              {
+                attrs: {
+                  version: "1.1",
+                  viewBox: "0 0 512 512",
+                  xmlns: "http://www.w3.org/2000/svg",
+                  "xmlns:xlink": "http://www.w3.org/1999/xlink"
+                }
+              },
+              [
+                _c("path", {
+                  attrs: {
+                    d:
+                      "M344,200c-30.9,0 -56,25.1 -56,56c0,30.9 25.1,56 56,56c30.9,0 56,-25.1 56,-56c0,-30.9 -25.1,-56 -56,-56Zm-176,0c-30.9,0 -56,25.1 -56,56c0,30.9 25.1,56 56,56c30.9,0 56,-25.1 56,-56c0,-30.9 -25.1,-56 -56,-56Zm88,-200c-141.4,0 -256,100.3 -256,224c0,70.1 36.9,132.6 94.5,173.7c9.7,6.9 15.2,18.1 13.5,29.9l-6.8,47.9c-2.7,19.3 12.2,36.5 31.7,36.5h246.3c19.5,0 34.4,-17.2 31.7,-36.5l-6.8,-47.9c-1.7,-11.7 3.8,-23 13.5,-29.9c57.5,-41.1 94.4,-103.6 94.4,-173.7c0,-123.7 -114.6,-224 -256,-224Zm133.7,358.6c-24.6,17.5 -37.3,46.5 -33.2,75.7l4.2,29.7h-40.7v-40c0,-4.4 -3.6,-8 -8,-8h-16c-4.4,0 -8,3.6 -8,8v40h-64v-40c0,-4.4 -3.6,-8 -8,-8h-16c-4.4,0 -8,3.6 -8,8v40h-40.7l4.2,-29.7c4.1,-29.2 -8.6,-58.2 -33.2,-75.7c-47.2,-33.7 -74.3,-82.7 -74.3,-134.6c0,-97 93.3,-176 208,-176c114.7,0 208,79 208,176c0,51.9 -27.1,100.9 -74.3,134.6Z"
+                  }
+                })
+              ]
+            )
+          ]),
           _vm._v(" "),
           _vm._l(_vm.deathSaves.failures, function(save, i) {
             return _c("input", {
@@ -5111,24 +5153,7 @@ var render = function() {
     ])
   ])
 }
-var staticRenderFns = [
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "mini-icon" }, [
-      _c("img", { attrs: { src: "/images/check.svg", alt: "Success" } })
-    ])
-  },
-  function() {
-    var _vm = this
-    var _h = _vm.$createElement
-    var _c = _vm._self._c || _h
-    return _c("span", { staticClass: "mini-icon" }, [
-      _c("img", { attrs: { src: "/images/death.svg", alt: "Failure" } })
-    ])
-  }
-]
+var staticRenderFns = []
 render._withStripped = true
 
 

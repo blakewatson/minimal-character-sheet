@@ -915,6 +915,7 @@ section > .label {
   display: block;
   max-width: 100%;
   max-height: 100%;
+  fill: #000;
 }
 
 /* -- Dashboard --------------------------------------------- */
@@ -1001,4 +1002,7 @@ html.dark-mode .quill-editor [contenteditable] {
 }
 html.dark-mode .quill-editor a {
   color: #6294ff;
+}
+html.dark-mode .mini-icon svg {
+  fill: #ccc;
 }

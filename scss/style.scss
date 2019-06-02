@@ -565,6 +565,7 @@ section {
 		display: block;
 		max-width: 100%;
 		max-height: 100%;
+		fill: #000;
 	}
 }
 
@@ -676,5 +677,9 @@ html.dark-mode {
 		a {
 			color: #6294ff;
 		}
+	}
+
+	.mini-icon svg {
+		fill: #ccc;
 	}
 }
