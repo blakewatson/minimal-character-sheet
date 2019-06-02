@@ -3,7 +3,7 @@
         <ul>
             <li class="back-button">
                 <a href="/dashboard">
-                    <img src="/images/back.svg" alt="Dashboard">
+                    <img src="/images/arrow-left.svg" alt="Dashboard">
                 </a>
             </li>
             <li :class="{ active: view === 'main' }"><button @click="updateView('main')">Main</button></li>

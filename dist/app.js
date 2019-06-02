@@ -4833,7 +4833,9 @@ var staticRenderFns = [
     var _c = _vm._self._c || _h
     return _c("li", { staticClass: "back-button" }, [
       _c("a", { attrs: { href: "/dashboard" } }, [
-        _c("img", { attrs: { src: "/images/back.svg", alt: "Dashboard" } })
+        _c("img", {
+          attrs: { src: "/images/arrow-left.svg", alt: "Dashboard" }
+        })
       ])
     ])
   }
