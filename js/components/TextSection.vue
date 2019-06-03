@@ -19,6 +19,7 @@ export default {
             'equipmentText',
             'proficienciesText',
             'featuresText',
+            'personalityText',
             'backstoryText',
             'treasureText',
             'organizationsText'

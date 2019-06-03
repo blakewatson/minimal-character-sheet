@@ -72,6 +72,7 @@ export default new Vuex.Store({
         equipmentText: {},
         proficienciesText: {},
         featuresText: {},
+        personalityText: {},
         backstoryText: {},
         treasureText: {},
         organizationsText: {},

@@ -26,6 +26,8 @@
         </div>
 
         <div class="page" v-show="view === 'details'">
+            <text-section title="Traits, Ideals, Bonds, & Flaws" field="personalityText"></text-section>
+
             <text-section title="Character Backstory" field="backstoryText"></text-section>
     
             <text-section title="Treasure" field="treasureText"></text-section>

@@ -1630,6 +1630,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     equipmentText: {},
     proficienciesText: {},
     featuresText: {},
+    personalityText: {},
     backstoryText: {},
     treasureText: {},
     organizationsText: {},
@@ -2489,6 +2490,8 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
+//
 
 
 
@@ -2987,7 +2990,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TextSection',
   props: ['title', 'field'],
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipmentText', 'proficienciesText', 'featuresText', 'backstoryText', 'treasureText', 'organizationsText']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipmentText', 'proficienciesText', 'featuresText', 'personalityText', 'backstoryText', 'treasureText', 'organizationsText']), {
     textField: function textField() {
       if (!this[this.field]) return '';
       return this[this.field];
@@ -4377,6 +4380,13 @@ var render = function() {
           staticClass: "page"
         },
         [
+          _c("text-section", {
+            attrs: {
+              title: "Traits, Ideals, Bonds, & Flaws",
+              field: "personalityText"
+            }
+          }),
+          _vm._v(" "),
           _c("text-section", {
             attrs: { title: "Character Backstory", field: "backstoryText" }
           }),
