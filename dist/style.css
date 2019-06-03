@@ -951,6 +951,18 @@ html.dark-mode .button-primary:visited, html.dark-mode .button-secondary:visited
 html.dark-mode .button-primary:hover, html.dark-mode .button-secondary:hover, html.dark-mode .button-primary:focus, html.dark-mode .button-secondary:focus {
   background-color: #eee;
 }
+html.dark-mode .button-secondary {
+  background-color: transparent;
+  color: #ccc;
+}
+html.dark-mode .button-secondary:visited {
+  color: #ccc;
+}
+html.dark-mode .button-secondary:hover, html.dark-mode .button-secondary:focus {
+  border-color: #fff;
+  background-color: transparent;
+  color: #fff;
+}
 html.dark-mode .reverse {
   background-color: #ccc;
   color: #1a1a1a;
@@ -989,6 +1001,7 @@ html.dark-mode .sheet-nav button:hover, html.dark-mode .sheet-nav button:focus {
 }
 html.dark-mode .sheet-nav .active button {
   background-color: #1d65ff;
+  color: #fff;
 }
 html.dark-mode .sheet-nav .active button:hover, html.dark-mode .sheet-nav .active button:focus {
   color: #fff;

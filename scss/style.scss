@@ -612,6 +612,21 @@ html.dark-mode {
 		}
 	}
 
+	.button-secondary {
+		background-color: transparent;
+		color: #ccc;
+
+		&:visited {
+			color: #ccc;
+		}
+
+		&:hover, &:focus {
+			border-color: #fff;
+			background-color: transparent;
+			color: #fff;
+		}
+	}
+
 	.reverse {
 		background-color: #ccc;
 		color: #1a1a1a;
@@ -659,6 +674,7 @@ html.dark-mode {
 
 		.active button {
 			background-color: #1d65ff;
+			color: #fff;
 
 			&:hover, &:focus {
 				color: #fff;
