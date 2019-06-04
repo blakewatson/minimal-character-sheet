@@ -925,6 +925,11 @@ section > .label {
   right: 20px;
 }
 
+.support-me {
+  margin-top: 200px;
+  text-align: center;
+}
+
 /* -- Dark Mode --------------------------------------------- */
 /* html.dark-mode {
 	background-color: #000;
