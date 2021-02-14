@@ -50,9 +50,11 @@ class Token {
 	}
 
 	public function verify() {
-        if( $this->clear == NULL ) return false;
+    if( $this->clear == NULL ) return false;
 
-		if( ! password_verify( $this->clear, $this->hash ) ) return false;
+		if( ! password_verify( $this->clear, $this->hash ) ) {
+			return false;
+		}
 
 		return true;
 	}

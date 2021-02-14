@@ -64,7 +64,7 @@ class Authentication {
         if( $result !== false ) {
             $user->set( 'token', $user->make_token( '1 day' ) );
             $user->save();
-            $this->email_token( $user );
+            $this->email_confirmation_token( $user );
         }
 
         $f3->set( 'success_message', 'An email has been sent to the email address provided.' );
@@ -80,24 +80,12 @@ class Authentication {
             echo \Template::instance()->render( 'templates/confirm.html' );
             return;
         }
-
-        // get the user's token
-        $token = $user->get_token();
-        // delete this if it's a one time use token
-        if( $token->one_time ) $user->delete_token();
-        // add the clear-text token
-        $token->clear = $params['clear_token'];
-
-        // check if token is expired
-        if( $token->is_expired() ) {
-            $f3->set( 'error_message', 'Token is expired.' );
-            echo \Template::instance()->render( 'templates/confirm.html' );
-            return;
-        }
-
-        // check if token is invalid
-        if( ! $token->verify() ) {
-            $f3->set( 'error_message', 'Token is invalid.' );
+        
+        // verify the token
+        $error_message = $this->verify_user_token( $user, $params['clear_token'] );
+        
+        if( $error_message ) {
+            $f3->set( 'error_message', $error_message );
             echo \Template::instance()->render( 'templates/confirm.html' );
             return;
         }
@@ -147,7 +135,7 @@ class Authentication {
 
         $user->set( 'token', $user->make_token( '1 day' ) );
         $user->save();
-        $this->email_token( $user );
+        $this->email_confirmation_token( $user );
         
         $f3->set( 'success_message', 'An email has been sent to the email address provided.' );
         echo \Template::instance()->render( 'templates/re-confirm.html' );
@@ -216,6 +204,134 @@ class Authentication {
         $f3->set( 'SESSION', [] );
         $f3->reroute( '/' );
     }
+    
+    public function request_password_reset_form( $f3 ) {
+        $this->set_csrf();
+        echo \Template::instance()->render( 'templates/request-password-reset.html' );
+    }
+    
+    public function request_password_reset( $f3 ) {
+        $f3->set( 'submitted', true );
+        
+        // check honeypot
+        if( $f3->get( 'POST.username' ) ) {
+            $f3->set( 'error_message', 'Invalid login. 1' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/request-password-reset.html' );
+            return;
+        }
+
+        // check csrf
+        if( $this->verify_csrf() ) {
+            $f3->set( 'error_message', 'Invalid login. 2' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/request-password-reset.html' );
+            return;
+        }
+
+        // get form data
+        $email = $f3->get( 'POST.email' );
+
+        // get user
+        $user = new User( $f3->get( 'DB' ) );
+        $user->get_by_email( $email );
+        
+        if( $user->dry() ) {
+            return;
+        }
+        
+        // send password reset token
+        $user->set( 'reset_token', $user->make_token( '1 hour' ) );
+        $user->save();
+        $this->email_password_reset_token( $user );
+        
+        $this->set_csrf();
+        echo \Template::instance()->render( 'templates/request-password-reset.html' );
+    }
+    
+    public function password_reset_form( $f3, $params ) {
+        // get the user received from the URL
+        $user = new User( $f3->get( 'DB' ) );
+        $user->get_by_email( $params['email'] );
+        
+        // check user exists
+        if( $user->dry() ) {
+            $f3->set( 'error_message', 'Something went wrong.' );
+            echo \Template::instance()->render( 'templates/password-reset.html' );
+            return;
+        }
+        
+        // this email is saved to a hidden input and validated against the token on
+        // the post request.
+        $f3->set( 'email', $user->get( 'email' ) );
+        
+        // this token is saved to a hidden input and validated on the post request
+        $f3->set( 'clear_token', $params['clear_token'] );
+        
+        $f3->set( 'show_form', true );
+        
+        $this->set_csrf();
+        echo \Template::instance()->render( 'templates/password-reset.html' );
+    }
+    
+    public function password_reset( $f3, $params ) {
+        // check honeypot
+        if( $f3->get( 'POST.phone' ) ) {
+            $f3->set( 'error_message', 'Invalid login. 1' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/password-reset.html' );
+            return;
+        }
+
+        // check csrf
+        if( $this->verify_csrf() ) {
+            $f3->set( 'error_message', 'Invalid login. 2' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/password-reset.html' );
+            return;
+        }
+        
+        $user = new User( $f3->get( 'DB' ) );
+        $user->get_by_email( $f3->get( 'POST.email' ) );
+        
+        if( $user->dry() ) {
+            $f3->set( 'error_message', 'Something went wrong.' );
+            echo \Template::instance()->render( 'templates/password-reset.html' );
+            return;
+        }
+        
+        // set these hidden inputs
+        $f3->set( 'email', $user->get( 'email' ) );
+        $f3->set( 'clear_token', $f3->get( 'POST.clear_token' ) );
+        
+        $pw1 = $f3->get( 'POST.pw1' );
+        $pw2 = $f3->get( 'POST.pw2' );
+        
+        if( $pw1 !== $pw2 ) {
+            $f3->set( 'error_message', 'Passwords do not match. Please try again.' );
+            $f3->set( 'show_form', true );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/password-reset.html' );
+            return;
+        }
+        
+        $error_message = $this->verify_user_token( $user, $f3->get( 'POST.clear_token' ), 'reset_token' );
+        
+        if( $error_message ) {
+            $f3->set( 'error_message', $error_message );
+            echo \Template::instance()->render( 'templates/password-reset.html' );
+            return;
+        }
+        
+        // success! change the password
+        $user->set( 'pw', password_hash( $pw1, PASSWORD_DEFAULT ) );
+        $user->save();
+        
+        // show success message
+        $f3->set( 'success', true );
+        
+        echo \Template::instance()->render( 'templates/password-reset.html' );
+    }
 
     public function is_logged_in() {
         $email = $this->f3->get( 'SESSION.email' );
@@ -241,23 +357,64 @@ class Authentication {
         if( $csrf !== $this->f3->get( 'SESSION.csrf' ) ) return false;
         return true;
     }
+    
+    public function verify_user_token( $user, $clear_token, $token_key = 'token' ) {
+        // get the user's token
+        $token = $user->get_token( $token_key );
+        
+        // delete this if it's a one time use token
+        if( $token->one_time ) {
+            $user->delete_reset_token();
+        }
+        
+        // add the clear-text token
+        $token->clear = $clear_token;
 
-    public function email_token( $user ) {
+        // check if token is expired
+        if( $token->is_expired() ) {
+            return 'Token is expired.';
+        }
+
+        // check if token is invalid
+        if( ! $token->verify() ) {
+            return 'Token is invalid.';
+        }
+    }
+    
+    public function email_confirmation_token( $user ) {
+        $this->email_token( $user, 'register/confirm', 'Confirm your account', 'Click here to confirm your account:' );
+    }
+    
+    public function email_password_reset_token( $user ) {
+        $message = "You recently requested a password reset. If this wasn't you, ignore this message. If you do wish to reset your password, click the following link:";
+        $this->email_token( $user, 'password-reset', 'Reset your password', $message );
+    }
+
+    public function email_token( $user, $url_path, $subject, $message ) {
+        $env = getenv( 'ENV' );
         $postmark_secret = getenv( 'POSTMARK_SECRET' );
         $client = new PostmarkClient( $postmark_secret );
+        
+        // construct email
         $email = $user->get( 'email' );
         $to = $email;
         $from = 'minimalcharactersheet@blakewatson.com';
-        $subject = 'Confirm your account';
+        $subject = $subject;
+        
+        // if in development, use test email
+        if( $env === 'DEVELOPMENT' ) {
+            $to = 'test@blackhole.postmarkapp.com';
+        }
 
         $url = sprintf(
-            'https://%s/register/confirm/%s/%s',
+            'https://%s/%s/%s/%s',
             $_SERVER['SERVER_NAME'],
+            $url_path,
             $email,
             $user->token_cleartext
         );
 
-        $message = "Click here to confirm your account: \n\n$url";
+        $message = "$message\n\n$url";
 
         $result = $client->sendEmail(
             $from,

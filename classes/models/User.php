@@ -43,9 +43,9 @@ class User extends \DB\Jig\Mapper {
         return $token;
     }
 
-    public function get_token() {
+    public function get_token( $key = 'token' ) {
         $token_obj = new Token();
-        $token = $this->get( 'token' );
+        $token = $this->get( $key );
         $token_obj->hash = $token['hash'];
         $token_obj->expiry = $token['expiry'];
         $token_obj->one_time = $token['one_time'];
@@ -54,6 +54,11 @@ class User extends \DB\Jig\Mapper {
 
     public function delete_token() {
         $this->set( 'token', NULL );
+        $this->save();
+    }
+    
+    public function delete_reset_token() {
+        $this->set( 'reset_token', NULL );
         $this->save();
     }
 

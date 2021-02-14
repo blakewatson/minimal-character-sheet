@@ -9,7 +9,11 @@
             </check>
 
             <check if="@failed_confirmation">
-                <p>You must confirm your account before you can log in. Please check your email. Never received the email? <a href="/register/confirm/send">Click here to send a new confirmation email</a>.</p>
+                <p>
+                    You must confirm your account before you can log in. Please check your email.
+                    Never received the email? <a href="/register/confirm/send">Click here to send a new confirmation email</a>.
+                    <a href="/">Go to homepage</a>.
+                </p>
             </check>
     
             <form action="/login" method="post">
@@ -30,6 +34,8 @@
             </form>
     
             <p><a href="/register">Create an account</a></p>
+            
+            <p><a href="/request-password-reset">Forgot password?</a></p>
         </div>
     </div>
 

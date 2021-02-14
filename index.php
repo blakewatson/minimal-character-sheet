@@ -49,4 +49,10 @@ $f3->route( 'POST /register/confirm/send', 'Authentication->resend_confirmation'
 $f3->route( 'GET /register', 'Authentication->registration_form' );
 $f3->route( 'POST /register', 'Authentication->register' );
 
+// password reset
+$f3->route( 'GET /request-password-reset', 'Authentication->request_password_reset_form' );
+$f3->route( 'POST /request-password-reset', 'Authentication->request_password_reset' );
+$f3->route( 'GET /password-reset/@email/@clear_token', 'Authentication->password_reset_form' );
+$f3->route( 'POST /password-reset', 'Authentication->password_reset' );
+
 $f3->run();
