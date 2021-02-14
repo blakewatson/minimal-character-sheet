@@ -6,6 +6,7 @@
             <label for="sheet-name" class="label block">What&rsquo;s your character&rsquo;s name?</label>
             <input type="text" class="field field-visible" id="sheet-name" name="sheet_name" autofocus><br>
             <button type="submit" class="button-primary">Create Sheet</button>
+            <a href="/dashboard" class="button">Cancel</a>
             <input type="hidden" name="csrf" value="{{ @CSRF }}">
         </form>
     </div>

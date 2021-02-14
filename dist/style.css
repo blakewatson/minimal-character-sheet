@@ -20,14 +20,14 @@
 }
 
 body {
-  padding: 0 50px;
+  padding: 0 25px;
   overflow-y: scroll;
   font-family: "IBM Plex Mono", monospace;
   line-height: 1.45em;
 }
 
 .sheet {
-  margin-top: 80px;
+  margin-top: 4em;
 }
 
 .container-slim {
@@ -92,7 +92,7 @@ section {
   margin: 1em auto;
   padding-bottom: 1em;
   border-bottom: 1px solid #ddd;
-  width: 550px;
+  max-width: 650px;
 }
 section:last-child {
   border-bottom: none;
@@ -801,8 +801,9 @@ section > .label {
   left: 50%;
   -webkit-transform: translateX(-50%);
           transform: translateX(-50%);
-  margin: 0 auto 2em auto;
-  width: 550px;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 650px;
   text-align: center;
   background-color: #000;
   z-index: 10;

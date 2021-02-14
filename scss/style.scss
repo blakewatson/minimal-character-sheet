@@ -1,6 +1,7 @@
 @import './mixins';
 
 $text: 'IBM Plex Mono', monospace;
+$page_width: 650px;
 
 .sr-only, .assistive-text {
 	position: absolute;
@@ -23,14 +24,14 @@ $text: 'IBM Plex Mono', monospace;
 }
 
 body {
-	padding: 0 50px;
+	padding: 0 25px;
 	overflow-y: scroll;
 	font-family: $text;
 	line-height: 1.45em;
 }
 
 .sheet {
-	margin-top: 80px;
+	margin-top: 4em;
 }
 
 .container-slim {
@@ -96,7 +97,7 @@ section {
 	margin: 1em auto;
 	padding-bottom: 1em;
 	border-bottom: 1px solid #ddd;
-	width: 550px;
+	max-width: $page_width;
 
 	&:last-child {
 		border-bottom: none;
@@ -429,8 +430,9 @@ section {
 	top: 0;
 	left: 50%;
 	transform: translateX(-50%);
-	margin: 0 auto 2em auto;
-	width: 550px;
+	margin: 0 auto;
+	width: 100%;
+	max-width: $page_width;
 	text-align: center;
 	background-color: #000;
 	z-index: 10;

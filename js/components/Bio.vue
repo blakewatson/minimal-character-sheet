@@ -7,6 +7,7 @@
                 <span class="sep">&middot;</span>
                 <label for="characterClass" class="small muted sr-only">Class</label>
                 <field id="characterClass" align="left" :value="className" placeholder="Class" @update-value="updateBio('className', $event)"></field>
+                <br>
                 <label for="characterLevel" class="small muted">Level</label>
                 <field id="characterLevel" :value="level" type="number" min="1" @update-value="updateLevel"></field>
                 <span class="sep">&middot;</span>
