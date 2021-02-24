@@ -13,6 +13,7 @@ let mix = require('laravel-mix');
 
 mix
     .js('js/app.js', 'dist/app.js')
+    .js('js/dashboard.js', 'dist/dashboard.js')
     .sass('scss/style.scss', 'dist/style.css')
     .options({
         processCssUrls: false

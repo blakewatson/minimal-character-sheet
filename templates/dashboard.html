@@ -10,16 +10,33 @@
         </false>
     </check>
 
-    <repeat group="{{ @sheets }}" value="{{ @sheet }}">
-        <p><a href="/sheet/{{ @sheet.id }}">
-            <check if="@sheet.name">
-                <true>{{ @sheet.name }}</true>
-                <false>Untitled Character</false>
-            </check>
-        </a></p>
-    </repeat>
+    <ul id="sheet-list" class="sheet-list">
+        <repeat group="{{ @sheets }}" value="{{ @sheet }}">
+            <li class="row">
+                <p>
+                    <a href="/sheet/{{ @sheet.id }}">
+                        <check if="@sheet.name">
+                            <true>{{ @sheet.name }}</true>
+                            <false>Untitled Character</false>
+                        </check>
+                    </a>
+                </p>
+                
+                <p>
+                    <label>
+                        Public
+                        <input type="checkbox" data-sheet="{{ @sheet.id }}" {{ @sheet.is_public ? 'checked' : '' }}>
+                    </label>
+                </p>
+            </li>
+        </repeat>
+    </ul>
 
     <p><a href="/add-sheet" class="button-primary">Add a character sheet</a></p>
+    
+    <check if="{{ @sheets }}">
+        <p>Making a character sheet public means that anyone with the link can view a read-only version of the character sheet.</p>
+    </check>
 
     <br><br>
 
@@ -29,6 +46,8 @@
         <label for="settingDarkMode">Dark Mode (experimental)</label>:
         <input id="settingDarkMode" type="checkbox">
     </p>
+    
+    <input type="hidden" id="csrf" value="{{ @CSRF }}">
 
     <div class="account-actions">
         <p>

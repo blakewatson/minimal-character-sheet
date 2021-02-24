@@ -6,6 +6,10 @@
         <script>window.sheet = "{{ @sheet | raw }}";</script>
         <script src="{{ @BASE }}/dist/app.js"></script>
     </check>
+    
+    <check if="{{ @dashboard }}">
+        <script src="{{ @BASE }}/dist/dashboard.js"></script>
+    </check>
 
 </body>
 

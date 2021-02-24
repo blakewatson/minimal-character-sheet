@@ -22,7 +22,9 @@ class Sheet extends \DB\Jig\Mapper {
         return [
             'id' => $this->_id,
             'name' => $this->name,
-            'data' => $this->data
+            'data' => $this->data,
+            'is_public' => $this->exists( 'is_public' ) ? (bool) $this->get( 'is_public' ) : false,
+            'email' => $this->email
         ];
     }
 
@@ -36,6 +38,8 @@ class Sheet extends \DB\Jig\Mapper {
                 'id' => $this->_id,
                 'name' => $this->name,
                 'data' => $this->data,
+                'is_public' => $this->exists( 'is_public' ) ? (bool) $this->get( 'is_public' ) : false,
+                'email' => $this->email
             ];
 
             $this->next();

@@ -30,7 +30,7 @@ $f3->route( 'GET /', function( $f3 ) {
 // dashboard
 $f3->route( 'GET /dashboard', 'Dashboard->sheet_list' );
 $f3->route( 'GET|POST /add-sheet', 'Dashboard->add_sheet' );
-// $f3->route( 'POST /add-sheet', 'Dashboard->add_sheet' );
+$f3->route( 'POST /make-public/@sheet_id', 'Dashboard->make_sheet_public' );
 
 // sheet view
 $f3->route( 'GET /sheet/@sheet_id', 'Dashboard->sheet_single' );
