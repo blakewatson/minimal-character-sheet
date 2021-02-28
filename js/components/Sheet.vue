@@ -132,18 +132,10 @@ export default {
         
         refreshLoop() {
             var sheetId = document.querySelector('#sheet-id').value;
-            var csrf = document.querySelector('#csrf').value;
             
-            fetch(`/sheet-data/${sheetId}`, {
-                method: 'GET',
-                headers: {
-                    'X-AJAX-CSRF': csrf
-                }
-            })
+            fetch(`/sheet-data/${sheetId}`)
             .then(r => r.json())
             .then(data => {
-                document.querySelector('#csrf').value = data.csrf;
-                
                 if(data.success) {
                     this.$store.dispatch('updateState', { sheet: data.sheet })
                     .catch(reason => console.log(reason));

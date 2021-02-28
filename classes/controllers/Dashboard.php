@@ -4,8 +4,19 @@ class Dashboard {
 
     private $auth;
 
-    public function __construct( $f3 ) {
+    public function __construct( $f3, $params ) {
         $this->auth = new Authentication( $f3 );
+        
+        // bypass initial auth check if this is a GET on a single sheet or sheet data.
+        // the sheet might be public. the sheet_single method will enforce auth if needed.
+        $method = $f3->get( 'SERVER' )['REQUEST_METHOD'];
+        $sheet_or_sheet_data = strpos( $params[0], '/sheet/' ) === 0 || strpos( $params[0], '/sheet-data/' ) === 0;
+        
+        if( $method === 'GET' && $sheet_or_sheet_data ) {
+            return;
+        }
+        
+        // otherwise, enforce auth
         $this->auth->bounce();
     }
 
@@ -21,9 +32,10 @@ class Dashboard {
 
     public function sheet_single( $f3, $params ) {
         $id = $params['sheet_id'];
-        $email = $f3->get( 'SESSION.email' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet( $id );
+        $email = $f3->get( 'SESSION.email' );
+        
         
         // sheet not allowed to be accessed by current user
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
@@ -32,9 +44,14 @@ class Dashboard {
         }
         
         // read-only access allowed
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
+        if( $sheet_data['is_public'] && ! $email ) {
             // redact the email address
             $sheet_data['email'] = null;
+        }
+        
+        // if it’s not public, enforce auth
+        if( ! $sheet_data['is_public'] ) {
+            $this->auth->bounce();
         }
         
         $sheet_data = addslashes( json_encode( $sheet_data ) );
@@ -47,14 +64,6 @@ class Dashboard {
     }
     
     public function get_sheet_data( $f3, $params ) {
-        if( ! $this->auth->verify_ajax_csrf() ) {
-            $this->auth->set_csrf();
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
-            return;
-        }
-        
-        $this->auth->set_csrf();
-        
         $email = $f3->get( 'SESSION.email' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
@@ -73,8 +82,7 @@ class Dashboard {
         
         echo json_encode([
             'success' => true,
-            'sheet' => $sheet_data,
-            'csrf' => $f3->get( 'CSRF' )
+            'sheet' => $sheet_data
         ]);
     }
 

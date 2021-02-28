@@ -11,7 +11,7 @@
                 <select v-if="!readOnly" @input="updateSpellInfo('spAbility', $event.target.value)">
                     <option v-for="a in abilities" :value="a.name" :selected="spAbility === a.name">{{ a.name }}</option>
                 </select>
-                <span v-else>{{ spAbility }}</span>
+                <div class="block" style="padding: 0.25em;" v-else>{{ spAbility }}</div>
             </div>
             <div class="box">
                 <span class="label centered reverse">Spell Save DC</span>
