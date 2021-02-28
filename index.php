@@ -55,4 +55,8 @@ $f3->route( 'POST /request-password-reset', 'Authentication->request_password_re
 $f3->route( 'GET /password-reset/@email/@clear_token', 'Authentication->password_reset_form' );
 $f3->route( 'POST /password-reset', 'Authentication->password_reset' );
 
+$f3->set( 'ONERROR', function( $f3, $params ) {
+    echo \Template::instance()->render( 'templates/error.html' );
+} );
+
 $f3->run();

@@ -927,7 +927,7 @@ section > .label {
 .sheet-list li {
   margin: 0;
   padding: 0.5em 0;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.2);
 }
 .sheet-list p {
   margin: 0;
@@ -1037,4 +1037,7 @@ html.dark-mode .quill-editor a {
 }
 html.dark-mode .mini-icon svg {
   fill: #ccc;
+}
+html.dark-mode .sheet-list li {
+  border-bottom-color: rgba(255, 255, 255, 0.2);
 }

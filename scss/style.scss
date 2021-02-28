@@ -581,7 +581,7 @@ section {
 	li {
 		margin: 0;
 		padding: 0.5em 0;
-		border-bottom: 1px solid rgba(#fff, 0.2);
+		border-bottom: 1px solid rgba(#000, 0.2);
 	}
 	
 	p {
@@ -719,5 +719,9 @@ html.dark-mode {
 
 	.mini-icon svg {
 		fill: #ccc;
+	}
+	
+	.sheet-list li {
+		border-bottom-color: rgba(#fff, 0.2);
 	}
 }

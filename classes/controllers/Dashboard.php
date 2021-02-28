@@ -24,6 +24,11 @@ class Dashboard {
         $email = $f3->get( 'SESSION.email' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet( $id );
+        
+        if( strtolower( $sheet['email'] ) !== strtolower( $email ) && ! $sheet['is_public'] ) {
+            $f3->error( 404 );
+        }
+        
         $sheet_data = addslashes( json_encode( $sheet_data ) );
         $f3->set( 'sheet', $sheet_data );
         $f3->set( 'sheet_id', $id );
@@ -47,21 +52,30 @@ class Dashboard {
 
     public function save_sheet( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
+            $this->auth->set_csrf();
             echo json_encode([ 'success' => false ]);
             return;
         }
+        
+        $this->auth->set_csrf();
 
+        $email = $f3->get( 'SESSION.email' );
         $name = $f3->get( 'REQUEST.name' );
         $data = $f3->get( 'REQUEST.data' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
+        $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
+        
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            return;
+        }
+        
         $result = $sheet->save_sheet( $params['sheet_id'], $name, $data );
 
         if( ! $result ) {
-            echo json_encode([ 'success' => false ]);
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
             return;
         }
-
-        $this->auth->set_csrf();
 
         echo json_encode([
             'success' => true,
