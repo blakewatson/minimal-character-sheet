@@ -1,7 +1,6 @@
 (function() {
     // init dark mode
     var darkMode = localStorage.getItem('setting-dark-mode') === 'true';
-    console.log(darkMode);
     setDarkMode(darkMode);
 
     // if on dashboard, respond to settings controls

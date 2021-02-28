@@ -143,7 +143,7 @@ function bindCheckboxes(sheets) {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/dashboard.js */"./js/dashboard.js");
+module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/dashboard.js */"./js/dashboard.js");
 
 
 /***/ })

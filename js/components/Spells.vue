@@ -8,9 +8,10 @@
             </div>
             <div class="box box-lite">
                 <span class="label centered">Ability</span>
-                <select :disabled="readOnly" @input="updateSpellInfo('spAbility', $event.target.value)">
+                <select v-if="!readOnly" @input="updateSpellInfo('spAbility', $event.target.value)">
                     <option v-for="a in abilities" :value="a.name" :selected="spAbility === a.name">{{ a.name }}</option>
                 </select>
+                <span v-else>{{ spAbility }}</span>
             </div>
             <div class="box">
                 <span class="label centered reverse">Spell Save DC</span>
@@ -57,7 +58,6 @@ export default {
 
     methods: {
         updateSpellInfo(field, val) {
-            console.log(val)
             this.$store.commit( 'updateSpellInfo', { field, val } );
         },
     },

@@ -26,12 +26,13 @@ class Dashboard {
         $sheet_data = $sheet->get_sheet( $id );
         
         // sheet not allowed to be accessed by current user
-        if( strtolower( $sheet['email'] ) !== strtolower( $email ) && ! $sheet['is_public'] ) {
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
             $f3->error( 404 );
+            return;
         }
         
         // read-only access allowed
-        if( strtolower( $sheet['email'] ) !== strtolower( $email ) && $sheet['is_public'] ) {
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
             // redact the email address
             $sheet_data['email'] = null;
         }
@@ -43,6 +44,38 @@ class Dashboard {
         $this->auth->set_csrf();
         
         echo \Template::instance()->render( 'templates/sheet.html' );
+    }
+    
+    public function get_sheet_data( $f3, $params ) {
+        if( ! $this->auth->verify_ajax_csrf() ) {
+            $this->auth->set_csrf();
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            return;
+        }
+        
+        $this->auth->set_csrf();
+        
+        $email = $f3->get( 'SESSION.email' );
+        $sheet = new Sheet( $f3->get( 'DB' ) );
+        $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
+        
+        // sheet not allowed to be accessed by current user
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
+            $f3->error( 404 );
+            return;
+        }
+        
+        // read-only access allowed
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
+            // redact the email address
+            $sheet_data['email'] = null;
+        }
+        
+        echo json_encode([
+            'success' => true,
+            'sheet' => $sheet_data,
+            'csrf' => $f3->get( 'CSRF' )
+        ]);
     }
 
     public function add_sheet( $f3 ) {

@@ -1881,6 +1881,25 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       commit('replaceState', {
         state: state
       });
+    },
+    updateState: function updateState(_ref3, payload) {
+      var commit = _ref3.commit;
+      var sheet = payload.sheet;
+      var state = {};
+
+      if (sheet.data) {
+        // maintain defaults for newly added fields that might not be in the json data
+        state = Object.assign({}, state, JSON.parse(sheet.data));
+      }
+
+      state.id = sheet.id;
+      state.characterName = sheet.name;
+      state.readOnly = sheet.is_public && sheet.email === null;
+      commit('replaceState', {
+        state: state
+      }); // we need to let the quill editors know to update their contents
+
+      window.sheetEvent.$emit('quill-refresh');
     }
   }
 }));
@@ -2396,16 +2415,26 @@ __webpack_require__.r(__webpack_exports__);
       this.editor.disable();
     }
 
-    this.editor.on('text-change', function () {
-      _this.contents = _this.editor.getContents();
+    if (!this.readOnly) {
+      this.editor.on('text-change', function () {
+        console.log('text-change');
+        _this.contents = _this.editor.getContents();
 
-      _this.$emit('quill-text-change', _this.contents);
-    });
+        _this.$emit('quill-text-change', _this.contents);
+      });
+    }
+
     this.$el.addEventListener('click', function (event) {
       if (event.target.nodeName === 'A') {
         window.open(event.target.href, '_blank');
       }
     });
+
+    if (this.readOnly) {
+      window.sheetEvent.$on('quill-refresh', function () {
+        _this.editor.setContents(_this.initialContents);
+      });
+    }
   }
 });
 
@@ -2456,9 +2485,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         proficient: !this.savingThrow.proficient
       });
     }
-  },
-  created: function created() {
-    console.log(this.savingThrow);
   }
 });
 
@@ -2541,7 +2567,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   data: function data() {
     return {
       view: 'main',
-      autosaveTimer: null
+      autosaveTimer: null,
+      isPublic: false
     };
   },
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['readOnly'])),
@@ -2549,9 +2576,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     autosaveLoop: function autosaveLoop() {
       var _this = this;
 
-      // trigger a quick autosave on every key up event
-      // window.addEventListener('keyup', e => window.sheetEvent.$emit('autosave', 2));
-      // trigger a quick autosave upon every store mutation
+      if (this.isPublic) {
+        return;
+      } // trigger a quick autosave upon every store mutation
+
+
       this.$store.subscribe(function (mutation, state) {
         window.sheetEvent.$emit('autosave', 1);
       }); // when this event fires, schedule a save
@@ -2581,6 +2610,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     saveSheetState: function saveSheetState() {
       var _this2 = this;
 
+      if (this.isPublic) {
+        return;
+      }
+
       this.$store.dispatch('getJSON').then(function (jsonState) {
         var sheetId = document.querySelector('#sheet-id').value;
         var csrf = document.querySelector('#csrf').value;
@@ -2603,7 +2636,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         });
       }).catch(function (reason) {
-        return console.log(reason);
+        return console.error(reason);
+      });
+    },
+    refreshLoop: function refreshLoop() {
+      var _this3 = this;
+
+      var sheetId = document.querySelector('#sheet-id').value;
+      var csrf = document.querySelector('#csrf').value;
+      fetch("/sheet-data/".concat(sheetId), {
+        method: 'GET',
+        headers: {
+          'X-AJAX-CSRF': csrf
+        }
+      }).then(function (r) {
+        return r.json();
+      }).then(function (data) {
+        document.querySelector('#csrf').value = data.csrf;
+
+        if (data.success) {
+          _this3.$store.dispatch('updateState', {
+            sheet: data.sheet
+          }).catch(function (reason) {
+            return console.log(reason);
+          });
+        }
+      }).catch(function (reason) {
+        return console.error(reason);
       });
     }
   },
@@ -2619,7 +2678,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     'text-section': _TextSection__WEBPACK_IMPORTED_MODULE_9__["default"]
   },
   mounted: function mounted() {
-    this.autosaveLoop();
+    var _this4 = this;
+
+    var parsedSheet = JSON.parse(sheet);
+
+    if (parsedSheet.is_public && parsedSheet.email === null) {
+      this.isPublic = true;
+      setInterval(function () {
+        return _this4.refreshLoop();
+      }, 2000);
+    }
+
+    if (!this.isPublic) {
+      this.autosaveLoop();
+    }
   },
   created: function created() {
     // initialize state with the "sheet" global
@@ -2917,6 +2989,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
 
 
 
@@ -2926,7 +2999,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])),
   methods: {
     updateSpellInfo: function updateSpellInfo(field, val) {
-      console.log(val);
       this.$store.commit('updateSpellInfo', {
         field: field,
         val: val
@@ -3140,7 +3212,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       });
     },
     updateDeathSaves: function updateDeathSaves(key, i, val) {
-      console.log(key, i, val);
       this.$store.commit('updateDeathSaves', {
         key: key,
         i: i,
@@ -4832,30 +4903,34 @@ var render = function() {
         _c("div", { staticClass: "box box-lite" }, [
           _c("span", { staticClass: "label centered" }, [_vm._v("Ability")]),
           _vm._v(" "),
-          _c(
-            "select",
-            {
-              attrs: { disabled: _vm.readOnly },
-              on: {
-                input: function($event) {
-                  return _vm.updateSpellInfo("spAbility", $event.target.value)
-                }
-              }
-            },
-            _vm._l(_vm.abilities, function(a) {
-              return _c(
-                "option",
+          !_vm.readOnly
+            ? _c(
+                "select",
                 {
-                  domProps: {
-                    value: a.name,
-                    selected: _vm.spAbility === a.name
+                  on: {
+                    input: function($event) {
+                      return _vm.updateSpellInfo(
+                        "spAbility",
+                        $event.target.value
+                      )
+                    }
                   }
                 },
-                [_vm._v(_vm._s(a.name))]
+                _vm._l(_vm.abilities, function(a) {
+                  return _c(
+                    "option",
+                    {
+                      domProps: {
+                        value: a.name,
+                        selected: _vm.spAbility === a.name
+                      }
+                    },
+                    [_vm._v(_vm._s(a.name))]
+                  )
+                }),
+                0
               )
-            }),
-            0
-          )
+            : _c("span", [_vm._v(_vm._s(_vm.spAbility))])
         ]),
         _vm._v(" "),
         _c(
@@ -18409,8 +18484,8 @@ module.exports = g;
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
-module.exports = __webpack_require__(/*! /Users/blakewatson/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
+__webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/js/app.js */"./js/app.js");
+module.exports = __webpack_require__(/*! /Users/blake/Dropbox/Sites/minimal-character-sheet/scss/style.scss */"./scss/style.scss");
 
 
 /***/ })

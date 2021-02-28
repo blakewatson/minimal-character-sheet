@@ -298,6 +298,25 @@ export default new Vuex.Store({
             state.readOnly = sheet.is_public && sheet.email === null;
             
             commit('replaceState', { state });
+        },
+        
+        updateState({ commit }, payload) {
+            var sheet = payload.sheet;
+            var state = {};
+            
+            if(sheet.data) {
+                // maintain defaults for newly added fields that might not be in the json data
+                state = Object.assign({}, state, JSON.parse(sheet.data));
+            }
+            
+            state.id = sheet.id;
+            state.characterName = sheet.name;
+            state.readOnly = sheet.is_public && sheet.email === null;
+            
+            commit('replaceState', { state });
+            
+            // we need to let the quill editors know to update their contents
+            window.sheetEvent.$emit('quill-refresh');
         }
     }
 });

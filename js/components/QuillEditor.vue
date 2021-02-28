@@ -28,16 +28,24 @@ export default {
             this.editor.disable();
         }
 
-        this.editor.on('text-change', () => {
-            this.contents = this.editor.getContents();
-            this.$emit('quill-text-change', this.contents);
-        });
+        if(!this.readOnly) {
+            this.editor.on('text-change', () => {
+                this.contents = this.editor.getContents();
+                this.$emit('quill-text-change', this.contents);
+            });
+        }
 
         this.$el.addEventListener('click', event => {
             if(event.target.nodeName === 'A') {
                 window.open(event.target.href, '_blank');
             }
         });
+        
+        if(this.readOnly) {
+            window.sheetEvent.$on('quill-refresh', () => {
+                this.editor.setContents(this.initialContents);
+            });
+        }
     }
 }
 </script>

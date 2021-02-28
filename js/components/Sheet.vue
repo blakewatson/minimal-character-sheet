@@ -55,7 +55,8 @@ export default {
     data() {
         return {
             view: 'main',
-            autosaveTimer: null
+            autosaveTimer: null,
+            isPublic: false
         };
     },
     
@@ -65,8 +66,9 @@ export default {
 
 	methods: {
 		autosaveLoop() {
-			// trigger a quick autosave on every key up event
-            // window.addEventListener('keyup', e => window.sheetEvent.$emit('autosave', 2));
+            if(this.isPublic) {
+                return;
+            }
             
             // trigger a quick autosave upon every store mutation
             this.$store.subscribe((mutation, state) => {
@@ -98,6 +100,10 @@ export default {
 		},
 
 		saveSheetState() {
+            if(this.isPublic) {
+                return;
+            }
+            
 			this.$store.dispatch('getJSON').then(jsonState => {
                 var sheetId = document.querySelector('#sheet-id').value;
                 var csrf = document.querySelector('#csrf').value;
@@ -121,8 +127,30 @@ export default {
                         document.querySelector('#csrf').value = data.csrf;
                     }
                 });
-			}).catch(reason => console.log(reason));
-		}
+			}).catch(reason => console.error(reason));
+		},
+        
+        refreshLoop() {
+            var sheetId = document.querySelector('#sheet-id').value;
+            var csrf = document.querySelector('#csrf').value;
+            
+            fetch(`/sheet-data/${sheetId}`, {
+                method: 'GET',
+                headers: {
+                    'X-AJAX-CSRF': csrf
+                }
+            })
+            .then(r => r.json())
+            .then(data => {
+                document.querySelector('#csrf').value = data.csrf;
+                
+                if(data.success) {
+                    this.$store.dispatch('updateState', { sheet: data.sheet })
+                    .catch(reason => console.log(reason));
+                }
+            })
+            .catch(reason => console.error(reason));
+        }
 	},
 
     components: {
@@ -138,7 +166,15 @@ export default {
     },
 
 	mounted() {
-		this.autosaveLoop();
+        const parsedSheet = JSON.parse(sheet);
+        if(parsedSheet.is_public && parsedSheet.email === null) {
+            this.isPublic = true;
+            setInterval(() => this.refreshLoop(), 2000);
+        }
+        
+        if(!this.isPublic) {
+    		this.autosaveLoop();
+        }
     },
     
     created() {

@@ -80,7 +80,6 @@ export default {
         },
 
         updateDeathSaves(key, i, val) {
-            console.log(key, i, val);
             this.$store.commit('updateDeathSaves', { key, i, val });
         }
     },

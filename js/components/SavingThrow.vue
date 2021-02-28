@@ -37,10 +37,6 @@ export default {
                 proficient: !this.savingThrow.proficient
             });
         }
-    },
-
-    created() {
-        console.log(this.savingThrow)
     }
 }
 </script>

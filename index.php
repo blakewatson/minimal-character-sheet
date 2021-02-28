@@ -36,6 +36,7 @@ $f3->route( 'POST /make-public/@sheet_id', 'Dashboard->make_sheet_public' );
 $f3->route( 'GET /sheet/@sheet_id', 'Dashboard->sheet_single' );
 $f3->route( 'POST /sheet/@sheet_id', 'Dashboard->save_sheet' );
 $f3->route( 'DELETE /sheet/@sheet_id', 'Dashboard->delete_sheet' );
+$f3->route( 'GET /sheet-data/@sheet_id', 'Dashboard->get_sheet_data' );
 
 // login/logout
 $f3->route( 'GET /login', 'Authentication->login_form' );
@@ -55,6 +56,7 @@ $f3->route( 'POST /request-password-reset', 'Authentication->request_password_re
 $f3->route( 'GET /password-reset/@email/@clear_token', 'Authentication->password_reset_form' );
 $f3->route( 'POST /password-reset', 'Authentication->password_reset' );
 
+// set up custom error page
 $f3->set( 'ONERROR', function( $f3, $params ) {
     echo \Template::instance()->render( 'templates/error.html' );
 } );
