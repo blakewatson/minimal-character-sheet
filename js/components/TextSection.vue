@@ -1,7 +1,7 @@
 <template>
     <section>
         <p class="label centered">{{ title }}</p>
-        <quill-editor :initial-contents="textField" @quill-text-change="updateTextField"></quill-editor>
+        <quill-editor :initial-contents="textField" :read-only="readOnly" @quill-text-change="updateTextField"></quill-editor>
     </section>
 </template>
 
@@ -12,7 +12,7 @@ import QuillEditor from './QuillEditor';
 export default {
     name: 'TextSection',
 
-    props: ['title', 'field'],
+    props: ['title', 'field', 'readOnly'],
 
     computed: {
         ...mapState([

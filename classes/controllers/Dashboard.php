@@ -25,8 +25,15 @@ class Dashboard {
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet( $id );
         
+        // sheet not allowed to be accessed by current user
         if( strtolower( $sheet['email'] ) !== strtolower( $email ) && ! $sheet['is_public'] ) {
             $f3->error( 404 );
+        }
+        
+        // read-only access allowed
+        if( strtolower( $sheet['email'] ) !== strtolower( $email ) && $sheet['is_public'] ) {
+            // redact the email address
+            $sheet_data['email'] = null;
         }
         
         $sheet_data = addslashes( json_encode( $sheet_data ) );
@@ -34,6 +41,7 @@ class Dashboard {
         $f3->set( 'sheet_id', $id );
         $f3->set( 'app', true );
         $this->auth->set_csrf();
+        
         echo \Template::instance()->render( 'templates/sheet.html' );
     }
 
@@ -53,7 +61,7 @@ class Dashboard {
     public function save_sheet( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
-            echo json_encode([ 'success' => false ]);
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
             return;
         }
         
@@ -86,35 +94,46 @@ class Dashboard {
 
     public function delete_sheet( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
-            echo json_encode([ 'success' => false ]);
+            $this->auth->set_csrf();
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            return;
+        }
+        
+        $this->auth->set_csrf();
+        
+        $sheet = new Sheet( $f3->get( 'DB' ) );
+        $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
+        
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
             return;
         }
 
-        $sheet = new Sheet( $f3->get( 'DB' ) );
         $result = $sheet->delete_sheet( $params['sheet_id'] );
-        echo json_encode([ 'success' => $result ]);
+        echo json_encode([ 'success' => $result, 'csrf' => $f3->get( 'CSRF' ) ]);
     }
     
     public function make_sheet_public( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
-            echo json_encode([ 'success' => false, 'reason' => 'ajax' ]);
+            $this->auth->set_csrf();
+            echo json_encode([ 'success' => false, 'reason' => 'ajax', 'csrf' => $f3->get( 'CSRF' ) ]);
             return;
         }
+        
+        $this->auth->set_csrf();
         
         $sheetObj = new Sheet( $f3->get( 'DB' ) );
         $sheet = $sheetObj->get_sheet( $params['sheet_id'] );
                 
         if( $f3->get( 'SESSION.email' ) !== $sheet['email']) {
-            echo json_encode([ 'success' => false ]);
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
         }
         
         $value = $f3->get( 'REQUEST.is_public' );
         $sheetObj->set( 'is_public', $value === 'true' ? true : false );
         $sheetObj->save();
         
-        $this->auth->set_csrf();
-        
-        echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'csrf' ) ]);
+        echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'CSRF' ) ]);
     }
 
 }

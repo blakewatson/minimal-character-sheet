@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         id: '',
+        readOnly: false,
         levelData: levelData,
         level: 1,
         characterName: '',
@@ -21,6 +22,7 @@ export default new Vuex.Store({
         totalHitDie: 1,
         ac: 10,
         speed: 25,
+        inspiration: false,
         deathSaves: {
             successes: [false, false, false],
             failures: [false, false, false],
@@ -170,6 +172,10 @@ export default new Vuex.Store({
             deathSaves[key][i] = val;
             state.deathSaves = deathSaves;
         },
+        
+        updateInspiration(state, payload) {
+            state.inspiration = payload;
+        },
 
         updateSkillProficiency(state, payload) {
             if(payload.i >= state.skills.links) return;
@@ -281,9 +287,16 @@ export default new Vuex.Store({
         initializeState({ commit }, payload) {
             var sheet = JSON.parse(payload.sheet);
             var state = {};
-            if(sheet.data) state = JSON.parse(sheet.data);
+            
+            if(sheet.data) {
+                // maintain defaults for newly added fields that might not be in the json data
+                state = Object.assign({}, state, JSON.parse(sheet.data));
+            }
+            
             state.id = sheet.id;
             state.characterName = sheet.name;
+            state.readOnly = sheet.is_public && sheet.email === null;
+            
             commit('replaceState', { state });
         }
     }

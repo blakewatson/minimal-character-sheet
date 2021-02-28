@@ -2,19 +2,19 @@
     <div class="spell-list">
         <ul>
             <li v-for="(item, i) in spellItems" :key="item.id" class="spell-item row deletable">
-                <input type="checkbox" :checked="item.prepared" @change="updateSpellPrepared(i, $event)">
+                <input type="checkbox" :checked="item.prepared" :disabled="readOnly" @change="updateSpellPrepared(i, $event)">
                 <div class="size-full">
                     <label class="sr-only">Spell name and description</label>
-                    <quill-editor :initial-contents="item.name" @quill-text-change="updateSpellName(i, $event)"></quill-editor>
+                    <quill-editor :initial-contents="item.name" :read-only="readOnly" @quill-text-change="updateSpellName(i, $event)"></quill-editor>
                 </div>
-                <button type="button" class="button button-delete" @click="deleteSpell(i)">
+                <button v-if="!readOnly" type="button" class="button button-delete" :disabled="readOnly" @click="deleteSpell(i)">
                     <span class="sr-only">Delete</span>
                     <span role="presentation">×</span>
                 </button>
             </li>
         </ul>
-        <p class="text-center">
-            <button type="button" class="button-add" @click="addSpell">
+        <p class="text-center" v-if="!readOnly">
+            <button type="button" class="button-add" :disabled="readOnly" @click="addSpell">
                 <span class="sr-only">Add list item</span>
                 <span role="presentation">+</span>
             </button>
@@ -29,7 +29,7 @@ import QuillEditor from './QuillEditor';
 export default {
     name: 'SpellList',
 
-    props: ['listField'],
+    props: ['listField', 'readOnly'],
 
     computed: {
         spellItems() {

@@ -2,13 +2,13 @@
     <div class="saving-throw">
         <label :for="inputId" class="centered huge padded block">
             {{ saveBonus | signedNumString }}
-            <input v-if="savingThrow" type="checkbox" :id="inputId" :checked="savingThrow.proficient" @change="toggleProficiency" />
+            <input v-if="savingThrow" type="checkbox" :id="inputId" :checked="savingThrow.proficient" :disabled="readOnly" @change="toggleProficiency" />
         </label>
     </div>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
     name: 'SavingThrow',
@@ -16,6 +16,7 @@ export default {
 
     computed: {
         ...mapGetters(['proficiencyBonus']),
+        ...mapState(['readOnly']),
 
         saveBonus() {
             if(!this.savingThrow) return 0;

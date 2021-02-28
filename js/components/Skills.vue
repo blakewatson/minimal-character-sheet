@@ -4,7 +4,7 @@
         <ul class="col-2">
             <li v-for="(skill, i) in skills">
                 <label>
-                    <input type="checkbox" :checked="skill.proficient" @change="setProficiency(i)">
+                    <input type="checkbox" :checked="skill.proficient" :disabled="readOnly" @change="setProficiency(i)">
                     <strong class="skill-modifier">{{ getSkillModifier(skill) | signedNumString }}</strong>
                     {{ skill.name }} <span class="small muted">({{ skill.ability }})</span>
                 </label>
@@ -26,7 +26,7 @@ export default {
     name: 'Skills',
 
     computed: {
-        ...mapState(['skills']),
+        ...mapState(['skills', 'readOnly']),
         ...mapGetters(['modifiers', 'proficiencyBonus'])
     },
 

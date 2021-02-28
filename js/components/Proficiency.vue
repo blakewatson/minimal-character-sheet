@@ -7,24 +7,25 @@
         <div class="vert-center">
             <label class="label label-inline">
                 Inspiration
-                <input type="checkbox" :checked="inspiration">
+                <input type="checkbox" :checked="inspiration" :disabled="readOnly" @input="updateInspiration">
             </label>
         </div>
     </section>
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 
 export default {
     name: 'Proficiency',
-    data() {
-        return {
-            inspiration: false
-        };
-    },
     computed: {
-        ...mapGetters(['proficiencyBonus'])
+        ...mapGetters(['proficiencyBonus']),
+        ...mapState(['inspiration', 'readOnly'])
+    },
+    methods: {
+        updateInspiration(val) {
+            this.$store.commit('updateInspiration', val.target.checked);
+        }
     }
 }
 </script>

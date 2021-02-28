@@ -4,21 +4,21 @@
         <div class="row vert-after">
             <div class="box box-lite">
                 <span class="label centered">Class</span>
-                <field class="centered block" :value="spClass" placeholder="Druid" @update-value="updateSpellInfo('spClass', $event)"></field>
+                <field class="centered block" :value="spClass" placeholder="Druid" :read-only="readOnly" @update-value="updateSpellInfo('spClass', $event)"></field>
             </div>
             <div class="box box-lite">
                 <span class="label centered">Ability</span>
-                <select @input="updateSpellInfo('spAbility', $event.target.value)">
+                <select :disabled="readOnly" @input="updateSpellInfo('spAbility', $event.target.value)">
                     <option v-for="a in abilities" :value="a.name" :selected="spAbility === a.name">{{ a.name }}</option>
                 </select>
             </div>
             <div class="box">
                 <span class="label centered reverse">Spell Save DC</span>
-                <field class="centered block padded huge" :value="spSave" @update-value="updateSpellInfo('spSave', $event)"></field>
+                <field class="centered block padded huge" :value="spSave" :read-only="readOnly" @update-value="updateSpellInfo('spSave', $event)"></field>
             </div>
             <div class="box">
                 <span class="label centered reverse">Attack Bonus</span>
-                <field class="centered block padded huge" :value="spAttack" @update-value="updateSpellInfo('spAttack', $event)"></field>
+                <field class="centered block padded huge" :value="spAttack" :read-only="readOnly" @update-value="updateSpellInfo('spAttack', $event)"></field>
             </div>
         </div>
 
@@ -27,7 +27,7 @@
                 <span class="label float-left reverse">0</span>
                 <span class="label centered">Cantrips</span>
             </div>
-            <list list-field="cantripsList"></list>
+            <list list-field="cantripsList" :read-only="readOnly"></list>
         </div>
 
         <spell-group level="1"></spell-group>
@@ -52,7 +52,7 @@ export default {
     name: 'Spells',
 
     computed: {
-        ...mapState(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack'])
+        ...mapState(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])
     },
 
     methods: {

@@ -16,9 +16,9 @@
 
             <equipment></equipment>
 
-            <text-section title="Other Proficiencies & Languages" field="proficienciesText"></text-section>
+            <text-section title="Other Proficiencies & Languages" field="proficienciesText" :read-only="readOnly"></text-section>
 
-            <text-section title="Feature & Traits" field="featuresText"></text-section>
+            <text-section title="Feature & Traits" field="featuresText" :read-only="readOnly"></text-section>
         </div>
 
         <div class="page" v-show="view === 'spells'">
@@ -26,13 +26,13 @@
         </div>
 
         <div class="page" v-show="view === 'details'">
-            <text-section title="Traits, Ideals, Bonds, & Flaws" field="personalityText"></text-section>
+            <text-section title="Traits, Ideals, Bonds, & Flaws" field="personalityText" :read-only="readOnly"></text-section>
 
-            <text-section title="Character Backstory" field="backstoryText"></text-section>
+            <text-section title="Character Backstory" field="backstoryText" :read-only="readOnly"></text-section>
     
-            <text-section title="Treasure" field="treasureText"></text-section>
+            <text-section title="Treasure" field="treasureText" :read-only="readOnly"></text-section>
     
-            <text-section title="Allies & Organizations" field="organizationsText"></text-section>
+            <text-section title="Allies & Organizations" field="organizationsText" :read-only="readOnly"></text-section>
         </div>
     </div>
 </template>
@@ -57,6 +57,10 @@ export default {
             view: 'main',
             autosaveTimer: null
         };
+    },
+    
+    computed: {
+        ...mapState(['readOnly'])
     },
 
 	methods: {

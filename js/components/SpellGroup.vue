@@ -4,16 +4,17 @@
             <span class="label float-left reverse">{{ level }}</span>
             <div class="spell-slots">
                 <span class="label label-inline">Slots:</span>
-                <field :value="totalSlots" type="number" class="spell-slots-total" min="0" @update-value="updateSlots($event)"></field>
+                <field :value="totalSlots" type="number" class="spell-slots-total" min="0" :read-only="readOnly" @update-value="updateSlots($event)"></field>
                 <span class="label label-inline">Expended:</span>
-                <field :value="expendedSlots" type="number" class="spell-slots-expended" min="0" :max="totalSlots" @update-value="updateExpended($event)"></field>
+                <field :value="expendedSlots" type="number" class="spell-slots-expended" min="0" :max="totalSlots" :read-only="readOnly" @update-value="updateExpended($event)"></field>
             </div>
         </div>
-        <spell-list :list-field="listField"></spell-list>
+        <spell-list :list-field="listField" :read-only="readOnly"></spell-list>
     </div>
 </template>
 
 <script>
+import { mapState } from 'vuex';
 import SpellList from './SpellList';
 import Field from './Field';
 
@@ -23,6 +24,8 @@ export default {
     props: ['level'],
 
     computed: {
+        ...mapState(['readOnly']),
+        
         totalSlots() {
             return this.$store.state[this.listField].slots;
         },

@@ -1,6 +1,7 @@
 <template>
     <input
         :class="classAttr"
+        :disabled="isReadOnly"
         :type="optionalValue(type, 'text')"
         :value="value"
         :placeholder="optionalValue(placeholder, '')"
@@ -10,7 +11,7 @@
 <script>
 export default {
     name: 'Field',
-    props: ['value', 'type', 'align', 'placeholder', 'classNames'],
+    props: ['value', 'type', 'align', 'placeholder', 'classNames', 'readOnly'],
     computed: {
         classAttr() {
             var align = this.align ? this.align : 'center';
@@ -25,6 +26,10 @@ export default {
             
             if(typeof value !== 'string') value = value.toString();
             return `field size-${length} text-${align} ${classNames}`;
+        },
+        
+        isReadOnly() {
+            return Boolean(this.readOnly);
         },
 
         typeValue() {

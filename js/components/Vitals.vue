@@ -2,23 +2,23 @@
     <div class="row">
         <div class="box reverse">
             <span class="centered label">AC</span>
-            <field classNames="huge block padded" :value="ac" @update-value="updateVitals('ac', $event)"></field>
+            <field classNames="huge block padded" :value="ac" :read-only="readOnly" @update-value="updateVitals('ac', $event)"></field>
         </div>
         <div class="box box-lite">
             <span class="centered label">HP</span>
-            <field class="huge padded" :value="hp" @update-value="updateVitals('hp', $event)"></field>/<field class="normal strong" :value="maxHp" @update-value="updateVitals('maxHp', $event)"></field>
+            <field class="huge padded" :value="hp" :read-only="readOnly" @update-value="updateVitals('hp', $event)"></field>/<field class="normal strong" :value="maxHp" :read-only="readOnly" @update-value="updateVitals('maxHp', $event)"></field>
         </div>
         <div class="box box-lite">
             <span class="centered label">Temp HP</span>
-            <field class="centered huge block padded" :value="tempHp" @update-value="updateVitals('tempHp', $event)"></field>
+            <field class="centered huge block padded" :value="tempHp" :read-only="readOnly" @update-value="updateVitals('tempHp', $event)"></field>
         </div>
         <div class="box box-lite">
             <span class="centered label">Hit die</span>
-            <field class="huge padded" :value="hitDie" @update-value="updateVitals('hitDie', $event)"></field>/<field class="normal" :value="totalHitDie" @update-value="updateVitals('totalHitDie', $event)"></field>
+            <field class="huge padded" :value="hitDie" :read-only="readOnly" @update-value="updateVitals('hitDie', $event)"></field>/<field class="normal" :value="totalHitDie" :read-only="readOnly" @update-value="updateVitals('totalHitDie', $event)"></field>
         </div>
         <div class="box box-lite">
             <span class="centered label">Speed</span>
-            <field class="huge padded" :value="speed" @update-value="updateVitals('speed', $event)"></field>
+            <field class="huge padded" :value="speed" :read-only="readOnly" @update-value="updateVitals('speed', $event)"></field>
         </div>
         <div class="box box-lite">
             <span class="centered label">Death saves</span>
@@ -30,6 +30,7 @@
                     type="checkbox"
                     v-for="(save, i) in deathSaves.successes"
                     :checked="save"
+                    :disabled="readOnly"
                     @input="updateDeathSaves('successes', i, !save)">
             </div>
             <div class="row">
@@ -40,6 +41,7 @@
                     type="checkbox"
                     v-for="(save, i) in deathSaves.failures"
                     :checked="save"
+                    :disabled="readOnly"
                     @input="updateDeathSaves('failures', i, !save)">
             </div>
         </div>
@@ -62,7 +64,8 @@ export default {
             'totalHitDie',
             'ac',
             'speed',
-            'deathSaves'
+            'deathSaves',
+            'readOnly'
         ])
     },
 

@@ -1481,6 +1481,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
 /* harmony default export */ __webpack_exports__["default"] = (new vuex__WEBPACK_IMPORTED_MODULE_1__["default"].Store({
   state: {
     id: '',
+    readOnly: false,
     levelData: _level_data__WEBPACK_IMPORTED_MODULE_2__["default"],
     level: 1,
     characterName: '',
@@ -1495,6 +1496,7 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
     totalHitDie: 1,
     ac: 10,
     speed: 25,
+    inspiration: false,
     deathSaves: {
       successes: [false, false, false],
       failures: [false, false, false]
@@ -1761,6 +1763,9 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       deathSaves[key][i] = val;
       state.deathSaves = deathSaves;
     },
+    updateInspiration: function updateInspiration(state, payload) {
+      state.inspiration = payload;
+    },
     updateSkillProficiency: function updateSkillProficiency(state, payload) {
       if (payload.i >= state.skills.links) return;
       vue__WEBPACK_IMPORTED_MODULE_0___default.a.set(state.skills[payload.i], 'proficient', payload.proficient);
@@ -1864,9 +1869,15 @@ vue__WEBPACK_IMPORTED_MODULE_0___default.a.use(vuex__WEBPACK_IMPORTED_MODULE_1__
       var commit = _ref2.commit;
       var sheet = JSON.parse(payload.sheet);
       var state = {};
-      if (sheet.data) state = JSON.parse(sheet.data);
+
+      if (sheet.data) {
+        // maintain defaults for newly added fields that might not be in the json data
+        state = Object.assign({}, state, JSON.parse(sheet.data));
+      }
+
       state.id = sheet.id;
       state.characterName = sheet.name;
+      state.readOnly = sheet.is_public && sheet.email === null;
       commit('replaceState', {
         state: state
       });
@@ -1939,7 +1950,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -1949,9 +1965,11 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Ability',
   props: ['ability', 'modifier'],
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['readOnly'])),
   methods: {
     updateScore: function updateScore(val) {
       var score = parseInt(val);
@@ -1962,7 +1980,7 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    'field': _Field__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -2016,7 +2034,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Attacks',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['attacks']), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['modifiers'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['attacks', 'readOnly']), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['modifiers'])),
   methods: {
     updateAttacks: function updateAttacks(i, field, val) {
       this.$store.commit('updateAttacks', {
@@ -2078,12 +2096,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
+//
 
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Bio',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['level', 'characterName', 'className', 'race', 'alignment', 'xp'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['level', 'characterName', 'className', 'race', 'alignment', 'xp', 'readOnly'])),
   methods: {
     updateLevel: function updateLevel(level) {
       this.$store.commit('updateLevel', {
@@ -2144,7 +2165,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Equipment',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['coins', 'equipmentText'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['coins', 'equipmentText', 'readOnly'])),
   methods: {
     updateAmount: function updateAmount(i, val) {
       this.$store.commit('updateCoins', {
@@ -2184,9 +2205,10 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+//
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Field',
-  props: ['value', 'type', 'align', 'placeholder', 'classNames'],
+  props: ['value', 'type', 'align', 'placeholder', 'classNames', 'readOnly'],
   computed: {
     classAttr: function classAttr() {
       var align = this.align ? this.align : 'center';
@@ -2201,6 +2223,9 @@ __webpack_require__.r(__webpack_exports__);
 
       if (typeof value !== 'string') value = value.toString();
       return "field size-".concat(length, " text-").concat(align, " ").concat(classNames);
+    },
+    isReadOnly: function isReadOnly() {
+      return Boolean(this.readOnly);
     },
     typeValue: function typeValue() {
       if (!this.hasOwnProperty('type') || !this.type) return 'text';
@@ -2257,7 +2282,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'List',
-  props: ['listField'],
+  props: ['listField', 'readOnly'],
   computed: {
     items: function items() {
       return this.$store.state[this.listField];
@@ -2324,12 +2349,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Proficiency',
-  data: function data() {
-    return {
-      inspiration: false
-    };
-  },
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['proficiencyBonus']))
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['proficiencyBonus']), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['inspiration', 'readOnly'])),
+  methods: {
+    updateInspiration: function updateInspiration(val) {
+      this.$store.commit('updateInspiration', val.target.checked);
+    }
+  }
 });
 
 /***/ }),
@@ -2349,7 +2374,7 @@ __webpack_require__.r(__webpack_exports__);
 //
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'QuillEditor',
-  props: ['initialContents'],
+  props: ['initialContents', 'readOnly'],
   data: function data() {
     return {
       editor: null,
@@ -2365,6 +2390,10 @@ __webpack_require__.r(__webpack_exports__);
 
     if (this.initialContents) {
       this.editor.setContents(this.initialContents);
+    }
+
+    if (this.readOnly) {
+      this.editor.disable();
     }
 
     this.editor.on('text-change', function () {
@@ -2409,7 +2438,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SavingThrow',
   props: ['savingThrow', 'modifier'],
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['proficiencyBonus']), {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapGetters"])(['proficiencyBonus']), Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['readOnly']), {
     saveBonus: function saveBonus() {
       if (!this.savingThrow) return 0;
       if (this.savingThrow.proficient) return this.modifier + this.proficiencyBonus;
@@ -2454,6 +2483,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _Equipment__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./Equipment */ "./js/components/Equipment.vue");
 /* harmony import */ var _Spells__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./Spells */ "./js/components/Spells.vue");
 /* harmony import */ var _TextSection__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./TextSection */ "./js/components/TextSection.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2511,6 +2544,7 @@ __webpack_require__.r(__webpack_exports__);
       autosaveTimer: null
     };
   },
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['readOnly'])),
   methods: {
     autosaveLoop: function autosaveLoop() {
       var _this = this;
@@ -2639,7 +2673,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Skills',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['skills']), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['modifiers', 'proficiencyBonus'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['skills', 'readOnly']), Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapGetters"])(['modifiers', 'proficiencyBonus'])),
   methods: {
     getSkillModifier: function getSkillModifier(skill) {
       var mod = this.modifiers.reduce(function (acc, m) {
@@ -2670,8 +2704,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _SpellList__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./SpellList */ "./js/components/SpellList.vue");
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _SpellList__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./SpellList */ "./js/components/SpellList.vue");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2687,12 +2726,13 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SpellGroup',
   props: ['level'],
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['readOnly']), {
     totalSlots: function totalSlots() {
       return this.$store.state[this.listField].slots;
     },
@@ -2702,7 +2742,7 @@ __webpack_require__.r(__webpack_exports__);
     listField: function listField() {
       return "lvl".concat(this.level, "Spells");
     }
-  },
+  }),
   methods: {
     updateSlots: function updateSlots(val) {
       this.$store.commit('updateSpellSlots', {
@@ -2718,8 +2758,8 @@ __webpack_require__.r(__webpack_exports__);
     }
   },
   components: {
-    'spell-list': _SpellList__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'field': _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'spell-list': _SpellList__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'field': _Field__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -2765,7 +2805,7 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'SpellList',
-  props: ['listField'],
+  props: ['listField', 'readOnly'],
   computed: {
     spellItems: function spellItems() {
       return this.$store.state[this.listField].spells.map(function (spell) {
@@ -2883,7 +2923,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Spells',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])),
   methods: {
     updateSpellInfo: function updateSpellInfo(field, val) {
       console.log(val);
@@ -2911,6 +2951,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 //
 //
 //
@@ -2931,14 +2976,15 @@ __webpack_require__.r(__webpack_exports__);
 //
 //
 //
+
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Tabs',
   props: ['view'],
-  computed: {
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['readOnly']), {
     sheetId: function sheetId() {
       return this.$store.state.id;
     }
-  },
+  }),
   methods: {
     updateView: function updateView(view) {
       this.$emit('update-view', view);
@@ -2990,7 +3036,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'TextSection',
-  props: ['title', 'field'],
+  props: ['title', 'field', 'readOnly'],
   computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_0__["mapState"])(['equipmentText', 'proficienciesText', 'featuresText', 'personalityText', 'backstoryText', 'treasureText', 'organizationsText']), {
     textField: function textField() {
       if (!this[this.field]) return '';
@@ -3075,11 +3121,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 //
 //
 //
+//
+//
 
 
 /* harmony default export */ __webpack_exports__["default"] = ({
   name: 'Vitals',
-  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed', 'deathSaves'])),
+  computed: _objectSpread({}, Object(vuex__WEBPACK_IMPORTED_MODULE_1__["mapState"])(['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed', 'deathSaves', 'readOnly'])),
   methods: {
     update: function update(item, e) {
       var value = e.target.innerText;
@@ -3658,7 +3706,7 @@ var render = function() {
       _vm._v(" "),
       _c("field", {
         staticClass: "centered strong block",
-        attrs: { value: _vm.ability.score },
+        attrs: { value: _vm.ability.score, "read-only": _vm.readOnly },
         on: {
           "update-value": function($event) {
             return _vm.updateScore($event)
@@ -3718,7 +3766,7 @@ var render = function() {
                 [
                   _c("field", {
                     staticClass: "size-full text-left",
-                    attrs: { value: a.name },
+                    attrs: { value: a.name, "read-only": _vm.readOnly },
                     on: {
                       "update-value": function($event) {
                         return _vm.updateAttacks(i, "name", $event)
@@ -3734,7 +3782,11 @@ var render = function() {
                 { staticClass: "text-center" },
                 [
                   _c("field", {
-                    attrs: { type: "number", value: a.attackBonus },
+                    attrs: {
+                      type: "number",
+                      value: a.attackBonus,
+                      "read-only": _vm.readOnly
+                    },
                     on: {
                       "update-value": function($event) {
                         return _vm.updateAttacks(i, "attackBonus", $event)
@@ -3750,7 +3802,7 @@ var render = function() {
                 [
                   _c("field", {
                     staticClass: "size-full text-left",
-                    attrs: { value: a.damage },
+                    attrs: { value: a.damage, "read-only": _vm.readOnly },
                     on: {
                       "update-value": function($event) {
                         return _vm.updateAttacks(i, "damage", $event)
@@ -3762,19 +3814,21 @@ var render = function() {
               ),
               _vm._v(" "),
               _c("td", [
-                _c(
-                  "button",
-                  {
-                    staticClass: "button button-delete",
-                    attrs: { type: "button" },
-                    on: {
-                      click: function($event) {
-                        return _vm.deleteAttack(i)
-                      }
-                    }
-                  },
-                  [_vm._v("-")]
-                )
+                !_vm.readOnly
+                  ? _c(
+                      "button",
+                      {
+                        staticClass: "button button-delete",
+                        attrs: { type: "button", disabled: _vm.readOnly },
+                        on: {
+                          click: function($event) {
+                            return _vm.deleteAttack(i)
+                          }
+                        }
+                      },
+                      [_vm._v("-")]
+                    )
+                  : _vm._e()
               ])
             ])
           }),
@@ -3783,25 +3837,27 @@ var render = function() {
       ]
     ),
     _vm._v(" "),
-    _c("p", { staticClass: "text-center" }, [
-      _c(
-        "button",
-        {
-          staticClass: "button button-add",
-          attrs: { type: "button" },
-          on: {
-            click: function($event) {
-              return _vm.$store.commit("addAttack")
-            }
-          }
-        },
-        [
-          _c("span", { staticClass: "sr-only" }, [_vm._v("Add an attack")]),
-          _vm._v(" "),
-          _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
-        ]
-      )
-    ])
+    !_vm.readOnly
+      ? _c("p", { staticClass: "text-center" }, [
+          _c(
+            "button",
+            {
+              staticClass: "button button-add",
+              attrs: { type: "button", disabled: _vm.readOnly },
+              on: {
+                click: function($event) {
+                  return _vm.$store.commit("addAttack")
+                }
+              }
+            },
+            [
+              _c("span", { staticClass: "sr-only" }, [_vm._v("Add an attack")]),
+              _vm._v(" "),
+              _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+            ]
+          )
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = [
@@ -3853,7 +3909,8 @@ var render = function() {
             attrs: {
               align: "left",
               value: _vm.characterName,
-              placeholder: "Name"
+              placeholder: "Name",
+              "read-only": _vm.readOnly
             },
             on: {
               "update-value": function($event) {
@@ -3883,7 +3940,8 @@ var render = function() {
               id: "characterRace",
               align: "left",
               value: _vm.race,
-              placeholder: "Race"
+              placeholder: "Race",
+              "read-only": _vm.readOnly
             },
             on: {
               "update-value": function($event) {
@@ -3908,7 +3966,8 @@ var render = function() {
               id: "characterClass",
               align: "left",
               value: _vm.className,
-              placeholder: "Class"
+              placeholder: "Class",
+              "read-only": _vm.readOnly
             },
             on: {
               "update-value": function($event) {
@@ -3930,7 +3989,8 @@ var render = function() {
               id: "characterLevel",
               value: _vm.level,
               type: "number",
-              min: "1"
+              min: "1",
+              "read-only": _vm.readOnly
             },
             on: { "update-value": _vm.updateLevel }
           }),
@@ -3944,7 +4004,12 @@ var render = function() {
           ),
           _vm._v(" "),
           _c("field", {
-            attrs: { id: "characterXp", value: _vm.xp, type: "number" },
+            attrs: {
+              id: "characterXp",
+              value: _vm.xp,
+              type: "number",
+              "read-only": _vm.readOnly
+            },
             on: {
               "update-value": function($event) {
                 return _vm.updateBio("xp", $event)
@@ -3968,7 +4033,8 @@ var render = function() {
               id: "characterAlignment",
               align: "left",
               value: _vm.alignment,
-              placeholder: "Alignment"
+              placeholder: "Alignment",
+              "read-only": _vm.readOnly
             },
             on: {
               "update-value": function($event) {
@@ -4025,7 +4091,11 @@ var render = function() {
               ]),
               _vm._v(" "),
               _c("field", {
-                attrs: { classNames: "centered huge padded", value: c.amount },
+                attrs: {
+                  classNames: "centered huge padded",
+                  value: c.amount,
+                  "read-only": _vm.readOnly
+                },
                 on: {
                   "update-value": function($event) {
                     return _vm.updateAmount(i, $event)
@@ -4040,7 +4110,10 @@ var render = function() {
       ),
       _vm._v(" "),
       _c("quill-editor", {
-        attrs: { "initial-contents": _vm.equipmentText },
+        attrs: {
+          "initial-contents": _vm.equipmentText,
+          "read-only": _vm.readOnly
+        },
         on: { "quill-text-change": _vm.updateEquipment }
       })
     ],
@@ -4072,6 +4145,7 @@ var render = function() {
   return _c("input", {
     class: _vm.classAttr,
     attrs: {
+      disabled: _vm.isReadOnly,
       type: _vm.optionalValue(_vm.type, "text"),
       placeholder: _vm.optionalValue(_vm.placeholder, "")
     },
@@ -4114,7 +4188,10 @@ var render = function() {
           },
           [
             _c("quill-editor", {
-              attrs: { "initial-contents": item.val },
+              attrs: {
+                "initial-contents": item.val,
+                "read-only": _vm.readOnly
+              },
               on: {
                 "quill-text-change": function($event) {
                   return _vm.updateItem(i, $event)
@@ -4122,23 +4199,27 @@ var render = function() {
               }
             }),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "button button-delete",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.deleteItem(i)
-                  }
-                }
-              },
-              [
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Delete")]),
-                _vm._v(" "),
-                _c("span", { attrs: { role: "presentation" } }, [_vm._v("×")])
-              ]
-            )
+            !_vm.readOnly
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "button button-delete",
+                    attrs: { type: "button", disabled: _vm.readOnly },
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteItem(i)
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { staticClass: "sr-only" }, [_vm._v("Delete")]),
+                    _vm._v(" "),
+                    _c("span", { attrs: { role: "presentation" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              : _vm._e()
           ],
           1
         )
@@ -4146,21 +4227,23 @@ var render = function() {
       0
     ),
     _vm._v(" "),
-    _c("p", { staticClass: "text-center" }, [
-      _c(
-        "button",
-        {
-          staticClass: "button-add",
-          attrs: { type: "button" },
-          on: { click: _vm.addToList }
-        },
-        [
-          _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
-          _vm._v(" "),
-          _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
-        ]
-      )
-    ])
+    !_vm.readOnly
+      ? _c("p", { staticClass: "text-center" }, [
+          _c(
+            "button",
+            {
+              staticClass: "button-add",
+              attrs: { type: "button", disabled: _vm.readOnly },
+              on: { click: _vm.addToList }
+            },
+            [
+              _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
+              _vm._v(" "),
+              _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+            ]
+          )
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -4200,8 +4283,9 @@ var render = function() {
       _c("label", { staticClass: "label label-inline" }, [
         _vm._v("\n            Inspiration\n            "),
         _c("input", {
-          attrs: { type: "checkbox" },
-          domProps: { checked: _vm.inspiration }
+          attrs: { type: "checkbox", disabled: _vm.readOnly },
+          domProps: { checked: _vm.inspiration },
+          on: { input: _vm.updateInspiration }
         })
       ])
     ])
@@ -4268,7 +4352,11 @@ var render = function() {
         ),
         _vm.savingThrow
           ? _c("input", {
-              attrs: { type: "checkbox", id: _vm.inputId },
+              attrs: {
+                type: "checkbox",
+                id: _vm.inputId,
+                disabled: _vm.readOnly
+              },
               domProps: { checked: _vm.savingThrow.proficient },
               on: { change: _vm.toggleProficiency }
             })
@@ -4341,12 +4429,17 @@ var render = function() {
           _c("text-section", {
             attrs: {
               title: "Other Proficiencies & Languages",
-              field: "proficienciesText"
+              field: "proficienciesText",
+              "read-only": _vm.readOnly
             }
           }),
           _vm._v(" "),
           _c("text-section", {
-            attrs: { title: "Feature & Traits", field: "featuresText" }
+            attrs: {
+              title: "Feature & Traits",
+              field: "featuresText",
+              "read-only": _vm.readOnly
+            }
           })
         ],
         1
@@ -4386,22 +4479,32 @@ var render = function() {
           _c("text-section", {
             attrs: {
               title: "Traits, Ideals, Bonds, & Flaws",
-              field: "personalityText"
+              field: "personalityText",
+              "read-only": _vm.readOnly
             }
           }),
           _vm._v(" "),
           _c("text-section", {
-            attrs: { title: "Character Backstory", field: "backstoryText" }
+            attrs: {
+              title: "Character Backstory",
+              field: "backstoryText",
+              "read-only": _vm.readOnly
+            }
           }),
           _vm._v(" "),
           _c("text-section", {
-            attrs: { title: "Treasure", field: "treasureText" }
+            attrs: {
+              title: "Treasure",
+              field: "treasureText",
+              "read-only": _vm.readOnly
+            }
           }),
           _vm._v(" "),
           _c("text-section", {
             attrs: {
               title: "Allies & Organizations",
-              field: "organizationsText"
+              field: "organizationsText",
+              "read-only": _vm.readOnly
             }
           })
         ],
@@ -4443,7 +4546,7 @@ var render = function() {
         return _c("li", [
           _c("label", [
             _c("input", {
-              attrs: { type: "checkbox" },
+              attrs: { type: "checkbox", disabled: _vm.readOnly },
               domProps: { checked: skill.proficient },
               on: {
                 change: function($event) {
@@ -4522,7 +4625,12 @@ var render = function() {
             _vm._v(" "),
             _c("field", {
               staticClass: "spell-slots-total",
-              attrs: { value: _vm.totalSlots, type: "number", min: "0" },
+              attrs: {
+                value: _vm.totalSlots,
+                type: "number",
+                min: "0",
+                "read-only": _vm.readOnly
+              },
               on: {
                 "update-value": function($event) {
                   return _vm.updateSlots($event)
@@ -4540,7 +4648,8 @@ var render = function() {
                 value: _vm.expendedSlots,
                 type: "number",
                 min: "0",
-                max: _vm.totalSlots
+                max: _vm.totalSlots,
+                "read-only": _vm.readOnly
               },
               on: {
                 "update-value": function($event) {
@@ -4553,7 +4662,9 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("spell-list", { attrs: { "list-field": _vm.listField } })
+      _c("spell-list", {
+        attrs: { "list-field": _vm.listField, "read-only": _vm.readOnly }
+      })
     ],
     1
   )
@@ -4589,7 +4700,7 @@ var render = function() {
           { key: item.id, staticClass: "spell-item row deletable" },
           [
             _c("input", {
-              attrs: { type: "checkbox" },
+              attrs: { type: "checkbox", disabled: _vm.readOnly },
               domProps: { checked: item.prepared },
               on: {
                 change: function($event) {
@@ -4607,7 +4718,10 @@ var render = function() {
                 ]),
                 _vm._v(" "),
                 _c("quill-editor", {
-                  attrs: { "initial-contents": item.name },
+                  attrs: {
+                    "initial-contents": item.name,
+                    "read-only": _vm.readOnly
+                  },
                   on: {
                     "quill-text-change": function($event) {
                       return _vm.updateSpellName(i, $event)
@@ -4618,44 +4732,50 @@ var render = function() {
               1
             ),
             _vm._v(" "),
-            _c(
-              "button",
-              {
-                staticClass: "button button-delete",
-                attrs: { type: "button" },
-                on: {
-                  click: function($event) {
-                    return _vm.deleteSpell(i)
-                  }
-                }
-              },
-              [
-                _c("span", { staticClass: "sr-only" }, [_vm._v("Delete")]),
-                _vm._v(" "),
-                _c("span", { attrs: { role: "presentation" } }, [_vm._v("×")])
-              ]
-            )
+            !_vm.readOnly
+              ? _c(
+                  "button",
+                  {
+                    staticClass: "button button-delete",
+                    attrs: { type: "button", disabled: _vm.readOnly },
+                    on: {
+                      click: function($event) {
+                        return _vm.deleteSpell(i)
+                      }
+                    }
+                  },
+                  [
+                    _c("span", { staticClass: "sr-only" }, [_vm._v("Delete")]),
+                    _vm._v(" "),
+                    _c("span", { attrs: { role: "presentation" } }, [
+                      _vm._v("×")
+                    ])
+                  ]
+                )
+              : _vm._e()
           ]
         )
       }),
       0
     ),
     _vm._v(" "),
-    _c("p", { staticClass: "text-center" }, [
-      _c(
-        "button",
-        {
-          staticClass: "button-add",
-          attrs: { type: "button" },
-          on: { click: _vm.addSpell }
-        },
-        [
-          _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
-          _vm._v(" "),
-          _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
-        ]
-      )
-    ])
+    !_vm.readOnly
+      ? _c("p", { staticClass: "text-center" }, [
+          _c(
+            "button",
+            {
+              staticClass: "button-add",
+              attrs: { type: "button", disabled: _vm.readOnly },
+              on: { click: _vm.addSpell }
+            },
+            [
+              _c("span", { staticClass: "sr-only" }, [_vm._v("Add list item")]),
+              _vm._v(" "),
+              _c("span", { attrs: { role: "presentation" } }, [_vm._v("+")])
+            ]
+          )
+        ])
+      : _vm._e()
   ])
 }
 var staticRenderFns = []
@@ -4694,7 +4814,11 @@ var render = function() {
             _vm._v(" "),
             _c("field", {
               staticClass: "centered block",
-              attrs: { value: _vm.spClass, placeholder: "Druid" },
+              attrs: {
+                value: _vm.spClass,
+                placeholder: "Druid",
+                "read-only": _vm.readOnly
+              },
               on: {
                 "update-value": function($event) {
                   return _vm.updateSpellInfo("spClass", $event)
@@ -4711,6 +4835,7 @@ var render = function() {
           _c(
             "select",
             {
+              attrs: { disabled: _vm.readOnly },
               on: {
                 input: function($event) {
                   return _vm.updateSpellInfo("spAbility", $event.target.value)
@@ -4743,7 +4868,7 @@ var render = function() {
             _vm._v(" "),
             _c("field", {
               staticClass: "centered block padded huge",
-              attrs: { value: _vm.spSave },
+              attrs: { value: _vm.spSave, "read-only": _vm.readOnly },
               on: {
                 "update-value": function($event) {
                   return _vm.updateSpellInfo("spSave", $event)
@@ -4764,7 +4889,7 @@ var render = function() {
             _vm._v(" "),
             _c("field", {
               staticClass: "centered block padded huge",
-              attrs: { value: _vm.spAttack },
+              attrs: { value: _vm.spAttack, "read-only": _vm.readOnly },
               on: {
                 "update-value": function($event) {
                   return _vm.updateSpellInfo("spAttack", $event)
@@ -4781,7 +4906,9 @@ var render = function() {
         [
           _vm._m(0),
           _vm._v(" "),
-          _c("list", { attrs: { "list-field": "cantripsList" } })
+          _c("list", {
+            attrs: { "list-field": "cantripsList", "read-only": _vm.readOnly }
+          })
         ],
         1
       ),
@@ -4886,13 +5013,15 @@ var render = function() {
         )
       ]),
       _vm._v(" "),
-      _c("li", { staticClass: "delete-character-button" }, [
-        _c("button", { on: { click: _vm.deleteCharacter } }, [
-          _c("img", {
-            attrs: { src: "/images/trash-alt.svg", alt: "Dashboard" }
-          })
-        ])
-      ])
+      !_vm.readOnly
+        ? _c("li", { staticClass: "delete-character-button" }, [
+            _c("button", { on: { click: _vm.deleteCharacter } }, [
+              _c("img", {
+                attrs: { src: "/images/trash-alt.svg", alt: "Dashboard" }
+              })
+            ])
+          ])
+        : _vm._e()
     ])
   ])
 }
@@ -4937,7 +5066,7 @@ var render = function() {
       _c("p", { staticClass: "label centered" }, [_vm._v(_vm._s(_vm.title))]),
       _vm._v(" "),
       _c("quill-editor", {
-        attrs: { "initial-contents": _vm.textField },
+        attrs: { "initial-contents": _vm.textField, "read-only": _vm.readOnly },
         on: { "quill-text-change": _vm.updateTextField }
       })
     ],
@@ -4974,7 +5103,11 @@ var render = function() {
         _c("span", { staticClass: "centered label" }, [_vm._v("AC")]),
         _vm._v(" "),
         _c("field", {
-          attrs: { classNames: "huge block padded", value: _vm.ac },
+          attrs: {
+            classNames: "huge block padded",
+            value: _vm.ac,
+            "read-only": _vm.readOnly
+          },
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("ac", $event)
@@ -4993,7 +5126,7 @@ var render = function() {
         _vm._v(" "),
         _c("field", {
           staticClass: "huge padded",
-          attrs: { value: _vm.hp },
+          attrs: { value: _vm.hp, "read-only": _vm.readOnly },
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("hp", $event)
@@ -5003,7 +5136,7 @@ var render = function() {
         _vm._v("/"),
         _c("field", {
           staticClass: "normal strong",
-          attrs: { value: _vm.maxHp },
+          attrs: { value: _vm.maxHp, "read-only": _vm.readOnly },
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("maxHp", $event)
@@ -5022,7 +5155,7 @@ var render = function() {
         _vm._v(" "),
         _c("field", {
           staticClass: "centered huge block padded",
-          attrs: { value: _vm.tempHp },
+          attrs: { value: _vm.tempHp, "read-only": _vm.readOnly },
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("tempHp", $event)
@@ -5041,7 +5174,7 @@ var render = function() {
         _vm._v(" "),
         _c("field", {
           staticClass: "huge padded",
-          attrs: { value: _vm.hitDie },
+          attrs: { value: _vm.hitDie, "read-only": _vm.readOnly },
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("hitDie", $event)
@@ -5051,7 +5184,7 @@ var render = function() {
         _vm._v("/"),
         _c("field", {
           staticClass: "normal",
-          attrs: { value: _vm.totalHitDie },
+          attrs: { value: _vm.totalHitDie, "read-only": _vm.readOnly },
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("totalHitDie", $event)
@@ -5070,7 +5203,7 @@ var render = function() {
         _vm._v(" "),
         _c("field", {
           staticClass: "huge padded",
-          attrs: { value: _vm.speed },
+          attrs: { value: _vm.speed, "read-only": _vm.readOnly },
           on: {
             "update-value": function($event) {
               return _vm.updateVitals("speed", $event)
@@ -5110,7 +5243,7 @@ var render = function() {
           _vm._v(" "),
           _vm._l(_vm.deathSaves.successes, function(save, i) {
             return _c("input", {
-              attrs: { type: "checkbox" },
+              attrs: { type: "checkbox", disabled: _vm.readOnly },
               domProps: { checked: save },
               on: {
                 input: function($event) {
@@ -5151,7 +5284,7 @@ var render = function() {
           _vm._v(" "),
           _vm._l(_vm.deathSaves.failures, function(save, i) {
             return _c("input", {
-              attrs: { type: "checkbox" },
+              attrs: { type: "checkbox", disabled: _vm.readOnly },
               domProps: { checked: save },
               on: {
                 input: function($event) {

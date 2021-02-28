@@ -6,7 +6,7 @@
 export default {
     name: 'QuillEditor',
     
-    props: ['initialContents'],
+    props: ['initialContents', 'readOnly'],
 
     data() {
         return {
@@ -22,6 +22,10 @@ export default {
 
         if(this.initialContents) {
             this.editor.setContents(this.initialContents);
+        }
+        
+        if(this.readOnly) {
+            this.editor.disable();
         }
 
         this.editor.on('text-change', () => {

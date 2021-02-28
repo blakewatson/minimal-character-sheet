@@ -9,7 +9,7 @@
             <li :class="{ active: view === 'main' }"><button @click="updateView('main')">Main</button></li>
             <li :class="{ active: view === 'spells' }"><button @click="updateView('spells')">Spells</button></li>
             <li :class="{ active: view === 'details' }"><button @click="updateView('details')">Details</button></li>
-            <li class="delete-character-button">
+            <li class="delete-character-button" v-if="!readOnly">
                 <button @click="deleteCharacter">
                     <img src="/images/trash-alt.svg" alt="Dashboard">
                 </button>
@@ -19,12 +19,16 @@
 </template>
 
 <script>
+import { mapState } from 'vuex';
+
 export default {
     name: 'Tabs',
 
     props: ['view'],
 
     computed: {
+        ...mapState(['readOnly']),
+        
         sheetId() {
             return this.$store.state.id;
         }
