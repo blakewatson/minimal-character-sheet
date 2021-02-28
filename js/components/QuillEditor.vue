@@ -3,6 +3,8 @@
 </template>
 
 <script>
+import Quill from 'quill';
+
 export default {
     name: 'QuillEditor',
     

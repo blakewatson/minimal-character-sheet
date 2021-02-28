@@ -1,5 +1,6 @@
 {
     "/dist/app.js": "/dist/app.js",
     "/dist/style.css": "/dist/style.css",
-    "/dist/dashboard.js": "/dist/dashboard.js"
+    "/dist/dashboard.js": "/dist/dashboard.js",
+    "/dist/quill.bubble.css": "/dist/quill.bubble.css"
 }

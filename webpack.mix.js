@@ -15,6 +15,7 @@ mix
     .js('js/app.js', 'dist/app.js')
     .js('js/dashboard.js', 'dist/dashboard.js')
     .sass('scss/style.scss', 'dist/style.css')
+    .copy('node_modules/quill/dist/quill.bubble.css', 'dist/quill.bubble.css')
     .options({
         processCssUrls: false
     })
