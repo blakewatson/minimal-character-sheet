@@ -17,3 +17,5 @@ vendor
 ._*
 tmp
 .env
+.nova
+/.nova/Configuration.json
