@@ -144,6 +144,7 @@ class Dashboard {
         
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
+        $email = $f3->get( 'SESSION.email' );
         
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);

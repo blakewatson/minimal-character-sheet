@@ -4,7 +4,7 @@
 require_once('./vendor/autoload.php');
 
 // bring in Fat Free
-$f3 = require_once 'lib/base.php';
+$f3 = \Base::instance();
 
 // load phpdotenv
 $dotenv = Dotenv\Dotenv::create(__DIR__);
