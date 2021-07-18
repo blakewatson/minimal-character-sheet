@@ -43,9 +43,9 @@ class Dashboard {
             return;
         }
         
-        // read-only access allowed
-        if( $sheet_data['is_public'] && ! $email ) {
-            // redact the email address
+        // if this is a public sheet and the current user does not own it…
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
+            // …redact the email address
             $sheet_data['email'] = null;
         }
         
