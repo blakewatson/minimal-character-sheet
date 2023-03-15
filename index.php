@@ -7,7 +7,7 @@ require_once('./vendor/autoload.php');
 $f3 = \Base::instance();
 
 // load phpdotenv
-$dotenv = Dotenv\Dotenv::create(__DIR__);
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 // require POSTMARK_SECRET

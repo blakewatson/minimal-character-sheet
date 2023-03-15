@@ -39,7 +39,7 @@ class Token {
 		$expiry = date_timestamp_get( date_create( $this->expiry ) );
 
 		// check expiry
-		$now = date_timestamp_get( date_create( NULL ) );
+		$now = date_timestamp_get( date_create( 'now' ) );
 		$expired = $now > $expiry;
 
 		if( $expired ) {

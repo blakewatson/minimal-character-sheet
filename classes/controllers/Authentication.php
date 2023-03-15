@@ -391,8 +391,9 @@ class Authentication {
     }
 
     public function email_token( $user, $url_path, $subject, $message ) {
-        $env = getenv( 'ENV' );
-        $postmark_secret = getenv( 'POSTMARK_SECRET' );
+        $env = $_ENV['ENV'];
+        $postmark_secret = $_ENV['POSTMARK_SECRET'];
+        error_log($postmark_secret);
         $client = new PostmarkClient( $postmark_secret );
         
         // construct email
