@@ -19,7 +19,6 @@ class User extends \DB\SQL\Mapper {
         $this->set( 'confirmed', false );
         $this->set( 'token', json_encode( $this->make_token( '1 day' ) ) );
         $this->set( 'reset_token', null );
-        $this->set( 'is_public', false );
         $this->save();
         // for some reason we have to reload this user
         $this->load( [ 'email = ?', $new_user_data['email'] ] );

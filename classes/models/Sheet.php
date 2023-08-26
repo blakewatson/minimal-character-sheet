@@ -13,6 +13,7 @@ class Sheet extends \DB\SQL\Mapper {
         $this->name = $name;
         $this->data = '';
         $this->email = $email;
+        $this->is_public = false;
         $this->save();
     }
 
