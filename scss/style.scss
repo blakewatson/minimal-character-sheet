@@ -601,6 +601,23 @@ section {
 	text-align: center;
 }
 
+.announcement {
+	margin: 0 auto;
+	margin-top: 2em;
+	margin-bottom: -3em;
+	padding: 0.75em 1em;
+	max-width: 700px;
+	background-color: whitesmoke;
+
+	> * {
+		margin: 0;
+	}
+
+	> * + * {
+		margin-top: 1em;
+	}
+}
+
 
 /* -- Dark Mode --------------------------------------------- */
 
