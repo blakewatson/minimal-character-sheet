@@ -29,8 +29,8 @@ export default {
     computed: {
         ...mapState(['readOnly']),
         
-        sheetId() {
-            return this.$store.state.id;
+        sheetSlug() {
+            return this.$store.state.slug;
         }
     },
 
@@ -44,7 +44,7 @@ export default {
             var areYouSure = confirm('Are you sure you want to *permanantly* delete this character sheet?');
             if(!areYouSure) return;
 
-            fetch(`/sheet/${this.sheetId}`, {
+            fetch(`/sheet/${this.sheetSlug}`, {
                 method: 'delete',
                 headers: {
                     'X-Ajax-Csrf': csrf

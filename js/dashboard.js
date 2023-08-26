@@ -14,14 +14,14 @@ function bindCheckboxes(sheets) {
   sheets.forEach(sheet => {
     sheet.addEventListener('input', event => {
       var isPublic = event.target.checked;
-      var sheetId = sheet.getAttribute('data-sheet');
+      var sheetSlug = sheet.getAttribute('data-sheet');
       var csrf = document.querySelector('#csrf').value;
       var formBody = new URLSearchParams();
       
       formBody.set('is_public', isPublic);
       formBody = formBody.toString();
 
-      fetch(`/make-public/${sheetId}`, {
+      fetch(`/make-public/${sheetSlug}`, {
           method: 'POST',
           headers: {
               'Content-Type': 'application/x-www-form-urlencoded',

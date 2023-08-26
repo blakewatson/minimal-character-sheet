@@ -7,6 +7,7 @@ Vue.use(Vuex);
 export default new Vuex.Store({
     state: {
         id: '',
+        slug: '',
         readOnly: false,
         levelData: levelData,
         level: 1,
@@ -294,6 +295,7 @@ export default new Vuex.Store({
             }
             
             state.id = sheet.id;
+            state.slug = sheet.slug;
             state.characterName = sheet.name;
             state.readOnly = sheet.is_public && sheet.email === null;
             

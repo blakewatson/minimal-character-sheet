@@ -30,13 +30,13 @@ $f3->route( 'GET /', function( $f3 ) {
 // dashboard
 $f3->route( 'GET /dashboard', 'Dashboard->sheet_list' );
 $f3->route( 'GET|POST /add-sheet', 'Dashboard->add_sheet' );
-$f3->route( 'POST /make-public/@sheet_id', 'Dashboard->make_sheet_public' );
+$f3->route( 'POST /make-public/@sheet_slug', 'Dashboard->make_sheet_public' );
 
 // sheet view
-$f3->route( 'GET /sheet/@sheet_id', 'Dashboard->sheet_single' );
-$f3->route( 'POST /sheet/@sheet_id', 'Dashboard->save_sheet' );
-$f3->route( 'DELETE /sheet/@sheet_id', 'Dashboard->delete_sheet' );
-$f3->route( 'GET /sheet-data/@sheet_id', 'Dashboard->get_sheet_data' );
+$f3->route( 'GET /sheet/@sheet_slug', 'Dashboard->sheet_single' );
+$f3->route( 'POST /sheet/@sheet_slug', 'Dashboard->save_sheet' );
+$f3->route( 'DELETE /sheet/@sheet_slug', 'Dashboard->delete_sheet' );
+$f3->route( 'GET /sheet-data/@sheet_slug', 'Dashboard->get_sheet_data' );
 
 // login/logout
 $f3->route( 'GET /login', 'Authentication->login_form' );

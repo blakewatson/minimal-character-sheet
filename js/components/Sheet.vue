@@ -105,7 +105,7 @@ export default {
             }
             
 			this.$store.dispatch('getJSON').then(jsonState => {
-                var sheetId = document.querySelector('#sheet-id').value;
+                var sheetSlug = document.querySelector('#sheet-slug').value;
                 var csrf = document.querySelector('#csrf').value;
                 var formBody = new URLSearchParams();
                 
@@ -113,7 +113,7 @@ export default {
                 formBody.set('data', jsonState);
                 formBody = formBody.toString();
 
-                fetch(`/sheet/${sheetId}`, {
+                fetch(`/sheet/${sheetSlug}`, {
                     method: 'POST',
                     headers: {
                         'Content-Type': 'application/x-www-form-urlencoded',
@@ -131,9 +131,9 @@ export default {
 		},
         
         refreshLoop() {
-            var sheetId = document.querySelector('#sheet-id').value;
+            var sheetSlug = document.querySelector('#sheet-slug').value;
             
-            fetch(`/sheet-data/${sheetId}`)
+            fetch(`/sheet-data/${sheetSlug}`)
             .then(r => r.json())
             .then(data => {
                 if(data.success) {

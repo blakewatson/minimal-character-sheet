@@ -31,9 +31,9 @@ class Dashboard {
     }
 
     public function sheet_single( $f3, $params ) {
-        $id = $params['sheet_id'];
+        $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $sheet_data = $sheet->get_sheet( $id );
+        $sheet_data = $sheet->get_sheet_by_slug( $slug );
         $email = $f3->get( 'SESSION.email' ) ? $f3->get( 'SESSION.email' ) : '';
         
         
@@ -56,7 +56,7 @@ class Dashboard {
         
         $sheet_data = addslashes( json_encode( $sheet_data ) );
         $f3->set( 'sheet', $sheet_data );
-        $f3->set( 'sheet_id', $id );
+        $f3->set( 'sheet_slug', $slug );
         $f3->set( 'app', true );
         $this->auth->set_csrf();
         
@@ -66,7 +66,7 @@ class Dashboard {
     public function get_sheet_data( $f3, $params ) {
         $email = $f3->get( 'SESSION.email' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
+        $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         
         // sheet not allowed to be accessed by current user
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
@@ -112,14 +112,14 @@ class Dashboard {
         $name = $f3->get( 'REQUEST.name' );
         $data = $f3->get( 'REQUEST.data' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
+        $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
             return;
         }
         
-        $result = $sheet->save_sheet( $params['sheet_id'], $name, $data );
+        $result = $sheet->save_sheet( $sheet_data['id'], $name, $data );
 
         if( ! $result ) {
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
@@ -143,7 +143,7 @@ class Dashboard {
         $this->auth->set_csrf();
         
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $sheet_data = $sheet->get_sheet( $params['sheet_id'] );
+        $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         $email = $f3->get( 'SESSION.email' );
         
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
@@ -151,7 +151,7 @@ class Dashboard {
             return;
         }
 
-        $result = $sheet->delete_sheet( $params['sheet_id'] );
+        $result = $sheet->delete_sheet( $sheet_data['id'] );
         echo json_encode([ 'success' => $result, 'csrf' => $f3->get( 'CSRF' ) ]);
     }
     
@@ -165,7 +165,7 @@ class Dashboard {
         $this->auth->set_csrf();
         
         $sheetObj = new Sheet( $f3->get( 'DB' ) );
-        $sheet = $sheetObj->get_sheet( $params['sheet_id'] );
+        $sheet = $sheetObj->get_sheet_by_slug( $params['sheet_slug'] );
                 
         if( $f3->get( 'SESSION.email' ) !== $sheet['email']) {
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
