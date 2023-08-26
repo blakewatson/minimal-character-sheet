@@ -10,11 +10,16 @@ $f3 = \Base::instance();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
+if ($_ENV['ENV'] ?? '' === 'MAINTENANCE') {
+    echo \Template::instance()->render( 'templates/maintenance.html' );
+    return;
+}
+
 // require POSTMARK_SECRET
 $dotenv->required( 'POSTMARK_SECRET' );
 
 // set default debug level
-$debug_level = getenv( 'DEBUG' );
+$debug_level = $_ENV['DEBUG'] ?? '';
 $debug_level = $debug_level ? $debug_level : 0;
 
 $f3->set( 'DEBUG', $debug_level );
