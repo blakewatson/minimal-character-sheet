@@ -232,7 +232,7 @@ class Authentication {
         }
         
         // send password reset token
-        $user->set( 'reset_token', $user->make_token( '1 hour' ) );
+        $user->set( 'reset_token', json_encode( $user->make_token( '1 hour' ) ) );
         $user->save();
         $this->email_password_reset_token( $user );
         
