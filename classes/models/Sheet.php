@@ -29,7 +29,7 @@ class Sheet extends \DB\SQL\Mapper {
             'id' => $this->id,
             'slug' => $this->slug,
             'name' => $this->name,
-            'data' => $this->data,
+            'data' => json_decode( $this->data, true ),
             'is_public' => $this->exists( 'is_public' ) ? (bool) $this->get( 'is_public' ) : false,
             'email' => $this->email
         ];
@@ -42,7 +42,7 @@ class Sheet extends \DB\SQL\Mapper {
             'id' => $this->id,
             'slug' => $this->slug,
             'name' => $this->name,
-            'data' => $this->data,
+            'data' => json_decode( $this->data, true ),
             'is_public' => $this->exists( 'is_public' ) ? (bool) $this->get( 'is_public' ) : false,
             'email' => $this->email
         ];
@@ -58,7 +58,7 @@ class Sheet extends \DB\SQL\Mapper {
                 'id' => $this->id,
                 'slug' => $this->slug,
                 'name' => $this->name,
-                'data' => $this->data,
+                'data' => json_encode( $this->data, true ),
                 'is_public' => $this->exists( 'is_public' ) ? (bool) $this->get( 'is_public' ) : false,
                 'email' => $this->email
             ];
@@ -73,7 +73,7 @@ class Sheet extends \DB\SQL\Mapper {
         $this->load( [ 'id=?', $id ] );
         if( $this->dry() ) return false;
         $this->set( 'name', $name );
-        $this->set( 'data', $data );
+        $this->set( 'data', json_encode( $data ) );
         return $this->save();
     }
 
