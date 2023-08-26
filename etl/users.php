@@ -21,7 +21,7 @@ foreach ($users as $slug => $user) {
 
   $user_mapper->email = $user['email'];
   $user_mapper->pw = $user['pw'];
-  $user_mapper->confirmed = $user['confirmed'];
+  $user_mapper->confirmed = $user['confirmed'] ?? 0;
   $user_mapper->token = isset($user['token']) && $user['token'] ? json_encode($user['token']) : null;
   $user_mapper->reset_token = isset($user['reset_token']) && $user['reset_token'] ? json_encode($user['reset_token']) : null;
   $user_mapper->save();

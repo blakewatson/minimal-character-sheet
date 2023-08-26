@@ -13,7 +13,7 @@ $sheets_mapper = new \DB\SQL\Mapper( $db, 'sheet' );
 
 foreach ($sheets as $slug => $sheet) {
   error_log($slug);
-  error_log($sheet['name']);
+  error_log($sheet['name'] ?? 'Untitled Character');
 
   if (!$sheet['email']) {
     continue;
@@ -22,7 +22,7 @@ foreach ($sheets as $slug => $sheet) {
 
   $sheets_mapper->slug = $slug;
   $sheets_mapper->email = $sheet['email'];
-  $sheets_mapper->name = $sheet['name'];
+  $sheets_mapper->name = $sheet['name'] ?? 'Untitled Character';
   $sheets_mapper->is_public = isset($sheet['is_public']) && $sheet['is_public'] ? 1 : 0;
   $sheets_mapper->data = isset($sheet['data']) ? json_encode($sheet['data']) : null;
   $sheets_mapper->save();
