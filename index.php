@@ -10,7 +10,9 @@ $f3 = \Base::instance();
 $dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
-if ($_ENV['ENV'] ?? '' === 'MAINTENANCE') {
+
+if ( ( $_ENV['ENV'] ?? '' ) === 'MAINTENANCE') {
+    error_log($_ENV['ENV']);
     echo \Template::instance()->render( 'templates/maintenance.html' );
     return;
 }
