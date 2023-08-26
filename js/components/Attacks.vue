@@ -12,9 +12,14 @@
             <tbody>
                 <tr v-for="(a, i) in attacks" :key="a.id" class="attack deletable">
                     <td><field class="size-full text-left" :value="a.name" :read-only="readOnly" @update-value="updateAttacks(i, 'name', $event)"></field></td>
-                    <td class="text-center"><field type="number" :value="a.attackBonus" :read-only="readOnly" @update-value="updateAttacks(i, 'attackBonus', $event)"></field></td>
+                    <td class="text-center"><field :value="a.attackBonus" :read-only="readOnly" @update-value="updateAttacks(i, 'attackBonus', $event)"></field></td>
                     <td><field class="size-full text-left" :value="a.damage" :read-only="readOnly" @update-value="updateAttacks(i, 'damage', $event)"></field></td>
-                    <td><button v-if="!readOnly" type="button" class="button button-delete" :disabled="readOnly" @click="deleteAttack(i)">-</button></td>
+                    <td>
+                        <button v-if="!readOnly" type="button" class="button button-delete" :disabled="readOnly" @click="deleteAttack(i)">
+                            <span class="sr-only">Delete attack</span>
+                            <span role="presentation">&times;</span>
+                        </button>
+                    </td>
                 </tr>
             </tbody>
         </table>
