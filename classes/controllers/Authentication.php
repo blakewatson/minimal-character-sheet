@@ -11,7 +11,7 @@ class Authentication {
     public function __construct( $f3 ) {
         $this->f3 = $f3;
         $this->db = $f3->get( 'DB' );
-        $this->session = new \DB\Jig\Session( $this->db, 'sessions', function( $sess ) { return true; } );
+        $this->session = new \DB\SQL\Session( $this->db, 'sessions', function( $sess ) { return true; } );
     }
 
     public function registration_form( $f3 ) {
@@ -46,23 +46,14 @@ class Authentication {
 
         // create user
         $user = new User( $f3->get( 'DB' ) );
-        $result = $user->create( [
-            'user' => $f3->get( 'POST.user' ),
+        $user = $user->create( [
             'email' => $f3->get( 'POST.email' ),
             'pw' => password_hash( $f3->get( 'POST.pw1' ), PASSWORD_DEFAULT )
         ] );
-
-        // username taken
-        if( $result === 'Username already exists.' ) {
-            $f3->set( 'error_message', $result );
-            $this->set_csrf();
-            echo \Template::instance()->render( 'templates/register.html' );
-            return;
-        }
         
         // all good! send confirmation email
-        if( $result !== false ) {
-            $user->set( 'token', $user->make_token( '1 day' ) );
+        if( $user !== false ) {
+            $user->set( 'token', json_encode( $user->make_token( '1 day' ) ) );
             $user->save();
             $this->email_confirmation_token( $user );
         }
@@ -133,7 +124,7 @@ class Authentication {
             return;
         }
 
-        $user->set( 'token', $user->make_token( '1 day' ) );
+        $user->set( 'token', json_encode( $user->make_token( '1 day' ) ) );
         $user->save();
         $this->email_confirmation_token( $user );
         
@@ -393,7 +384,6 @@ class Authentication {
     public function email_token( $user, $url_path, $subject, $message ) {
         $env = $_ENV['ENV'];
         $postmark_secret = $_ENV['POSTMARK_SECRET'];
-        error_log($postmark_secret);
         $client = new PostmarkClient( $postmark_secret );
         
         // construct email

@@ -1,35 +1,31 @@
 <?php
 
-class User extends \DB\Jig\Mapper {
+class User extends \DB\SQL\Mapper {
 
-    public $user;
     public $email;
     public $token_cleartext;
     
     public function __construct( $db ) {
-        parent::__construct( $db, 'users.json' );
+        parent::__construct( $db, 'user' );
     }
 
     public function create( $new_user_data ) {
         // check for unique email
-        $this->load( [ '@email=?', $new_user_data['email'] ] );
+        $this->load( [ 'email = ?', $new_user_data['email'] ] );
         if( ! $this->dry() ) return false;
 
-        // check for unique username
-        $this->load( [ '@user=?', $new_user_data['user'] ] );
-        if( ! $this->dry() ) return 'Username already exists.';
-
-        $this->set( 'user', $new_user_data['user'] );
         $this->set( 'email', $new_user_data['email'] );
         $this->set( 'pw', $new_user_data['pw'] );
         $this->set( 'confirmed', false );
-        $this->set( 'token', $this->make_token( '1 day' ) );
+        $this->set( 'token', json_encode( $this->make_token( '1 day' ) ) );
         $this->save();
+        // for some reason we have to reload this user
+        $this->load( [ 'email = ?', $new_user_data['email'] ] );
         return $this;
     }
 
     public function get_by_email( $email ) {
-        $this->load( [ '@email=?', $email ] );
+        $this->load( [ 'email=?', $email ] );
 
         if( $this->dry() ) return false;
         return $this;
@@ -46,6 +42,7 @@ class User extends \DB\Jig\Mapper {
     public function get_token( $key = 'token' ) {
         $token_obj = new Token();
         $token = $this->get( $key );
+        $token = json_decode( $token, true );
         $token_obj->hash = $token['hash'];
         $token_obj->expiry = $token['expiry'];
         $token_obj->one_time = $token['one_time'];
