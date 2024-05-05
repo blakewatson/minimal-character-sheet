@@ -992,7 +992,14 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
     this.editor = new (quill__WEBPACK_IMPORTED_MODULE_0___default())(this.$el, {
-      theme: 'bubble'
+      theme: 'bubble',
+      modules: {
+        toolbar: ['bold', 'italic', 'strike', 'link', {
+          header: 1
+        }, {
+          header: 2
+        }, 'blockquote']
+      }
     });
     if (this.initialContents) {
       this.editor.setContents(this.initialContents);

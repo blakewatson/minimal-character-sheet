@@ -19,7 +19,10 @@ export default {
 
     mounted() {
         this.editor = new Quill(this.$el, {
-            theme: 'bubble'
+            theme: 'bubble',
+            modules: {
+                toolbar: ['bold', 'italic', 'strike', 'link', { header: 1 }, { header: 2 }, 'blockquote']
+            }
         });
 
         if(this.initialContents) {
