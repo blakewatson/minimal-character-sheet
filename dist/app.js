@@ -171,6 +171,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     totalHitDie: 1,
     ac: 10,
     speed: 25,
+    initiative: 0,
     inspiration: false,
     deathSaves: {
       successes: [false, false, false],
@@ -450,6 +451,9 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
       deathSaves[key][i] = val;
       state.deathSaves = deathSaves;
     },
+    updateInitiative: function updateInitiative(state, payload) {
+      state.initiative = payload;
+    },
     updateInspiration: function updateInspiration(state, payload) {
       state.inspiration = payload;
     },
@@ -560,6 +564,14 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
       if (sheet.data) {
         // maintain defaults for newly added fields that might not be in the json data
         state = Object.assign({}, state, JSON.parse(sheet.data));
+      }
+
+      // default initiative to dex modifier
+      if (!state.initiative) {
+        var dex = state.abilities.find(function (ability) {
+          return ability.name === 'DEX';
+        });
+        state.initiative = Math.floor(parseInt(dex.score) / 2 - 5);
       }
       state.id = sheet.id;
       state.slug = sheet.slug;
@@ -925,7 +937,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -933,13 +946,21 @@ function _defineProperty(obj, key, value) { key = _toPropertyKey(key); if (key i
 function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Proficiency',
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapGetters)(['proficiencyBonus'])), (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['inspiration', 'readOnly'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['proficiencyBonus'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['inspiration', 'readOnly', 'initiative'])),
   methods: {
+    updateInitiative: function updateInitiative(val) {
+      val = val ? parseInt(val) : 0;
+      this.$store.commit('updateInitiative', val);
+    },
     updateInspiration: function updateInspiration(val) {
       this.$store.commit('updateInspiration', val.target.checked);
     }
+  },
+  components: {
+    'field': _Field__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -2104,6 +2125,21 @@ var render = function render() {
   return _c("section", {
     staticClass: "row row-spaced row-vert-centered"
   }, [_c("div", {
+    staticClass: "vert-center"
+  }, [_c("span", {
+    staticClass: "label label-inline"
+  }, [_vm._v("Initiative")]), _vm._v(" "), _c("field", {
+    attrs: {
+      classNames: "huge block padded",
+      value: _vm.initiative,
+      "read-only": _vm.readOnly
+    },
+    on: {
+      "update-value": function updateValue($event) {
+        return _vm.updateInitiative($event);
+      }
+    }
+  })], 1), _vm._v(" "), _c("div", {
     staticClass: "vert-center"
   }, [_c("span", {
     staticClass: "label label-inline"

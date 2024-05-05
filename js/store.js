@@ -23,6 +23,7 @@ export default new Vuex.Store({
         totalHitDie: 1,
         ac: 10,
         speed: 25,
+        initiative: 0,
         inspiration: false,
         deathSaves: {
             successes: [false, false, false],
@@ -173,6 +174,10 @@ export default new Vuex.Store({
             deathSaves[key][i] = val;
             state.deathSaves = deathSaves;
         },
+
+        updateInitiative(state, payload) {
+            state.initiative = payload;
+        },
         
         updateInspiration(state, payload) {
             state.inspiration = payload;
@@ -294,6 +299,13 @@ export default new Vuex.Store({
                 // maintain defaults for newly added fields that might not be in the json data
                 state = Object.assign({}, state, JSON.parse(sheet.data));
             }
+
+            // default initiative to dex modifier
+            if(!state.initiative) {
+                const dex = state.abilities.find(ability => ability.name === 'DEX');
+                state.initiative = Math.floor(parseInt(dex.score) / 2 - 5);
+            }
+            
             
             state.id = sheet.id;
             state.slug = sheet.slug;

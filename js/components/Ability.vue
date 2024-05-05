@@ -23,9 +23,9 @@ export default {
 		updateScore(val) {
 			var score = parseInt(val);
 			this.$store.commit('updateAbilityScore', {
-                name: this.ability.name,
-                score: score
-            });
+					name: this.ability.name,
+					score: score
+			});
 		}
 	},
 
