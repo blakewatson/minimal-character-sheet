@@ -22,6 +22,7 @@ export default {
             'personalityText',
             'backstoryText',
             'treasureText',
+            'notesText',
             'organizationsText'
         ]),
 
