@@ -171,7 +171,7 @@ export default {
     
     created() {
         // initialize state with the "sheet" global
-        this.$store.dispatch('initializeState', { sheet })
+        this.$store.dispatch('initializeState', { sheet: window.sheet })
         .catch(reason => console.log(reason));
     }
 }

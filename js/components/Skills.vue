@@ -3,8 +3,26 @@
         <p class="label centered">Skills</p>
         <ul class="col-2">
             <li v-for="(skill, i) in skills">
-                <label>
-                    <input type="checkbox" :checked="skill.proficient" :disabled="readOnly" @change="setProficiency(i)">
+                <label class="sr-only" :for="`double-prof-${i}`">Double proficiency</label>
+
+                <input 
+                    type="checkbox"
+                    title="Toggle double proficiency"
+                    :id="`double-prof-${i}`"
+                    :style="{
+                        opacity: skill.proficient ? 1 : 0,
+                        pointerEvents: skill.proficient ? 'auto' : 'none'
+                    }"
+                    :checked="skill.doubleProficient" 
+                    :disabled="readOnly"
+                    @change="setProficiency(i, 'doubleProficient')"
+                ><label title="Toggle proficiency">
+                    <input
+                        type="checkbox"
+                        :checked="skill.proficient"
+                        :disabled="readOnly || skill.doubleProficient"
+                        @change="setProficiency(i, 'proficient')"
+                    >
                     <strong class="skill-modifier">{{ getSkillModifier(skill) | signedNumString }}</strong>
                     {{ skill.name }} <span class="small muted">({{ skill.ability }})</span>
                 </label>
@@ -37,14 +55,28 @@ export default {
                 return acc;
             }, 0);
 
+            if(skill.doubleProficient) {
+                return mod + (this.proficiencyBonus * 2);
+            }
 
-            if(skill.proficient) return mod + this.proficiencyBonus;
+            if(skill.proficient) {
+                return mod + this.proficiencyBonus;
+            }
+
             return mod;
         },
 
-        setProficiency(i) {
-            var proficient = !this.skills[i].proficient;
-            this.$store.commit('updateSkillProficiency', { i, proficient });
+        setProficiency(i, prop) {
+            var proficient = this.skills[i].proficient;
+            var doubleProficient = this.skills[i].doubleProficient;
+
+            if (prop === 'proficient') {
+                proficient = !proficient;
+            } else if (prop === 'doubleProficient') {
+                doubleProficient = !doubleProficient;
+            }
+
+            this.$store.commit('updateSkillProficiency', { i, proficient, doubleProficient });
         }
     }
 }

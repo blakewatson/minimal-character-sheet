@@ -45,24 +45,24 @@ export default new Vuex.Store({
             { name: 'CHA', proficient: false }
         ],
         skills: [
-            { name: 'Acrobatics', ability: 'DEX', proficient: false },
-            { name: 'Animal Handling', ability: 'WIS', proficient: false },
-            { name: 'Arcana', ability: 'INT', proficient: false },
-            { name: 'Athletics', ability: 'STR', proficient: false },
-            { name: 'Deception', ability: 'CHA', proficient: false },
-            { name: 'History', ability: 'INT', proficient: false },
-            { name: 'Insight', ability: 'WIS', proficient: false },
-            { name: 'Intimidation', ability: 'CHA', proficient: false },
-            { name: 'Investigation', ability: 'INT', proficient: false },
-            { name: 'Medicine', ability: 'WIS', proficient: false },
-            { name: 'Nature', ability: 'INT', proficient: false },
-            { name: 'Perception', ability: 'WIS', proficient: false },
-            { name: 'Performance', ability: 'CHA', proficient: false },
-            { name: 'Persuasion', ability: 'CHA', proficient: false },
-            { name: 'Religion', ability: 'INT', proficient: false },
-            { name: 'Sleight of Hand', ability: 'DEX', proficient: false },
-            { name: 'Stealth', ability: 'DEX', proficient: false },
-            { name: 'Survival', ability: 'WIS', proficient: false }
+            { name: 'Acrobatics', ability: 'DEX', proficient: false, doubleProficient: false },
+            { name: 'Animal Handling', ability: 'WIS', proficient: false, doubleProficient: false },
+            { name: 'Arcana', ability: 'INT', proficient: false, doubleProficient: false },
+            { name: 'Athletics', ability: 'STR', proficient: false, doubleProficient: false },
+            { name: 'Deception', ability: 'CHA', proficient: false, doubleProficient: false },
+            { name: 'History', ability: 'INT', proficient: false, doubleProficient: false },
+            { name: 'Insight', ability: 'WIS', proficient: false, doubleProficient: false },
+            { name: 'Intimidation', ability: 'CHA', proficient: false, doubleProficient: false },
+            { name: 'Investigation', ability: 'INT', proficient: false, doubleProficient: false },
+            { name: 'Medicine', ability: 'WIS', proficient: false, doubleProficient: false },
+            { name: 'Nature', ability: 'INT', proficient: false, doubleProficient: false },
+            { name: 'Perception', ability: 'WIS', proficient: false, doubleProficient: false },
+            { name: 'Performance', ability: 'CHA', proficient: false, doubleProficient: false },
+            { name: 'Persuasion', ability: 'CHA', proficient: false, doubleProficient: false },
+            { name: 'Religion', ability: 'INT', proficient: false, doubleProficient: false },
+            { name: 'Sleight of Hand', ability: 'DEX', proficient: false, doubleProficient: false },
+            { name: 'Stealth', ability: 'DEX', proficient: false, doubleProficient: false },
+            { name: 'Survival', ability: 'WIS', proficient: false, doubleProficient: false }
         ],
         attacks: [],
         coins: [
@@ -181,6 +181,7 @@ export default new Vuex.Store({
         updateSkillProficiency(state, payload) {
             if(payload.i >= state.skills.links) return;
             Vue.set(state.skills[payload.i], 'proficient', payload.proficient);
+            Vue.set(state.skills[payload.i], 'doubleProficient', payload.doubleProficient);
         },
 
         updateSavingThrow(state, payload) {
