@@ -330,6 +330,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     backstoryText: {},
     treasureText: {},
     organizationsText: {},
+    notesText: {},
     spClass: '',
     spAbility: 'WIS',
     spSave: '',
@@ -2331,6 +2332,20 @@ var render = function render() {
       field: "organizationsText",
       "read-only": _vm.readOnly
     }
+  })], 1), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.view === "notes",
+      expression: "view === 'notes'"
+    }],
+    staticClass: "page"
+  }, [_c("text-section", {
+    attrs: {
+      title: "Notes",
+      field: "notesText",
+      "read-only": _vm.readOnly
+    }
   })], 1)], 1);
 };
 var staticRenderFns = [];
@@ -2770,7 +2785,17 @@ var render = function render() {
         return _vm.updateView("details");
       }
     }
-  }, [_vm._v("Details")])]), _vm._v(" "), !_vm.readOnly ? _c("li", {
+  }, [_vm._v("Details")])]), _vm._v(" "), _c("li", {
+    "class": {
+      active: _vm.view === "notes"
+    }
+  }, [_c("button", {
+    on: {
+      click: function click($event) {
+        return _vm.updateView("notes");
+      }
+    }
+  }, [_vm._v("Notes")])]), _vm._v(" "), !_vm.readOnly ? _c("li", {
     staticClass: "delete-character-button"
   }, [_c("button", {
     on: {

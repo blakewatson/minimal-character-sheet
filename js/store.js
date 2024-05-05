@@ -80,6 +80,7 @@ export default new Vuex.Store({
         backstoryText: {},
         treasureText: {},
         organizationsText: {},
+        notesText: {},
         spClass: '',
         spAbility: 'WIS',
         spSave: '',
