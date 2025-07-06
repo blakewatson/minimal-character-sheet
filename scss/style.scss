@@ -1,4 +1,5 @@
 @import './mixins';
+@import './spacing';
 
 $text: 'IBM Plex Mono', monospace;
 $page_width: 650px;
@@ -93,7 +94,8 @@ td {
 	padding: 0.25em;
 }
 
-section {
+section,
+.section {
 	margin: 1em auto;
 	padding-bottom: 1em;
 	border-bottom: 1px solid #ddd;
@@ -106,6 +108,11 @@ section {
 	> .label {
 		margin-bottom: 1em;
 	}
+}
+
+summary.label {
+	cursor: pointer;
+	display: list-item;
 }
 
 .row {
@@ -164,6 +171,8 @@ section {
 }
 
 .sep {
+	font-weight: bold;
+	font-style: normal;
 	margin: 0 -0.25em;
 }
 
@@ -178,7 +187,6 @@ section {
 	font-size: 1em;
 	line-height: 1em;
 	color: #000;
-	background-color: transparent;
 
 	&:hover, &:focus {
 		background-color: #f3f3f3;
@@ -257,7 +265,7 @@ section {
 }
 
 .muted {
-	color: #999;
+	color: #777;
 }
 
 .centered, .text-center {
@@ -536,6 +544,17 @@ section {
 	label {
 		display: inline-block;
 		margin-right: -0.5em;
+	}
+}
+
+/* -- Main tab ---------------------------------------------- */
+
+/* table row */
+.attack {
+	position: relative;
+
+	.ql-editor {
+		padding: 0.25em;
 	}
 }
 

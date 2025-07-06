@@ -1,6 +1,6 @@
 <template>
-    <section>
-        <p class="label centered">Equipment</p>
+    <details open class="section">
+        <summary class="label centered">Equipment</summary>
 
         <div class="row vert-after">
             <div class="box box-lite" v-for="(c, i) in coins">
@@ -10,7 +10,7 @@
         </div>
 
         <quill-editor :initial-contents="equipmentText" :read-only="readOnly" @quill-text-change="updateEquipment"></quill-editor>
-    </section>
+    </details>
 </template>
 
 <script>

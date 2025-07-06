@@ -90,8 +90,9 @@ class Dashboard {
         if( $f3->get( 'SERVER.REQUEST_METHOD' ) === 'POST' ) {
             $name = $f3->get( 'POST.sheet_name' );
             $email = $f3->get( 'SESSION.email' );
+            $is_2024 = $f3->get( 'POST.is_2024' ) === '1';
             $sheet = new Sheet( $f3->get( 'DB' ) );
-            $sheet->create_sheet( $name, $email );
+            $sheet->create_sheet( $name, $email, $is_2024 );
             $f3->reroute( '/dashboard' );
         } else {
             $this->auth->set_csrf();

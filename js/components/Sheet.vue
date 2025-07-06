@@ -14,11 +14,11 @@
 
             <attacks></attacks>
 
+            <text-section title="Features & Traits" field="featuresText" :read-only="readOnly"></text-section>
+
             <equipment></equipment>
 
             <text-section title="Other Proficiencies & Languages" field="proficienciesText" :read-only="readOnly"></text-section>
-
-            <text-section title="Feature & Traits" field="featuresText" :read-only="readOnly"></text-section>
         </div>
 
         <div class="page" v-show="view === 'spells'">
@@ -26,9 +26,9 @@
         </div>
 
         <div class="page" v-show="view === 'details'">
-            <text-section title="Traits, Ideals, Bonds, & Flaws" field="personalityText" :read-only="readOnly"></text-section>
+            <text-section title="Traits, Ideals, Bonds, & Flaws" field="personalityText" :read-only="readOnly" v-if="!is_2024"></text-section>
 
-            <text-section title="Character Backstory" field="backstoryText" :read-only="readOnly"></text-section>
+            <text-section title="Appearance & Backstory" field="backstoryText" :read-only="readOnly"></text-section>
     
             <text-section title="Treasure" field="treasureText" :read-only="readOnly"></text-section>
     
@@ -65,7 +65,7 @@ export default {
     },
     
     computed: {
-        ...mapState(['readOnly'])
+        ...mapState(['is_2024', 'readOnly'])
     },
 
 	methods: {

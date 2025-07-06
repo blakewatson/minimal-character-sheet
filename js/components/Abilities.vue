@@ -3,12 +3,13 @@
         <div class="row vert-after">
             <ability v-for="(a, i) in abilities" :ability="a" :modifier="modifiers[i].val" :key="a.name"></ability>
         </div>
-        <div class="">
-            <span class="centered label">Saving throw proficiency</span>
+        
+        <details open>
+            <summary class="label centered">Saving Throws</summary>
             <div class="row">
                 <saving-throw v-for="(s, i) in savingThrows" :savingThrow="s" :modifier="modifiers[i].val" :key="s.name"></saving-throw>
             </div>
-        </div>
+        </details>
     </section>
 </template>
 

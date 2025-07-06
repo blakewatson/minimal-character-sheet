@@ -3,9 +3,20 @@
 <div class="container-center-center">
     <div class="inner">
         <form action="" method="POST">
-            <label for="sheet-name" class="label block">What&rsquo;s your character&rsquo;s name?</label>
-            <input type="text" class="field field-visible" id="sheet-name" name="sheet_name" autofocus><br>
-            <button type="submit" class="button-primary">Create Sheet</button>
+            <label for="sheet-name" class="block mb-xs">What&rsquo;s your character&rsquo;s name?</label>
+            <input type="text" class="field field-visible size-full" id="sheet-name" name="sheet_name" autofocus><br>
+            
+            <div class="mt-md">
+                <label class="block mb-xs">D&D 5e Version:</label>
+                <label for="is-2024" class="label">
+                    <input type="radio" id="is-2024" name="is_2024" value="1" checked> 2024 Edition
+                </label>
+                <label for="is-2014" class="label">
+                    <input type="radio" id="is-2014" name="is_2024" value="0"> 2014 Edition
+                </label>
+            </div>
+            
+            <button type="submit" class="button-primary mr-sm">Create Sheet</button>
             <a href="/dashboard" class="button">Cancel</a>
             <input type="hidden" name="csrf" value="{{ @CSRF }}">
         </form>

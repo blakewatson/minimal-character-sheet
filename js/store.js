@@ -8,11 +8,13 @@ export default new Vuex.Store({
     state: {
         id: '',
         slug: '',
+        is_2024: false,
         readOnly: false,
         levelData: levelData,
         level: 1,
         characterName: '',
         race: '',
+        background: '',
         className: '',
         xp: 0,
         alignment: '',
@@ -152,7 +154,7 @@ export default new Vuex.Store({
         },
 
         updateBio(state, payload) {
-            var allowedFields = ["characterName", "race", "className", "xp", "alignment"];
+            var allowedFields = ["characterName", "race", "background", "className", "xp", "alignment"];
             var field = payload.field;
             if(!allowedFields.includes(field)) return;
             if(!state.hasOwnProperty(field)) return;
@@ -202,7 +204,7 @@ export default new Vuex.Store({
         },
 
         addAttack(state, payload) {
-            var attack = { id: Date.now(), name: '', attackBonus: 0, damage: '' };
+            var attack = { id: Date.now(), name: '', attackBonus: 0, damage: '', weaponNotes: '' };
             state.attacks.push(attack);
         },
 
@@ -306,6 +308,15 @@ export default new Vuex.Store({
                 const dex = state.abilities.find(ability => ability.name === 'DEX');
                 state.initiative = Math.floor(parseInt(dex.score) / 2 - 5);
             }
+
+            // ensure existing attacks have weaponNotes field
+            if(state.attacks && state.attacks.length > 0) {
+                state.attacks.forEach(attack => {
+                    if(!attack.hasOwnProperty('weaponNotes')) {
+                        attack.weaponNotes = '';
+                    }
+                });
+            }
             
             
             state.id = sheet.id;
@@ -323,6 +334,15 @@ export default new Vuex.Store({
             if(sheet.data) {
                 // maintain defaults for newly added fields that might not be in the json data
                 state = Object.assign({}, state, JSON.parse(sheet.data));
+            }
+
+            // ensure existing attacks have weaponNotes field
+            if(state.attacks && state.attacks.length > 0) {
+                state.attacks.forEach(attack => {
+                    if(!attack.hasOwnProperty('weaponNotes')) {
+                        attack.weaponNotes = '';
+                    }
+                });
             }
             
             state.id = sheet.id;

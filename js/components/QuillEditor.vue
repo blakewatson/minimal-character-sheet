@@ -8,7 +8,14 @@ import Quill from 'quill';
 export default {
     name: 'QuillEditor',
     
-    props: ['initialContents', 'readOnly'],
+    props: {
+        initialContents: {},
+        readOnly: {},
+        toolbarOptions: {
+            type: Array,
+            default: () => ['bold', 'italic', 'strike', 'link', { header: 1 }, { header: 2 }, 'blockquote']
+        }
+    },
 
     data() {
         return {
@@ -21,7 +28,7 @@ export default {
         this.editor = new Quill(this.$el, {
             theme: 'bubble',
             modules: {
-                toolbar: ['bold', 'italic', 'strike', 'link', { header: 1 }, { header: 2 }, 'blockquote']
+                toolbar: this.toolbarOptions
             }
         });
 

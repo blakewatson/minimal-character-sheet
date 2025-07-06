@@ -1,8 +1,8 @@
 <template>
-    <section>
-        <p class="label centered">{{ title }}</p>
+    <details open class="section">
+        <summary class="label centered">{{ title }}</summary>
         <quill-editor :initial-contents="textField" :read-only="readOnly" @quill-text-change="updateTextField"></quill-editor>
-    </section>
+    </details>
 </template>
 
 <script>
