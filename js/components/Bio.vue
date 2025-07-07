@@ -1,85 +1,100 @@
 <template>
   <section class="bio">
     <p class="meta mb-sm">
-      <field
-        align="left"
-        class-names="mr-sm"
-        :value="characterName"
-        placeholder="Name"
-        :read-only="readOnly"
-        @update-value="updateBio('characterName', $event)"
-      ></field>
+      <span class="no-break mb-xs">
+        <label for="characterName" class="small muted">Name</label>
+        <field
+          :read-only="readOnly"
+          :value="characterName"
+          @update-value="updateBio('characterName', $event)"
+          align="left"
+          class-names="mr-sm"
+          id="characterName"
+          placeholder="Name"
+        ></field>
+      </span>
 
-      <label for="characterBackground" class="small muted"
-        >Background</label
-      >
-      <field
-        :read-only="readOnly"
-        :value="background"
-        @update-value="updateBio('background', $event)"
-        align="left"
-        class-names="mr-sm"
-        id="characterBackground"
-        placeholder=""
-      ></field>
+      <span class="no-break mb-xs">
+        <label for="characterBackground" class="small muted"
+          >Background</label
+        >
+        <field
+          :read-only="readOnly"
+          :value="background"
+          @update-value="updateBio('background', $event)"
+          align="left"
+          class-names="mr-sm"
+          id="characterBackground"
+          placeholder=""
+        ></field>
+      </span>
 
-      <label for="characterRace" class="small muted">
-        {{ is_2024 ? "Species" : "Race" }}
-      </label>
-      <field
-        :read-only="readOnly"
-        :value="race"
-        @update-value="updateBio('race', $event)"
-        align="left"
-        id="characterRace"
-      ></field>
+      <span class="no-break mb-xs">
+        <label for="characterRace" class="small muted">
+          {{ is_2024 ? "Species" : "Race" }}
+        </label>
+        <field
+          :read-only="readOnly"
+          :value="race"
+          @update-value="updateBio('race', $event)"
+          align="left"
+          id="characterRace"
+        ></field>
+      </span>
     </p>
 
     <p class="meta vert-after">
-      <label for="characterClass" class="small muted sr-only"
-        >Class / subclass</label
-      >
-      <field
-        id="characterClass"
-        class-names="mr-sm"
-        align="left"
-        :value="className"
-        placeholder="Class / subclass"
-        :read-only="readOnly"
-        @update-value="updateBio('className', $event)"
-      ></field>
+      <span class="no-break mb-xs">
+        <label for="characterClass" class="small muted"
+          >Class</label
+        >
+        <field
+          id="characterClass"
+          class-names="mr-sm"
+          align="left"
+          :value="className"
+          :read-only="readOnly"
+          @update-value="updateBio('className', $event)"
+        ></field>
+      </span>
 
-      <label for="characterLevel" class="small muted">Level</label>
-      <field
-        id="characterLevel"
-        class-names="mr-sm"
-        :value="level"
-        type="number"
-        min="1"
-        :read-only="readOnly"
-        @update-value="updateLevel"
-      ></field>
+      <span class="no-break mb-xs">
+        <label for="characterLevel" class="small muted">Level</label>
+        <field
+          id="characterLevel"
+          class-names="mr-sm"
+          :value="level"
+          type="number"
+          min="1"
+          :read-only="readOnly"
+          @update-value="updateLevel"
+        ></field>
+      </span>
 
-      <label for="characterXp" class="small muted">XP</label>
-      <field
-        id="characterXp"
-        class-names="mr-sm"
-        :value="xp"
-        type="number"
-        :read-only="readOnly"
-        @update-value="updateBio('xp', $event)"
-      ></field>
+      <span class="no-break mb-xs">
+        <label for="characterXp" class="small muted">XP</label>
+        <field
+          id="characterXp"
+          class-names="mr-sm"
+          :value="xp"
+          type="number"
+          :read-only="readOnly"
+          @update-value="updateBio('xp', $event)"
+        ></field>
+      </span>
 
-      <label for="characterAlignment" class="small muted"
-        >Alignment</label
-      >
-      <field
-        id="characterAlignment"
-        align="left"
-        :value="alignment"
-        :read-only="readOnly"
-        @update-value="updateBio('alignment', $event)"
-      ></field>
+      <span class="no-break mb-xs">
+        <label for="characterAlignment" class="small muted"
+          >Alignment</label
+        >
+        <field
+          id="characterAlignment"
+          align="left"
+          :value="alignment"
+          :read-only="readOnly"
+          @update-value="updateBio('alignment', $event)"
+        ></field>
+      </span>
     </p>
 
     <vitals></vitals>
@@ -117,6 +132,10 @@ export default {
       this.$store.commit("updateBio", { field, val });
     },
   },
+
+    created() {
+      console.log(this.$store.state);
+    },
 
   components: {
     field: Field,

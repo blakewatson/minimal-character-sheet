@@ -562,11 +562,13 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
       });
     },
     initializeState: function initializeState(_ref2, payload) {
-      var commit = _ref2.commit;
+      var commit = _ref2.commit,
+        storeState = _ref2.state;
       var sheet = JSON.parse(payload.sheet);
-      var state = {};
+      // Start with a deep copy of the store's default state
+      var state = JSON.parse(JSON.stringify(storeState));
       if (sheet.data) {
-        // maintain defaults for newly added fields that might not be in the json data
+        // merge sheet data on top of defaults
         state = Object.assign({}, state, JSON.parse(sheet.data));
       }
 
@@ -588,18 +590,31 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
       }
       state.id = sheet.id;
       state.slug = sheet.slug;
-      state.characterName = sheet.name;
+
+      // Use window.characterName if state.characterName is missing or empty
+      if (!state.characterName && typeof window.characterName !== 'undefined') {
+        state.characterName = window.characterName;
+      }
+
+      // Use window.is_2024 if available, otherwise use sheet.is_2024
+      if (typeof window.is_2024 !== 'undefined') {
+        state.is_2024 = window.is_2024;
+      } else if (sheet.is_2024 !== undefined) {
+        state.is_2024 = sheet.is_2024;
+      }
       state.readOnly = sheet.is_public && sheet.email === null;
       commit('replaceState', {
         state: state
       });
     },
     updateState: function updateState(_ref3, payload) {
-      var commit = _ref3.commit;
+      var commit = _ref3.commit,
+        storeState = _ref3.state;
       var sheet = payload.sheet;
-      var state = {};
+      // Start with a deep copy of the store's default state
+      var state = JSON.parse(JSON.stringify(storeState));
       if (sheet.data) {
-        // maintain defaults for newly added fields that might not be in the json data
+        // merge sheet data on top of defaults
         state = Object.assign({}, state, JSON.parse(sheet.data));
       }
 
@@ -795,6 +810,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         val: val
       });
     }
+  },
+  created: function created() {
+    console.log(this.$store.state);
   },
   components: {
     field: _Field__WEBPACK_IMPORTED_MODULE_0__["default"],
@@ -1900,20 +1918,30 @@ var render = function render() {
     staticClass: "bio"
   }, [_c("p", {
     staticClass: "meta mb-sm"
-  }, [_c("field", {
+  }, [_c("span", {
+    staticClass: "no-break mb-xs"
+  }, [_c("label", {
+    staticClass: "small muted",
     attrs: {
+      "for": "characterName"
+    }
+  }, [_vm._v("Name")]), _vm._v(" "), _c("field", {
+    attrs: {
+      "read-only": _vm.readOnly,
+      value: _vm.characterName,
       align: "left",
       "class-names": "mr-sm",
-      value: _vm.characterName,
-      placeholder: "Name",
-      "read-only": _vm.readOnly
+      id: "characterName",
+      placeholder: "Name"
     },
     on: {
       "update-value": function updateValue($event) {
         return _vm.updateBio("characterName", $event);
       }
     }
-  }), _vm._v(" "), _c("label", {
+  })], 1), _vm._v(" "), _c("span", {
+    staticClass: "no-break mb-xs"
+  }, [_c("label", {
     staticClass: "small muted",
     attrs: {
       "for": "characterBackground"
@@ -1932,12 +1960,14 @@ var render = function render() {
         return _vm.updateBio("background", $event);
       }
     }
-  }), _vm._v(" "), _c("label", {
+  })], 1), _vm._v(" "), _c("span", {
+    staticClass: "no-break mb-xs"
+  }, [_c("label", {
     staticClass: "small muted",
     attrs: {
       "for": "characterRace"
     }
-  }, [_vm._v("\n      " + _vm._s(_vm.is_2024 ? "Species" : "Race") + "\n    ")]), _vm._v(" "), _c("field", {
+  }, [_vm._v("\n        " + _vm._s(_vm.is_2024 ? "Species" : "Race") + "\n      ")]), _vm._v(" "), _c("field", {
     attrs: {
       "read-only": _vm.readOnly,
       value: _vm.race,
@@ -1949,20 +1979,21 @@ var render = function render() {
         return _vm.updateBio("race", $event);
       }
     }
-  })], 1), _vm._v(" "), _c("p", {
+  })], 1)]), _vm._v(" "), _c("p", {
     staticClass: "meta vert-after"
+  }, [_c("span", {
+    staticClass: "no-break mb-xs"
   }, [_c("label", {
-    staticClass: "small muted sr-only",
+    staticClass: "small muted",
     attrs: {
       "for": "characterClass"
     }
-  }, [_vm._v("Class / subclass")]), _vm._v(" "), _c("field", {
+  }, [_vm._v("Class")]), _vm._v(" "), _c("field", {
     attrs: {
       id: "characterClass",
       "class-names": "mr-sm",
       align: "left",
       value: _vm.className,
-      placeholder: "Class / subclass",
       "read-only": _vm.readOnly
     },
     on: {
@@ -1970,7 +2001,9 @@ var render = function render() {
         return _vm.updateBio("className", $event);
       }
     }
-  }), _vm._v(" "), _c("label", {
+  })], 1), _vm._v(" "), _c("span", {
+    staticClass: "no-break mb-xs"
+  }, [_c("label", {
     staticClass: "small muted",
     attrs: {
       "for": "characterLevel"
@@ -1987,7 +2020,9 @@ var render = function render() {
     on: {
       "update-value": _vm.updateLevel
     }
-  }), _vm._v(" "), _c("label", {
+  })], 1), _vm._v(" "), _c("span", {
+    staticClass: "no-break mb-xs"
+  }, [_c("label", {
     staticClass: "small muted",
     attrs: {
       "for": "characterXp"
@@ -2005,7 +2040,9 @@ var render = function render() {
         return _vm.updateBio("xp", $event);
       }
     }
-  }), _vm._v(" "), _c("label", {
+  })], 1), _vm._v(" "), _c("span", {
+    staticClass: "no-break mb-xs"
+  }, [_c("label", {
     staticClass: "small muted",
     attrs: {
       "for": "characterAlignment"
@@ -2022,7 +2059,7 @@ var render = function render() {
         return _vm.updateBio("alignment", $event);
       }
     }
-  })], 1), _vm._v(" "), _c("vitals")], 1);
+  })], 1)]), _vm._v(" "), _c("vitals")], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;

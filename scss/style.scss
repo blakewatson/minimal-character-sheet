@@ -184,8 +184,9 @@ summary.label {
 	min-width: 0;
 	max-width: none;
 	font-family: $text;
-	font-size: 1em;
+	font-size: 0.9em;
 	line-height: 1em;
+	background-color: transparent;
 	color: #000;
 
 	&:hover, &:focus {
@@ -237,6 +238,11 @@ summary.label {
 
 .clearfix {
 	@include clearfix;
+}
+
+.no-break {
+	display: inline-block;
+	white-space: nowrap;
 }
 
 .vert-after {
@@ -646,6 +652,7 @@ summary.label {
 } */
 
 html.dark-mode {
+	color-scheme: dark;
 	background-color: #1a1a1a;
 	color: #ccc;
 

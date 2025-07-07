@@ -54,8 +54,12 @@ class Dashboard {
             $this->auth->bounce();
         }
         
+        $character_name = $sheet_data['name'];
+        $is_2024 = $sheet_data['is_2024'];
         $sheet_data = addslashes( json_encode( $sheet_data ) );
         $f3->set( 'sheet', $sheet_data );
+        $f3->set( 'character_name', addslashes( $character_name ) );
+        $f3->set( 'is_2024', $is_2024 ? 'true' : 'false' );
         $f3->set( 'sheet_slug', $slug );
         $f3->set( 'app', true );
         $this->auth->set_csrf();

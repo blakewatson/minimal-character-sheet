@@ -661,8 +661,9 @@ summary.label {
   min-width: 0;
   max-width: none;
   font-family: "IBM Plex Mono", monospace;
-  font-size: 1em;
+  font-size: 0.9em;
   line-height: 1em;
+  background-color: transparent;
   color: #000;
 }
 .field:hover, .field:focus {
@@ -1118,6 +1119,11 @@ summary.label {
   clear: both;
 }
 
+.no-break {
+  display: inline-block;
+  white-space: nowrap;
+}
+
 .vert-after {
   margin-bottom: 1em;
 }
@@ -1473,6 +1479,7 @@ summary.label {
 	filter: invert(100%) brightness(75%);
 } */
 html.dark-mode {
+  color-scheme: dark;
   background-color: #1a1a1a;
   color: #ccc;
 }

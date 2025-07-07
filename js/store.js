@@ -294,12 +294,13 @@ export default new Vuex.Store({
             });
         },
 
-        initializeState({ commit }, payload) {
+        initializeState({ commit, state: storeState }, payload) {
             var sheet = JSON.parse(payload.sheet);
-            var state = {};
+            // Start with a deep copy of the store's default state
+            var state = JSON.parse(JSON.stringify(storeState));
             
             if(sheet.data) {
-                // maintain defaults for newly added fields that might not be in the json data
+                // merge sheet data on top of defaults
                 state = Object.assign({}, state, JSON.parse(sheet.data));
             }
 
@@ -318,21 +319,33 @@ export default new Vuex.Store({
                 });
             }
             
-            
             state.id = sheet.id;
             state.slug = sheet.slug;
-            state.characterName = sheet.name;
+
+            // Use window.characterName if state.characterName is missing or empty
+            if(!state.characterName && typeof window.characterName !== 'undefined') {
+                state.characterName = window.characterName;
+            }
+
+            // Use window.is_2024 if available, otherwise use sheet.is_2024
+            if(typeof window.is_2024 !== 'undefined') {
+                state.is_2024 = window.is_2024;
+            } else if(sheet.is_2024 !== undefined) {
+                state.is_2024 = sheet.is_2024;
+            }
+
             state.readOnly = sheet.is_public && sheet.email === null;
             
             commit('replaceState', { state });
         },
         
-        updateState({ commit }, payload) {
+        updateState({ commit, state: storeState }, payload) {
             var sheet = payload.sheet;
-            var state = {};
+            // Start with a deep copy of the store's default state
+            var state = JSON.parse(JSON.stringify(storeState));
             
             if(sheet.data) {
-                // maintain defaults for newly added fields that might not be in the json data
+                // merge sheet data on top of defaults
                 state = Object.assign({}, state, JSON.parse(sheet.data));
             }
 
