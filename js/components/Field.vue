@@ -15,7 +15,7 @@ export default {
     computed: {
         classAttr() {
             var align = this.align ? this.align : 'center';
-            var value = this.value ? this.value.toString() : '';
+            var value = this.value?.toString() || '';
             var placeholder = this.placeholder ? this.placeholder : '';
             var length = value.length > 0 ? value.length : placeholder.length;
             var classNames = this.classNames ? this.classNames : '';

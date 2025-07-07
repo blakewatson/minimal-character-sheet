@@ -27,6 +27,8 @@ export default new Vuex.Store({
         speed: 25,
         initiative: 0,
         inspiration: false,
+        shortRest1: false,
+        shortRest2: false,
         deathSaves: {
             successes: [false, false, false],
             failures: [false, false, false],
@@ -186,6 +188,14 @@ export default new Vuex.Store({
             state.inspiration = payload;
         },
 
+        updateShortRest1(state, payload) {
+            state.shortRest1 = payload;
+        },
+
+        updateShortRest2(state, payload) {
+            state.shortRest2 = payload;
+        },
+
         updateSkillProficiency(state, payload) {
             if(payload.i >= state.skills.links) return;
             Vue.set(state.skills[payload.i], 'proficient', payload.proficient);
@@ -298,6 +308,9 @@ export default new Vuex.Store({
             var sheet = JSON.parse(payload.sheet);
             // Start with a deep copy of the store's default state
             var state = JSON.parse(JSON.stringify(storeState));
+
+            console.log(sheet);
+            console.log(state);
             
             if(sheet.data) {
                 // merge sheet data on top of defaults

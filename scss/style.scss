@@ -213,6 +213,24 @@ summary.label {
 	}
 }
 
+.checkbox-group {
+	display: flex;
+	gap: 1em;
+	align-items: center;
+
+	label {
+		display: flex;
+		align-items: center;
+		gap: 0.25em;
+		cursor: pointer;
+	}
+
+	input[type="checkbox"] {
+		margin: 0;
+		cursor: pointer;
+	}
+}
+
 @include field-sizes();
 
 .field.size-full, .size-full {
@@ -771,5 +789,12 @@ html.dark-mode {
 	
 	.sheet-list li {
 		border-bottom-color: rgba(#fff, 0.2);
+	}
+
+	.checkbox-group {
+		input[type="checkbox"] {
+			background-color: #333;
+			border-color: #ccc;
+		}
 	}
 }

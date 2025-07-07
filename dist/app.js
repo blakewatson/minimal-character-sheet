@@ -175,6 +175,8 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     speed: 25,
     initiative: 0,
     inspiration: false,
+    shortRest1: false,
+    shortRest2: false,
     deathSaves: {
       successes: [false, false, false],
       failures: [false, false, false]
@@ -460,6 +462,12 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     updateInspiration: function updateInspiration(state, payload) {
       state.inspiration = payload;
     },
+    updateShortRest1: function updateShortRest1(state, payload) {
+      state.shortRest1 = payload;
+    },
+    updateShortRest2: function updateShortRest2(state, payload) {
+      state.shortRest2 = payload;
+    },
     updateSkillProficiency: function updateSkillProficiency(state, payload) {
       if (payload.i >= state.skills.links) return;
       vue__WEBPACK_IMPORTED_MODULE_1__["default"].set(state.skills[payload.i], 'proficient', payload.proficient);
@@ -567,6 +575,8 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
       var sheet = JSON.parse(payload.sheet);
       // Start with a deep copy of the store's default state
       var state = JSON.parse(JSON.stringify(storeState));
+      console.log(sheet);
+      console.log(state);
       if (sheet.data) {
         // merge sheet data on top of defaults
         state = Object.assign({}, state, JSON.parse(sheet.data));
@@ -811,9 +821,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       });
     }
   },
-  created: function created() {
-    console.log(this.$store.state);
-  },
   components: {
     field: _Field__WEBPACK_IMPORTED_MODULE_0__["default"],
     vitals: _Vitals__WEBPACK_IMPORTED_MODULE_1__["default"]
@@ -886,8 +893,9 @@ __webpack_require__.r(__webpack_exports__);
   props: ['value', 'type', 'align', 'placeholder', 'classNames', 'readOnly'],
   computed: {
     classAttr: function classAttr() {
+      var _this$value;
       var align = this.align ? this.align : 'center';
-      var value = this.value ? this.value.toString() : '';
+      var value = ((_this$value = this.value) === null || _this$value === void 0 ? void 0 : _this$value.toString()) || '';
       var placeholder = this.placeholder ? this.placeholder : '';
       var length = value.length > 0 ? value.length : placeholder.length;
       var classNames = this.classNames ? this.classNames : '';
@@ -991,19 +999,25 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'Proficiency',
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['proficiencyBonus'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['inspiration', 'readOnly', 'initiative'])),
+  name: "Proficiency",
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["proficiencyBonus"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(["inspiration", "readOnly", "initiative", "shortRest1", "shortRest2"])),
   methods: {
     updateInitiative: function updateInitiative(val) {
       val = val ? parseInt(val) : 0;
-      this.$store.commit('updateInitiative', val);
+      this.$store.commit("updateInitiative", val);
     },
     updateInspiration: function updateInspiration(val) {
-      this.$store.commit('updateInspiration', val.target.checked);
+      this.$store.commit("updateInspiration", val.target.checked);
+    },
+    updateShortRest1: function updateShortRest1(val) {
+      this.$store.commit("updateShortRest1", val.target.checked);
+    },
+    updateShortRest2: function updateShortRest2(val) {
+      this.$store.commit("updateShortRest2", val.target.checked);
     }
   },
   components: {
-    'field': _Field__WEBPACK_IMPORTED_MODULE_0__["default"]
+    field: _Field__WEBPACK_IMPORTED_MODULE_0__["default"]
   }
 });
 
@@ -2256,13 +2270,17 @@ var render = function render() {
     staticClass: "row row-spaced row-vert-centered"
   }, [_c("div", {
     staticClass: "vert-center"
-  }, [_c("span", {
-    staticClass: "label label-inline"
+  }, [_c("label", {
+    staticClass: "meta small muted",
+    attrs: {
+      "for": "initiative"
+    }
   }, [_vm._v("Initiative")]), _vm._v(" "), _c("field", {
     attrs: {
-      classNames: "huge block padded",
+      "read-only": _vm.readOnly,
       value: _vm.initiative,
-      "read-only": _vm.readOnly
+      classNames: "huge block padded",
+      id: "initiative"
     },
     on: {
       "update-value": function updateValue($event) {
@@ -2272,14 +2290,14 @@ var render = function render() {
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "vert-center"
   }, [_c("span", {
-    staticClass: "label label-inline"
+    staticClass: "meta small muted"
   }, [_vm._v("Proficiency bonus")]), _vm._v(" "), _c("span", {
     staticClass: "huge padded"
   }, [_vm._v(_vm._s(_vm._f("signedNumString")(_vm.proficiencyBonus)))])]), _vm._v(" "), _c("div", {
     staticClass: "vert-center"
   }, [_c("label", {
-    staticClass: "label label-inline"
-  }, [_vm._v("\n            Inspiration\n            "), _c("input", {
+    staticClass: "meta small muted"
+  }, [_vm._v("\n      Inspiration\n      "), _c("input", {
     attrs: {
       type: "checkbox",
       disabled: _vm.readOnly
@@ -2290,7 +2308,43 @@ var render = function render() {
     on: {
       input: _vm.updateInspiration
     }
-  })])])]);
+  })])]), _vm._v(" "), _c("div", {
+    staticClass: "vert-center"
+  }, [_c("span", {
+    staticClass: "meta small muted mr-sm"
+  }, [_vm._v("Short rests")]), _vm._v(" "), _c("div", {
+    staticClass: "checkbox-group"
+  }, [_c("label", {
+    staticClass: "meta small muted"
+  }, [_c("input", {
+    attrs: {
+      type: "checkbox",
+      disabled: _vm.readOnly
+    },
+    domProps: {
+      checked: _vm.shortRest1
+    },
+    on: {
+      input: _vm.updateShortRest1
+    }
+  }), _vm._v(" "), _c("span", {
+    staticClass: "sr-only"
+  }, [_vm._v("1")])]), _vm._v(" "), _c("label", {
+    staticClass: "meta small muted"
+  }, [_c("input", {
+    attrs: {
+      type: "checkbox",
+      disabled: _vm.readOnly
+    },
+    domProps: {
+      checked: _vm.shortRest2
+    },
+    on: {
+      input: _vm.updateShortRest2
+    }
+  }), _vm._v(" "), _c("span", {
+    staticClass: "sr-only"
+  }, [_vm._v("2")])])])])]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

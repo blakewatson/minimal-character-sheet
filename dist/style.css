@@ -685,6 +685,22 @@ summary.label {
   background-color: #f3f3f3;
 }
 
+.checkbox-group {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+}
+.checkbox-group label {
+  display: flex;
+  align-items: center;
+  gap: 0.25em;
+  cursor: pointer;
+}
+.checkbox-group input[type=checkbox] {
+  margin: 0;
+  cursor: pointer;
+}
+
 .field.size-0 {
   width: 1.15em;
 }
@@ -1573,4 +1589,8 @@ html.dark-mode .mini-icon svg {
 }
 html.dark-mode .sheet-list li {
   border-bottom-color: rgba(255, 255, 255, 0.2);
+}
+html.dark-mode .checkbox-group input[type=checkbox] {
+  background-color: #333;
+  border-color: #ccc;
 }

@@ -133,10 +133,6 @@ export default {
     },
   },
 
-    created() {
-      console.log(this.$store.state);
-    },
-
   components: {
     field: Field,
     vitals: Vitals,
