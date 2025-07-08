@@ -170,6 +170,14 @@ summary.label {
 	columns: 2;
 }
 
+.skills-list {
+	columns: 2;
+	
+	@media (max-width: 650px) {
+		columns: 1;
+	}
+}
+
 .sep {
 	font-weight: bold;
 	font-style: normal;
@@ -319,16 +327,6 @@ summary.label {
 
 .meta {
 	font-style: italic;
-}
-
-.ability, .saving-throw {
-	width: 65px;
-}
-
-.skill-modifier {
-	display: inline-block;
-	width: 2rem;
-	text-align: right;
 }
 
 .button-primary {
@@ -595,6 +593,43 @@ summary.label {
 }
 
 /* -- Main tab ---------------------------------------------- */
+
+.abilities {
+	gap: 0.5em;
+}
+
+@media (max-width: 530px) {
+	.abilities {
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+}
+
+.vitals-row {
+	gap: 1em;
+}
+
+@media (max-width: 650px) {
+	.vitals-row {
+		justify-content: center;
+		flex-wrap: wrap;
+	}
+}
+
+.ability {
+	width: 65px;
+
+	input[type=number]::-webkit-inner-spin-button, 
+	input[type=number]::-webkit-outer-spin-button {  
+		 opacity: 1;
+	}
+}
+
+.skill-modifier {
+	display: inline-block;
+	width: 2rem;
+	text-align: right;
+}
 
 /* table row */
 .attack {

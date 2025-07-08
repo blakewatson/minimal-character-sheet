@@ -1,34 +1,25 @@
 <template>
     <section>
-        <div class="row vert-after">
+        <div class="abilities row">
             <ability v-for="(a, i) in abilities" :ability="a" :modifier="modifiers[i].val" :key="a.name"></ability>
         </div>
-        
-        <details open>
-            <summary class="label centered">Saving Throws</summary>
-            <div class="row">
-                <saving-throw v-for="(s, i) in savingThrows" :savingThrow="s" :modifier="modifiers[i].val" :key="s.name"></saving-throw>
-            </div>
-        </details>
     </section>
 </template>
 
 <script>
 import { mapState, mapGetters } from 'vuex';
 import Ability from './Ability';
-import SavingThrow from './SavingThrow';
 
 export default {
     name: 'Abilities',
 
     computed: {
-        ...mapState(['abilities', 'savingThrows']),
+        ...mapState(['abilities']),
         ...mapGetters(['modifiers'])
     },
 
     components: {
-        'ability': Ability,
-        'saving-throw': SavingThrow
+        'ability': Ability
     }
 }
 </script>

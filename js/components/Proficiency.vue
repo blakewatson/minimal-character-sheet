@@ -1,5 +1,5 @@
 <template>
-  <section class="row row-spaced row-vert-centered">
+  <section class="row row-spaced row-vert-centered" style="flex-wrap: wrap;">
     <div class="vert-center">
       <label class="meta small muted mr-xs" for="initiative">Initiative</label>
       <field
@@ -17,7 +17,7 @@
     </div>
 
     <div class="vert-center">
-      <label class="meta small muted">
+      <label class="vert-center meta small muted">
         Inspiration
         <input
           type="checkbox"

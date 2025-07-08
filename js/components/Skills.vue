@@ -1,7 +1,7 @@
 <template>
     <details open class="section">
         <summary class="label centered">Skills</summary>
-        <ul class="col-2">
+        <ul class="skills-list">
             <li v-for="(skill, i) in skills">
                 <label class="sr-only" :for="`double-prof-${i}`">Double proficiency</label>
 
@@ -31,7 +31,7 @@
         <p class="centered">
             <br>
             <strong class="skill-modifier">{{ getSkillModifier({ability:'WIS'}) | signedNumString }}</strong>
-            Passive Wisdom <span class="small muted">(WIS)</span>
+            Passive Perception <span class="small muted">(WIS)</span>
         </p>
     </details>
 </template>

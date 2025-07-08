@@ -1,6 +1,6 @@
 <template>
     <div>
-        <div class="row">
+        <div class="row vitals-row">
             <div class="box reverse">
                 <span class="centered label">AC</span>
                 <field classNames="huge block padded" :value="ac" :read-only="readOnly" @update-value="updateVitals('ac', $event)"></field>
