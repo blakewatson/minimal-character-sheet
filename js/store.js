@@ -305,9 +305,6 @@ export default new Vuex.Store({
             var sheet = JSON.parse(payload.sheet);
             // Start with a deep copy of the store's default state
             var state = JSON.parse(JSON.stringify(storeState));
-
-            console.log(sheet);
-            console.log(state);
             
             if(sheet.data) {
                 // merge sheet data on top of defaults

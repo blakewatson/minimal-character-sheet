@@ -48,7 +48,7 @@ export default {
         }
 
         this.$el.addEventListener('click', event => {
-            if(event.target.nodeName === 'A') {
+            if(event.target.nodeName === 'A' && !event.target.closest('.ql-tooltip')) {
                 window.open(event.target.href, '_blank');
             }
         });
