@@ -27,8 +27,7 @@ export default new Vuex.Store({
         speed: 25,
         initiative: 0,
         inspiration: false,
-        shortRest1: false,
-        shortRest2: false,
+        shortRests: 0,
         deathSaves: {
             successes: [false, false, false],
             failures: [false, false, false],
@@ -188,12 +187,8 @@ export default new Vuex.Store({
             state.inspiration = payload;
         },
 
-        updateShortRest1(state, payload) {
-            state.shortRest1 = payload;
-        },
-
-        updateShortRest2(state, payload) {
-            state.shortRest2 = payload;
+        updateShortRests(state, payload) {
+            state.shortRests = payload;
         },
 
         updateSkillProficiency(state, payload) {

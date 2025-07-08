@@ -2,7 +2,7 @@
     <div class="box ability">
 		<span class="centered label reverse">{{ ability.name }}</span>
 		<span class="centered huge block padded">{{ modifier | signedNumString }}</span>
-		<field class="centered strong block" :value="ability.score" :read-only="readOnly" @update-value="updateScore($event)"></field>
+		<field class="centered strong block" :value="ability.score" :read-only="readOnly" @update-value="updateScore($event)" type="number"></field>
 	</div>
 </template>
 

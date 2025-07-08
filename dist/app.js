@@ -175,8 +175,7 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     speed: 25,
     initiative: 0,
     inspiration: false,
-    shortRest1: false,
-    shortRest2: false,
+    shortRests: 0,
     deathSaves: {
       successes: [false, false, false],
       failures: [false, false, false]
@@ -462,11 +461,8 @@ vue__WEBPACK_IMPORTED_MODULE_1__["default"].use(vuex__WEBPACK_IMPORTED_MODULE_2_
     updateInspiration: function updateInspiration(state, payload) {
       state.inspiration = payload;
     },
-    updateShortRest1: function updateShortRest1(state, payload) {
-      state.shortRest1 = payload;
-    },
-    updateShortRest2: function updateShortRest2(state, payload) {
-      state.shortRest2 = payload;
+    updateShortRests: function updateShortRests(state, payload) {
+      state.shortRests = payload;
     },
     updateSkillProficiency: function updateSkillProficiency(state, payload) {
       if (payload.i >= state.skills.links) return;
@@ -1000,7 +996,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: "Proficiency",
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["proficiencyBonus"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(["inspiration", "readOnly", "initiative", "shortRest1", "shortRest2"])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(["proficiencyBonus"])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(["inspiration", "readOnly", "initiative", "shortRests"])),
   methods: {
     updateInitiative: function updateInitiative(val) {
       val = val ? parseInt(val) : 0;
@@ -1009,11 +1005,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     updateInspiration: function updateInspiration(val) {
       this.$store.commit("updateInspiration", val.target.checked);
     },
-    updateShortRest1: function updateShortRest1(val) {
-      this.$store.commit("updateShortRest1", val.target.checked);
-    },
-    updateShortRest2: function updateShortRest2(val) {
-      this.$store.commit("updateShortRest2", val.target.checked);
+    updateShortRests: function updateShortRests(val) {
+      val = val ? parseInt(val) : 0;
+      this.$store.commit("updateShortRests", val);
     }
   },
   components: {
@@ -1753,7 +1747,8 @@ var render = function render() {
     staticClass: "centered strong block",
     attrs: {
       value: _vm.ability.score,
-      "read-only": _vm.readOnly
+      "read-only": _vm.readOnly,
+      type: "number"
     },
     on: {
       "update-value": function updateValue($event) {
@@ -2271,7 +2266,7 @@ var render = function render() {
   }, [_c("div", {
     staticClass: "vert-center"
   }, [_c("label", {
-    staticClass: "meta small muted",
+    staticClass: "meta small muted mr-xs",
     attrs: {
       "for": "initiative"
     }
@@ -2310,41 +2305,24 @@ var render = function render() {
     }
   })])]), _vm._v(" "), _c("div", {
     staticClass: "vert-center"
-  }, [_c("span", {
-    staticClass: "meta small muted mr-sm"
-  }, [_vm._v("Short rests")]), _vm._v(" "), _c("div", {
-    staticClass: "checkbox-group"
   }, [_c("label", {
-    staticClass: "meta small muted"
-  }, [_c("input", {
+    staticClass: "meta small muted mr-xs",
     attrs: {
-      type: "checkbox",
-      disabled: _vm.readOnly
-    },
-    domProps: {
-      checked: _vm.shortRest1
+      "for": "shortRests"
+    }
+  }, [_vm._v("Short rests")]), _vm._v(" "), _c("field", {
+    attrs: {
+      "read-only": _vm.readOnly,
+      value: _vm.shortRests,
+      classNames: "huge block padded",
+      id: "shortRests"
     },
     on: {
-      input: _vm.updateShortRest1
+      "update-value": function updateValue($event) {
+        return _vm.updateShortRests($event);
+      }
     }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "sr-only"
-  }, [_vm._v("1")])]), _vm._v(" "), _c("label", {
-    staticClass: "meta small muted"
-  }, [_c("input", {
-    attrs: {
-      type: "checkbox",
-      disabled: _vm.readOnly
-    },
-    domProps: {
-      checked: _vm.shortRest2
-    },
-    on: {
-      input: _vm.updateShortRest2
-    }
-  }), _vm._v(" "), _c("span", {
-    staticClass: "sr-only"
-  }, [_vm._v("2")])])])])]);
+  })], 1)]);
 };
 var staticRenderFns = [];
 render._withStripped = true;

@@ -1,7 +1,7 @@
 <template>
   <section class="row row-spaced row-vert-centered">
     <div class="vert-center">
-      <label class="meta small muted" for="initiative">Initiative</label>
+      <label class="meta small muted mr-xs" for="initiative">Initiative</label>
       <field
         :read-only="readOnly"
         :value="initiative"
@@ -29,30 +29,16 @@
     </div>
 
     <div class="vert-center">
-      <span class="meta small muted mr-sm">Short rests</span>
-      <div class="checkbox-group">
-        <label class="meta small muted">
-          <input
-            type="checkbox"
-            :checked="shortRest1"
-            :disabled="readOnly"
-            @input="updateShortRest1"
-          />
-          <span class="sr-only">1</span>
-        </label>
-        <label class="meta small muted">
-          <input
-            type="checkbox"
-            :checked="shortRest2"
-            :disabled="readOnly"
-            @input="updateShortRest2"
-          />
-          <span class="sr-only">2</span>
-        </label>
-      </div>
+      <label class="meta small muted mr-xs" for="shortRests">Short rests</label>
+      <field
+        :read-only="readOnly"
+        :value="shortRests"
+        @update-value="updateShortRests($event)"
+        classNames="huge block padded"
+        id="shortRests"
+        type="number"
+      ></field>
     </div>
-
-    
   </section>
 </template>
 
@@ -65,7 +51,7 @@ export default {
 
   computed: {
     ...mapGetters(["proficiencyBonus"]),
-    ...mapState(["inspiration", "readOnly", "initiative", "shortRest1", "shortRest2"]),
+    ...mapState(["inspiration", "readOnly", "initiative", "shortRests"]),
   },
 
   methods: {
@@ -78,12 +64,9 @@ export default {
       this.$store.commit("updateInspiration", val.target.checked);
     },
 
-    updateShortRest1(val) {
-      this.$store.commit("updateShortRest1", val.target.checked);
-    },
-
-    updateShortRest2(val) {
-      this.$store.commit("updateShortRest2", val.target.checked);
+    updateShortRests(val) {
+      val = val ? parseInt(val) : 0;
+      this.$store.commit("updateShortRests", val);
     },
   },
 
