@@ -2015,8 +2015,30 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Attacks',
+  data: function data() {
+    return {
+      isMobile: false,
+      mediaQuery: null
+    };
+  },
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['attacks', 'readOnly'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['modifiers'])),
+  mounted: function mounted() {
+    this.setupMediaQuery();
+  },
+  beforeDestroy: function beforeDestroy() {
+    if (this.mediaQuery) {
+      this.mediaQuery.removeListener(this.handleMediaQueryChange);
+    }
+  },
   methods: {
+    setupMediaQuery: function setupMediaQuery() {
+      this.mediaQuery = window.matchMedia('(max-width: 675px)');
+      this.isMobile = this.mediaQuery.matches;
+      this.mediaQuery.addListener(this.handleMediaQueryChange);
+    },
+    handleMediaQueryChange: function handleMediaQueryChange(event) {
+      this.isMobile = event.matches;
+    },
     updateAttacks: function updateAttacks(i, field, val) {
       this.$store.commit('updateAttacks', {
         i: i,
@@ -3013,9 +3035,10 @@ var render = function render() {
     directives: [{
       name: "show",
       rawName: "v-show",
-      value: _vm.attacks.length > 0,
-      expression: "attacks.length > 0"
-    }]
+      value: _vm.attacks.length > 0 && !_vm.isMobile,
+      expression: "attacks.length > 0 && !isMobile"
+    }],
+    staticClass: "attacks-table"
   }, [_vm._m(0), _vm._v(" "), _c("tbody", _vm._l(_vm.attacks, function (a, i) {
     return _c("tr", {
       key: a.id,
@@ -3093,7 +3116,106 @@ var render = function render() {
         role: "presentation"
       }
     }, [_vm._v("×")])]) : _vm._e()])]);
-  }), 0)]), _vm._v(" "), !_vm.readOnly ? _c("p", {
+  }), 0)]), _vm._v(" "), _c("div", {
+    directives: [{
+      name: "show",
+      rawName: "v-show",
+      value: _vm.attacks.length > 0 && _vm.isMobile,
+      expression: "attacks.length > 0 && isMobile"
+    }],
+    staticClass: "attacks-mobile"
+  }, _vm._l(_vm.attacks, function (a, i) {
+    return _c("div", {
+      key: a.id,
+      staticClass: "attack-card"
+    }, [_c("div", {
+      staticClass: "attack-header"
+    }, [_c("field", {
+      staticClass: "attack-name",
+      attrs: {
+        value: a.name,
+        "read-only": _vm.readOnly,
+        placeholder: "Weapon name"
+      },
+      on: {
+        "update-value": function updateValue($event) {
+          return _vm.updateAttacks(i, "name", $event);
+        }
+      }
+    }), _vm._v(" "), !_vm.readOnly ? _c("button", {
+      staticClass: "button button-delete",
+      attrs: {
+        type: "button",
+        disabled: _vm.readOnly
+      },
+      on: {
+        click: function click($event) {
+          return _vm.deleteAttack(i);
+        }
+      }
+    }, [_c("span", {
+      staticClass: "sr-only"
+    }, [_vm._v("Delete attack")]), _vm._v(" "), _c("span", {
+      attrs: {
+        role: "presentation"
+      }
+    }, [_vm._v("×")])]) : _vm._e()], 1), _vm._v(" "), _c("div", {
+      staticClass: "attack-stats"
+    }, [_c("div", {
+      staticClass: "stat-group"
+    }, [_c("label", {
+      staticClass: "label",
+      attrs: {
+        "for": "attack-bonus-".concat(a.id)
+      }
+    }, [_vm._v("Attack Bonus")]), _vm._v(" "), _c("field", {
+      staticClass: "stat-value",
+      attrs: {
+        id: "attack-bonus-".concat(a.id),
+        value: a.attackBonus,
+        "read-only": _vm.readOnly
+      },
+      on: {
+        "update-value": function updateValue($event) {
+          return _vm.updateAttacks(i, "attackBonus", $event);
+        }
+      }
+    })], 1), _vm._v(" "), _c("div", {
+      staticClass: "stat-group"
+    }, [_c("label", {
+      staticClass: "label",
+      attrs: {
+        "for": "attack-damage-".concat(a.id)
+      }
+    }, [_vm._v("Damage")]), _vm._v(" "), _c("field", {
+      staticClass: "stat-value",
+      attrs: {
+        id: "attack-damage-".concat(a.id),
+        value: a.damage,
+        "read-only": _vm.readOnly
+      },
+      on: {
+        "update-value": function updateValue($event) {
+          return _vm.updateAttacks(i, "damage", $event);
+        }
+      }
+    })], 1)]), _vm._v(" "), _c("div", {
+      staticClass: "attack-notes"
+    }, [_c("label", {
+      staticClass: "label"
+    }, [_vm._v("Notes")]), _vm._v(" "), _c("quill-editor", {
+      attrs: {
+        "initial-contents": a.weaponNotes,
+        "read-only": _vm.readOnly,
+        "toolbar-options": ["bold", "italic", "strike", "link"]
+      },
+      on: {
+        "quill-text-change": function quillTextChange($event) {
+          return _vm.updateAttacks(i, "weaponNotes", $event);
+        }
+      }
+    })], 1)]);
+  }), 0), _vm._v(" "), !_vm.readOnly ? _c("p", {
     staticClass: "text-center"
   }, [_c("button", {
     staticClass: "button button-add",

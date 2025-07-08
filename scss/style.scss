@@ -720,6 +720,75 @@ summary.label {
 }
 
 
+/* -- Mobile Attacks ---------------------------------------- */
+
+.attacks-mobile {
+	display: flex;
+	flex-direction: column;
+	gap: 1rem;
+}
+
+.attack-card {
+	border: 1px solid #ddd;
+	border-radius: 8px;
+	padding: 1rem;
+	background: transparent;
+}
+
+.attack-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 0.75rem;
+}
+
+.attack-name {
+	flex: 1;
+	font-weight: bold;
+	font-size: 0.9rem;
+}
+
+.attack-stats {
+	display: flex;
+	gap: 1rem;
+	margin-bottom: 0.75rem;
+}
+
+.stat-group {
+	flex: 1;
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+}
+
+.stat-value {
+	font-size: 1rem;
+}
+
+.attack-notes {
+	display: flex;
+	flex-direction: column;
+	gap: 0.25rem;
+
+	.stat-label {
+		margin-bottom: 0.25rem;
+	}
+}
+
+/* Hide desktop table on mobile */
+@media (max-width: 675px) {
+	.attacks-table {
+		display: none;
+	}
+}
+
+/* Hide mobile layout on desktop */
+@media (min-width: 676px) {
+	.attacks-mobile {
+		display: none;
+	}
+}
+
 /* -- Dark Mode --------------------------------------------- */
 
 /* html.dark-mode {
@@ -854,5 +923,14 @@ html.dark-mode {
 			background-color: #333;
 			border-color: #ccc;
 		}
+	}
+
+	.attack-card {
+		border-color: #ccc;
+		background: #1a1a1a;
+	}
+
+	.stat-label {
+		color: #999;
 	}
 }
