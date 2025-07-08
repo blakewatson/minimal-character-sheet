@@ -32,6 +32,8 @@ export default new Vuex.Store({
             successes: [false, false, false],
             failures: [false, false, false],
         },
+        conditions: '',
+        concentration: '',
         abilities: [
             { name: 'STR', score: 10 },
             { name: 'DEX', score: 10 },
@@ -163,7 +165,7 @@ export default new Vuex.Store({
         },
 
         updateVitals(state, payload) {
-            var allowedFields = ['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed'];
+            var allowedFields = ['hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed', 'conditions', 'concentration'];
             var field = payload.field;
             if(!allowedFields.includes(field)) return;
             if(!state.hasOwnProperty(field)) return;

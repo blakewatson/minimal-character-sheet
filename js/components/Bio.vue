@@ -1,5 +1,5 @@
 <template>
-  <section class="bio">
+  <section class="bio pb-sm">
     <p class="meta mb-sm">
       <span class="no-break mb-xs">
         <label for="characterName" class="small muted">Name</label>
