@@ -30,7 +30,7 @@
         </ul>
         <p class="centered">
             <br>
-            <strong class="skill-modifier">{{ getSkillModifier({ability:'WIS'}) | signedNumString }}</strong>
+            <strong class="skill-modifier">{{ getPassivePerception() }}</strong>
             Passive Perception <span class="small muted">(WIS)</span>
         </p>
     </details>
@@ -77,6 +77,16 @@ export default {
             }
 
             this.$store.commit('updateSkillProficiency', { i, proficient, doubleProficient });
+        },
+
+        getPassivePerception() {
+            // Find the Perception skill
+            const perceptionSkill = this.skills.find(skill => skill.name === 'Perception');
+            if (perceptionSkill) {
+                return 10 + this.getSkillModifier(perceptionSkill);
+            }
+            // Fallback to just Wisdom modifier if Perception skill not found
+            return 10 + this.getSkillModifier({ability:'WIS'});
         }
     }
 }
