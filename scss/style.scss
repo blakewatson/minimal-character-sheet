@@ -32,7 +32,13 @@ body {
 }
 
 .sheet {
-	margin-top: 4em;
+	margin-top: 3.25em;
+}
+
+@media (max-width: 500px) {
+	.sheet {
+		margin-top: 2.5em;
+	}
 }
 
 .container-slim {
@@ -147,6 +153,7 @@ summary.label {
 
 .box {
 	border: 1px solid #000;
+	text-align: center;
 
 	&-lite {
 		border: none;
@@ -254,6 +261,10 @@ summary.label {
 	}
 }
 
+.inline-block {
+	display: inline-block;
+}
+
 .float-left {
 	float: left;
 }
@@ -271,6 +282,12 @@ summary.label {
 	white-space: nowrap;
 }
 
+.flex-baseline {
+	display: inline-flex;
+	align-items: baseline;
+	gap: 0.25em;
+}
+
 .vert-after {
 	margin-bottom: 1em;
 }
@@ -281,7 +298,7 @@ summary.label {
 }
 
 .padded {
-	padding: 5px 10px;
+	padding: 5px 5px;
 }
 
 .small {
@@ -294,6 +311,16 @@ summary.label {
 
 .huge {
 	font-size: 1.5em;
+}
+
+@media (max-width: 650px) {
+	.huge {
+		font-size: 1.25em;
+
+		&.padded {
+			padding: 0.125em 0.125em;
+		}
+	}
 }
 
 .muted {
@@ -564,7 +591,7 @@ summary.label {
 		display: flex;
 		align-items: center;
 		padding: 0;
-		height: 100%;
+		height: calc(100% - 1px);
 		width: auto;
 
 		button {
@@ -583,27 +610,18 @@ summary.label {
 	}
 }
 
-/* -- Bio --------------------------------------------------- */
+@media (max-width: 500px) {
+	.sheet-nav button {
+		font-size: 0.8rem;
+	}
 
-.bio {
-	label {
-		display: inline-block;
-		margin-right: -0.5em;
+	.sheet-nav .delete-character-button img {
+		height: 16px;
 	}
 }
+
 
 /* -- Main tab ---------------------------------------------- */
-
-.abilities {
-	gap: 0.5em;
-}
-
-@media (max-width: 530px) {
-	.abilities {
-		justify-content: center;
-		flex-wrap: wrap;
-	}
-}
 
 .vitals-row {
 	gap: 1em;
@@ -611,8 +629,27 @@ summary.label {
 
 @media (max-width: 650px) {
 	.vitals-row {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1em;
 		justify-content: center;
-		flex-wrap: wrap;
+	}
+
+	.bio-break {
+		display: none;
+	}
+}
+
+.abilities {
+	gap: 0.5em;
+}
+
+@media (max-width: 530px) {
+	.abilities {
+		display: grid;
+		grid-template-columns: 65px 65px 65px;
+		gap: 1em;
+		justify-content: center;
 	}
 }
 
@@ -893,6 +930,12 @@ html.dark-mode {
 
 			&:hover, &:focus {
 				color: #fff;
+			}
+		}
+
+		.delete-character-button button {
+			&:hover, &:focus {
+				background: #b31f1f;
 			}
 		}
 	}

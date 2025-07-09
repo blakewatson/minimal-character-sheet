@@ -1,8 +1,8 @@
 <template>
   <section class="bio pb-sm">
-    <p class="meta mb-sm">
-      <span class="no-break mb-xs">
-        <label for="characterName" class="small muted">Name</label>
+    <p class="meta vert-after">
+      <span class="flex-baseline mb-xs">
+        <label for="characterName" class="small muted inline-block">Name</label>
         <field
           :read-only="readOnly"
           :value="characterName"
@@ -14,8 +14,8 @@
         ></field>
       </span>
 
-      <span class="no-break mb-xs">
-        <label for="characterBackground" class="small muted"
+      <span class="flex-baseline mb-xs">
+        <label for="characterBackground" class="small muted inline-block"
           >Background</label
         >
         <field
@@ -29,8 +29,8 @@
         ></field>
       </span>
 
-      <span class="no-break mb-xs">
-        <label for="characterRace" class="small muted">
+      <span class="flex-baseline mb-xs">
+        <label for="characterRace" class="small muted inline-block">
           {{ is_2024 ? "Species" : "Race" }}
         </label>
         <field
@@ -41,11 +41,11 @@
           id="characterRace"
         ></field>
       </span>
-    </p>
 
-    <p class="meta vert-after">
-      <span class="no-break mb-xs">
-        <label for="characterClass" class="small muted"
+      <br class="bio-break">
+
+      <span class="flex-baseline mb-xs">
+        <label for="characterClass" class="small muted inline-block"
           >Class</label
         >
         <field
@@ -58,8 +58,8 @@
         ></field>
       </span>
 
-      <span class="no-break mb-xs">
-        <label for="characterLevel" class="small muted">Level</label>
+      <span class="flex-baseline mb-xs">
+        <label for="characterLevel" class="small muted inline-block">Level</label>
         <field
           id="characterLevel"
           class-names="mr-sm"
@@ -71,8 +71,8 @@
         ></field>
       </span>
 
-      <span class="no-break mb-xs">
-        <label for="characterXp" class="small muted">XP</label>
+      <span class="flex-baseline mb-xs">
+        <label for="characterXp" class="small muted inline-block">XP</label>
         <field
           id="characterXp"
           class-names="mr-sm"
@@ -83,8 +83,8 @@
         ></field>
       </span>
 
-      <span class="no-break mb-xs">
-        <label for="characterAlignment" class="small muted"
+      <span class="flex-baseline mb-xs">
+        <label for="characterAlignment" class="small muted inline-block"
           >Alignment</label
         >
         <field

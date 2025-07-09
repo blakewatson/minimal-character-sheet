@@ -1,5 +1,6 @@
 <template>
     <input
+        :id="id"
         :class="classAttr"
         :disabled="isReadOnly"
         :type="optionalValue(type, 'text')"
@@ -11,7 +12,7 @@
 <script>
 export default {
     name: 'Field',
-    props: ['value', 'type', 'align', 'placeholder', 'classNames', 'readOnly'],
+    props: ['value', 'type', 'align', 'placeholder', 'classNames', 'readOnly', 'id'],
     computed: {
         classAttr() {
             var align = this.align ? this.align : 'center';

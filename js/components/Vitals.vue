@@ -2,24 +2,24 @@
     <div>
         <div class="row vitals-row">
             <div class="box reverse">
-                <span class="centered label">AC</span>
-                <field classNames="huge block padded" :value="ac" :read-only="readOnly" @update-value="updateVitals('ac', $event)"></field>
+                <label for="ac-field" class="block centered label">AC</label>
+                <field id="ac-field" class="centered huge block padded" :value="ac" :read-only="readOnly" @update-value="updateVitals('ac', $event)"></field>
             </div>
             <div class="box box-lite">
-                <span class="centered label">HP</span>
-                <field class="huge padded" :value="hp" :read-only="readOnly" @update-value="updateVitals('hp', $event)"></field>/<field class="normal strong" :value="maxHp" :read-only="readOnly" @update-value="updateVitals('maxHp', $event)"></field>
+                <label for="hp-field" class="block centered label">HP</label>
+                <field id="hp-field" class="huge padded" :value="hp" :read-only="readOnly" @update-value="updateVitals('hp', $event)"></field>/<field class="normal strong" :value="maxHp" :read-only="readOnly" @update-value="updateVitals('maxHp', $event)"></field>
             </div>
             <div class="box box-lite">
-                <span class="centered label">Temp HP</span>
-                <field class="centered huge block padded" :value="tempHp" :read-only="readOnly" @update-value="updateVitals('tempHp', $event)"></field>
+                <label for="temp-hp-field" class="block centered label">Temp HP</label>
+                <field id="temp-hp-field" class="centered huge block padded" :value="tempHp" :read-only="readOnly" @update-value="updateVitals('tempHp', $event)"></field>
             </div>
             <div class="box box-lite">
-                <span class="centered label">Hit die</span>
-                <field class="huge padded" :value="hitDie" :read-only="readOnly" @update-value="updateVitals('hitDie', $event)"></field>/<field class="normal" :value="totalHitDie" :read-only="readOnly" @update-value="updateVitals('totalHitDie', $event)"></field>
+                <label for="hit-die-field" class="block centered label">Hit die</label>
+                <field id="hit-die-field" class="huge padded" :value="hitDie" :read-only="readOnly" @update-value="updateVitals('hitDie', $event)"></field>/<field class="normal" :value="totalHitDie" :read-only="readOnly" @update-value="updateVitals('totalHitDie', $event)"></field>
             </div>
             <div class="box box-lite">
-                <span class="centered label">Speed</span>
-                <field class="huge padded" :value="speed" :read-only="readOnly" @update-value="updateVitals('speed', $event)"></field>
+                <label for="speed-field" class="block centered label">Speed</label>
+                <field id="speed-field" class="huge padded" :value="speed" :read-only="readOnly" @update-value="updateVitals('speed', $event)"></field>
             </div>
             <div class="box box-lite">
                 <span class="centered label">Death saves</span>

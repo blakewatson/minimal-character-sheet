@@ -2168,7 +2168,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Field',
-  props: ['value', 'type', 'align', 'placeholder', 'classNames', 'readOnly'],
+  props: ['value', 'type', 'align', 'placeholder', 'classNames', 'readOnly', 'id'],
   computed: {
     classAttr: function classAttr() {
       var _this$value;
@@ -3272,11 +3272,11 @@ var render = function render() {
   return _c("section", {
     staticClass: "bio pb-sm"
   }, [_c("p", {
-    staticClass: "meta mb-sm"
+    staticClass: "meta vert-after"
   }, [_c("span", {
-    staticClass: "no-break mb-xs"
+    staticClass: "flex-baseline mb-xs"
   }, [_c("label", {
-    staticClass: "small muted",
+    staticClass: "small muted inline-block",
     attrs: {
       "for": "characterName"
     }
@@ -3295,9 +3295,9 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c("span", {
-    staticClass: "no-break mb-xs"
+    staticClass: "flex-baseline mb-xs"
   }, [_c("label", {
-    staticClass: "small muted",
+    staticClass: "small muted inline-block",
     attrs: {
       "for": "characterBackground"
     }
@@ -3316,9 +3316,9 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c("span", {
-    staticClass: "no-break mb-xs"
+    staticClass: "flex-baseline mb-xs"
   }, [_c("label", {
-    staticClass: "small muted",
+    staticClass: "small muted inline-block",
     attrs: {
       "for": "characterRace"
     }
@@ -3334,12 +3334,12 @@ var render = function render() {
         return _vm.updateBio("race", $event);
       }
     }
-  })], 1)]), _vm._v(" "), _c("p", {
-    staticClass: "meta vert-after"
-  }, [_c("span", {
-    staticClass: "no-break mb-xs"
+  })], 1), _vm._v(" "), _c("br", {
+    staticClass: "bio-break"
+  }), _vm._v(" "), _c("span", {
+    staticClass: "flex-baseline mb-xs"
   }, [_c("label", {
-    staticClass: "small muted",
+    staticClass: "small muted inline-block",
     attrs: {
       "for": "characterClass"
     }
@@ -3357,9 +3357,9 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c("span", {
-    staticClass: "no-break mb-xs"
+    staticClass: "flex-baseline mb-xs"
   }, [_c("label", {
-    staticClass: "small muted",
+    staticClass: "small muted inline-block",
     attrs: {
       "for": "characterLevel"
     }
@@ -3376,9 +3376,9 @@ var render = function render() {
       "update-value": _vm.updateLevel
     }
   })], 1), _vm._v(" "), _c("span", {
-    staticClass: "no-break mb-xs"
+    staticClass: "flex-baseline mb-xs"
   }, [_c("label", {
-    staticClass: "small muted",
+    staticClass: "small muted inline-block",
     attrs: {
       "for": "characterXp"
     }
@@ -3396,9 +3396,9 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c("span", {
-    staticClass: "no-break mb-xs"
+    staticClass: "flex-baseline mb-xs"
   }, [_c("label", {
-    staticClass: "small muted",
+    staticClass: "small muted inline-block",
     attrs: {
       "for": "characterAlignment"
     }
@@ -3497,6 +3497,7 @@ var render = function render() {
   return _c("input", {
     "class": _vm.classAttr,
     attrs: {
+      id: _vm.id,
       disabled: _vm.isReadOnly,
       type: _vm.optionalValue(_vm.type, "text"),
       placeholder: _vm.optionalValue(_vm.placeholder, "")
@@ -3610,7 +3611,9 @@ var render = function render() {
   return _c("section", {
     staticClass: "row row-spaced row-vert-centered",
     staticStyle: {
-      "flex-wrap": "wrap"
+      "flex-wrap": "wrap",
+      "margin-top": "-0.5rem",
+      "padding-bottom": "0.5rem"
     }
   }, [_c("div", {
     staticClass: "vert-center"
@@ -4353,11 +4356,15 @@ var render = function render() {
     staticClass: "row vitals-row"
   }, [_c("div", {
     staticClass: "box reverse"
-  }, [_c("span", {
-    staticClass: "centered label"
-  }, [_vm._v("AC")]), _vm._v(" "), _c("field", {
+  }, [_c("label", {
+    staticClass: "block centered label",
     attrs: {
-      classNames: "huge block padded",
+      "for": "ac-field"
+    }
+  }, [_vm._v("AC")]), _vm._v(" "), _c("field", {
+    staticClass: "centered huge block padded",
+    attrs: {
+      id: "ac-field",
       value: _vm.ac,
       "read-only": _vm.readOnly
     },
@@ -4368,11 +4375,15 @@ var render = function render() {
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "box box-lite"
-  }, [_c("span", {
-    staticClass: "centered label"
+  }, [_c("label", {
+    staticClass: "block centered label",
+    attrs: {
+      "for": "hp-field"
+    }
   }, [_vm._v("HP")]), _vm._v(" "), _c("field", {
     staticClass: "huge padded",
     attrs: {
+      id: "hp-field",
       value: _vm.hp,
       "read-only": _vm.readOnly
     },
@@ -4394,11 +4405,15 @@ var render = function render() {
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "box box-lite"
-  }, [_c("span", {
-    staticClass: "centered label"
+  }, [_c("label", {
+    staticClass: "block centered label",
+    attrs: {
+      "for": "temp-hp-field"
+    }
   }, [_vm._v("Temp HP")]), _vm._v(" "), _c("field", {
     staticClass: "centered huge block padded",
     attrs: {
+      id: "temp-hp-field",
       value: _vm.tempHp,
       "read-only": _vm.readOnly
     },
@@ -4409,11 +4424,15 @@ var render = function render() {
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "box box-lite"
-  }, [_c("span", {
-    staticClass: "centered label"
+  }, [_c("label", {
+    staticClass: "block centered label",
+    attrs: {
+      "for": "hit-die-field"
+    }
   }, [_vm._v("Hit die")]), _vm._v(" "), _c("field", {
     staticClass: "huge padded",
     attrs: {
+      id: "hit-die-field",
       value: _vm.hitDie,
       "read-only": _vm.readOnly
     },
@@ -4435,11 +4454,15 @@ var render = function render() {
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "box box-lite"
-  }, [_c("span", {
-    staticClass: "centered label"
+  }, [_c("label", {
+    staticClass: "block centered label",
+    attrs: {
+      "for": "speed-field"
+    }
   }, [_vm._v("Speed")]), _vm._v(" "), _c("field", {
     staticClass: "huge padded",
     attrs: {
+      id: "speed-field",
       value: _vm.speed,
       "read-only": _vm.readOnly
     },
