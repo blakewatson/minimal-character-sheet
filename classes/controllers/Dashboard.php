@@ -36,10 +36,11 @@ class Dashboard {
         $sheet_data = $sheet->get_sheet_by_slug( $slug );
         $email = $f3->get( 'SESSION.email' ) ? $f3->get( 'SESSION.email' ) : '';
         
-        
         // sheet not allowed to be accessed by current user
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
-            $f3->error( 404 );
+            // save the requested url to the session
+            $f3->set( 'SESSION.requested_url', $f3->get( 'SERVER.REQUEST_URI' ) );
+            $this->auth->bounce();
             return;
         }
         

@@ -188,7 +188,16 @@ class Authentication {
         // save the email to the session
         $f3->set( 'SESSION.email', $user->get( 'email' ) );
 
-        $f3->reroute( '/dashboard' );
+        // check if there's a requested URL to redirect to
+        $requested_url = $f3->get( 'SESSION.requested_url' );
+        
+        if( $requested_url ) {
+            // clear the requested URL from session
+            $f3->clear( 'SESSION.requested_url' );
+            $f3->reroute( $requested_url );
+        } else {
+            $f3->reroute( '/dashboard' );
+        }
     }
     
     public function logout( $f3 ) {
@@ -330,7 +339,9 @@ class Authentication {
     }
 
     public function bounce( $dest = '/login' ) {
-        if( ! $this->is_logged_in() ) return $this->f3->reroute( $dest );
+        if( ! $this->is_logged_in() ) {
+            $this->f3->reroute( $dest );
+        }
     }
 
     public function set_csrf() {

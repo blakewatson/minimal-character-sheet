@@ -2,6 +2,7 @@
     "require": {
         "wildbit/postmark-php": "^4",
         "vlucas/phpdotenv": "^5",
-        "bcosca/fatfree-core": "^3.8"
+        "bcosca/fatfree-core": "^3.8",
+        "spatie/ray": "^1.42"
     }
 }
