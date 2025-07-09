@@ -1,14 +1,5 @@
 <include href="templates/header.html" />
 
-<div class="announcement">
-    <p>
-        <strong>2023-08-26:</strong> I upgraded the data storage system and migrated everyone&rsquo;s data to
-        this new system. If something doesn&rsquo;t look right or you&rsquo;re having any
-        trouble, email me. <a
-        href="mailto:blake@blakewatson.com">blake@blakewatson.com</a>
-    </p>
-</div>
-
 <div class="dashboard container container-slim">
     <h1>My Characters</h1>
 
@@ -54,6 +45,15 @@
         <label for="settingDarkMode">Dark Mode (experimental)</label>:
         <input id="settingDarkMode" type="checkbox">
     </p>
+
+    <div class="announcement">
+        <p>
+            <strong>2025-07-09:</strong> 2024 character sheets are here! When creating a new
+            sheet, you can choose the 2014 version or the 2024 version. Existing character sheets
+            will remain in the 2014 style.
+        </p>
+        <p>The app is now much more usable on mobile.</p>
+    </div>
     
     <input type="hidden" id="csrf" value="{{ @CSRF }}">
 
