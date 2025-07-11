@@ -15,6 +15,13 @@ class Dashboard {
         if( $method === 'GET' && $sheet_or_sheet_data ) {
             return;
         }
+
+        if( $f3->get( 'PATTERN' ) === '/sheet/@sheet_slug' && !$this->auth->is_logged_in() ) {
+            // return an unauthorized response
+            $f3->status( 401 );
+            echo json_encode([ 'success' => false, 'reason' => 'unauthorized' ]);
+            die();
+        }
         
         // otherwise, enforce auth
         $this->auth->bounce();

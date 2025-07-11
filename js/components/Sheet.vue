@@ -129,9 +129,18 @@ export default {
                 .then(data => {
                     if(data.success) {
                         document.querySelector('#csrf').value = data.csrf;
+                        return;
+                    }
+
+                    if(!data.success && data.reason === 'unauthorized') {
+                        window.location.href = window.location.href;
+                    }
+                }).catch((reason) => {
+                    if (reason.message === 'unauthorized') {
+                        window.location.href = '/login';
                     }
                 });
-			}).catch(reason => console.error(reason));
+			}).catch((reason) => console.error(reason));
 		},
         
         refreshLoop() {
