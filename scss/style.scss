@@ -460,6 +460,11 @@ summary.label {
 		font-weight: bold;
 	}
 
+	.ql-editor ul,
+	.ql-editor ol {
+		padding-left: 0;
+	}
+
 	a:hover {
 		cursor: pointer;
 	}

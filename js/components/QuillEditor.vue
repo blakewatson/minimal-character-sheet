@@ -13,7 +13,7 @@ export default {
         readOnly: {},
         toolbarOptions: {
             type: Array,
-            default: () => ['bold', 'italic', 'strike', 'link', { header: 1 }, { header: 2 }, 'blockquote']
+            default: () => ['bold', 'italic', 'strike', 'link', { header: 1 }, { header: 2 }, 'blockquote', { list: 'bullet' }]
         }
     },
 
