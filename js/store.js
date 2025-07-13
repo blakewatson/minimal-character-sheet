@@ -205,9 +205,15 @@ export default new Vuex.Store({
         },
 
         updateAttacks(state, payload) {
-            if(payload.i >= state.attacks.length) return;
-            if(!state.attacks[payload.i].hasOwnProperty(payload.field)) return;
-            Vue.set(state.attacks[payload.i], payload.field, payload.val);
+            var attack = state.attacks.find(attack => attack.id === payload.id);
+            if(!attack) return;
+
+            state.attacks = state.attacks.map(a => {
+                if(a.id === payload.id) {
+                    a[payload.field] = payload.val;
+                }
+                return a;
+            });
         },
 
         addAttack(state, payload) {
@@ -216,8 +222,27 @@ export default new Vuex.Store({
         },
 
         deleteAttack(state, payload) {
-            if(payload.i >= state.attacks.length) return;
-            state.attacks.splice(payload.i, 1);
+            state.attacks = state.attacks.filter(a => a.id !== payload.id);
+        },
+
+        sortAttacks(state, payload) {
+            var id = payload.id;
+            var direction = payload.direction;
+            var curIndex = state.attacks.findIndex(a => a.id === id);
+
+            if(curIndex === -1) return;
+            
+            if(direction === 'up') {
+                if(curIndex === 0) return;
+                var deletedAttacks = state.attacks.splice(curIndex, 1);
+                var attackToMove = deletedAttacks[0];
+                state.attacks.splice(curIndex - 1, 0, attackToMove);
+            } else {
+                if(curIndex === state.attacks.length - 1) return;
+                var deletedAttacks = state.attacks.splice(curIndex, 1);
+                var attackToMove = deletedAttacks[0];
+                state.attacks.splice(curIndex + 1, 0, attackToMove);
+            }
         },
 
         updateCoins(state, payload) {

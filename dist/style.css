@@ -1265,24 +1265,24 @@ summary.label {
   color: #666;
 }
 
-.button-add, .button-delete {
+.button-add, .button-delete, .button-sort {
   -webkit-appearance: none;
      -moz-appearance: none;
           appearance: none;
   margin-left: 5px;
   padding: 0;
   border-radius: 100px;
-  border: 1px solid #999;
+  border: 1px solid #555;
   width: 20px;
   height: 20px;
   font-family: "IBM Plex Mono", monospace;
   font-size: 18px;
   line-height: 16px;
   background: transparent;
-  color: #999;
+  color: #555;
   cursor: pointer;
 }
-.button-add [role=presentation], .button-delete [role=presentation] {
+.button-add [role=presentation], .button-delete [role=presentation], .button-sort [role=presentation] {
   position: relative;
   top: -1px;
 }
@@ -1297,9 +1297,10 @@ summary.label {
   color: #1d65ff;
 }
 
-.deletable .button-delete {
-  opacity: 0;
+.button-sort {
+  font-size: 16px;
 }
+
 .deletable .button-delete:hover, .deletable .button-delete:focus {
   border-color: #ff1d30;
   color: #ff1d30;
@@ -1507,12 +1508,15 @@ summary.label {
   text-align: right;
 }
 
-/* table row */
-.attack {
+.attack-notes {
   position: relative;
 }
-.attack .ql-editor {
-  padding: 0.25em;
+.attack-notes .ql-editor {
+  padding: 0.5em;
+}
+
+.note-row {
+  border-top: none;
 }
 
 /* -- Normal text styles ------------------------------------ */
@@ -1589,8 +1593,8 @@ summary.label {
 
 .attack-card {
   border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 1rem;
+  border-radius: 4px;
+  padding: 0.5rem;
   background: transparent;
 }
 
@@ -1598,7 +1602,7 @@ summary.label {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .attack-name {
@@ -1610,18 +1614,17 @@ summary.label {
 .attack-stats {
   display: flex;
   gap: 1rem;
-  margin-bottom: 0.75rem;
+  margin-bottom: 0.25rem;
 }
 
 .stat-group {
-  flex: 1;
   display: flex;
-  flex-direction: column;
+  align-items: baseline;
   gap: 0.25rem;
 }
 
 .stat-value {
-  font-size: 1rem;
+  font-size: 0.9rem;
 }
 
 .attack-notes {
@@ -1633,18 +1636,13 @@ summary.label {
   margin-bottom: 0.25rem;
 }
 
-/* Hide desktop table on mobile */
 @media (max-width: 675px) {
+  /* Hide desktop table on mobile */
   .attacks-table {
     display: none;
   }
 }
 /* Hide mobile layout on desktop */
-@media (min-width: 676px) {
-  .attacks-mobile {
-    display: none;
-  }
-}
 /* -- Dark Mode --------------------------------------------- */
 /* html.dark-mode {
 	background-color: #000;

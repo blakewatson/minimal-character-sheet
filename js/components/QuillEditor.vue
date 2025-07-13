@@ -1,5 +1,5 @@
 <template>
-    <div class="quill-editor"></div>
+    <div class="quill-editor" v-bind="$attrs"></div>
 </template>
 
 <script>

@@ -37,7 +37,6 @@
 </template>
 
 <script>
-import Vue from 'vue';
 import { mapState, mapGetters } from 'vuex';
 
 export default {
