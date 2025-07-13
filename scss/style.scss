@@ -341,7 +341,7 @@ select {
 }
 
 .muted {
-	color: #777;
+	color: #666;
 }
 
 .centered, .text-center {
@@ -443,7 +443,12 @@ select {
 }
 
 .button-sort {
-	font-size: 16px;	
+	font-size: 16px;
+
+	&:hover, &:focus {
+		border-color: #111;
+		color: #111;
+	}
 }
 
 .deletable {
@@ -538,6 +543,12 @@ select {
 	&-total {
 		font-weight: bold;
 	}
+}
+
+.spell-item {
+	padding: 0.25em;
+	border: 1px solid #bbb;
+	border-radius: 4px;
 }
 
 .sheet-nav {

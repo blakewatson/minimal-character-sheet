@@ -237,11 +237,15 @@ export default new Vuex.Store({
                 var deletedAttacks = state.attacks.splice(curIndex, 1);
                 var attackToMove = deletedAttacks[0];
                 state.attacks.splice(curIndex - 1, 0, attackToMove);
-            } else {
+                return;
+            } 
+            
+            if(direction === 'down') {
                 if(curIndex === state.attacks.length - 1) return;
                 var deletedAttacks = state.attacks.splice(curIndex, 1);
                 var attackToMove = deletedAttacks[0];
                 state.attacks.splice(curIndex + 1, 0, attackToMove);
+                return;
             }
         },
 
@@ -311,6 +315,30 @@ export default new Vuex.Store({
         updateExpendedSlots(state, payload) {
             if(!state.hasOwnProperty(payload.field)) return;
             Vue.set(state[payload.field], 'expended', payload.val);
+        },
+
+        sortSpells(state, payload) {
+            var field = payload.field;
+            var direction = payload.direction;
+            var curIndex = state[field].spells.findIndex(spell => spell.id === payload.id);
+
+            if(curIndex === -1) return;
+            
+            if(direction === 'up') {
+                if(curIndex === 0) return;
+                var deletedSpells = state[field].spells.splice(curIndex, 1);
+                var spellToMove = deletedSpells[0];
+                state[field].spells.splice(curIndex - 1, 0, spellToMove);
+                return;
+            } 
+
+            if(direction === 'down') {
+                if(curIndex === state[field].spells.length - 1) return;
+                var deletedSpells = state[field].spells.splice(curIndex, 1);
+                var spellToMove = deletedSpells[0];
+                state[field].spells.splice(curIndex + 1, 0, spellToMove);
+                return;
+            }
         }
     },
 
