@@ -9,7 +9,7 @@
             <div class="box box-lite">
                 <span class="label centered">Ability</span>
                 <select v-if="!readOnly" @input="updateSpellInfo('spAbility', $event.target.value)">
-                    <option v-for="a in abilities" :value="a.name" :selected="spAbility === a.name">{{ a.name }}</option>
+                    <option v-for="(a, idx) in abilities" :value="a.name" :selected="spAbility === a.name">{{ a.name }}: {{ modifiers[idx].val | signedNumString }}</option>
                 </select>
                 <div class="block" style="padding: 0.25em;" v-else>{{ spAbility }}</div>
             </div>
@@ -44,7 +44,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { mapState, mapGetters } from 'vuex';
 import Field from './Field';
 import List from './List';
 import SpellGroup from './SpellGroup';
@@ -53,7 +53,8 @@ export default {
     name: 'Spells',
 
     computed: {
-        ...mapState(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])
+        ...mapState(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly']),
+        ...mapGetters(['modifiers'])
     },
 
     methods: {

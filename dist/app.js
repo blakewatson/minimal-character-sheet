@@ -2817,7 +2817,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Spells',
-  computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['modifiers'])),
   methods: {
     updateSpellInfo: function updateSpellInfo(field, val) {
       this.$store.commit('updateSpellInfo', {
@@ -4272,13 +4272,13 @@ var render = function render() {
         return _vm.updateSpellInfo("spAbility", $event.target.value);
       }
     }
-  }, _vm._l(_vm.abilities, function (a) {
+  }, _vm._l(_vm.abilities, function (a, idx) {
     return _c("option", {
       domProps: {
         value: a.name,
         selected: _vm.spAbility === a.name
       }
-    }, [_vm._v(_vm._s(a.name))]);
+    }, [_vm._v(_vm._s(a.name) + ": " + _vm._s(_vm._f("signedNumString")(_vm.modifiers[idx].val)))]);
   }), 0) : _c("div", {
     staticClass: "block",
     staticStyle: {
