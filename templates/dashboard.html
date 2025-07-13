@@ -48,9 +48,20 @@
 
     <h1>Settings</h1>
 
+    <p>These settings apply to this device only.</p>
+
     <p>
         <label for="settingDarkMode">Dark Mode (experimental)</label>:
-        <input id="settingDarkMode" type="checkbox">
+        <input id="settingDarkMode" type="checkbox"><br>
+    </p>
+
+    <p>
+        <label for="settingTextareaFont">Font in text areas</label>:
+        <select id="settingTextareaFont">
+            <option value="default">Default (IBM Plex Mono)</option>
+            <option value="sans-serif">Sans-serif (system default)</option>
+            <option value="serif">Serif (system default)</option>
+        </select>
     </p>
     
     <input type="hidden" id="csrf" value="{{ @CSRF }}">

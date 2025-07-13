@@ -1141,6 +1141,11 @@ input[type=number]::-webkit-outer-spin-button {
   width: 100%;
 }
 
+select {
+  padding: 0.25em;
+  font-family: "IBM Plex Mono", monospace;
+}
+
 .block {
   display: block;
 }
@@ -1351,6 +1356,14 @@ input[type=number]::-webkit-outer-spin-button {
 
 .ql-editor {
   overflow: visible;
+}
+.textarea-font-sans-serif .ql-editor {
+  font-family: system-ui, sans-serif;
+  font-size: 15px;
+}
+.textarea-font-serif .ql-editor {
+  font-family: Charter, "Bitstream Charter", "Sitka Text", Cambria, serif;
+  font-size: 15px;
 }
 
 .list-field .quill-editor, .spell-list .quill-editor {
