@@ -5,7 +5,7 @@
         <div class="row vert-after">
             <div class="box box-lite" v-for="(c, i) in coins">
                 <label :for="'coin-' + i" class="label centered">{{ c.name }}</label>
-                <field :id="'coin-' + i" classNames="centered huge padded" :value="c.amount" :read-only="readOnly" @update-value="updateAmount(i, $event)"></field>
+                <field :id="'coin-' + i" type="number" classNames="centered huge padded" :value="c.amount" :read-only="readOnly" @update-value="updateAmount(i, $event)"></field>
             </div>
         </div>
 

@@ -51,11 +51,16 @@ body {
 	display: flex;
 	justify-content: center;
 	align-items: center;
-	width: calc(100vw - 100px);
 	height: 100vh;
 
 	.inner {
-		display: inline-block;
+		display: block;
+		width: 100%;
+		max-width: 400px;
+
+		.field {
+			width: 100%;
+		}
 	}
 }
 
@@ -71,6 +76,8 @@ p {
 
 a {
 	color: #1d65ff;
+	word-wrap: break-word;
+	overflow-wrap: break-word;
 }
 
 strong, .strong {
@@ -226,6 +233,11 @@ summary.label {
 	&-visible {
 		background-color: #f3f3f3;
 	}
+}
+
+input[type=number]::-webkit-inner-spin-button, 
+input[type=number]::-webkit-outer-spin-button {  
+	 opacity: 1;
 }
 
 .checkbox-group {
@@ -664,11 +676,6 @@ summary.label {
 
 .ability {
 	width: 65px;
-
-	input[type=number]::-webkit-inner-spin-button, 
-	input[type=number]::-webkit-outer-spin-button {  
-		 opacity: 1;
-	}
 }
 
 .skill-modifier {
@@ -754,7 +761,7 @@ summary.label {
 .announcement {
 	margin: 0 auto;
 	margin-top: 2em;
-	margin-bottom: -3em;
+	margin-bottom: 2em;
 	padding: 0.75em 1em;
 	max-width: 700px;
 	background-color: whitesmoke;

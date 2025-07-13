@@ -37,15 +37,6 @@
         <p>Making a character sheet public means that anyone with the link can view a read-only version of the character sheet.</p>
     </check>
 
-    <br><br>
-
-    <h1>Settings</h1>
-
-    <p>
-        <label for="settingDarkMode">Dark Mode (experimental)</label>:
-        <input id="settingDarkMode" type="checkbox">
-    </p>
-
     <div class="announcement">
         <p>
             <strong>2025-07-09:</strong> 2024 character sheets are here! When creating a new
@@ -54,6 +45,13 @@
         </p>
         <p>The app is now much more usable on mobile.</p>
     </div>
+
+    <h1>Settings</h1>
+
+    <p>
+        <label for="settingDarkMode">Dark Mode (experimental)</label>:
+        <input id="settingDarkMode" type="checkbox">
+    </p>
     
     <input type="hidden" id="csrf" value="{{ @CSRF }}">
 
