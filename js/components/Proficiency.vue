@@ -1,7 +1,7 @@
 <template>
   <section
     class="row row-spaced row-vert-centered"
-    style="flex-wrap: wrap; margin-top: -0.5rem; padding-bottom: 0.5rem;"
+    style="flex-wrap: wrap; margin-top: -0.5rem; padding-bottom: 0.5rem; gap: 0.5rem;"
   >
     <div class="vert-center">
       <label class="meta small muted mr-xs" for="initiative">Initiative</label>

@@ -939,7 +939,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
-
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Equipment',
   computed: _objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['coins', 'equipmentText', 'readOnly'])),
@@ -2370,10 +2369,14 @@ var render = function render() {
   }, _vm._l(_vm.coins, function (c, i) {
     return _c("div", {
       staticClass: "box box-lite"
-    }, [_c("span", {
-      staticClass: "label centered"
+    }, [_c("label", {
+      staticClass: "label centered",
+      attrs: {
+        "for": "coin-" + i
+      }
     }, [_vm._v(_vm._s(c.name))]), _vm._v(" "), _c("field", {
       attrs: {
+        id: "coin-" + i,
         classNames: "centered huge padded",
         value: c.amount,
         "read-only": _vm.readOnly
@@ -2534,7 +2537,8 @@ var render = function render() {
     staticStyle: {
       "flex-wrap": "wrap",
       "margin-top": "-0.5rem",
-      "padding-bottom": "0.5rem"
+      "padding-bottom": "0.5rem",
+      gap: "0.5rem"
     }
   }, [_c("div", {
     staticClass: "vert-center"
@@ -3040,11 +3044,15 @@ var render = function render() {
     }
   }, [_vm._v(_vm._s(_vm.spAbility))])]), _vm._v(" "), _c("div", {
     staticClass: "box"
-  }, [_c("span", {
-    staticClass: "label centered reverse"
+  }, [_c("label", {
+    staticClass: "label centered reverse",
+    attrs: {
+      "for": "spell-save-dc"
+    }
   }, [_vm._v("Spell Save DC")]), _vm._v(" "), _c("field", {
     staticClass: "centered block padded huge",
     attrs: {
+      id: "spell-save-dc",
       value: _vm.spSave,
       "read-only": _vm.readOnly
     },
@@ -3055,11 +3063,15 @@ var render = function render() {
     }
   })], 1), _vm._v(" "), _c("div", {
     staticClass: "box"
-  }, [_c("span", {
-    staticClass: "label centered reverse"
+  }, [_c("label", {
+    staticClass: "label centered reverse",
+    attrs: {
+      "for": "spell-attack-bonus"
+    }
   }, [_vm._v("Attack Bonus")]), _vm._v(" "), _c("field", {
     staticClass: "centered block padded huge",
     attrs: {
+      id: "spell-attack-bonus",
       value: _vm.spAttack,
       "read-only": _vm.readOnly
     },

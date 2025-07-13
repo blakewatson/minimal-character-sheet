@@ -14,12 +14,12 @@
                 <div class="block" style="padding: 0.25em;" v-else>{{ spAbility }}</div>
             </div>
             <div class="box">
-                <span class="label centered reverse">Spell Save DC</span>
-                <field class="centered block padded huge" :value="spSave" :read-only="readOnly" @update-value="updateSpellInfo('spSave', $event)"></field>
+                <label for="spell-save-dc" class="label centered reverse">Spell Save DC</label>
+                <field id="spell-save-dc" class="centered block padded huge" :value="spSave" :read-only="readOnly" @update-value="updateSpellInfo('spSave', $event)"></field>
             </div>
             <div class="box">
-                <span class="label centered reverse">Attack Bonus</span>
-                <field class="centered block padded huge" :value="spAttack" :read-only="readOnly" @update-value="updateSpellInfo('spAttack', $event)"></field>
+                <label for="spell-attack-bonus" class="label centered reverse">Attack Bonus</label>
+                <field id="spell-attack-bonus" class="centered block padded huge" :value="spAttack" :read-only="readOnly" @update-value="updateSpellInfo('spAttack', $event)"></field>
             </div>
         </div>
 
