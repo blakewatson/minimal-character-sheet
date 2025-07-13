@@ -2362,19 +2362,19 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var quill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! quill */ "./node_modules/quill/quill.js");
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
-  name: 'QuillEditor',
+  name: "QuillEditor",
   props: {
     initialContents: {},
     readOnly: {},
     toolbarOptions: {
       type: Array,
       "default": function _default() {
-        return ['bold', 'italic', 'strike', 'link', {
+        return ["bold", "italic", "strike", "link", {
           header: 1
         }, {
           header: 2
-        }, 'blockquote', {
-          list: 'bullet'
+        }, "blockquote", {
+          list: "bullet"
         }];
       }
     }
@@ -2388,10 +2388,11 @@ __webpack_require__.r(__webpack_exports__);
   mounted: function mounted() {
     var _this = this;
     this.editor = new quill__WEBPACK_IMPORTED_MODULE_0__["default"](this.$el, {
-      theme: 'bubble',
+      theme: "bubble",
       modules: {
         toolbar: this.toolbarOptions
-      }
+      },
+      formats: ["bold", "italic", "strike", "link", "header", "blockquote", "list", "align", "indent", "image"]
     });
     if (this.initialContents) {
       this.editor.setContents(this.initialContents);
@@ -2400,18 +2401,18 @@ __webpack_require__.r(__webpack_exports__);
       this.editor.disable();
     }
     if (!this.readOnly) {
-      this.editor.on('text-change', function () {
+      this.editor.on("text-change", function () {
         _this.contents = _this.editor.getContents();
-        _this.$emit('quill-text-change', _this.contents);
+        _this.$emit("quill-text-change", _this.contents);
       });
     }
-    this.$el.addEventListener('click', function (event) {
-      if (event.target.nodeName === 'A' && !event.target.closest('.ql-tooltip')) {
-        window.open(event.target.href, '_blank');
+    this.$el.addEventListener("click", function (event) {
+      if (event.target.nodeName === "A" && !event.target.closest(".ql-tooltip")) {
+        window.open(event.target.href, "_blank");
       }
     });
     if (this.readOnly) {
-      window.sheetEvent.$on('quill-refresh', function () {
+      window.sheetEvent.$on("quill-refresh", function () {
         _this.editor.setContents(_this.initialContents);
       });
     }
