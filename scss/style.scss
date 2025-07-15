@@ -184,14 +184,6 @@ summary.label {
 	columns: 2;
 }
 
-.skills-list {
-	columns: 2;
-	
-	@media (max-width: 650px) {
-		columns: 1;
-	}
-}
-
 .sep {
 	font-weight: bold;
 	font-style: normal;
@@ -704,10 +696,56 @@ select {
 	width: 65px;
 }
 
+.skills-list {
+	columns: 2;
+	
+	@media (max-width: 650px) {
+		columns: 1;
+	}
+}
+
+.skill-item {
+	display: flex;
+	align-items: center;
+	gap: 0;
+}
+
+.skill-button {
+	appearance: none;
+	border: none;
+	padding: 0;
+	font-family: $text;
+	font-size: 1rem;
+	background-color: transparent;
+	cursor: pointer;
+}
+
 .skill-modifier {
 	display: inline-block;
 	width: 2rem;
 	text-align: right;
+}
+
+.skill-override {
+	text-decoration: underline;
+}
+
+.skill-override-dialog {
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+	margin: 0;
+	border: none;
+	border-radius: 4px;
+	width: 650px;
+	max-width: 90%;
+	box-sizing: border-box;
+	box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.25);
+}
+
+::backdrop {
+	background-color: rgba(0, 0, 0, 0.5);
 }
 
 .attack-notes {

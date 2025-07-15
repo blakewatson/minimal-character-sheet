@@ -51,24 +51,24 @@ export default new Vuex.Store({
             { name: 'CHA', proficient: false }
         ],
         skills: [
-            { name: 'Acrobatics', ability: 'DEX', proficient: false, doubleProficient: false },
-            { name: 'Animal Handling', ability: 'WIS', proficient: false, doubleProficient: false },
-            { name: 'Arcana', ability: 'INT', proficient: false, doubleProficient: false },
-            { name: 'Athletics', ability: 'STR', proficient: false, doubleProficient: false },
-            { name: 'Deception', ability: 'CHA', proficient: false, doubleProficient: false },
-            { name: 'History', ability: 'INT', proficient: false, doubleProficient: false },
-            { name: 'Insight', ability: 'WIS', proficient: false, doubleProficient: false },
-            { name: 'Intimidation', ability: 'CHA', proficient: false, doubleProficient: false },
-            { name: 'Investigation', ability: 'INT', proficient: false, doubleProficient: false },
-            { name: 'Medicine', ability: 'WIS', proficient: false, doubleProficient: false },
-            { name: 'Nature', ability: 'INT', proficient: false, doubleProficient: false },
-            { name: 'Perception', ability: 'WIS', proficient: false, doubleProficient: false },
-            { name: 'Performance', ability: 'CHA', proficient: false, doubleProficient: false },
-            { name: 'Persuasion', ability: 'CHA', proficient: false, doubleProficient: false },
-            { name: 'Religion', ability: 'INT', proficient: false, doubleProficient: false },
-            { name: 'Sleight of Hand', ability: 'DEX', proficient: false, doubleProficient: false },
-            { name: 'Stealth', ability: 'DEX', proficient: false, doubleProficient: false },
-            { name: 'Survival', ability: 'WIS', proficient: false, doubleProficient: false }
+            { name: 'Acrobatics', ability: 'DEX', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Animal Handling', ability: 'WIS', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Arcana', ability: 'INT', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Athletics', ability: 'STR', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Deception', ability: 'CHA', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'History', ability: 'INT', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Insight', ability: 'WIS', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Intimidation', ability: 'CHA', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Investigation', ability: 'INT', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Medicine', ability: 'WIS', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Nature', ability: 'INT', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Perception', ability: 'WIS', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Performance', ability: 'CHA', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Persuasion', ability: 'CHA', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Religion', ability: 'INT', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Sleight of Hand', ability: 'DEX', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Stealth', ability: 'DEX', proficient: false, doubleProficient: false, modifierOverride: null },
+            { name: 'Survival', ability: 'WIS', proficient: false, doubleProficient: false, modifierOverride: null }
         ],
         attacks: [],
         coins: [
@@ -197,6 +197,19 @@ export default new Vuex.Store({
             if(payload.i >= state.skills.links) return;
             Vue.set(state.skills[payload.i], 'proficient', payload.proficient);
             Vue.set(state.skills[payload.i], 'doubleProficient', payload.doubleProficient);
+        },
+
+        updateSkillModifierOverride(state, payload) {
+            var skill = state.skills.find(skill => skill.name === payload.skillName);
+            if(!skill) return;
+            
+            state.skills = state.skills.map(skill => {
+                if(skill.name === payload.skillName) {
+                    console.log('setting modifier override', payload.modifierOverride);
+                    skill.modifierOverride = payload.modifierOverride;
+                }
+                return skill;
+            });
         },
 
         updateSavingThrow(state, payload) {
