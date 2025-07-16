@@ -965,6 +965,23 @@ html.dark-mode {
 		}
 	}
 
+	.button-add, .button-delete, .button-sort {
+		border-color: #999;
+		color: #999;
+
+		&:hover, &:focus {
+			border-color: #fff;
+			color: #fff;
+		}
+	}
+	
+	.button-delete {
+		&:hover, &:focus {
+			border-color: #ff626f;
+			color: #ff626f;
+		}
+	}
+
 	.reverse {
 		background-color: #ccc;
 		color: #1a1a1a;
@@ -995,6 +1012,10 @@ html.dark-mode {
 		&:hover, &:focus {
 			background-color: #333;
 		}
+	}
+
+	.list-item {
+		border-color: #999;
 	}
 
 	.sheet-nav {

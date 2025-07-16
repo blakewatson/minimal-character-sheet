@@ -3291,7 +3291,7 @@ var render = function render() {
         }
       }
     })], 1) : _vm._e(), _vm._v(" "), a.isAttack ? _c("td", {
-      staticClass: "text-center small"
+      staticClass: "text-center"
     }, [_c("field", {
       attrs: {
         "read-only": _vm.readOnly,

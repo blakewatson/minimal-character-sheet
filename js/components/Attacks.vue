@@ -30,7 +30,7 @@
               placeholder="Weapon"
             ></field>
           </td>
-          <td v-if="a.isAttack" class="text-center small">
+          <td v-if="a.isAttack" class="text-center">
             <field
               :read-only="readOnly"
               :value="a.attackBonus"

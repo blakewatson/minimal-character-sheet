@@ -1758,6 +1758,18 @@ html.dark-mode .button-secondary:hover, html.dark-mode .button-secondary:focus {
   background-color: transparent;
   color: #fff;
 }
+html.dark-mode .button-add, html.dark-mode .button-delete, html.dark-mode .button-sort {
+  border-color: #999;
+  color: #999;
+}
+html.dark-mode .button-add:hover, html.dark-mode .button-add:focus, html.dark-mode .button-delete:hover, html.dark-mode .button-delete:focus, html.dark-mode .button-sort:hover, html.dark-mode .button-sort:focus {
+  border-color: #fff;
+  color: #fff;
+}
+html.dark-mode .button-delete:hover, html.dark-mode .button-delete:focus {
+  border-color: #ff626f;
+  color: #ff626f;
+}
 html.dark-mode .reverse {
   background-color: #ccc;
   color: #1a1a1a;
@@ -1782,6 +1794,9 @@ html.dark-mode .field-visible {
 }
 html.dark-mode .field:hover, html.dark-mode .field:focus {
   background-color: #333;
+}
+html.dark-mode .list-item {
+  border-color: #999;
 }
 html.dark-mode .sheet-nav {
   border-bottom: 1px solid #ccc;
