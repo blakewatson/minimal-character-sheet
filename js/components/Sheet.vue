@@ -68,6 +68,15 @@ export default {
         ...mapState(['is_2024', 'readOnly'])
     },
 
+    watch: {
+        // Watch for view changes and update URL hash
+        view(newView) {
+            // Update the URL hash without triggering a page reload
+            const newUrl = `${window.location.pathname}${window.location.search}#${newView}`;
+            window.history.pushState(null, '', newUrl);
+        }
+    },
+
 	methods: {
 		autosaveLoop() {
             if(this.isPublic) {
@@ -155,6 +164,21 @@ export default {
                 }
             })
             .catch(reason => console.error(reason));
+        },
+
+        // Get the current view from URL hash
+        getViewFromHash() {
+            const hash = window.location.hash.substring(1); // Remove the # symbol
+            const validViews = ['main', 'spells', 'details', 'notes'];
+            return validViews.includes(hash) ? hash : 'main';
+        },
+
+        // Handle browser navigation (back/forward buttons)
+        handleHashChange() {
+            const newView = this.getViewFromHash();
+            if (newView !== this.view) {
+                this.view = newView;
+            }
         }
 	},
 
@@ -180,12 +204,20 @@ export default {
         if(!this.isPublic) {
     		this.autosaveLoop();
         }
+
+        // Initialize view from URL hash
+        this.view = this.getViewFromHash();
+        window.addEventListener('hashchange', this.handleHashChange);
     },
     
     created() {
         // initialize state with the "sheet" global
         this.$store.dispatch('initializeState', { sheet: window.sheet })
         .catch(reason => console.log(reason));
+    },
+
+    beforeDestroy() {
+        window.removeEventListener('hashchange', this.handleHashChange);
     }
 }
 </script>
