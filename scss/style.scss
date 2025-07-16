@@ -508,6 +508,10 @@ select {
 		font-family: Charter, 'Bitstream Charter', 'Sitka Text', Cambria, serif;
 		font-size: 15px;
 	}
+
+	&:focus {
+		outline: 2px solid #1d65ff;
+	}
 }
 
 .list-field, .spell-list {
@@ -1033,6 +1037,10 @@ html.dark-mode {
 		a {
 			color: #6294ff;
 		}
+	}
+
+	.ql-editor:focus {
+		outline: 2px solid #6294ff;
 	}
 
 	.mini-icon svg {
