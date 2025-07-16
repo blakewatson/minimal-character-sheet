@@ -66,7 +66,7 @@
           standard calculation.
         </p>
 
-        <label for="skill-modifier">Modifier</label>
+        <label for="skill-modifier">{{ selectedSkill?.name }}</label>
         <field
           :readOnly="readOnly"
           :value="modifierOverride"
