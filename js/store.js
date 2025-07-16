@@ -292,6 +292,30 @@ export default new Vuex.Store({
             state[payload.field].splice(payload.i, 1);
         },
 
+        sortListField(state, payload) {
+            var field = payload.field;
+            var direction = payload.direction;
+            var curIndex = state[field].findIndex(item => item.id === payload.id);
+
+            if(curIndex === -1) return;
+            
+            if(direction === 'up') {
+                if(curIndex === 0) return;
+                var deletedItems = state[field].splice(curIndex, 1);
+                var itemToMove = deletedItems[0];
+                state[field].splice(curIndex - 1, 0, itemToMove);
+                return;
+            } 
+
+            if(direction === 'down') {
+                if(curIndex === state[field].length - 1) return;
+                var deletedItems = state[field].splice(curIndex, 1);
+                var itemToMove = deletedItems[0];
+                state[field].splice(curIndex + 1, 0, itemToMove);
+                return;
+            }
+        },
+
         updateSpellInfo(state, payload) {
             var allowedFields = ["spClass", "spAbility", "spSave", "spAttack"];
             var field = payload.field;

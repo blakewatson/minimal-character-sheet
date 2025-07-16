@@ -24,7 +24,7 @@
         </div>
 
         <div>
-            <div class="box box-lite">
+            <div class="box box-lite mb-sm">
                 <span class="label float-left reverse">0</span>
                 <span class="label centered">Cantrips</span>
             </div>
