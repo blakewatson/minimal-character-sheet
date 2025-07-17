@@ -84,6 +84,10 @@ strong, .strong {
 	font-weight: bold;
 }
 
+em, .em {
+	font-style: italic;
+}
+
 li {
 	margin: 0;
 	margin-bottom: 0.5em;
@@ -911,6 +915,26 @@ select {
 // 		display: none;
 // 	}
 // }
+
+/* -- Home page --------------------------------------------- */
+
+.screenshot-gallery {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 1rem;
+}
+
+.screenshot-item {
+	flex: 1;
+	min-width: 200px;
+	max-width: 300px;
+}
+
+.screenshot-item img {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
 
 /* -- Dark Mode --------------------------------------------- */
 

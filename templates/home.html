@@ -1,27 +1,147 @@
 <include href="templates/header.html" />
 
 <div class="container container-slim">
-    <div class="inner content">
-        <h1>a minimal character sheet for D&D 5e</h1>
-        
-        <p>It’s more convenient than PDFs, and more flexible than automated character sheets.</p>
-        
-        <h2>Features:</h2>
-        
-        <ul>
-            <li>Calculates modifiers for abilities and skills</li>
-            <li>Unassuming — no limits on what features your character has.</li>
-            <li>Semi-rich textareas that allow links and light formatting.</li>
-            <li>Important info is always a glance away.</li>
-        </ul>
-        
-        <p>Example character sheet: <a href="https://minimalcharactersheet.com/sheet/ddwgHAxpnn">Willowmead, druid</a></p>
-        
-        <p>
-            <a href="/register" class="button-primary">Register</a>
-            <a href="/dashboard" class="button-secondary">Go to dashboard</a>
-        </p>
+  <div class="inner content">
+    <h1>a minimal character sheet for D&D 5e</h1>
+
+    <p>
+      It’s more convenient than PDFs, and more flexible than automated character
+      sheets.
+    </p>
+
+    <h2 class="mb-sm">Features:</h2>
+
+    <ul>
+      <li>Calculates modifiers for abilities and skills</li>
+      <li>Unassuming — no limits on what features your character has.</li>
+      <li>Rich text fields that allow links and light formatting.</li>
+      <li>Important info is always a glance away.</li>
+      <li>Spell slot management.</li>
+      <li>Supports D&D 5e 2014 and 2024 rules.</li>
+    </ul>
+
+    <p>
+      Example character sheet:
+      <a href="https://minimalcharactersheet.com/sheet/ddwgHAxpnn"
+        >Willowmead, druid</a
+      >
+    </p>
+
+    <p>
+      <a href="/register" class="button-primary">Register</a>
+      <a href="/dashboard" class="button-secondary">Go to dashboard</a>
+    </p>
+
+    <h2 class="mb-md">Screenshots:</h2>
+
+    <div class="screenshot-gallery mb-md">
+      <a
+        href="/images/screenshot-main.webp"
+        class="screenshot-item"
+        data-caption="Main character sheet view"
+      >
+        <img
+          src="/images/screenshot-main.webp"
+          alt="Main character stats page displaying hit points, armor class, abilities, saving throws, and basic character details for a level 2 druid."
+        />
+      </a>
+
+      <a
+        href="/images/screenshot-dashboard.webp"
+        class="screenshot-item"
+        data-caption="Create multiple characters and control their visibility."
+      >
+        <img
+          src="/images/screenshot-dashboard.webp"
+          alt="Dashboard listing multiple saved characters with the option to toggle public visibility or create a new character sheet."
+        />
+      </a>
+
+      <a
+        href="/images/screenshot-features.webp"
+        class="screenshot-item"
+        data-caption="Flexible rich text field for your character&rsquo;s features and traits."
+      >
+        <img
+          src="/images/screenshot-features.webp"
+          alt="Character features and traits section with descriptions of abilities and class features such as Darkvision, Fey Ancestry, and Druidic language."
+        />
+      </a>
+
+      <a
+        href="/images/screenshot-spells.webp"
+        class="screenshot-item"
+        data-caption="Manage spells in reorderable rich text cards."
+      >
+        <img
+          src="/images/screenshot-spells.webp"
+          alt="Spells tab with a scrollable list of known spells, including Cure Wounds and Entangle, each shown with detailed descriptions and controls for managing spell slots and reordering spells."
+        />
+      </a>
+
+      <a
+        href="/images/screenshot-readonly.webp"
+        class="screenshot-item"
+        data-caption="Make your character sheet public so that others can see a read-only view of it."
+      >
+        <img
+          src="/images/screenshot-readonly.webp"
+          alt="Public, read-only view of a character sheet for a level 6 ranger, showing stats, skills, and core character details. Input fields are disabled."
+        />
+      </a>
+
+      <a
+        href="/images/screenshot-darkmode.webp"
+        class="screenshot-item"
+        data-caption="Toggle dark mode setting from the dashboard."
+      >
+        <img
+          src="/images/screenshot-darkmode.webp"
+          alt="Dark mode view of a D&D character sheet showing skills and weapon stats, with selected proficiencies and a quarterstaff listed as the equipped weapon."
+        />
+      </a>
     </div>
+
+    <h2 class="mb-sm">Why should I use this?</h2>
+
+    <p>
+      There are already great options like
+      <a href="https://www.dndbeyond.com/">D&D Beyond</a> that support extremely
+      detailed and smart character sheets. That said, you are limited to what
+      content and rules they support. Minimal character sheet aims to be more
+      like paper—it's flexible and it doesn't limit what features and abilities
+      you give your character. And because it handles rich text, you can still
+      link to any external resources you like.
+    </p>
+
+    <p>
+      I made minimal character sheet because I wanted something more usable than
+      a form fillable PDF, but more flexible than fully automated character
+      sheets.
+    </p>
+
+    <h2 class="mb-sm">Can you support [this feature I need]?</h2>
+
+    <p>
+      <em>Maybe.</em> I'd like the app to be as nice and convenient as possible.
+      That said, time is limited and the app is intentionally minimal, so I
+      can't guarantee it. But if you have an idea for a feature or if you want
+      to report a bug or provide any other feedback, send me an email at
+      <a href="mailto:blake@blakewatson.com">blake@blakewatson.com</a>.
+    </p>
+
+    <p>
+      <a href="/register" class="button-primary">Register</a>
+      <a href="/dashboard" class="button-secondary">Go to dashboard</a>
+    </p>
+  </div>
+
+  <div class="mt-xl">
+    <p>
+      Made with ❤️ and ☕️ by
+      <a href="https://www.blakewatson.com/">Blake Watson</a>.
+    </p>
+  </div>
 </div>
 
 <include href="templates/footer.html" />
