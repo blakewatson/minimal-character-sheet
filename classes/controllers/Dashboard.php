@@ -79,15 +79,20 @@ class Dashboard {
         $email = $f3->get( 'SESSION.email' );
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
+
+        if ( ! $email && ! $sheet_data['is_public'] ) {
+            $f3->error( 404 );
+            return;
+        }
         
         // sheet not allowed to be accessed by current user
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ?? '' ) && ! $sheet_data['is_public'] ) {
             $f3->error( 404 );
             return;
         }
         
         // read-only access allowed
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ?? '' ) && $sheet_data['is_public'] ) {
             // redact the email address
             $sheet_data['email'] = null;
         }
