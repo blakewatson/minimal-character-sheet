@@ -24,14 +24,17 @@ A digital character sheet for D&D 5e. Create, edit, and manage your characters o
 
 ## Requirements
 
-- PHP
+- PHP (v8 recommended but older versions may work)
 - Node.js (for building frontend assets)
-- Web server (Apache/Nginx)
-- Postmark account (for signup confirmation emails)
+- [Postmark](https://postmarkapp.com/) account (for signup confirmation emails). You can rework the code to either not use this or use the provider of your choice. Perhaps I can make this easier to customize in a future update.
 
-## Built With
+## Built with
 
-- PHP with Fat-Free Framework
-- Vue.js 2 + Vuex
+- PHP with [Fat-Free Framework](https://fatfreeframework.com/)
+- [Vue.js 2](https://v2.vuejs.org/) + [Vuex](https://v3.vuex.vuejs.org/)
 - SQLite database
-- Laravel Mix for asset compilation
+- [Laravel Mix](https://laravel-mix.com/) for asset compilation
+
+## Developer roadmap
+
+I don't love the dated frontend build step, but I'm also not looking to upgrade to Vite or any of the newer stuff. If I do update the frontend architecture, I will focus on removing the build step altogether and using JavaScript and CSS directly in the browser.
