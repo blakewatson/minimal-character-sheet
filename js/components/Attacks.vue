@@ -257,6 +257,9 @@ export default {
     },
 
     updateAttacks(id, field, val) {
+      if (id.toString().endsWith('-note')) {
+        id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for attack ID
+      }
       this.$store.commit("updateAttacks", { id, field, val });
     },
 
@@ -265,7 +268,6 @@ export default {
     },
 
     sortAttacks(id, direction) {
-        console.log(id, direction);
         this.$store.commit('sortAttacks', { id, direction });
     }
   },
