@@ -1,7 +1,7 @@
 <template>
     <div id="sheet" class="sheet">
         
-        <tabs :view="view" @update-view="view = $event"></tabs>
+        <tabs :view="view" :save-status="saveStatus" @update-view="view = $event" @manual-save="manualSave"></tabs>
 
         <bio></bio>
 
@@ -60,7 +60,9 @@ export default {
         return {
             view: 'main',
             autosaveTimer: null,
-            isPublic: false
+            isPublic: false,
+            saveStatus: 'saved', // 'unsaved', 'saving', 'saved', 'error'
+            hasPendingChanges: false
         };
     },
     
@@ -85,6 +87,8 @@ export default {
             
             // trigger a quick autosave upon every store mutation
             this.$store.subscribe((mutation, state) => {
+                this.saveStatus = 'unsaved';
+                this.hasPendingChanges = true;
                 window.sheetEvent.$emit('autosave', 1);
             });
 	
@@ -103,8 +107,6 @@ export default {
 				this.autosaveTimer = setTimeout(() => {
 					console.log('save the character sheet');
 					this.saveSheetState();
-					// go ahead and schedule another autosave
-					// window.sheetEvent.$emit('autosave');
 				}, milliseconds);
 			});
 	
@@ -116,6 +118,9 @@ export default {
             if(this.isPublic) {
                 return;
             }
+            
+            this.saveStatus = 'saving';
+            this.hasPendingChanges = false;
             
 			this.$store.dispatch('getJSON').then(jsonState => {
                 var sheetSlug = document.querySelector('#sheet-slug').value;
@@ -138,18 +143,30 @@ export default {
                 .then(data => {
                     if(data.success) {
                         document.querySelector('#csrf').value = data.csrf;
+                        this.saveStatus = 'saved';
                         return;
                     }
 
                     if(!data.success && data.reason === 'unauthorized') {
                         window.location.href = window.location.href;
                     }
+
+                    if(!data.success) {
+                        this.saveStatus = 'error';
+                        this.hasPendingChanges = true;
+                    }
                 }).catch((reason) => {
+                    this.saveStatus = 'error';
+                    this.hasPendingChanges = true;
                     if (reason.message === 'unauthorized') {
                         window.location.href = '/login';
                     }
                 });
-			}).catch((reason) => console.error(reason));
+			}).catch((reason) => {
+                this.saveStatus = 'error';
+                this.hasPendingChanges = true;
+                console.error(reason);
+            });
 		},
         
         refreshLoop() {
@@ -179,6 +196,20 @@ export default {
             if (newView !== this.view) {
                 this.view = newView;
             }
+        },
+
+        manualSave() {
+            if(this.isPublic) {
+                return;
+            }
+            
+            // Clear any pending autosave timer
+            if(this.autosaveTimer !== null) {
+                clearTimeout(this.autosaveTimer);
+                this.autosaveTimer = null;
+            }
+            
+            this.saveSheetState();
         }
 	},
 

@@ -10,9 +10,29 @@
             <li :class="{ active: view === 'spells' }"><button @click="updateView('spells')">Spells</button></li>
             <li :class="{ active: view === 'details' }"><button @click="updateView('details')">Details</button></li>
             <li :class="{ active: view === 'notes' }"><button @click="updateView('notes')">Notes</button></li>
+            <li class="save-indicator" v-if="!readOnly">
+                <button @click="manualSave" :class="saveIndicatorClass" :disabled="saveStatus === 'saving'" :title="computedSaveButtonTitle">
+                    <span v-if="saveStatus === 'unsaved'">
+                        <img role="presentation" src="/images/disk-pen.svg" alt="Unsaved changes">
+                        <span class="sr-only">Unsaved changes</span>
+                    </span>
+                    <span v-else-if="saveStatus === 'saving'">
+                        <img role="presentation" src="/images/spinner.svg" alt="Saving...">
+                        <span class="sr-only">Saving...</span>
+                    </span>
+                    <span v-else-if="saveStatus === 'saved'">
+                        <img role="presentation" src="/images/check.svg">
+                        <span class="sr-only">All changes saved</span>
+                    </span>
+                    <span v-else-if="saveStatus === 'error'">
+                        <img role="presentation" src="/images/disk-error.svg" alt="Save failed - click to retry">
+                        <span class="sr-only">Save failed - click to retry</span>
+                    </span>
+                </button>
+            </li>
             <li class="delete-character-button" v-if="!readOnly">
                 <button @click="deleteCharacter">
-                    <img src="/images/trash-alt.svg" alt="Dashboard">
+                    <img src="/images/trash-alt.svg" alt="Delete character">
                 </button>
             </li>
         </ul>
@@ -25,19 +45,54 @@ import { mapState } from 'vuex';
 export default {
     name: 'Tabs',
 
-    props: ['view'],
+    props: ['view', 'saveStatus'],
 
     computed: {
         ...mapState(['readOnly']),
         
         sheetSlug() {
             return this.$store.state.slug;
+        },
+        
+        saveIndicatorClass() {
+            return {
+                'save-unsaved': this.saveStatus === 'unsaved',
+                'save-saving': this.saveStatus === 'saving',
+                'save-saved': this.saveStatus === 'saved',
+                'save-error': this.saveStatus === 'error'
+            };
+        },
+
+        computedSaveButtonTitle() {
+            if(this.saveStatus === 'unsaved') return 'Unsaved changes';
+            if(this.saveStatus === 'saving') return 'Saving...';
+            if(this.saveStatus === 'saved') return 'All changes saved';
+            if(this.saveStatus === 'error') return 'Save failed - click to retry';
+        }
+    },
+
+    mounted() {
+        const backLink = this.$el.querySelector('.back-button a');
+        if (backLink) {
+            backLink.addEventListener('click', (e) => {
+                if (this.saveStatus === 'error' || this.saveStatus === 'unsaved') {
+                    e.preventDefault();
+                    const proceed = confirm('You have unsaved changes. Click OK to stay and try saving by clicking the save indicator, or Cancel to proceed to the dashboard.');
+                    if (!proceed) {
+                        window.location.href = '/dashboard';
+                    }
+                }
+            });
         }
     },
 
     methods: {
         updateView(view) {
             this.$emit('update-view', view);
+        },
+        
+        manualSave() {
+            this.$emit('manual-save');
         },
 
         deleteCharacter() {

@@ -598,7 +598,7 @@ select {
 		}
 	}
 
-	.back-button, .delete-character-button {
+	.back-button {
 		display: block;
 		position: absolute;
 		top: 0;
@@ -631,10 +631,49 @@ select {
 		}
 	}
 
+	@media (max-width: 500px) {
+		.back-button {
+			a {
+				padding: 0 10px;
+			}
+		}
+	}
+
 	.delete-character-button {
+		display: block;
 		position: absolute;
 		right: 0;
 		left: auto;
+		top: 0;
+		display: flex;
+		align-items: center;
+		padding: 0;
+		height: 100%;
+		width: auto;
+
+		button {
+			background: transparent;
+			box-sizing: border-box;
+			padding: 0 0.5rem;
+			height: 37px;
+
+			&:hover, &:focus {
+				background: #b31f1f;
+			}
+		}
+
+		img {
+			display: block;
+			height: 25px;
+			width: auto;
+		}
+	}
+
+	.save-indicator {
+		position: absolute;
+		right: 45px;
+		left: auto;
+		top: 0;
 		display: flex;
 		align-items: center;
 		padding: 0;
@@ -642,28 +681,85 @@ select {
 		width: auto;
 
 		button {
+			position: relative;
 			background: transparent;
+			padding: 0 0.5rem;
+			height: 37px;
+
+			&.save-unsaved {
+				&:hover {
+					background: #555;
+				}
+			}
+
+			&.save-saving {
+				img {
+					animation: spin 1s linear infinite;
+				}
+			}
+
+			&.save-saved {
+				&:hover {
+					background: #28a745;
+				}
+			}
+
+			&.save-error {
+				&:hover {
+					background: #555;
+				}
+			}
+
+			&:disabled {
+				cursor: not-allowed;
+			}
 		}
 
 		img {
 			display: block;
-			height: 20px;
-			width: auto;
-		}
-
-		&:hover, &:focus {
-			background: #b31f1f;
+			position: relative;
+			height: 25px;
 		}
 	}
 }
 
+@keyframes spin {
+	from { transform: rotate(0deg); }
+	to { transform: rotate(360deg); }
+}
+
 @media (max-width: 500px) {
+ .sheet-nav ul {
+	text-align: left;
+	padding-left: 40px;
+ }
+
 	.sheet-nav button {
 		font-size: 0.8rem;
 	}
 
-	.sheet-nav .delete-character-button img {
-		height: 16px;
+	.sheet-nav .delete-character-button {
+		button {
+			height: 30px;
+			padding: 0 0.25rem;
+		}
+
+		img {
+			height: 20px;
+		}
+	}
+
+	.sheet-nav .save-indicator {
+		right: 35px;
+
+		button {
+			height: 30px;
+			padding: 0 0.25rem;
+		}
+
+		img {
+			height: 20px;
+		}
 	}
 }
 
@@ -790,8 +886,8 @@ select {
 /* -- Images & Icons ---------------------------------------- */
 
 .mini-icon {
-	width: 1em;
-	height: 1em;
+	width: 1.2em;
+	height: 1.2em;
 
 	svg {
 		display: block;
