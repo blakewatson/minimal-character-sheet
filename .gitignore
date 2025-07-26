@@ -19,3 +19,5 @@ tmp
 .env
 .nova
 /.nova/Configuration.json
+.claude
+CLAUDE.md
