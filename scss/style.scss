@@ -622,7 +622,7 @@ select {
 				margin-bottom: 0;
 				vertical-align: center;
 				width: auto;
-				height: 20px;
+				height: 25px;
 			}
 
 			&:hover, &:focus {
@@ -635,7 +635,12 @@ select {
 		.back-button {
 			a {
 				padding: 0 10px;
+
+				img {
+					height: 20px;
+				}
 			}
+
 		}
 	}
 
@@ -694,7 +699,7 @@ select {
 
 			&.save-saving {
 				img {
-					animation: spin 1s linear infinite;
+					animation: spin 1.5s linear infinite;
 				}
 			}
 
@@ -726,6 +731,33 @@ select {
 @keyframes spin {
 	from { transform: rotate(0deg); }
 	to { transform: rotate(360deg); }
+}
+
+.save-indicator .retry-bubble {
+	position: absolute;
+	top: 100%;
+	left: 50%;
+	transform: translateX(-50%);
+	margin-top: 5px;
+	background: #333;
+	color: white;
+	padding: 4px 8px;
+	border-radius: 4px;
+	font-size: 11px;
+	white-space: nowrap;
+	z-index: 1000;
+	
+	.retry-arrow {
+		position: absolute;
+		top: -4px;
+		left: 50%;
+		transform: translateX(-50%);
+		width: 0;
+		height: 0;
+		border-left: 4px solid transparent;
+		border-right: 4px solid transparent;
+		border-bottom: 4px solid #333;
+	}
 }
 
 @media (max-width: 500px) {

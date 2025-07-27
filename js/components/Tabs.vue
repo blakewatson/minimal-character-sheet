@@ -3,7 +3,7 @@
         <ul>
             <li class="back-button">
                 <a href="/dashboard">
-                    <img src="/images/arrow-left.svg" alt="Dashboard">
+                    <img src="/images/house.svg" alt="Dashboard">
                 </a>
             </li>
             <li :class="{ active: view === 'main' }"><button @click="updateView('main')">Main</button></li>
@@ -21,7 +21,7 @@
                         <span class="sr-only">Saving...</span>
                     </span>
                     <span v-else-if="saveStatus === 'saved'">
-                        <img role="presentation" src="/images/check.svg">
+                        <img role="presentation" src="/images/disk.svg">
                         <span class="sr-only">All changes saved</span>
                     </span>
                     <span v-else-if="saveStatus === 'error'">
@@ -29,6 +29,11 @@
                         <span class="sr-only">Save failed - click to retry</span>
                     </span>
                 </button>
+                
+                <div class="retry-bubble" v-if="isRetrying">
+                    <div class="retry-arrow"></div>
+                    <div class="retry-text">Retry {{ retryCount }}/{{ maxRetries }}</div>
+                </div>
             </li>
             <li class="delete-character-button" v-if="!readOnly">
                 <button @click="deleteCharacter">
@@ -45,7 +50,7 @@ import { mapState } from 'vuex';
 export default {
     name: 'Tabs',
 
-    props: ['view', 'saveStatus'],
+    props: ['view', 'saveStatus', 'isRetrying', 'retryCount', 'maxRetries'],
 
     computed: {
         ...mapState(['readOnly']),

@@ -1,7 +1,7 @@
 <template>
     <div id="sheet" class="sheet">
         
-        <tabs :view="view" :save-status="saveStatus" @update-view="view = $event" @manual-save="manualSave"></tabs>
+        <tabs :view="view" :save-status="saveStatus" :is-retrying="isRetrying" :retry-count="saveRetryCount" :max-retries="maxRetries" @update-view="view = $event" @manual-save="manualSave"></tabs>
 
         <bio></bio>
 
@@ -62,7 +62,11 @@ export default {
             autosaveTimer: null,
             isPublic: false,
             saveStatus: 'saved', // 'unsaved', 'saving', 'saved', 'error'
-            hasPendingChanges: false
+            hasPendingChanges: false,
+            saveRetryCount: 0,
+            maxRetries: 3,
+            isRetrying: false,
+            retryTimer: null
         };
     },
     
@@ -114,9 +118,14 @@ export default {
 			window.sheetEvent.$emit('autosave');
 		},
 
-		saveSheetState() {
+		saveSheetState(isRetry = false) {
             if(this.isPublic) {
                 return;
+            }
+            
+            if (!isRetry) {
+                this.saveRetryCount = 0;
+                this.isRetrying = false;
             }
             
             this.saveStatus = 'saving';
@@ -141,33 +150,80 @@ export default {
                 })
                 .then(r => r.json())
                 .then(data => {
-                    if(data.success) {
+                    if(data.csrf) {
                         document.querySelector('#csrf').value = data.csrf;
+                    }
+
+                    if(data.success) {
                         this.saveStatus = 'saved';
+                        this.saveRetryCount = 0;
+                        this.isRetrying = false;
+                        if (this.retryTimer) {
+                            clearTimeout(this.retryTimer);
+                            this.retryTimer = null;
+                        }
                         return;
                     }
 
                     if(!data.success && data.reason === 'unauthorized') {
                         window.location.href = window.location.href;
+                        return;
                     }
 
                     if(!data.success) {
-                        this.saveStatus = 'error';
-                        this.hasPendingChanges = true;
+                        this.handleSaveError('Server error');
                     }
                 }).catch((reason) => {
-                    this.saveStatus = 'error';
-                    this.hasPendingChanges = true;
                     if (reason.message === 'unauthorized') {
                         window.location.href = '/login';
+                        return;
                     }
+                    this.handleSaveError(reason.message || 'Network error');
                 });
 			}).catch((reason) => {
-                this.saveStatus = 'error';
-                this.hasPendingChanges = true;
+                this.handleSaveError(reason.message || 'JSON serialization error');
                 console.error(reason);
             });
 		},
+        
+        handleSaveError(errorMessage) {
+            if (this.isRetryableError(errorMessage) && this.saveRetryCount < this.maxRetries) {
+                this.retrySave();
+            } else {
+                this.saveStatus = 'error';
+                this.hasPendingChanges = true;
+                this.isRetrying = false;
+                this.saveRetryCount = 0;
+            }
+        },
+        
+        isRetryableError(errorMessage) {
+            const retryableErrors = [
+                'network error',
+                'fetch error',
+                'timeout',
+                'server error',
+                'internal server error',
+                'service unavailable',
+                'bad gateway',
+                'gateway timeout'
+            ];
+            
+            const lowerError = errorMessage.toLowerCase();
+            return retryableErrors.some(error => lowerError.includes(error));
+        },
+        
+        retrySave() {
+            this.saveRetryCount++;
+            this.isRetrying = true;
+            
+            const delay = Math.pow(2, this.saveRetryCount) * 1000; // 2s, 4s, 8s
+            
+            this.retryTimer = setTimeout(() => {
+                console.log(`Retrying save (attempt ${this.saveRetryCount}/${this.maxRetries})`);
+                this.saveSheetState(true);
+            }, delay);
+        },
         
         refreshLoop() {
             var sheetSlug = document.querySelector('#sheet-slug').value;
@@ -207,6 +263,12 @@ export default {
             if(this.autosaveTimer !== null) {
                 clearTimeout(this.autosaveTimer);
                 this.autosaveTimer = null;
+            }
+            
+            // Clear any pending retry timer
+            if(this.retryTimer !== null) {
+                clearTimeout(this.retryTimer);
+                this.retryTimer = null;
             }
             
             this.saveSheetState();

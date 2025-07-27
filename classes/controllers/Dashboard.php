@@ -120,7 +120,7 @@ class Dashboard {
     public function save_sheet( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'csrf_failed' ]);
             return;
         }
         
@@ -133,14 +133,14 @@ class Dashboard {
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'unauthorized' ]);
             return;
         }
         
         $result = $sheet->save_sheet( $sheet_data['id'], $name, $data );
 
         if( ! $result ) {
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'save_failed' ]);
             return;
         }
 
