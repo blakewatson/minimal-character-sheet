@@ -3216,7 +3216,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Spells',
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['abilities', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['modifiers'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['abilities', 'className', 'spClass', 'spAbility', 'spSave', 'spAttack', 'readOnly'])), (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['modifiers'])),
   methods: {
     updateSpellInfo: function updateSpellInfo(field, val) {
       this.$store.commit('updateSpellInfo', {
@@ -3225,9 +3225,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       });
     }
   },
+  mounted: function mounted() {
+    if (this.readOnly) {
+      return;
+    }
+    if (this.spClass === '') {
+      this.updateSpellInfo('spClass', this.className);
+    }
+  },
   components: {
-    'field': _Field__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'list': _List__WEBPACK_IMPORTED_MODULE_1__["default"],
+    field: _Field__WEBPACK_IMPORTED_MODULE_0__["default"],
+    list: _List__WEBPACK_IMPORTED_MODULE_1__["default"],
     'spell-group': _SpellGroup__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
@@ -4875,7 +4883,6 @@ var render = function render() {
     staticClass: "centered block",
     attrs: {
       "value": _vm.spClass,
-      "placeholder": "Druid",
       "read-only": _vm.readOnly
     },
     on: {
@@ -4899,7 +4906,7 @@ var render = function render() {
         "value": a.name,
         "selected": _vm.spAbility === a.name
       }
-    }, [_vm._v(_vm._s(a.name) + ": " + _vm._s(_vm._f("signedNumString")(_vm.modifiers[idx].val)))]);
+    }, [_vm._v("\n          " + _vm._s(a.name) + ": " + _vm._s(_vm._f("signedNumString")(_vm.modifiers[idx].val)) + "\n        ")]);
   }), 0) : _c('div', {
     staticClass: "block",
     staticStyle: {
