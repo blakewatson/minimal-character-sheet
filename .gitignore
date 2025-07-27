@@ -21,3 +21,4 @@ tmp
 /.nova/Configuration.json
 .claude
 CLAUDE.md
+.vscode
