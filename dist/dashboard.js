@@ -1,1 +1,79 @@
-(()=>{"use strict";var e={};e.d=(t,r)=>{for(var n in r)e.o(r,n)&&!e.o(t,n)&&Object.defineProperty(t,n,{enumerable:!0,get:r[n]})},e.o=(e,t)=>Object.prototype.hasOwnProperty.call(e,t),function(){var e=Array.from(document.querySelectorAll("[data-sheet]"));if(0===e.length)return;!function(e){e.forEach(function(e){e.addEventListener("input",function(t){var r=t.target.checked,n=e.getAttribute("data-sheet"),c=document.querySelector("#csrf").value,o=new URLSearchParams;o.set("is_public",r),o=o.toString(),fetch("/make-public/".concat(n),{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded","X-AJAX-CSRF":c},body:o}).then(function(e){return e.json()}).then(function(e){e.success&&(document.querySelector("#csrf").value=e.csrf)})})})}(e)}()})();
+/******/ (() => { // webpackBootstrap
+/******/ 	"use strict";
+/******/ 	// The require scope
+/******/ 	var __webpack_require__ = {};
+/******/ 	
+/************************************************************************/
+/******/ 	/* webpack/runtime/define property getters */
+/******/ 	(() => {
+/******/ 		// define getter functions for harmony exports
+/******/ 		__webpack_require__.d = (exports, definition) => {
+/******/ 			for(var key in definition) {
+/******/ 				if(__webpack_require__.o(definition, key) && !__webpack_require__.o(exports, key)) {
+/******/ 					Object.defineProperty(exports, key, { enumerable: true, get: definition[key] });
+/******/ 				}
+/******/ 			}
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/hasOwnProperty shorthand */
+/******/ 	(() => {
+/******/ 		__webpack_require__.o = (obj, prop) => (Object.prototype.hasOwnProperty.call(obj, prop))
+/******/ 	})();
+/******/ 	
+/******/ 	/* webpack/runtime/make namespace object */
+/******/ 	(() => {
+/******/ 		// define __esModule on exports
+/******/ 		__webpack_require__.r = (exports) => {
+/******/ 			if(typeof Symbol !== 'undefined' && Symbol.toStringTag) {
+/******/ 				Object.defineProperty(exports, Symbol.toStringTag, { value: 'Module' });
+/******/ 			}
+/******/ 			Object.defineProperty(exports, '__esModule', { value: true });
+/******/ 		};
+/******/ 	})();
+/******/ 	
+/************************************************************************/
+var __webpack_exports__ = {};
+/*!*************************!*\
+  !*** ./js/dashboard.js ***!
+  \*************************/
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   initDashboard: () => (/* binding */ initDashboard)
+/* harmony export */ });
+initDashboard();
+function initDashboard() {
+  var sheets = Array.from(document.querySelectorAll('[data-sheet]'));
+  if (sheets.length === 0) {
+    return;
+  }
+  bindCheckboxes(sheets);
+}
+function bindCheckboxes(sheets) {
+  sheets.forEach(function (sheet) {
+    sheet.addEventListener('input', function (event) {
+      var isPublic = event.target.checked;
+      var sheetSlug = sheet.getAttribute('data-sheet');
+      var csrf = document.querySelector('#csrf').value;
+      var formBody = new URLSearchParams();
+      formBody.set('is_public', isPublic);
+      formBody = formBody.toString();
+      fetch("/make-public/".concat(sheetSlug), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded',
+          'X-AJAX-CSRF': csrf
+        },
+        body: formBody
+      }).then(function (r) {
+        return r.json();
+      }).then(function (data) {
+        if (data.success) {
+          document.querySelector('#csrf').value = data.csrf;
+        }
+      });
+    });
+  });
+}
+/******/ })()
+;

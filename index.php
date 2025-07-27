@@ -31,6 +31,7 @@ $f3->set( 'DB', new \DB\SQL( 'sqlite:data/db.sqlite3' ) );
 
 // homepage
 $f3->route( 'GET /', function( $f3 ) {
+    $f3->set( 'lightbox', true );
     echo \Template::instance()->render( 'templates/home.html' );
 } );
 

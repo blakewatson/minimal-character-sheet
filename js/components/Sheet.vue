@@ -1,13 +1,16 @@
 <template>
   <div id="sheet" class="sheet">
     <tabs
-      :view="view"
-      :save-status="saveStatus"
+      :error-message="errorMessage"
+      :has-unsaved-changes="hasUnsavedChanges"
+      :is-error="isError"
       :is-retrying="isRetrying"
-      :retry-count="saveRetryCount"
-      :max-retries="maxRetries"
-      @update-view="view = $event"
+      :is-saving="isSaving"
+      :retry-count="retryCount"
+      :retry-max="retryMax"
+      :view="view"
       @manual-save="manualSave"
+      @update-view="view = $event"
     ></tabs>
 
     <bio></bio>
@@ -78,37 +81,40 @@
 </template>
 
 <script>
-import { mapState } from "vuex";
-import Abilities from "./Abilities";
-import Attacks from "./Attacks";
-import Bio from "./Bio";
-import Equipment from "./Equipment";
-import Proficiency from "./Proficiency";
-import Skills from "./Skills";
-import Spells from "./Spells";
-import Tabs from "./Tabs";
-import TextSection from "./TextSection";
+import { Notyf } from 'notyf';
+import { mapState } from 'vuex';
+import { throttle } from '../utils';
+import Abilities from './Abilities';
+import Attacks from './Attacks';
+import Bio from './Bio';
+import Equipment from './Equipment';
+import Proficiency from './Proficiency';
+import Skills from './Skills';
+import Spells from './Spells';
+import Tabs from './Tabs';
+import TextSection from './TextSection';
 
 export default {
-  name: "Sheet",
+  name: 'Sheet',
 
   data() {
     return {
-      view: "main",
-      autosaveTimer: null,
+      errorMessage: '',
+      hasUnsavedChanges: false,
+      isError: false,
       isPublic: false,
-      saveStatus: "saved", // 'unsaved', 'saving', 'saved', 'error'
-      hasPendingChanges: false,
-      saveRetryCount: 0,
-      maxRetries: 3,
       isRetrying: false,
+      isSaving: false,
+      notyf: new Notyf({ ripple: false, dismissible: true }),
+      retryCount: 0,
+      retryMax: 3,
       retryTimer: null,
-      hasPendingSave: false,
+      view: 'main',
     };
   },
 
   computed: {
-    ...mapState(["is_2024", "readOnly"]),
+    ...mapState(['is_2024', 'readOnly']),
   },
 
   watch: {
@@ -116,7 +122,7 @@ export default {
     view(newView) {
       // Update the URL hash without triggering a page reload
       const newUrl = `${window.location.pathname}${window.location.search}#${newView}`;
-      window.history.pushState(null, "", newUrl);
+      window.history.pushState(null, '', newUrl);
     },
   },
 
@@ -128,185 +134,154 @@ export default {
 
       // trigger a quick autosave upon every store mutation
       this.$store.subscribe((mutation, state) => {
-        if (this.saveStatus !== "saving") {
-          this.saveStatus = "unsaved";
-        }
-        this.hasPendingChanges = true;
-        window.sheetEvent.$emit("autosave", 1);
+        window.sheetEvent.$emit('autosave');
       });
 
       // when this event fires, schedule a save
-      window.sheetEvent.$on("autosave", (seconds = 5) => {
-        // convert to milliseconds
-        var milliseconds = seconds * 1000;
-
-        // reset the timer, if running
-        if (this.autosaveTimer !== null) {
-          clearTimeout(this.autosaveTimer);
-          this.autosaveTimer = null;
-        }
-
-        // run the autosave after the specified delay
-        this.autosaveTimer = setTimeout(() => {
-          // If already saving, queue this save for later
-          if (this.saveStatus === "saving" || this.hasPendingSave) {
-            this.hasPendingSave = true;
-            return;
-          }
-
-          console.log("save the character sheet", this.saveStatus);
-          this.saveSheetState();
-        }, milliseconds);
+      window.sheetEvent.$on('autosave', () => {
+        this.resetRetryState();
+        this.hasUnsavedChanges = true;
+        this.throttledSave();
       });
 
       // go ahead and trigger the first autosave
-      window.sheetEvent.$emit("autosave");
+      window.sheetEvent.$emit('autosave');
     },
 
-    saveSheetState(isRetry = false) {
+    manualSave() {
+      this.resetRetryState();
+      this.saveSheetState();
+    },
+
+    async saveSheetState() {
       if (this.isPublic) {
         return;
       }
 
-      if (!isRetry) {
-        this.saveRetryCount = 0;
-        this.isRetrying = false;
+      if (this.isSaving) {
+        return;
       }
 
-      console.log("updating status", this.saveStatus);
-      this.saveStatus = "saving";
-      this.hasPendingChanges = false;
+      this.isSaving = true;
+      this.hasUnsavedChanges = false;
 
-      this.$store
-        .dispatch("getJSON")
-        .then((jsonState) => {
-          var sheetSlug = document.querySelector("#sheet-slug").value;
-          var csrf = document.querySelector("#csrf").value;
-          var formBody = new URLSearchParams();
+      try {
+        var json = await this.$store.dispatch('getJSON');
+      } catch (error) {
+        this.errorMessage = 'Failed to serialize sheet data.';
+        console.error('Caught error', error);
+        this.isError = true;
+        this.isSaving = false;
+        return;
+      }
 
-          formBody.set("name", this.$store.state.characterName);
-          formBody.set("data", jsonState);
-          formBody = formBody.toString();
+      const sheetSlug = document.querySelector('#sheet-slug').value;
+      const csrf = document.querySelector('#csrf').value;
+      const formBody = new URLSearchParams();
 
-          fetch(`/sheet/${sheetSlug}`, {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/x-www-form-urlencoded",
-              "X-AJAX-CSRF": csrf,
-            },
-            body: formBody,
-          })
-            .then((r) => r.json())
-            .then((data) => {
-              console.log("request finished", data);
-              if (data.csrf) {
-                console.log("updating csrf", data.csrf);
-                document.querySelector("#csrf").value = data.csrf;
-              }
+      formBody.set('name', this.$store.state.characterName);
+      formBody.set('data', json);
+      const formBodyString = formBody.toString();
 
-              if (data.success) {
-                this.saveStatus = "saved";
-                this.saveRetryCount = 0;
-                this.isRetrying = false;
-                if (this.retryTimer) {
-                  clearTimeout(this.retryTimer);
-                  this.retryTimer = null;
-                }
-
-                // Check if another save was queued while this one was in progress
-                if (this.hasPendingSave) {
-                  this.hasPendingSave = false;
-                  this.saveSheetState();
-                }
-                return;
-              }
-
-              if (!data.success && data.reason === "unauthorized") {
-                window.location.href = window.location.href;
-                return;
-              }
-
-              if (!data.success) {
-                this.handleSaveError("Server error");
-              }
-            })
-            .catch((reason) => {
-              if (reason.message === "unauthorized") {
-                window.location.href = "/login";
-                return;
-              }
-              this.handleSaveError(reason.message || "Network error");
-            });
-        })
-        .catch((reason) => {
-          this.handleSaveError(reason.message || "JSON serialization error");
-          console.error(reason);
+      try {
+        var response = await fetch(`/sheet/${sheetSlug}`, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/x-www-form-urlencoded',
+            'X-AJAX-CSRF': csrf,
+          },
+          body: formBodyString,
         });
-    },
 
-    handleSaveError(errorMessage) {
-      if (
-        this.isRetryableError(errorMessage) &&
-        this.saveRetryCount < this.maxRetries
-      ) {
-        this.retrySave();
-      } else {
-        this.saveStatus = "error";
-        this.hasPendingChanges = true;
-        this.isRetrying = false;
-        this.saveRetryCount = 0;
+        var respData = await response.json();
 
-        // Check if another save was queued while this one failed
-        if (this.hasPendingSave) {
-          this.hasPendingSave = false;
-          this.saveSheetState();
+        if ('csrf' in respData) {
+          document.querySelector('#csrf').value = respData.csrf;
         }
+
+        this.isSaving = false;
+
+        if (!respData.success) {
+          throw new Error(respData.reason);
+        }
+      } catch (error) {
+        console.error(error);
+        this.isSaving = false;
+        this.isError = true;
+        this.errorMessage = 'Failed to save sheet data.';
+
+        if (this.isRetryableError(error.message)) {
+          this.isRetrying = true;
+          this.retryCount++;
+
+          if (this.retryCount > this.retryMax) {
+            this.resetRetryState();
+            this.notyf.error({
+              duration: 0,
+              message:
+                'Failed to save character sheet. Try a manual save by clicking the save button.',
+            });
+            return;
+          }
+
+          const delay =
+            this.retryCount === 1 ? 1000 : this.retryCount === 2 ? 3000 : 6000;
+
+          this.retryTimer = setTimeout(() => {
+            this.saveSheetState();
+          }, delay);
+        }
+
+        return;
+      }
+
+      this.resetRetryState();
+      this.isError = false;
+
+      // if we get here, the save was successful. check for unsaved changes
+      if (this.hasUnsavedChanges) {
+        this.hasUnsavedChanges = true;
+        this.resetRetryState();
+        this.throttledSave();
       }
     },
 
     isRetryableError(errorMessage) {
       const retryableErrors = [
-        "network error",
-        "fetch error",
-        "timeout",
-        "server error",
-        "internal server error",
-        "service unavailable",
-        "bad gateway",
-        "gateway timeout",
+        'networkerror',
+        'fetch error',
+        'timeout',
+        'server error',
+        'internal server error',
+        'service unavailable',
+        'bad gateway',
+        'gateway timeout',
+        'csrf_failed',
+        'test_retry',
       ];
 
       const lowerError = errorMessage.toLowerCase();
       return retryableErrors.some((error) => lowerError.includes(error));
     },
 
-    retrySave() {
-      // If a new save is queued, don't retry stale data
-      if (this.hasPendingSave) {
-        this.hasPendingSave = false;
-        this.saveSheetState();
-        return;
+    resetRetryState() {
+      if (this.retryTimer) {
+        clearTimeout(this.retryTimer);
+        this.retryTimer = null;
       }
-
-      this.saveRetryCount++;
-      this.isRetrying = true;
-
-      const delay = Math.pow(2, this.saveRetryCount) * 1000; // 2s, 4s, 8s
-
-      this.retryTimer = setTimeout(() => {
-        this.saveSheetState(true);
-      }, delay);
+      this.isRetrying = false;
+      this.retryCount = 0;
     },
 
     refreshLoop() {
-      var sheetSlug = document.querySelector("#sheet-slug").value;
+      var sheetSlug = document.querySelector('#sheet-slug').value;
 
       fetch(`/sheet-data/${sheetSlug}`)
         .then((r) => r.json())
         .then((data) => {
           if (data.success) {
             this.$store
-              .dispatch("updateState", { sheet: data.sheet })
+              .dispatch('updateState', { sheet: data.sheet })
               .catch((reason) => console.log(reason));
           }
         })
@@ -316,8 +291,8 @@ export default {
     // Get the current view from URL hash
     getViewFromHash() {
       const hash = window.location.hash.substring(1); // Remove the # symbol
-      const validViews = ["main", "spells", "details", "notes"];
-      return validViews.includes(hash) ? hash : "main";
+      const validViews = ['main', 'spells', 'details', 'notes'];
+      return validViews.includes(hash) ? hash : 'main';
     },
 
     // Handle browser navigation (back/forward buttons)
@@ -326,38 +301,6 @@ export default {
       if (newView !== this.view) {
         this.view = newView;
       }
-    },
-
-    manualSave() {
-      if (this.isPublic) {
-        return;
-      }
-
-      // Clear any pending autosave timer
-      if (this.autosaveTimer !== null) {
-        clearTimeout(this.autosaveTimer);
-        this.autosaveTimer = null;
-      }
-
-      // If already saving, queue this save for later and clear retries
-      if (this.saveStatus === "saving") {
-        this.hasPendingSave = true;
-
-        // Clear any pending retry timer since we'll save fresh data
-        if (this.retryTimer !== null) {
-          clearTimeout(this.retryTimer);
-          this.retryTimer = null;
-        }
-        return;
-      }
-
-      // Clear any pending retry timer
-      if (this.retryTimer !== null) {
-        clearTimeout(this.retryTimer);
-        this.retryTimer = null;
-      }
-
-      this.saveSheetState();
     },
   },
 
@@ -370,7 +313,7 @@ export default {
     attacks: Attacks,
     equipment: Equipment,
     spells: Spells,
-    "text-section": TextSection,
+    'text-section': TextSection,
   },
 
   mounted() {
@@ -386,18 +329,24 @@ export default {
 
     // Initialize view from URL hash
     this.view = this.getViewFromHash();
-    window.addEventListener("hashchange", this.handleHashChange);
+    window.addEventListener('hashchange', this.handleHashChange);
   },
 
   created() {
     // initialize state with the "sheet" global
     this.$store
-      .dispatch("initializeState", { sheet: window.sheet })
+      .dispatch('initializeState', { sheet: window.sheet })
       .catch((reason) => console.log(reason));
+
+    this.throttledSave = throttle(this.saveSheetState, 5000, {
+      leading: false,
+      trailing: true,
+      trailingWait: 1000,
+    });
   },
 
   beforeDestroy() {
-    window.removeEventListener("hashchange", this.handleHashChange);
+    window.removeEventListener('hashchange', this.handleHashChange);
   },
 };
 </script>
