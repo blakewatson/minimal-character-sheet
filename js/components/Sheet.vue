@@ -146,20 +146,27 @@ export default {
       window.sheetEvent.$emit('autosave');
     },
 
-    manualSave() {
+    async manualSave() {
       this.resetRetryState();
-      this.saveSheetState();
+      const result = await this.saveSheetState();
+
+      if (result) {
+        this.notyf.success({
+          duration: 2000,
+          message: 'Character sheet saved.',
+        });
+      }
     },
 
     async saveSheetState() {
       // Don't save if this is a public sheet (view-only mode)
       if (this.isPublic) {
-        return;
+        return false;
       }
 
       // Prevent concurrent saves - exit early if already saving
       if (this.isSaving) {
-        return;
+        return false;
       }
 
       // Set saving state and clear unsaved changes flag optimistically
@@ -180,7 +187,7 @@ export default {
           message:
             'Character sheet data is not valid. Please reload the page and try again.',
         });
-        return;
+        return false;
       }
 
       // Step 2: Prepare the POST request data
@@ -243,7 +250,7 @@ export default {
               message:
                 'Failed to save character sheet. Try a manual save by clicking the save button.',
             });
-            return;
+            return false;
           }
 
           // Exponential backoff: 1s, 3s, 6s delays
@@ -256,7 +263,7 @@ export default {
           }, delay);
         }
 
-        return;
+        return false;
       }
 
       // Step 5: Save was successful - clean up retry state
@@ -271,6 +278,8 @@ export default {
         this.resetRetryState();
         this.throttledSave(); // Use throttled save to avoid rapid-fire saves
       }
+
+      return true;
     },
 
     isRetryableError(error) {

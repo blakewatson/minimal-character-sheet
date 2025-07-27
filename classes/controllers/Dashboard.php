@@ -42,6 +42,12 @@ class Dashboard {
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $slug );
         $email = $f3->get( 'SESSION.email' ) ? $f3->get( 'SESSION.email' ) : '';
+
+        // if the sheet is not found, return a 404
+        if( ! $sheet_data ) {
+            $f3->error( 404 );
+            return;
+        }
         
         // sheet not allowed to be accessed by current user
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
