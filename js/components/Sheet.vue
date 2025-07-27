@@ -103,6 +103,7 @@ export default {
       maxRetries: 3,
       isRetrying: false,
       retryTimer: null,
+      hasPendingSave: false,
     };
   },
 
@@ -127,7 +128,9 @@ export default {
 
       // trigger a quick autosave upon every store mutation
       this.$store.subscribe((mutation, state) => {
-        this.saveStatus = "unsaved";
+        if (this.saveStatus !== "saving") {
+          this.saveStatus = "unsaved";
+        }
         this.hasPendingChanges = true;
         window.sheetEvent.$emit("autosave", 1);
       });
@@ -145,7 +148,13 @@ export default {
 
         // run the autosave after the specified delay
         this.autosaveTimer = setTimeout(() => {
-          console.log("save the character sheet");
+          // If already saving, queue this save for later
+          if (this.saveStatus === "saving" || this.hasPendingSave) {
+            this.hasPendingSave = true;
+            return;
+          }
+
+          console.log("save the character sheet", this.saveStatus);
           this.saveSheetState();
         }, milliseconds);
       });
@@ -164,6 +173,7 @@ export default {
         this.isRetrying = false;
       }
 
+      console.log("updating status", this.saveStatus);
       this.saveStatus = "saving";
       this.hasPendingChanges = false;
 
@@ -188,7 +198,9 @@ export default {
           })
             .then((r) => r.json())
             .then((data) => {
+              console.log("request finished", data);
               if (data.csrf) {
+                console.log("updating csrf", data.csrf);
                 document.querySelector("#csrf").value = data.csrf;
               }
 
@@ -199,6 +211,12 @@ export default {
                 if (this.retryTimer) {
                   clearTimeout(this.retryTimer);
                   this.retryTimer = null;
+                }
+
+                // Check if another save was queued while this one was in progress
+                if (this.hasPendingSave) {
+                  this.hasPendingSave = false;
+                  this.saveSheetState();
                 }
                 return;
               }
@@ -237,6 +255,12 @@ export default {
         this.hasPendingChanges = true;
         this.isRetrying = false;
         this.saveRetryCount = 0;
+
+        // Check if another save was queued while this one failed
+        if (this.hasPendingSave) {
+          this.hasPendingSave = false;
+          this.saveSheetState();
+        }
       }
     },
 
@@ -257,15 +281,19 @@ export default {
     },
 
     retrySave() {
+      // If a new save is queued, don't retry stale data
+      if (this.hasPendingSave) {
+        this.hasPendingSave = false;
+        this.saveSheetState();
+        return;
+      }
+
       this.saveRetryCount++;
       this.isRetrying = true;
 
       const delay = Math.pow(2, this.saveRetryCount) * 1000; // 2s, 4s, 8s
 
       this.retryTimer = setTimeout(() => {
-        console.log(
-          `Retrying save (attempt ${this.saveRetryCount}/${this.maxRetries})`
-        );
         this.saveSheetState(true);
       }, delay);
     },
@@ -309,6 +337,18 @@ export default {
       if (this.autosaveTimer !== null) {
         clearTimeout(this.autosaveTimer);
         this.autosaveTimer = null;
+      }
+
+      // If already saving, queue this save for later and clear retries
+      if (this.saveStatus === "saving") {
+        this.hasPendingSave = true;
+
+        // Clear any pending retry timer since we'll save fresh data
+        if (this.retryTimer !== null) {
+          clearTimeout(this.retryTimer);
+          this.retryTimer = null;
+        }
+        return;
       }
 
       // Clear any pending retry timer
