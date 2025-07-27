@@ -120,7 +120,8 @@ class Dashboard {
     public function save_sheet( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'csrf_failed' ]);
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'csrf_failed', 'status' => 400 ]);
             return;
         }
         
@@ -133,20 +134,23 @@ class Dashboard {
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'unauthorized' ]);
+            $f3->status( 403 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'unauthorized', 'status' => 403 ]);
             return;
         }
         
         $result = $sheet->save_sheet( $sheet_data['id'], $name, $data );
 
         if( ! $result ) {
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'save_failed' ]);
+            $f3->status( 500 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'save_failed', 'status' => 500 ]);
             return;
         }
 
         echo json_encode([
             'success' => true,
-            'csrf' => $f3->get( 'CSRF' )
+            'csrf' => $f3->get( 'CSRF' ),
+            'status' => 200
         ]);
         return;
     }
@@ -154,7 +158,8 @@ class Dashboard {
     public function delete_sheet( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'status' => 400 ]);
             return;
         }
         
@@ -165,18 +170,20 @@ class Dashboard {
         $email = $f3->get( 'SESSION.email' );
         
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            $f3->status( 403 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'status' => 403 ]);
             return;
         }
 
         $result = $sheet->delete_sheet( $sheet_data['id'] );
-        echo json_encode([ 'success' => $result, 'csrf' => $f3->get( 'CSRF' ) ]);
+        echo json_encode([ 'success' => $result, 'csrf' => $f3->get( 'CSRF' ), 'status' => 200 ]);
     }
     
     public function make_sheet_public( $f3, $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
-            echo json_encode([ 'success' => false, 'reason' => 'ajax', 'csrf' => $f3->get( 'CSRF' ) ]);
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'reason' => 'ajax', 'csrf' => $f3->get( 'CSRF' ), 'status' => 400 ]);
             return;
         }
         
@@ -186,14 +193,15 @@ class Dashboard {
         $sheet = $sheetObj->get_sheet_by_slug( $params['sheet_slug'] );
                 
         if( $f3->get( 'SESSION.email' ) !== $sheet['email']) {
-            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ) ]);
+            $f3->status( 403 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'status' => 403 ]);
         }
         
         $value = $f3->get( 'REQUEST.is_public' );
         $sheetObj->set( 'is_public', $value === 'true' ? true : false );
         $sheetObj->save();
         
-        echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'CSRF' ) ]);
+        echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'CSRF' ), 'status' => 200 ]);
     }
 
 }

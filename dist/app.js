@@ -2616,7 +2616,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
   name: 'Sheet',
   data: function data() {
     return {
-      errorMessage: '',
       hasUnsavedChanges: false,
       isError: false,
       isPublic: false,
@@ -2670,7 +2669,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     saveSheetState: function saveSheetState() {
       var _this2 = this;
       return _asyncToGenerator(/*#__PURE__*/_regenerator().m(function _callee() {
-        var json, sheetSlug, csrf, formBody, formBodyString, response, respData, delay, _t, _t2;
+        var json, sheetSlug, csrf, formBody, formBodyString, response, respData, error, delay, _t, _t2;
         return _regenerator().w(function (_context) {
           while (1) switch (_context.n) {
             case 0:
@@ -2686,8 +2685,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               }
               return _context.a(2);
             case 2:
+              // Set saving state and clear unsaved changes flag optimistically
               _this2.isSaving = true;
               _this2.hasUnsavedChanges = false;
+
+              // Step 1: Get the current sheet data as JSON from the Vuex store
               _context.p = 3;
               _context.n = 4;
               return _this2.$store.dispatch('getJSON');
@@ -2698,25 +2700,30 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
             case 5:
               _context.p = 5;
               _t = _context.v;
-              _this2.errorMessage = 'Failed to serialize sheet data.';
+              // If we can't serialize the data, mark as error and stop
               console.error('Caught error', _t);
               _this2.isError = true;
               _this2.isSaving = false;
+              _this2.notyf.error({
+                duration: 0,
+                message: 'Character sheet data is not valid. Please reload the page and try again.'
+              });
               return _context.a(2);
             case 6:
-              sheetSlug = document.querySelector('#sheet-slug').value;
-              csrf = document.querySelector('#csrf').value;
-              formBody = new URLSearchParams();
+              // Step 2: Prepare the POST request data
+              sheetSlug = document.querySelector('#sheet-slug').value; // Unique sheet identifier from hidden form field
+              csrf = document.querySelector('#csrf').value; // CSRF token for security
+              formBody = new URLSearchParams(); // Encode the character name and sheet data for form submission
               formBody.set('name', _this2.$store.state.characterName);
               formBody.set('data', json);
-              formBodyString = formBody.toString();
+              formBodyString = formBody.toString(); // Step 3: Send the save request to the server
               _context.p = 7;
               _context.n = 8;
               return fetch("/sheet/".concat(sheetSlug), {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/x-www-form-urlencoded',
-                  'X-AJAX-CSRF': csrf
+                  'X-AJAX-CSRF': csrf // Include CSRF token in header
                 },
                 body: formBodyString
               });
@@ -2726,31 +2733,45 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               return response.json();
             case 9:
               respData = _context.v;
+              // Update CSRF token if server provides a new one (for subsequent requests)
               if ('csrf' in respData) {
                 document.querySelector('#csrf').value = respData.csrf;
               }
               _this2.isSaving = false;
+
+              // Check if the server reports the save was unsuccessful
               if (respData.success) {
                 _context.n = 10;
                 break;
               }
-              throw new Error(respData.reason);
+              error = new Error(respData.reason);
+              error.status = response.status;
+              throw error;
             case 10:
               _context.n = 14;
               break;
             case 11:
               _context.p = 11;
               _t2 = _context.v;
+              // Step 4: Handle save errors with retry logic
               console.error(_t2);
               _this2.isSaving = false;
               _this2.isError = true;
-              _this2.errorMessage = 'Failed to save sheet data.';
-              if (!_this2.isRetryableError(_t2.message)) {
+
+              // If user is not authenticated, redirect to login
+              if (_t2.status === 403) {
+                window.location.href = '/login';
+              }
+
+              // For retryable errors (network issues, server errors), implement exponential backoff
+              if (!_this2.isRetryableError(_t2)) {
                 _context.n = 13;
                 break;
               }
               _this2.isRetrying = true;
               _this2.retryCount++;
+
+              // Give up after max retries and show user notification
               if (!(_this2.retryCount > _this2.retryMax)) {
                 _context.n = 12;
                 break;
@@ -2758,25 +2779,30 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
               _this2.resetRetryState();
               _this2.notyf.error({
                 duration: 0,
+                // Persistent notification until dismissed
                 message: 'Failed to save character sheet. Try a manual save by clicking the save button.'
               });
               return _context.a(2);
             case 12:
-              delay = _this2.retryCount === 1 ? 1000 : _this2.retryCount === 2 ? 3000 : 6000;
+              // Exponential backoff: 1s, 3s, 6s delays
+              delay = _this2.retryCount === 1 ? 1000 : _this2.retryCount === 2 ? 3000 : 6000; // Schedule a retry after the delay
               _this2.retryTimer = setTimeout(function () {
                 _this2.saveSheetState();
               }, delay);
             case 13:
               return _context.a(2);
             case 14:
+              // Step 5: Save was successful - clean up retry state
               _this2.resetRetryState();
               _this2.isError = false;
+              _this2.notyf.dismissAll();
 
-              // if we get here, the save was successful. check for unsaved changes
+              // Check if more changes occurred while we were saving
+              // If so, schedule another save to catch those changes
               if (_this2.hasUnsavedChanges) {
                 _this2.hasUnsavedChanges = true;
                 _this2.resetRetryState();
-                _this2.throttledSave();
+                _this2.throttledSave(); // Use throttled save to avoid rapid-fire saves
               }
             case 15:
               return _context.a(2);
@@ -2784,11 +2810,29 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         }, _callee, null, [[7, 11], [3, 5]]);
       }))();
     },
-    isRetryableError: function isRetryableError(errorMessage) {
-      var retryableErrors = ['networkerror', 'fetch error', 'timeout', 'server error', 'internal server error', 'service unavailable', 'bad gateway', 'gateway timeout', 'csrf_failed', 'test_retry'];
+    isRetryableError: function isRetryableError(error) {
+      // Check HTTP status codes first (most reliable)
+      if (error.status) {
+        // 5xx server errors are retryable
+        if (error.status >= 500 && error.status < 600) {
+          return true;
+        }
+        // 429 Too Many Requests (rate limiting) - could be retryable with backoff
+        if (error.status === 429) {
+          return true;
+        }
+        // 4xx client errors are generally not retryable
+        if (error.status >= 400 && error.status < 500) {
+          return false;
+        }
+      }
+
+      // Fallback to message checking for network errors without status codes
+      var errorMessage = error.message || error.toString();
+      var retryableErrors = ['networkerror', 'fetch error', 'timeout', 'failed to fetch', 'network request failed', 'csrf_failed', 'test_retry'];
       var lowerError = errorMessage.toLowerCase();
-      return retryableErrors.some(function (error) {
-        return lowerError.includes(error);
+      return retryableErrors.some(function (errorType) {
+        return lowerError.includes(errorType);
       });
     },
     resetRetryState: function resetRetryState() {
@@ -3211,7 +3255,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Tabs',
-  props: ['errorMessage', 'hasUnsavedChanges', 'isError', 'isRetrying', 'isSaving', 'retryMax', 'retryCount', 'view'],
+  props: ['hasUnsavedChanges', 'isError', 'isRetrying', 'isSaving', 'retryMax', 'retryCount', 'view'],
   computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_0__.mapState)(['readOnly'])), {}, {
     sheetSlug: function sheetSlug() {
       return this.$store.state.slug;
@@ -4345,7 +4389,6 @@ var render = function render() {
     }
   }, [_c('tabs', {
     attrs: {
-      "error-message": _vm.errorMessage,
       "has-unsaved-changes": _vm.hasUnsavedChanges,
       "is-error": _vm.isError,
       "is-retrying": _vm.isRetrying,

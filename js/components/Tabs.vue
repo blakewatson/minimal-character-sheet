@@ -77,7 +77,6 @@ export default {
   name: 'Tabs',
 
   props: [
-    'errorMessage',
     'hasUnsavedChanges',
     'isError',
     'isRetrying',

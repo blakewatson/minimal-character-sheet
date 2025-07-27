@@ -67,8 +67,8 @@ function bindCheckboxes(sheets) {
         body: formBody
       }).then(function (r) {
         return r.json();
-      }).then(function (data) {
-        if (data.success) {
+      })["finally"](function (data) {
+        if ('csrf' in data) {
           document.querySelector('#csrf').value = data.csrf;
         }
       });

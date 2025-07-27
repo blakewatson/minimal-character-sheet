@@ -1,7 +1,6 @@
 <template>
   <div id="sheet" class="sheet">
     <tabs
-      :error-message="errorMessage"
       :has-unsaved-changes="hasUnsavedChanges"
       :is-error="isError"
       :is-retrying="isRetrying"
@@ -99,7 +98,6 @@ export default {
 
   data() {
     return {
-      errorMessage: '',
       hasUnsavedChanges: false,
       isError: false,
       isPublic: false,
@@ -154,79 +152,105 @@ export default {
     },
 
     async saveSheetState() {
+      // Don't save if this is a public sheet (view-only mode)
       if (this.isPublic) {
         return;
       }
 
+      // Prevent concurrent saves - exit early if already saving
       if (this.isSaving) {
         return;
       }
 
+      // Set saving state and clear unsaved changes flag optimistically
       this.isSaving = true;
       this.hasUnsavedChanges = false;
 
+      // Step 1: Get the current sheet data as JSON from the Vuex store
       try {
         var json = await this.$store.dispatch('getJSON');
       } catch (error) {
-        this.errorMessage = 'Failed to serialize sheet data.';
+        // If we can't serialize the data, mark as error and stop
         console.error('Caught error', error);
         this.isError = true;
         this.isSaving = false;
+
+        this.notyf.error({
+          duration: 0,
+          message:
+            'Character sheet data is not valid. Please reload the page and try again.',
+        });
         return;
       }
 
-      const sheetSlug = document.querySelector('#sheet-slug').value;
-      const csrf = document.querySelector('#csrf').value;
+      // Step 2: Prepare the POST request data
+      const sheetSlug = document.querySelector('#sheet-slug').value; // Unique sheet identifier from hidden form field
+      const csrf = document.querySelector('#csrf').value; // CSRF token for security
       const formBody = new URLSearchParams();
 
+      // Encode the character name and sheet data for form submission
       formBody.set('name', this.$store.state.characterName);
       formBody.set('data', json);
       const formBodyString = formBody.toString();
 
+      // Step 3: Send the save request to the server
       try {
         var response = await fetch(`/sheet/${sheetSlug}`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/x-www-form-urlencoded',
-            'X-AJAX-CSRF': csrf,
+            'X-AJAX-CSRF': csrf, // Include CSRF token in header
           },
           body: formBodyString,
         });
 
         var respData = await response.json();
 
+        // Update CSRF token if server provides a new one (for subsequent requests)
         if ('csrf' in respData) {
           document.querySelector('#csrf').value = respData.csrf;
         }
 
         this.isSaving = false;
 
+        // Check if the server reports the save was unsuccessful
         if (!respData.success) {
-          throw new Error(respData.reason);
+          const error = new Error(respData.reason);
+          error.status = response.status;
+          throw error;
         }
       } catch (error) {
+        // Step 4: Handle save errors with retry logic
         console.error(error);
         this.isSaving = false;
         this.isError = true;
-        this.errorMessage = 'Failed to save sheet data.';
 
-        if (this.isRetryableError(error.message)) {
+        // If user is not authenticated, redirect to login
+        if (error.status === 403) {
+          window.location.href = '/login';
+        }
+
+        // For retryable errors (network issues, server errors), implement exponential backoff
+        if (this.isRetryableError(error)) {
           this.isRetrying = true;
           this.retryCount++;
 
+          // Give up after max retries and show user notification
           if (this.retryCount > this.retryMax) {
             this.resetRetryState();
             this.notyf.error({
-              duration: 0,
+              duration: 0, // Persistent notification until dismissed
               message:
                 'Failed to save character sheet. Try a manual save by clicking the save button.',
             });
             return;
           }
 
+          // Exponential backoff: 1s, 3s, 6s delays
           const delay =
             this.retryCount === 1 ? 1000 : this.retryCount === 2 ? 3000 : 6000;
 
+          // Schedule a retry after the delay
           this.retryTimer = setTimeout(() => {
             this.saveSheetState();
           }, delay);
@@ -235,33 +259,53 @@ export default {
         return;
       }
 
+      // Step 5: Save was successful - clean up retry state
       this.resetRetryState();
       this.isError = false;
+      this.notyf.dismissAll();
 
-      // if we get here, the save was successful. check for unsaved changes
+      // Check if more changes occurred while we were saving
+      // If so, schedule another save to catch those changes
       if (this.hasUnsavedChanges) {
         this.hasUnsavedChanges = true;
         this.resetRetryState();
-        this.throttledSave();
+        this.throttledSave(); // Use throttled save to avoid rapid-fire saves
       }
     },
 
-    isRetryableError(errorMessage) {
+    isRetryableError(error) {
+      // Check HTTP status codes first (most reliable)
+      if (error.status) {
+        // 5xx server errors are retryable
+        if (error.status >= 500 && error.status < 600) {
+          return true;
+        }
+        // 429 Too Many Requests (rate limiting) - could be retryable with backoff
+        if (error.status === 429) {
+          return true;
+        }
+        // 4xx client errors are generally not retryable
+        if (error.status >= 400 && error.status < 500) {
+          return false;
+        }
+      }
+
+      // Fallback to message checking for network errors without status codes
+      const errorMessage = error.message || error.toString();
       const retryableErrors = [
         'networkerror',
         'fetch error',
         'timeout',
-        'server error',
-        'internal server error',
-        'service unavailable',
-        'bad gateway',
-        'gateway timeout',
+        'failed to fetch',
+        'network request failed',
         'csrf_failed',
         'test_retry',
       ];
 
       const lowerError = errorMessage.toLowerCase();
-      return retryableErrors.some((error) => lowerError.includes(error));
+      return retryableErrors.some((errorType) =>
+        lowerError.includes(errorType)
+      );
     },
 
     resetRetryState() {
