@@ -1,7 +1,12 @@
 <template>
   <section
     class="row row-spaced row-vert-centered"
-    style="flex-wrap: wrap; margin-top: -0.5rem; padding-bottom: 0.5rem; gap: 0.5rem;"
+    style="
+      flex-wrap: wrap;
+      margin-top: -0.5rem;
+      padding-bottom: 0.5rem;
+      gap: 0.5rem;
+    "
   >
     <div class="vert-center">
       <label class="meta small muted mr-xs" for="initiative">Initiative</label>
@@ -46,30 +51,29 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from "vuex";
-import Field from "./Field";
+import { mapGetters, mapState } from 'vuex';
+import Field from './Field';
 
 export default {
-  name: "Proficiency",
+  name: 'Proficiency',
 
   computed: {
-    ...mapGetters(["proficiencyBonus"]),
-    ...mapState(["inspiration", "readOnly", "initiative", "shortRests"]),
+    ...mapGetters(['proficiencyBonus']),
+    ...mapState(['inspiration', 'readOnly', 'initiative', 'shortRests']),
   },
 
   methods: {
     updateInitiative(val) {
-      val = val ? parseInt(val) : 0;
-      this.$store.commit("updateInitiative", val);
+      this.$store.commit('updateInitiative', val);
     },
 
     updateInspiration(val) {
-      this.$store.commit("updateInspiration", val.target.checked);
+      this.$store.commit('updateInspiration', val.target.checked);
     },
 
     updateShortRests(val) {
       val = val ? parseInt(val) : 0;
-      this.$store.commit("updateShortRests", val);
+      this.$store.commit('updateShortRests', val);
     },
   },
 
