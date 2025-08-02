@@ -953,10 +953,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
 /* harmony import */ var quill__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! quill */ "./node_modules/quill/quill.js");
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex/dist/vuex.common.js */ "./node_modules/vuex/dist/vuex.common.js");
-/* harmony import */ var vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_3__);
-/* harmony import */ var _PrintField_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./PrintField.vue */ "./js/components/PrintField.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! vuex/dist/vuex.common.js */ "./node_modules/vuex/dist/vuex.common.js");
+/* harmony import */ var vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_4__);
+/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../utils */ "./js/utils.js");
+/* harmony import */ var _PrintField_vue__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./PrintField.vue */ "./js/components/PrintField.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -967,12 +968,16 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Print',
   data: function data() {
     return {};
   },
-  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['characterName', 'is_2024', 'race', 'background', 'className', 'level', 'xp', 'alignment', 'hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed', 'initiative', 'inspiration', 'abilities', 'savingThrows', 'skills', 'attacks', 'coins', 'equipmentText', 'proficienciesText', 'featuresText', 'personalityText', 'backstoryText', 'treasureText', 'organizationsText', 'notesText', 'spClass', 'spAbility', 'spSave', 'spAttack', 'cantripsList', 'lvl1Spells', 'lvl2Spells', 'lvl3Spells', 'lvl4Spells', 'lvl5Spells', 'lvl6Spells', 'lvl7Spells', 'lvl8Spells', 'lvl9Spells', 'is_2024'])), (0,vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_3__.mapGetters)(['modifiers', 'proficiencyBonus'])), {}, {
+  computed: _objectSpread(_objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['characterName', 'is_2024', 'race', 'background', 'className', 'level', 'xp', 'alignment', 'hp', 'maxHp', 'tempHp', 'hitDie', 'totalHitDie', 'ac', 'speed', 'initiative', 'inspiration', 'abilities', 'savingThrows', 'skills', 'attacks', 'coins', 'equipmentText', 'proficienciesText', 'featuresText', 'personalityText', 'backstoryText', 'treasureText', 'organizationsText', 'notesText', 'spClass', 'spAbility', 'spSave', 'spAttack', 'cantripsList', 'lvl1Spells', 'lvl2Spells', 'lvl3Spells', 'lvl4Spells', 'lvl5Spells', 'lvl6Spells', 'lvl7Spells', 'lvl8Spells', 'lvl9Spells', 'is_2024'])), (0,vuex_dist_vuex_common_js__WEBPACK_IMPORTED_MODULE_4__.mapGetters)(['modifiers', 'proficiencyBonus'])), {}, {
+    allSpellLevels: function allSpellLevels() {
+      return [this.lvl1Spells, this.lvl2Spells, this.lvl3Spells, this.lvl4Spells, this.lvl5Spells, this.lvl6Spells, this.lvl7Spells, this.lvl8Spells, this.lvl9Spells];
+    },
     attacksAndNotes: function attacksAndNotes() {
       var _this = this;
       var rows = [];
@@ -1013,6 +1018,13 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   }),
   methods: {
+    getAbilityModifier: function getAbilityModifier(ability) {
+      var mod = this.modifiers.reduce(function (acc, m) {
+        if (m.ability === ability) return acc + m.val;
+        return acc;
+      }, 0);
+      return mod;
+    },
     getHtmlFromQuill: function getHtmlFromQuill(delta) {
       if (!delta) {
         return '';
@@ -1050,6 +1062,9 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         return mod + this.proficiencyBonus;
       }
       return mod;
+    },
+    signedNumString: function signedNumString(num) {
+      return (0,_utils__WEBPACK_IMPORTED_MODULE_1__.signedNumString)(num);
     }
   },
   created: function created() {
@@ -1061,7 +1076,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   components: {
-    'print-field': _PrintField_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'print-field': _PrintField_vue__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -1085,6 +1100,7 @@ __webpack_require__.r(__webpack_exports__);
     value: [String, Number],
     signedNumber: Boolean,
     big: Boolean,
+    bold: Boolean,
     box: Boolean,
     center: Boolean
   },
@@ -1247,7 +1263,7 @@ var render = function render() {
       "center": ""
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "flex mt-sm"
+    staticClass: "flex align-items-end mt-sm"
   }, [_c('print-field', {
     attrs: {
       "value": _vm.initiative,
@@ -1346,7 +1362,7 @@ var render = function render() {
     }, [_c('div', {
       staticClass: "flex align-items-center justify-content-end no-gap",
       staticStyle: {
-        "width": "40px"
+        "width": "32px"
       }
     }, [skill.doubleProficient ? _c('span', {
       staticClass: "mini-icon",
@@ -1378,7 +1394,9 @@ var render = function render() {
       attrs: {
         "d": "M557 152.9L538.2 178.8L282.2 530.8L260.2 561.1C259.5 560.4 208 508.9 105.7 406.6L83 384L128.3 338.7C130.2 340.6 171.6 382 252.4 462.8L486.4 141.1L505.2 115.2L557 152.8z"
       }
-    })])]) : _vm._e()]), _vm._v(" "), _c('div', [_c('strong', {
+    })])]) : _vm._e()]), _vm._v(" "), _c('div', {
+      staticClass: "text-left"
+    }, [_c('strong', {
       staticClass: "mr-xs text-right",
       staticStyle: {
         "width": "20px",
@@ -1467,7 +1485,7 @@ var render = function render() {
     }
   }), _vm._v(" "), _c('print-field', {
     attrs: {
-      "value": "".concat(_vm.spAbility, " (").concat(_vm.get, ")"),
+      "value": "".concat(_vm.spAbility, " (").concat(_vm.signedNumString(_vm.getAbilityModifier(_vm.spAbility)), ")"),
       "label": "Ability"
     }
   }), _vm._v(" "), _c('print-field', {
@@ -1503,16 +1521,77 @@ var render = function render() {
   }, [_c('div', {
     staticClass: "print-field-big"
   }, [_vm._v("\n          " + _vm._s(_vm.spAttack) + "\n        ")])])], 1), _vm._v(" "), _vm.cantripsList.length > 0 ? _c('div', {
-    staticClass: "flex"
+    staticClass: "mt-md"
   }, [_c('p', {
     staticClass: "header"
   }, [_vm._v("Cantrips")]), _vm._v(" "), _vm._l(_vm.cantripsList, function (cantrip) {
     return _c('div', {
+      staticClass: "quill-html card",
       domProps: {
-        "innerHTML": _vm._s(_vm.getHtmlFromQuill(cantrip.name))
+        "innerHTML": _vm._s(_vm.getHtmlFromQuill(cantrip.val))
       }
     });
-  })], 2) : _vm._e()]) : _vm._e()]);
+  })], 2) : _vm._e(), _vm._v(" "), _vm._l(_vm.allSpellLevels, function (spellData, idx) {
+    return _c('div', [spellData.spells.length > 0 ? _c('div', {
+      staticClass: "mt-lg"
+    }, [_c('p', {
+      staticClass: "header"
+    }, [_vm._v("Level " + _vm._s(idx + 1) + " spells")]), _vm._v(" "), _c('div', {
+      staticClass: "flex pt-md"
+    }, [_c('print-field', {
+      attrs: {
+        "value": spellData.slots,
+        "label": "Slots",
+        "bold": ""
+      }
+    }), _vm._v(" "), _c('print-field', {
+      attrs: {
+        "label": "Expended",
+        "value": "_______________________"
+      }
+    })], 1), _vm._v(" "), _vm._l(spellData.spells, function (spell) {
+      return _c('div', {
+        staticClass: "card"
+      }, [_c('input', {
+        directives: [{
+          name: "model",
+          rawName: "v-model",
+          value: spell.prepared,
+          expression: "spell.prepared"
+        }],
+        staticClass: "prepared-checkbox",
+        attrs: {
+          "type": "checkbox"
+        },
+        domProps: {
+          "checked": Array.isArray(spell.prepared) ? _vm._i(spell.prepared, null) > -1 : spell.prepared
+        },
+        on: {
+          "change": function change($event) {
+            var $$a = spell.prepared,
+              $$el = $event.target,
+              $$c = $$el.checked ? true : false;
+            if (Array.isArray($$a)) {
+              var $$v = null,
+                $$i = _vm._i($$a, $$v);
+              if ($$el.checked) {
+                $$i < 0 && _vm.$set(spell, "prepared", $$a.concat([$$v]));
+              } else {
+                $$i > -1 && _vm.$set(spell, "prepared", $$a.slice(0, $$i).concat($$a.slice($$i + 1)));
+              }
+            } else {
+              _vm.$set(spell, "prepared", $$c);
+            }
+          }
+        }
+      }), _vm._v(" "), _c('div', {
+        staticClass: "quill-html",
+        domProps: {
+          "innerHTML": _vm._s(_vm.getHtmlFromQuill(spell.name))
+        }
+      })]);
+    })], 2) : _vm._e()]);
+  })], 2) : _vm._e()]);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -1550,8 +1629,11 @@ var render = function render() {
     }
   }, [_vm._t("default", function () {
     return [_c('p', {
-      staticClass: "print-field-value"
-    }, [_vm._v(_vm._s(_vm.signedValue))])];
+      staticClass: "print-field-value",
+      "class": {
+        'font-bold': _vm.bold
+      }
+    }, [_vm._v("\n      " + _vm._s(_vm.signedValue) + "\n    ")])];
   }), _vm._v(" "), _vm._t("label", function () {
     return [_c('p', {
       staticClass: "print-field-label"

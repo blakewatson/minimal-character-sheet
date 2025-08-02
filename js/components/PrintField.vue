@@ -8,7 +8,9 @@
     }"
   >
     <slot>
-      <p class="print-field-value">{{ signedValue }}</p>
+      <p class="print-field-value" :class="{ 'font-bold': bold }">
+        {{ signedValue }}
+      </p>
     </slot>
 
     <slot name="label">
@@ -25,6 +27,7 @@ export default {
     value: [String, Number],
     signedNumber: Boolean,
     big: Boolean,
+    bold: Boolean,
     box: Boolean,
     center: Boolean,
   },

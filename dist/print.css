@@ -2,6 +2,12 @@ html {
   font-size: 12px;
 }
 
+a::after {
+  display: none;
+}
+
+/* #region Layout ---------- */
+
 .flex {
   display: flex;
   gap: 1rem;
@@ -13,6 +19,10 @@ html {
 
 .align-items-center {
   align-items: center;
+}
+
+.align-items-end {
+  align-items: flex-end;
 }
 
 .justify-content-end {
@@ -43,6 +53,14 @@ html {
   gap: 2rem;
 }
 
+:empty:not(input, svg *) {
+  display: none;
+}
+
+/* #endregion */
+
+/* #region Typography ---------- */
+
 h1 {
   font-size: 1.3em;
   margin-block: 0.5rem;
@@ -54,12 +72,18 @@ h2 {
 }
 
 ul {
-  margin: 0;
+  /* margin: 0; */
   padding-left: 1rem;
 }
 
-:empty:not(input, svg *) {
-  display: none;
+/* override gutemberg */
+p,
+blockquote,
+table,
+ul,
+ol,
+dl {
+  margin-bottom: 0.75rem;
 }
 
 .text-center {
@@ -90,6 +114,30 @@ ul {
 
 .muted {
   color: #777;
+}
+
+.font-bold {
+  font-weight: bold;
+}
+
+.quill-html {
+  line-height: 1.3;
+
+  ul,
+  ol {
+    page-break-inside: unset;
+  }
+}
+
+/* #endregion */
+
+.card {
+  position: relative;
+}
+
+.card + .card {
+  border-top: 1px dotted #777;
+  margin-top: 1rem;
 }
 
 .print-field-label {
@@ -133,6 +181,13 @@ svg {
   }
 }
 
+input[type='checkbox'] {
+  margin: 0;
+  width: 1rem;
+  height: 1rem;
+  display: block;
+}
+
 .skills {
   /* max-width: 500px; */
   font-size: 1rem;
@@ -153,9 +208,12 @@ td {
   }
 }
 
-.quill-html {
-  ul,
-  ol {
-    page-break-inside: unset;
-  }
+/* #region Spellcasting ---------- */
+
+.prepared-checkbox {
+  position: absolute;
+  top: 0.5rem;
+  right: calc(100% + 1rem);
 }
+
+/* #endregion */

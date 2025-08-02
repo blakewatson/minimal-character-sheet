@@ -75,7 +75,7 @@
     </div>
 
     <!-- Initiative, Proficiency bonus, Inspiration, Short rests -->
-    <div class="flex mt-sm">
+    <div class="flex align-items-end mt-sm">
       <print-field :value="initiative" label="Initiative"></print-field>
 
       <print-field
@@ -136,7 +136,7 @@
         <li class="flex align-items-center gap-sm" v-for="skill in skills">
           <div
             class="flex align-items-center justify-content-end no-gap"
-            style="width: 40px"
+            style="width: 32px"
           >
             <span
               class="mini-icon"
@@ -163,7 +163,7 @@
             </span>
           </div>
 
-          <div>
+          <div class="text-left">
             <strong
               class="mr-xs text-right"
               style="width: 20px; display: inline-block"
@@ -262,7 +262,7 @@
         <print-field :value="spClass" label="Class"> </print-field>
 
         <print-field
-          :value="`${spAbility} (${get})`"
+          :value="`${spAbility} (${signedNumString(getAbilityModifier(spAbility))})`"
           label="Ability"
         ></print-field>
 
@@ -287,13 +287,42 @@
         </print-field>
       </div>
 
-      <div class="flex" v-if="cantripsList.length > 0">
+      <div class="mt-md" v-if="cantripsList.length > 0">
         <p class="header">Cantrips</p>
 
         <div
+          class="quill-html card"
           v-for="cantrip in cantripsList"
-          v-html="getHtmlFromQuill(cantrip.name)"
+          v-html="getHtmlFromQuill(cantrip.val)"
         ></div>
+      </div>
+
+      <div v-for="(spellData, idx) in allSpellLevels">
+        <div class="mt-lg" v-if="spellData.spells.length > 0">
+          <p class="header">Level {{ idx + 1 }} spells</p>
+
+          <div class="flex pt-md">
+            <print-field
+              :value="spellData.slots"
+              label="Slots"
+              bold
+            ></print-field>
+
+            <print-field
+              label="Expended"
+              value="_______________________"
+            ></print-field>
+          </div>
+
+          <div class="card" v-for="spell in spellData.spells">
+            <input
+              type="checkbox"
+              class="prepared-checkbox"
+              v-model="spell.prepared"
+            />
+            <div class="quill-html" v-html="getHtmlFromQuill(spell.name)"></div>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -303,6 +332,7 @@
 import Quill from 'quill';
 import { mapState } from 'vuex';
 import { mapGetters } from 'vuex/dist/vuex.common.js';
+import { signedNumString } from '../utils';
 import PrintField from './PrintField.vue';
 
 export default {
@@ -362,6 +392,20 @@ export default {
     ]),
 
     ...mapGetters(['modifiers', 'proficiencyBonus']),
+
+    allSpellLevels() {
+      return [
+        this.lvl1Spells,
+        this.lvl2Spells,
+        this.lvl3Spells,
+        this.lvl4Spells,
+        this.lvl5Spells,
+        this.lvl6Spells,
+        this.lvl7Spells,
+        this.lvl8Spells,
+        this.lvl9Spells,
+      ];
+    },
 
     attacksAndNotes() {
       const rows = [];
@@ -426,6 +470,14 @@ export default {
   },
 
   methods: {
+    getAbilityModifier(ability) {
+      const mod = this.modifiers.reduce((acc, m) => {
+        if (m.ability === ability) return acc + m.val;
+        return acc;
+      }, 0);
+      return mod;
+    },
+
     getHtmlFromQuill(delta) {
       if (!delta) {
         return '';
@@ -471,6 +523,10 @@ export default {
       }
 
       return mod;
+    },
+
+    signedNumString(num) {
+      return signedNumString(num);
     },
   },
 
