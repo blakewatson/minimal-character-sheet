@@ -345,8 +345,18 @@ class Authentication {
     }
 
     public function set_csrf() {
-        $this->f3->set( 'CSRF', $this->session->csrf() );
-        $this->f3->copy( 'CSRF', 'SESSION.csrf' );
+        // Check if session already has a CSRF token
+        $existing_csrf = $this->f3->get( 'SESSION.csrf' );
+        
+        if( empty( $existing_csrf ) ) {
+            // Generate new token only if none exists
+            $csrf_token = $this->session->csrf();
+            $this->f3->set( 'CSRF', $csrf_token );
+            $this->f3->copy( 'CSRF', 'SESSION.csrf' );
+        } else {
+            // Use existing session token
+            $this->f3->set( 'CSRF', $existing_csrf );
+        }
     }
 
     public function verify_csrf() {
