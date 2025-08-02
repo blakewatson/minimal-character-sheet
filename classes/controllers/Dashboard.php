@@ -210,4 +210,48 @@ class Dashboard {
         echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'CSRF' ), 'status' => 200 ]);
     }
 
+    public function print_sheet( $f3, $params ) {
+        $slug = $params['sheet_slug'];
+        $sheet = new Sheet( $f3->get( 'DB' ) );
+        $sheet_data = $sheet->get_sheet_by_slug( $slug );
+        $email = $f3->get( 'SESSION.email' ) ? $f3->get( 'SESSION.email' ) : '';
+
+        // if the sheet is not found, return a 404
+        if( ! $sheet_data ) {
+            $f3->error( 404 );
+            return;
+        }
+        
+        // sheet not allowed to be accessed by current user
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
+            // save the requested url to the session
+            $f3->set( 'SESSION.requested_url', $f3->get( 'SERVER.REQUEST_URI' ) );
+            $this->auth->bounce();
+            return;
+        }
+        
+        // if this is a public sheet and the current user does not own it…
+        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
+            // …redact the email address
+            $sheet_data['email'] = null;
+        }
+        
+        // if it's not public, enforce auth
+        if( ! $sheet_data['is_public'] ) {
+            $this->auth->bounce();
+        }
+        
+        $character_name = $sheet_data['name'];
+        $is_2024 = $sheet_data['is_2024'];
+        $sheet_data = addslashes( json_encode( $sheet_data ) );
+        $f3->set( 'sheet', $sheet_data );
+        $f3->set( 'character_name', addslashes( $character_name ) );
+        $f3->set( 'is_2024', $is_2024 ? 'true' : 'false' );
+        $f3->set( 'sheet_slug', $slug );
+        $f3->set( 'print', true );
+        $this->auth->set_csrf();
+        
+        echo \Template::instance()->render( 'templates/print.html' );
+    }
+
 }

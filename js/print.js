@@ -1,15 +1,12 @@
 import Vue from 'vue';
-import Sheet from './components/Sheet';
+import Print from './components/Print';
 import store from './store';
 import { signedNumString } from './utils';
-
-/* -- Event bus -- */
-window.sheetEvent = new Vue();
 
 Vue.filter('signedNumString', signedNumString);
 
 new Vue({
-  el: '#sheet',
+  el: '#print',
   store,
-  render: (h) => h(Sheet),
+  render: (h) => h(Print),
 });

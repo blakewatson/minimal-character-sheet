@@ -45,6 +45,7 @@ $f3->route( 'GET /sheet/@sheet_slug', 'Dashboard->sheet_single' );
 $f3->route( 'POST /sheet/@sheet_slug', 'Dashboard->save_sheet' );
 $f3->route( 'DELETE /sheet/@sheet_slug', 'Dashboard->delete_sheet' );
 $f3->route( 'GET /sheet-data/@sheet_slug', 'Dashboard->get_sheet_data' );
+$f3->route( 'GET /print/@sheet_slug', 'Dashboard->print_sheet' );
 
 // login/logout
 $f3->route( 'GET /login', 'Authentication->login_form' );

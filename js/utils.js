@@ -53,3 +53,9 @@ export function throttle(func, wait, options = {}) {
 
   return throttled;
 }
+
+export const signedNumString = (num) => {
+  num = parseInt(num);
+  if (num > 0) return `+${num}`;
+  return num.toString();
+};

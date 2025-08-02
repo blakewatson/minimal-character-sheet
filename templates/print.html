@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Print - Minimal character sheet</title>
+
+    <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
+
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/gutenberg-css@0.7/dist/gutenberg.min.css"
+      media="all"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/gutenberg-css@0.7/dist/themes/modern.min.css"
+      media="all"
+    />
+    <!-- <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css"
+      media="screen"
+    /> -->
+
+    <link rel="stylesheet" href="{{ @BASE }}/dist/spacing.css" />
+    <link rel="stylesheet" href="{{ @BASE }}/dist/print.css" />
+
+    <script src="{{ @BASE }}/js/home.js"></script>
+  </head>
+
+  <body class="pt-md">
+    <div id="print"></div>
+
+    <input
+      type="hidden"
+      name="sheet_slug"
+      id="sheet-slug"
+      value="{{ @sheet_slug }}"
+    />
+    <input type="hidden" name="csrf" id="csrf" value="{{ @CSRF }}" />
+
+    <check if="{{ @print ?? false }}">
+      <script>
+        window.sheet = "{{ @sheet | raw }}";
+        window.characterName = "{{ @character_name | raw }}";
+        window.is_2024 = {{ @is_2024 | raw }};
+      </script>
+      <script src="{{ @BASE }}/dist/print.js"></script>
+    </check>
+  </body>
+</html>
