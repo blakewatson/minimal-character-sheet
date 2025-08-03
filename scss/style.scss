@@ -115,6 +115,10 @@ td {
   padding: 0.25em;
 }
 
+button {
+  color: currentColor;
+}
+
 section,
 .section {
   margin: 1em auto;
@@ -1320,6 +1324,12 @@ html.dark-mode {
 
     a {
       color: #6294ff;
+    }
+
+    &.collapsed {
+      &:after {
+        background: linear-gradient(to bottom, #22222200 75%, #222222 100%);
+      }
     }
   }
 
