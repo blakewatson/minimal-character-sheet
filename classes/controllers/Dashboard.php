@@ -186,7 +186,7 @@ class Dashboard {
     }
     
     public function make_sheet_public( $f3, $params ) {
-        if( ! $this->auth->verify_ajax_csrf() ) {
+        if( ! $this->auth->verify_ajax_csrf()) {
             $this->auth->set_csrf();
             $f3->status( 400 );
             echo json_encode([ 'success' => false, 'reason' => 'ajax', 'csrf' => $f3->get( 'CSRF' ), 'status' => 400 ]);

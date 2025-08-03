@@ -1,20 +1,28 @@
 initDashboard();
 
 export function initDashboard() {
-  const sheets = Array.from(document.querySelectorAll('[data-sheet]'));
+  const isPublicCheckboxes = Array.from(
+    document.querySelectorAll('[data-is-public]'),
+  );
 
-  if (sheets.length === 0) {
-    return;
+  if (isPublicCheckboxes.length > 0) {
+    bindCheckboxes(isPublicCheckboxes);
   }
 
-  bindCheckboxes(sheets);
+  const deleteButtons = Array.from(
+    document.querySelectorAll('[data-delete-sheet]'),
+  );
+
+  if (deleteButtons.length > 0) {
+    bindDeleteButtons(deleteButtons);
+  }
 }
 
-function bindCheckboxes(sheets) {
-  sheets.forEach((sheet) => {
-    sheet.addEventListener('input', (event) => {
+function bindCheckboxes(isPublicCheckboxes) {
+  isPublicCheckboxes.forEach((checkbox) => {
+    checkbox.addEventListener('input', (event) => {
       var isPublic = event.target.checked;
-      var sheetSlug = sheet.getAttribute('data-sheet');
+      var sheetSlug = checkbox.getAttribute('data-sheet');
       var csrf = document.querySelector('#csrf').value;
       var formBody = new URLSearchParams();
 
@@ -30,11 +38,40 @@ function bindCheckboxes(sheets) {
         body: formBody,
       })
         .then((r) => r.json())
-        .finally((data) => {
+        .then((data) => {
           if ('csrf' in data) {
             document.querySelector('#csrf').value = data.csrf;
           }
+        })
+        .catch((resp) => {
+          if ('csrf' in resp) {
+            document.querySelector('#csrf').value = resp.csrf;
+          }
         });
+    });
+  });
+}
+
+function bindDeleteButtons(deleteButtons) {
+  deleteButtons.forEach((deleteBtn) => {
+    deleteBtn.addEventListener('click', (event) => {
+      event.preventDefault();
+
+      var csrf = document.querySelector('#csrf').value;
+      var sheetSlug = deleteBtn.getAttribute('data-sheet');
+
+      if (confirm('Are you sure you want to delete this sheet?')) {
+        fetch(`/sheet/${sheetSlug}`, {
+          method: 'delete',
+          headers: {
+            'X-Ajax-Csrf': csrf,
+          },
+        })
+          .then((r) => r.json())
+          .then((r) => {
+            window.location = '/dashboard';
+          });
+      }
     });
   });
 }

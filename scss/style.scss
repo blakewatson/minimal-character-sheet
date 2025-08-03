@@ -1,5 +1,6 @@
 @import './mixins';
 @import './spacing';
+@import '../dist/flex.css';
 
 $text: 'IBM Plex Mono', monospace;
 $page_width: 650px;
@@ -368,6 +369,10 @@ select {
   color: #fff;
 }
 
+.danger {
+  color: #ff1d30;
+}
+
 .title {
   font-weight: bold;
 }
@@ -706,7 +711,7 @@ select {
 
   .save-indicator {
     position: absolute;
-    right: 45px;
+    right: 0;
     left: auto;
     top: 0;
     display: flex;
@@ -816,7 +821,7 @@ select {
   }
 
   .sheet-nav .save-indicator {
-    right: 35px;
+    right: 0;
 
     button {
       height: 30px;
@@ -969,13 +974,26 @@ select {
 
   li {
     margin: 0;
-    padding: 0.5em 0;
-    border-bottom: 1px solid rgba(#000, 0.2);
+    margin-bottom: 1rem;
+    // padding: 0.5em 0;
+    // border-bottom: 1px solid rgba(#000, 0.2);
   }
 
   p {
     margin: 0;
   }
+}
+
+.character-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  // background-color: #f3f3f3;
+  margin-top: 0.25rem;
+  padding: 0.25rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  font-size: 0.85em;
 }
 
 .account-actions {
@@ -1185,6 +1203,10 @@ html.dark-mode {
         color: #1d65ff;
       }
     }
+  }
+
+  .danger {
+    color: #ff626f;
   }
 
   .box {

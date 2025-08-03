@@ -287,7 +287,7 @@
         </print-field>
       </div>
 
-      <div class="mt-md" v-if="cantripsList.length > 0">
+      <div class="cantrips mt-md" v-if="cantripsList.length > 0">
         <p class="header">Cantrips</p>
 
         <div
@@ -323,6 +323,16 @@
             <div class="quill-html" v-html="getHtmlFromQuill(spell.name)"></div>
           </div>
         </div>
+      </div>
+    </div>
+
+    <div v-for="section in textSections">
+      <div
+        class="mt-lg"
+        v-if="hasQuillContent(section.text) || section.title === 'Notes'"
+      >
+        <p class="header">{{ section.title }}</p>
+        <div class="quill-html" v-html="getHtmlFromQuill(section.text)"></div>
       </div>
     </div>
   </div>
@@ -434,15 +444,15 @@ export default {
     hasSpells() {
       return (
         this.cantripsList.length > 0 ||
-        this.lvl1Spells.length > 0 ||
-        this.lvl2Spells.length > 0 ||
-        this.lvl3Spells.length > 0 ||
-        this.lvl4Spells.length > 0 ||
-        this.lvl5Spells.length > 0 ||
-        this.lvl6Spells.length > 0 ||
-        this.lvl7Spells.length > 0 ||
-        this.lvl8Spells.length > 0 ||
-        this.lvl9Spells.length > 0
+        this.lvl1Spells.spells.length > 0 ||
+        this.lvl2Spells.spells.length > 0 ||
+        this.lvl3Spells.spells.length > 0 ||
+        this.lvl4Spells.spells.length > 0 ||
+        this.lvl5Spells.spells.length > 0 ||
+        this.lvl6Spells.spells.length > 0 ||
+        this.lvl7Spells.spells.length > 0 ||
+        this.lvl8Spells.spells.length > 0 ||
+        this.lvl9Spells.spells.length > 0
       );
     },
 
@@ -466,6 +476,31 @@ export default {
       }
 
       return `______ d${this.hitDieType} / ${this.totalHitDie}`;
+    },
+
+    textSections() {
+      return [
+        {
+          title: 'Traits, Ideals, Bonds, & Flaws',
+          text: this.personalityText,
+        },
+        {
+          title: 'Appearance & Backstory',
+          text: this.backstoryText,
+        },
+        {
+          title: 'Treasure',
+          text: this.treasureText,
+        },
+        {
+          title: 'Allies & Organizations',
+          text: this.organizationsText,
+        },
+        {
+          title: 'Notes',
+          text: this.notesText,
+        },
+      ];
     },
   },
 
@@ -523,6 +558,22 @@ export default {
       }
 
       return mod;
+    },
+
+    hasQuillContent(delta) {
+      if (!delta) {
+        return false;
+      }
+
+      if (
+        'ops' in delta &&
+        delta.ops.length === 1 &&
+        delta.ops[0].insert === '\n'
+      ) {
+        return false;
+      }
+
+      return Object.keys(delta).length > 0;
     },
 
     signedNumString(num) {

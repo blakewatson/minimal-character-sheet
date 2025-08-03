@@ -1,3 +1,5 @@
+@import url('/dist/flex.css');
+
 html {
   font-size: 12px;
 }
@@ -7,51 +9,6 @@ a::after {
 }
 
 /* #region Layout ---------- */
-
-.flex {
-  display: flex;
-  gap: 1rem;
-}
-
-.flex-wrap {
-  flex-wrap: wrap;
-}
-
-.align-items-center {
-  align-items: center;
-}
-
-.align-items-end {
-  align-items: flex-end;
-}
-
-.justify-content-end {
-  justify-content: flex-end;
-}
-
-.no-gap {
-  gap: 0;
-}
-
-.gap-xs {
-  gap: 0.25rem;
-}
-
-.gap-sm {
-  gap: 0.5rem;
-}
-
-.gap-md {
-  gap: 1rem;
-}
-
-.gap-lg {
-  gap: 1.5rem;
-}
-
-.gap-xl {
-  gap: 2rem;
-}
 
 :empty:not(input, svg *) {
   display: none;
@@ -64,11 +21,13 @@ a::after {
 h1 {
   font-size: 1.3em;
   margin-block: 0.5rem;
+  break-after: avoid;
 }
 
 h2 {
   margin-block: 0.5rem;
   font-size: 1.15em;
+  break-after: avoid;
 }
 
 ul {
@@ -109,7 +68,7 @@ dl {
   border-bottom: 1px solid #777;
   padding-bottom: 0.25rem;
   margin-bottom: 0.25rem;
-  page-break-after: avoid;
+  break-after: avoid;
 }
 
 .muted {
@@ -133,10 +92,8 @@ dl {
 
 .card {
   position: relative;
-}
-
-.card + .card {
   border-top: 1px dotted #777;
+  padding-top: 0.25rem;
   margin-top: 1rem;
 }
 
@@ -214,6 +171,11 @@ td {
   position: absolute;
   top: 0.5rem;
   right: calc(100% + 1rem);
+}
+
+.cantrips .header + .card {
+  border-top: none;
+  padding-top: 0;
 }
 
 /* #endregion */

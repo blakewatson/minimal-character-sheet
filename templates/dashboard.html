@@ -11,7 +11,7 @@
 
     <ul id="sheet-list" class="sheet-list">
         <repeat group="{{ @sheets }}" value="{{ @sheet }}">
-            <li class="row">
+            <li>
                 <p>
                     <a href="/sheet/{{ @sheet.slug }}">
                         <check if="@sheet.name">
@@ -20,13 +20,29 @@
                         </check>
                     </a>
                 </p>
-                
-                <p>
-                    <label>
-                        Public
-                        <input type="checkbox" data-sheet="{{ @sheet.slug }}" {{ @sheet.is_public ? 'checked' : '' }}>
-                    </label>
-                </p>
+
+                <div class="character-actions" style="font-size: 0.85em;">
+                    <p>
+                        <label>
+                            <input type="checkbox" data-is-public data-sheet="{{ @sheet.slug }}" {{ @sheet.is_public ? 'checked' : '' }}>
+                            Public
+                        </label>
+                    </p>
+
+                    <p style="margin-left: auto;">
+                        <a href="/print/{{ @sheet.slug }}">
+                            <i class="fa-solid fa-print"></i>
+                            Print
+                        </a>
+                    </p>
+
+                    <p>
+                        <a href="#" class="danger" data-delete-sheet data-sheet="{{ @sheet.slug }}">
+                            <i class="fa-solid fa-trash"></i>
+                            Delete
+                        </a>
+                    </p>
+                </div>
             </li>
         </repeat>
     </ul>
@@ -73,7 +89,7 @@
     </div>
 
     <div class="support-me">
-        <p>Made with love by <a href="https://www.blakewatson.com/">Blake Watson</a>.</p>
+        <p>Made with ❤️ and ☕️ by <a href="https://www.blakewatson.com/">Blake Watson</a>.</p>
         <p>Buy me a coffee on <a href="https://ko-fi.com/L3L4WOIV">Ko-fi</a>.</p>
     </div>
 </div>

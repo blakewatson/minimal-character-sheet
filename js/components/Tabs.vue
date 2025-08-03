@@ -61,11 +61,11 @@
           <div class="retry-text">Retry {{ retryCount }}/{{ retryMax }}</div>
         </div>
       </li>
-      <li class="delete-character-button" v-if="!readOnly">
+      <!-- <li class="delete-character-button" v-if="!readOnly">
         <button @click="deleteCharacter">
           <img src="/images/trash-alt.svg" alt="Delete character" />
         </button>
-      </li>
+      </li> -->
     </ul>
   </nav>
 </template>
@@ -156,24 +156,24 @@ export default {
       this.$emit('manual-save');
     },
 
-    deleteCharacter() {
-      var csrf = document.querySelector('#csrf').value;
-      var areYouSure = confirm(
-        'Are you sure you want to *permanantly* delete this character sheet?',
-      );
-      if (!areYouSure) return;
+    // deleteCharacter() {
+    //   var csrf = document.querySelector('#csrf').value;
+    //   var areYouSure = confirm(
+    //     'Are you sure you want to *permanantly* delete this character sheet?',
+    //   );
+    //   if (!areYouSure) return;
 
-      fetch(`/sheet/${this.sheetSlug}`, {
-        method: 'delete',
-        headers: {
-          'X-Ajax-Csrf': csrf,
-        },
-      })
-        .then((r) => r.json())
-        .then((r) => {
-          window.location = '/dashboard';
-        });
-    },
+    //   fetch(`/sheet/${this.sheetSlug}`, {
+    //     method: 'delete',
+    //     headers: {
+    //       'X-Ajax-Csrf': csrf,
+    //     },
+    //   })
+    //     .then((r) => r.json())
+    //     .then((r) => {
+    //       window.location = '/dashboard';
+    //     });
+    // },
   },
 
   watch: {
