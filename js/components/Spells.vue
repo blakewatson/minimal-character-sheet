@@ -1,7 +1,7 @@
 <template>
   <section>
     <h1 class="label centered">Spellcasting</h1>
-    <div class="row vert-after">
+    <div class="row vert-after" style="gap: 0.5rem">
       <div class="box box-lite">
         <span class="label centered">Class</span>
         <field

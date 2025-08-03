@@ -538,6 +538,12 @@ select {
   }
 }
 
+@media (max-width: $page_width) {
+  .quill-editor {
+    overflow-x: hidden;
+  }
+}
+
 .list-field,
 .spell-list {
   .quill-editor {
@@ -1135,6 +1141,10 @@ html.dark-mode {
 
   .announcement {
     background-color: #060606;
+  }
+
+  .character-actions {
+    border-color: #333;
   }
 
   .button-primary {
