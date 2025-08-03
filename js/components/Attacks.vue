@@ -46,52 +46,65 @@
               placeholder="Ex: 1d6 slashing"
             ></field>
           </td>
-          <td v-if="a.isAttack" class="vert-center" style="gap: 0.2em; justify-content: flex-end;">
+          <td
+            v-if="a.isAttack"
+            class="vert-center"
+            style="gap: 0.2em; justify-content: flex-end"
+          >
             <button
-                :disabled="readOnly"
-                @click="sortAttacks(a.id, 'up')"
-                class="button button-sort"
-                type="button"
-                v-if="!readOnly && i > 0"
+              :disabled="readOnly"
+              @click="sortAttacks(a.id, 'up')"
+              class="button button-sort"
+              title="Move up"
+              type="button"
+              v-if="!readOnly && i > 0"
             >
-                <span class="sr-only">Move up</span>
-                <span role="presentation">&uarr;</span>
+              <span class="sr-only">Move up</span>
+              <i
+                class="fa-sharp fa-regular fa-arrow-up"
+                role="presentation"
+              ></i>
             </button>
 
             <button
-                :disabled="readOnly"
-                @click="sortAttacks(a.id, 'down')"
-                class="button button-sort"
-                type="button"
-                v-if="!readOnly && i < attacksAndNotes.length - 2"
+              :disabled="readOnly"
+              @click="sortAttacks(a.id, 'down')"
+              class="button button-sort"
+              title="Move down"
+              type="button"
+              v-if="!readOnly && i < attacksAndNotes.length - 2"
             >
-                <span class="sr-only">Move down</span>
-                <span role="presentation">&darr;</span>
+              <span class="sr-only">Move down</span>
+              <i
+                class="fa-sharp fa-regular fa-arrow-down"
+                role="presentation"
+              ></i>
             </button>
 
             <button
               :disabled="readOnly"
               @click="deleteAttack(a.id)"
               class="button button-delete"
+              title="Delete attack"
               type="button"
               v-if="!readOnly"
             >
               <span class="sr-only">Delete attack</span>
-              <span role="presentation">&times;</span>
+              <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
             </button>
           </td>
 
           <td v-if="a.isNote" colspan="4">
-            <div class="vert-center pl-lg" style="gap: 0.5em;">
-                <span class="meta small muted">Notes</span>
-                <quill-editor
-                  :initial-contents="a.weaponNotes"
-                  :read-only="readOnly"
-                  :toolbar-options="['bold', 'italic', 'strike', 'link']"
-                  @quill-text-change="updateAttacks(a.id, 'weaponNotes', $event)"
-                  class="attack-notes"
-                  style="width: 100%"
-                ></quill-editor>
+            <div class="vert-center pl-lg" style="gap: 0.5em">
+              <span class="meta small muted">Notes</span>
+              <quill-editor
+                :initial-contents="a.weaponNotes"
+                :read-only="readOnly"
+                :toolbar-options="['bold', 'italic', 'strike', 'link']"
+                @quill-text-change="updateAttacks(a.id, 'weaponNotes', $event)"
+                class="attack-notes"
+                style="width: 100%"
+              ></quill-editor>
             </div>
           </td>
         </tr>
@@ -102,36 +115,39 @@
     <div v-show="attacks.length > 0 && isMobile" class="attacks-mobile">
       <div v-for="(a, i) in attacks" :key="a.id" class="attack-card">
         <div class="attack-header">
-            <field
-                class="attack-name"
-                align="left"
-                :value="a.name"
-                :read-only="readOnly"
-                @update-value="updateAttacks(a.id, 'name', $event)"
-                placeholder="Weapon name"
-            ></field>
-          
-            <button
-                :disabled="readOnly"
-                @click="sortAttacks(a.id, 'up')"
-                class="button button-sort"
-                type="button"
-                v-if="!readOnly && i > 0"
-            >
-                <span class="sr-only">Move up</span>
-                <span role="presentation">&uarr;</span>
-            </button>
+          <field
+            class="attack-name"
+            align="left"
+            :value="a.name"
+            :read-only="readOnly"
+            @update-value="updateAttacks(a.id, 'name', $event)"
+            placeholder="Weapon name"
+          ></field>
 
-            <button
-                :disabled="readOnly"
-                @click="sortAttacks(a.id, 'down')"
-                class="button button-sort"
-                type="button"
-                v-if="!readOnly && i < attacks.length - 1"
-            >
-                <span class="sr-only">Move down</span>
-                <span role="presentation">&darr;</span>
-            </button>
+          <button
+            :disabled="readOnly"
+            @click="sortAttacks(a.id, 'up')"
+            class="button button-sort"
+            type="button"
+            v-if="!readOnly && i > 0"
+          >
+            <span class="sr-only">Move up</span>
+            <i class="fa-sharp fa-regular fa-arrow-up" role="presentation"></i>
+          </button>
+
+          <button
+            :disabled="readOnly"
+            @click="sortAttacks(a.id, 'down')"
+            class="button button-sort"
+            type="button"
+            v-if="!readOnly && i < attacks.length - 1"
+          >
+            <span class="sr-only">Move down</span>
+            <i
+              class="fa-sharp fa-regular fa-arrow-down"
+              role="presentation"
+            ></i>
+          </button>
           <button
             v-if="!readOnly"
             type="button"
@@ -140,14 +156,14 @@
             @click="deleteAttack(a.id)"
           >
             <span class="sr-only">Delete attack</span>
-            <span role="presentation">&times;</span>
+            <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
           </button>
         </div>
 
         <div class="attack-stats">
           <div class="stat-group">
             <label class="meta small muted" :for="`attack-bonus-${a.id}`">
-              {{ isMobile ? "Atk Bonus" : "Attack Bonus" }}
+              {{ isMobile ? 'Atk Bonus' : 'Attack Bonus' }}
             </label>
             <field
               :id="`attack-bonus-${a.id}`"
@@ -184,25 +200,26 @@
 
     <p class="text-center" v-if="!readOnly">
       <button
-        type="button"
-        class="button button-add"
         :disabled="readOnly"
         @click="$store.commit('addAttack')"
+        class="button button-add"
+        title="Add an attack"
+        type="button"
       >
         <span class="sr-only">Add an attack</span>
-        <span role="presentation">+</span>
+        <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
       </button>
     </p>
   </details>
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import Field from "./Field";
-import QuillEditor from "./QuillEditor";
+import { mapGetters, mapState } from 'vuex';
+import Field from './Field';
+import QuillEditor from './QuillEditor';
 
 export default {
-  name: "Attacks",
+  name: 'Attacks',
 
   data() {
     return {
@@ -212,8 +229,8 @@ export default {
   },
 
   computed: {
-    ...mapState(["attacks", "readOnly"]),
-    ...mapGetters(["modifiers"]),
+    ...mapState(['attacks', 'readOnly']),
+    ...mapGetters(['modifiers']),
 
     attacksAndNotes() {
       const rows = [];
@@ -247,7 +264,7 @@ export default {
 
   methods: {
     setupMediaQuery() {
-      this.mediaQuery = window.matchMedia("(max-width: 675px)");
+      this.mediaQuery = window.matchMedia('(max-width: 675px)');
       this.isMobile = this.mediaQuery.matches;
       this.mediaQuery.addListener(this.handleMediaQueryChange);
     },
@@ -260,21 +277,21 @@ export default {
       if (id.toString().endsWith('-note')) {
         id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for attack ID
       }
-      this.$store.commit("updateAttacks", { id, field, val });
+      this.$store.commit('updateAttacks', { id, field, val });
     },
 
     deleteAttack(id) {
-      this.$store.commit("deleteAttack", { id });
+      this.$store.commit('deleteAttack', { id });
     },
 
     sortAttacks(id, direction) {
-        this.$store.commit('sortAttacks', { id, direction });
-    }
+      this.$store.commit('sortAttacks', { id, direction });
+    },
   },
 
   components: {
     field: Field,
-    "quill-editor": QuillEditor,
+    'quill-editor': QuillEditor,
   },
 };
 </script>

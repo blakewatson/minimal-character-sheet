@@ -15,10 +15,13 @@
             title="Prepared"
             type="checkbox"
           />
-          <label :for="`spell-prepared-${item.id}`" class="sr-only">Prepared</label>
+          <label :for="`spell-prepared-${item.id}`" class="sr-only"
+            >Prepared</label
+          >
           <div class="size-full">
             <label class="sr-only">Spell name and description</label>
             <quill-editor
+              :collapsed="item.collapsed"
               :initial-contents="item.name"
               :read-only="readOnly"
               @quill-text-change="updateSpellName(i, $event)"
@@ -30,63 +33,77 @@
           class="mt-sm"
           style="display: flex; justify-content: flex-end; gap: 0.25rem"
         >
+          <button-collapse
+            :collapsed="item.collapsed"
+            @click="updateSpellCollapsed(i, !item.collapsed)"
+            v-if="!readOnly"
+          ></button-collapse>
+
           <button
-            v-if="!readOnly && i > 0"
-            type="button"
-            class="button button-sort"
             :disabled="readOnly"
             @click="sortSpells(item.id, 'up')"
+            class="button button-sort"
+            title="Move up"
+            type="button"
+            v-if="!readOnly && i > 0"
           >
             <span class="sr-only">Move up</span>
-            <span role="presentation">&uarr;</span>
+            <i class="fa-sharp fa-regular fa-arrow-up" role="presentation"></i>
           </button>
 
           <button
-            v-if="!readOnly && i < spellItems.length - 1"
-            type="button"
-            class="button button-sort"
             :disabled="readOnly"
             @click="sortSpells(item.id, 'down')"
+            class="button button-sort"
+            title="Move down"
+            type="button"
+            v-if="!readOnly && i < spellItems.length - 1"
           >
             <span class="sr-only">Move down</span>
-            <span role="presentation">&darr;</span>
+            <i
+              class="fa-sharp fa-regular fa-arrow-down"
+              role="presentation"
+            ></i>
           </button>
 
           <button
-            v-if="!readOnly"
-            type="button"
-            class="button button-delete"
             :disabled="readOnly"
             @click="deleteSpell(i)"
+            class="button button-delete"
+            title="Delete spell"
+            type="button"
+            v-if="!readOnly"
           >
             <span class="sr-only">Delete</span>
-            <span role="presentation">×</span>
+            <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
           </button>
         </div>
       </li>
     </ul>
+
     <p class="text-center" v-if="!readOnly">
       <button
-        type="button"
-        class="button-add"
         :disabled="readOnly"
         @click="addSpell"
+        class="button-add"
+        title="Add spell"
+        type="button"
       >
         <span class="sr-only">Add list item</span>
-        <span role="presentation">+</span>
+        <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
       </button>
     </p>
   </div>
 </template>
 
 <script>
-import Vue from "vue";
-import QuillEditor from "./QuillEditor";
+import QuillEditor from './QuillEditor';
+import ButtonCollapse from './ButtonCollapse';
 
 export default {
-  name: "SpellList",
+  name: 'SpellList',
 
-  props: ["listField", "readOnly"],
+  props: ['listField', 'readOnly'],
 
   computed: {
     spellItems() {
@@ -99,7 +116,7 @@ export default {
 
   methods: {
     updateSpellName(i, name) {
-      this.$store.commit("updateSpellName", {
+      this.$store.commit('updateSpellName', {
         field: this.listField,
         i: i,
         name: name,
@@ -107,33 +124,41 @@ export default {
     },
 
     updateSpellPrepared(i, e) {
-      this.$store.commit("updateSpellPrepared", {
+      this.$store.commit('updateSpellPrepared', {
         field: this.listField,
         i: i,
         prepared: e.target.checked,
       });
 
-      window.sheetEvent.$emit("autosave", 1);
+      window.sheetEvent.$emit('autosave', 1);
+    },
+
+    updateSpellCollapsed(i, collapsed) {
+      this.$store.commit('updateSpellCollapsed', {
+        field: this.listField,
+        i: i,
+        collapsed: collapsed,
+      });
     },
 
     addSpell() {
-      this.$store.commit("addSpell", {
+      this.$store.commit('addSpell', {
         field: this.listField,
-        item: { prepared: false, name: "", url: "", id: Date.now() },
+        item: { prepared: false, name: '', url: '', id: Date.now() },
       });
     },
 
     deleteSpell(i) {
-      this.$store.commit("deleteSpell", {
+      this.$store.commit('deleteSpell', {
         field: this.listField,
         i: i,
       });
 
-      window.sheetEvent.$emit("autosave", 1);
+      window.sheetEvent.$emit('autosave', 1);
     },
 
     sortSpells(id, direction) {
-      this.$store.commit("sortSpells", {
+      this.$store.commit('sortSpells', {
         field: this.listField,
         id,
         direction,
@@ -142,7 +167,8 @@ export default {
   },
 
   components: {
-    "quill-editor": QuillEditor,
+    'quill-editor': QuillEditor,
+    'button-collapse': ButtonCollapse,
   },
 };
 </script>

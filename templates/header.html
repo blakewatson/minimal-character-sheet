@@ -19,12 +19,11 @@
       <script src="{{ @BASE }}/js/baguetteBox.min.js"></script>
     </check>
 
-    <check if="{{ @app ?? false }}">
-      <link rel="stylesheet" href="{{ @BASE }}/dist/notyf.min.css" />
-      <link rel="preload" href="{{ @BASE }}/images/disk-pen.svg" as="image" />
-      <link rel="preload" href="{{ @BASE }}/images/spinner.svg" as="image" />
-      <link rel="preload" href="{{ @BASE }}/images/disk.svg" as="image" />
-      <link rel="preload" href="{{ @BASE }}/images/disk-error.svg" as="image" />
+    <check if="{{ @app ?? @dashboard ?? false }}">
+      <script
+        src="https://kit.fontawesome.com/194df485cf.js"
+        crossorigin="anonymous"
+      ></script>
     </check>
 
     <script src="{{ @BASE }}/js/home.js"></script>

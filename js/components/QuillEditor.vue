@@ -3,25 +3,29 @@
 </template>
 
 <script>
-import Quill from "quill";
+import Quill from 'quill';
 
 export default {
-  name: "QuillEditor",
+  name: 'QuillEditor',
 
   props: {
+    collapsed: {
+      type: Boolean,
+      default: false,
+    },
     initialContents: {},
     readOnly: {},
     toolbarOptions: {
       type: Array,
       default: () => [
-        "bold",
-        "italic",
-        "strike",
-        "link",
+        'bold',
+        'italic',
+        'strike',
+        'link',
         { header: 1 },
         { header: 2 },
-        "blockquote",
-        { list: "bullet" },
+        'blockquote',
+        { list: 'bullet' },
       ],
     },
   },
@@ -33,23 +37,39 @@ export default {
     };
   },
 
+  watch: {
+    // This has to be done manually because Quill adds its own classes to the
+    // container and Vue's class syntax will overwrite them.
+    collapsed(val) {
+      if (this.readOnly) {
+        return;
+      }
+
+      if (val) {
+        this.$el.classList.add('collapsed');
+      } else {
+        this.$el.classList.remove('collapsed');
+      }
+    },
+  },
+
   mounted() {
     this.editor = new Quill(this.$el, {
-      theme: "bubble",
+      theme: 'bubble',
       modules: {
         toolbar: this.toolbarOptions,
       },
       formats: [
-        "bold",
-        "italic",
-        "strike",
-        "link",
-        "header",
-        "blockquote",
-        "list",
-        "align",
-        "indent",
-        "image",
+        'bold',
+        'italic',
+        'strike',
+        'link',
+        'header',
+        'blockquote',
+        'list',
+        'align',
+        'indent',
+        'image',
       ],
     });
 
@@ -62,23 +82,27 @@ export default {
     }
 
     if (!this.readOnly) {
-      this.editor.on("text-change", () => {
+      this.editor.on('text-change', () => {
         this.contents = this.editor.getContents();
-        this.$emit("quill-text-change", this.contents);
+        this.$emit('quill-text-change', this.contents);
+      });
+
+      this.$nextTick(() => {
+        this.$el.classList.toggle('collapsed', this.collapsed);
       });
     }
 
-    this.$el.addEventListener("click", (event) => {
+    this.$el.addEventListener('click', (event) => {
       if (
-        event.target.nodeName === "A" &&
-        !event.target.closest(".ql-tooltip")
+        event.target.nodeName === 'A' &&
+        !event.target.closest('.ql-tooltip')
       ) {
-        window.open(event.target.href, "_blank");
+        window.open(event.target.href, '_blank');
       }
     });
 
     if (this.readOnly) {
-      window.sheetEvent.$on("quill-refresh", () => {
+      window.sheetEvent.$on('quill-refresh', () => {
         this.editor.setContents(this.initialContents);
       });
     }

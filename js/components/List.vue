@@ -1,86 +1,138 @@
 <template>
-    <div class="list-field">
-        <ul>
-            <li v-for="(item, i) in items" :key="item.id" :k="item.id" class="list-item deletable">
-                <quill-editor :initial-contents="item.val" :read-only="readOnly" @quill-text-change="updateItem(i, $event)"></quill-editor>
-                
-                <div class="mt-sm" style="display: flex; justify-content: flex-end; gap: 0.25rem;">
-                    <button v-if="!readOnly && i > 0" type="button" class="button button-sort" :disabled="readOnly" @click="sortItems(item.id, 'up')">
-                        <span class="sr-only">Move up</span>
-                        <span role="presentation">&uarr;</span>
-                    </button>
+  <div class="list-field">
+    <ul>
+      <li
+        v-for="(item, i) in items"
+        :key="item.id"
+        :k="item.id"
+        class="list-item deletable"
+      >
+        <quill-editor
+          :collapsed="item.collapsed"
+          :initial-contents="item.val"
+          :read-only="readOnly"
+          @quill-text-change="updateItem(i, $event)"
+        ></quill-editor>
 
-                    <button v-if="!readOnly && i < items.length - 1" type="button" class="button button-sort" :disabled="readOnly" @click="sortItems(item.id, 'down')">
-                        <span class="sr-only">Move down</span>
-                        <span role="presentation">&darr;</span>
-                    </button>
+        <div
+          class="mt-sm"
+          style="display: flex; justify-content: flex-end; gap: 0.25rem"
+        >
+          <button-collapse
+            :collapsed="item.collapsed"
+            @click="updateItem(i, item.val, !item.collapsed)"
+            v-if="!readOnly"
+          ></button-collapse>
 
-                    <button v-if="!readOnly" type="button" class="button button-delete" :disabled="readOnly" @click="deleteItem(i)">
-                        <span class="sr-only">Delete</span>
-                        <span role="presentation">×</span>
-                    </button>
-                </div>
-            </li>
-        </ul>
-        <p class="text-center" v-if="!readOnly">
-            <button type="button" class="button-add" :disabled="readOnly" @click="addToList">
-                <span class="sr-only">Add list item</span>
-                <span role="presentation">+</span>
-            </button>
-        </p>
-    </div>
+          <button
+            :disabled="readOnly"
+            @click="sortItems(item.id, 'up')"
+            class="button button-sort"
+            title="Move up"
+            type="button"
+            v-if="!readOnly && i > 0"
+          >
+            <span class="sr-only">Move up</span>
+            <i class="fa-sharp fa-regular fa-arrow-up" role="presentation"></i>
+          </button>
+
+          <button
+            :disabled="readOnly"
+            @click="sortItems(item.id, 'down')"
+            class="button button-sort"
+            title="Move down"
+            type="button"
+            v-if="!readOnly && i < items.length - 1"
+          >
+            <span class="sr-only">Move down</span>
+            <i
+              class="fa-sharp fa-regular fa-arrow-down"
+              role="presentation"
+            ></i>
+          </button>
+
+          <button
+            :disabled="readOnly"
+            @click="deleteItem(i)"
+            class="button button-delete"
+            title="Delete"
+            type="button"
+            v-if="!readOnly"
+          >
+            <span class="sr-only">Delete</span>
+            <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
+          </button>
+        </div>
+      </li>
+    </ul>
+    <p class="text-center" v-if="!readOnly">
+      <button
+        :disabled="readOnly"
+        @click="addToList"
+        class="button-add"
+        title="Add list item"
+        type="button"
+      >
+        <span class="sr-only">Add list item</span>
+        <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
+      </button>
+    </p>
+  </div>
 </template>
 
 <script>
 import QuillEditor from './QuillEditor';
+import ButtonCollapse from './ButtonCollapse';
 
 export default {
-    name: 'List',
+  name: 'List',
 
-    props: ['listField', 'readOnly'],
+  props: ['listField', 'readOnly'],
 
-    computed: {
-        items() {
-            return this.$store.state[this.listField];
-        }
+  computed: {
+    items() {
+      return this.$store.state[this.listField];
+    },
+  },
+
+  methods: {
+    updateItem(i, val, collapsed) {
+      this.$store.commit('updateListField', {
+        field: this.listField,
+        i: i,
+        val: val,
+        collapsed: collapsed,
+      });
     },
 
-    methods: {
-        updateItem(i, val) {
-            this.$store.commit('updateListField', {
-                field: this.listField,
-                i: i,
-                val: val
-            });
-        },
-
-        addToList() {
-            this.$store.commit('addToListField', {
-                field: this.listField,
-                val: ''
-            });
-        },
-
-        deleteItem(i) {
-            this.$store.commit('deleteFromListField', {
-                field: this.listField,
-                i: i
-            });
-
-            window.sheetEvent.$emit('autosave', 1);
-        },
-
-        sortItems(id, direction) {
-            this.$store.commit('sortListField', {
-                field: this.listField,
-                id,
-                direction
-            });
-        }
+    addToList() {
+      this.$store.commit('addToListField', {
+        field: this.listField,
+        val: '',
+      });
     },
 
-    components: {
-        'quill-editor': QuillEditor
-    }
-}
+    deleteItem(i) {
+      this.$store.commit('deleteFromListField', {
+        field: this.listField,
+        i: i,
+      });
+
+      window.sheetEvent.$emit('autosave', 1);
+    },
+
+    sortItems(id, direction) {
+      this.$store.commit('sortListField', {
+        field: this.listField,
+        id,
+        direction,
+      });
+    },
+  },
+
+  components: {
+    'quill-editor': QuillEditor,
+    'button-collapse': ButtonCollapse,
+  },
+};
 </script>

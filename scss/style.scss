@@ -418,29 +418,24 @@ select {
 
 .button-add,
 .button-delete,
-.button-sort {
-  //display: flex;
-  //justify-content: center;
-  //align-items: center;
+.button-sort,
+.button-collapse {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   appearance: none;
   margin-left: 5px;
   padding: 0;
-  border-radius: 100px;
-  border: 1px solid #555;
-  width: 20px;
-  height: 20px;
+  border-radius: 3px;
+  border: 1px solid #aaa;
+  width: 24px;
+  height: 24px;
   font-family: $text;
-  font-size: 18px;
-  line-height: 16px;
+  font-size: 14px;
+  line-height: 1;
   background: transparent;
   color: #555;
   cursor: pointer;
-
-  // icon alignment hack
-  [role='presentation'] {
-    position: relative;
-    top: -1px;
-  }
 }
 
 .button-add {
@@ -456,8 +451,6 @@ select {
 }
 
 .button-sort {
-  font-size: 16px;
-
   &:hover,
   &:focus {
     border-color: #111;
@@ -520,6 +513,24 @@ select {
   }
 }
 
+.quill-editor.collapsed {
+  position: relative;
+  max-height: 50px;
+  overflow: hidden;
+
+  &:after {
+    content: '';
+    display: block;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100px;
+    background: linear-gradient(to bottom, #eeeeee00 75%, #eee 100%);
+    pointer-events: none;
+  }
+}
+
 .ql-editor {
   overflow: visible;
 
@@ -573,6 +584,12 @@ select {
     'Helvetica Neue',
     sans-serif;
   line-height: 1;
+}
+
+.slot-label {
+  display: inline-block;
+  padding: 0 0.5em;
+  font-size: 1.25rem;
 }
 
 .spell-slots {
@@ -651,7 +668,7 @@ select {
       padding: 0 0.5rem;
       height: 100%;
       font-family: $text;
-      font-size: 14px;
+      font-size: 1.25rem;
       font-weight: bold;
       text-decoration: none;
       color: #fff;
@@ -668,6 +685,7 @@ select {
       &:hover,
       &:focus {
         background-color: #1d65ff;
+        color: #fff;
       }
     }
   }
@@ -731,6 +749,8 @@ select {
       background: transparent;
       padding: 0 0.5rem;
       height: 37px;
+      font-size: 1.25em;
+      color: #fff;
 
       &.save-unsaved {
         &:hover {
@@ -739,18 +759,21 @@ select {
       }
 
       &.save-saving {
-        img {
-          animation: spin 1.5s linear infinite;
+        i {
+          animation: spin 1s linear infinite;
         }
       }
 
       &.save-saved {
         &:hover {
           background: #28a745;
+          color: #fff;
         }
       }
 
       &.save-error {
+        color: #ffd43b;
+
         &:hover {
           background: #555;
         }
@@ -844,6 +867,13 @@ select {
 
 .vitals-row {
   gap: 1em;
+}
+
+.death-saves-row {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.66rem;
 }
 
 @media (max-width: 650px) {
@@ -961,15 +991,8 @@ select {
 /* -- Images & Icons ---------------------------------------- */
 
 .mini-icon {
-  width: 1.2em;
-  height: 1.2em;
-
-  svg {
-    display: block;
-    max-width: 100%;
-    max-height: 100%;
-    fill: #000;
-  }
+  // width: 1.2em;
+  // height: 1.2em;
 }
 
 /* -- Dashboard --------------------------------------------- */
@@ -1180,8 +1203,9 @@ html.dark-mode {
 
   .button-add,
   .button-delete,
-  .button-sort {
-    border-color: #999;
+  .button-sort,
+  .button-collapse {
+    border-color: #666;
     color: #999;
 
     &:hover,
@@ -1217,6 +1241,10 @@ html.dark-mode {
 
   .danger {
     color: #ff626f;
+  }
+
+  .muted {
+    color: #999;
   }
 
   .box {
@@ -1271,6 +1299,15 @@ html.dark-mode {
         background: #b31f1f;
       }
     }
+  }
+
+  .back-button a,
+  .back-button a:visited {
+    color: #ccc;
+  }
+
+  .back-button a:hover {
+    color: #fff;
   }
 
   .quill-editor {

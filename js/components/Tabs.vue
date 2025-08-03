@@ -3,7 +3,8 @@
     <ul>
       <li class="back-button">
         <a href="/dashboard">
-          <img src="/images/house.svg" alt="Dashboard" />
+          <i class="fa-sharp fa-regular fa-house" role="presentation"></i>
+          <span class="sr-only">Dashboard</span>
         </a>
       </li>
       <li :class="{ active: view === 'main' }">
@@ -27,31 +28,19 @@
           :title="computedSaveButtonTitle"
         >
           <span v-if="saveStatus === 'unsaved'">
-            <img
-              role="presentation"
-              src="/images/disk-pen.svg"
-              alt="Unsaved changes"
-            />
+            <i class="fa-sharp fa-regular fa-floppy-disk-pen" role="presentation"></i>
             <span class="sr-only">Unsaved changes</span>
           </span>
           <span v-else-if="saveStatus === 'saving'">
-            <img
-              role="presentation"
-              src="/images/spinner.svg"
-              alt="Saving..."
-            />
+            <i class="fa-sharp fa-regular fa-spinner-third" role="presentation"></i>
             <span class="sr-only">Saving...</span>
           </span>
           <span v-else-if="saveStatus === 'saved'">
-            <img role="presentation" src="/images/disk.svg" />
+            <i class="fa-sharp fa-regular fa-floppy-disk" role="presentation"></i>
             <span class="sr-only">All changes saved</span>
           </span>
           <span v-else-if="saveStatus === 'error'">
-            <img
-              role="presentation"
-              src="/images/disk-error.svg"
-              alt="Save failed - click to retry"
-            />
+            <i class="fa-sharp fa-regular fa-floppy-disk-circle-xmark" role="presentation"></i>
             <span class="sr-only">Save failed - click to retry</span>
           </span>
         </button>

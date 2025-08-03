@@ -30,16 +30,16 @@
                     </p>
 
                     <p style="margin-left: auto;">
-                        <a href="/print/{{ @sheet.slug }}">
-                            <i class="fa-solid fa-print"></i>
-                            Print
+                        <a href="/print/{{ @sheet.slug }}" title="Print">
+                            <i class="fa-sharp fa-regular fa-print" role="presentation"></i>
+                            <span class="sr-only">Print</span>
                         </a>
                     </p>
 
                     <p>
-                        <a href="#" class="danger" data-delete-sheet data-sheet="{{ @sheet.slug }}">
-                            <i class="fa-solid fa-trash"></i>
-                            Delete
+                        <a href="#" class="danger" data-delete-sheet data-sheet="{{ @sheet.slug }}" title="Delete">
+                            <i class="fa-sharp fa-regular fa-trash" role="presentation"></i>
+                            <span class="sr-only">Delete</span>
                         </a>
                     </p>
                 </div>
@@ -47,7 +47,12 @@
         </repeat>
     </ul>
 
-    <p><a href="/add-sheet" class="button-primary">Add a character sheet</a></p>
+    <p>
+        <a href="/add-sheet" class="button-primary">
+            <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
+            Add a character sheet
+        </a>
+    </p>
     
     <check if="{{ @sheets }}">
         <p>Making a character sheet public means that anyone with the link can view a read-only version of the character sheet.</p>

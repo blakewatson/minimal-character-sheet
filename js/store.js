@@ -426,6 +426,7 @@ export default new Vuex.Store({
     updateListField(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
       Vue.set(state[payload.field][payload.i], 'val', payload.val);
+      Vue.set(state[payload.field][payload.i], 'collapsed', payload.collapsed);
     },
 
     deleteFromListField(state, payload) {
@@ -482,6 +483,15 @@ export default new Vuex.Store({
         state[payload.field].spells[payload.i],
         'prepared',
         payload.prepared,
+      );
+    },
+
+    updateSpellCollapsed(state, payload) {
+      if (!state.hasOwnProperty(payload.field)) return;
+      Vue.set(
+        state[payload.field].spells[payload.i],
+        'collapsed',
+        payload.collapsed,
       );
     },
 
@@ -560,6 +570,24 @@ export default new Vuex.Store({
         state.attacks.forEach((attack) => {
           if (!attack.hasOwnProperty('weaponNotes')) {
             attack.weaponNotes = '';
+          }
+        });
+      }
+
+      // ensure cantripsList has collapsed boolean
+      if (state.cantripsList && state.cantripsList.length > 0) {
+        state.cantripsList.forEach((cantrip) => {
+          if (!cantrip.hasOwnProperty('collapsed')) {
+            cantrip.collapsed = false;
+          }
+        });
+      }
+
+      // ensure spell lists have collapsed boolean
+      if (state.lvl1Spells && state.lvl1Spells.spells.length > 0) {
+        state.lvl1Spells.spells.forEach((spell) => {
+          if (!spell.hasOwnProperty('collapsed')) {
+            spell.collapsed = false;
           }
         });
       }
