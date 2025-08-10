@@ -5,6 +5,72 @@
 $text: 'IBM Plex Mono', monospace;
 $page_width: 650px;
 
+/* Theme variables (CSS Custom Properties) */
+:root {
+  /* Base */
+  --page-bg: #fff;
+  --text-color: #000;
+  --muted-text-color: #666;
+  --danger-text-color: #ff1d30;
+  --link-color: #1d65ff;
+  --focus-ring-color: #1d65ff;
+
+  /* Surfaces & dividers */
+  --divider-color: #ddd;
+  --panel-border-color: #ddd;
+  --box-border-color: #000;
+  --list-item-border-color: #bbb;
+  --chip-border-color: #aaa;
+
+  /* Fields */
+  --field-text: #000;
+  --field-bg-hover: #f3f3f3;
+  --field-visible-bg: #f3f3f3;
+  --reverse-bg: #000;
+  --reverse-text: #fff;
+  --reverse-field-bg-hover: #222;
+  --reverse-accent-color: #6294ff;
+
+  /* Buttons */
+  --button-primary-bg: #000;
+  --button-primary-border: #000;
+  --button-primary-text: #fff;
+  --button-primary-hover-bg: #444;
+  --button-primary-hover-border: #444;
+
+  --button-secondary-text: #000;
+  --button-secondary-hover-border: #666;
+  --button-secondary-hover-text: #666;
+
+  --icon-button-border: #aaa;
+  --icon-button-text: #555;
+  --icon-button-hover-contrast: #111;
+
+  /* Editor */
+  --editor-bg: #eee;
+  --editor-text: #000;
+
+  /* Navigation */
+  --nav-bg: #000;
+  --nav-text: #fff;
+  --nav-hover-text: #6294ff;
+  --nav-active-bg: #1d65ff;
+  --nav-border-bottom-color: transparent;
+
+  /* Components */
+  --announcement-bg: whitesmoke;
+  --card-border-color: #ddd;
+  --card-bg: transparent;
+  --tooltip-bg: #333;
+  --tooltip-text: #fff;
+
+  /* Status */
+  --success-bg: #28a745;
+  --warning-text: #ffd43b;
+  --neutral-hover-bg: #555;
+  --danger-bg-hover: #b31f1f;
+}
+
 .sr-only,
 .assistive-text {
   position: absolute;
@@ -31,6 +97,8 @@ body {
   overflow-y: scroll;
   font-family: $text;
   line-height: 1.45;
+  background-color: var(--page-bg);
+  color: var(--text-color);
 }
 
 .sheet {
@@ -77,7 +145,7 @@ p {
 }
 
 a {
-  color: #1d65ff;
+  color: var(--link-color);
   word-wrap: break-word;
   overflow-wrap: break-word;
 }
@@ -102,7 +170,7 @@ table {
 }
 
 tbody tr {
-  border-top: 1px solid #ddd;
+  border-top: 1px solid var(--divider-color);
 }
 
 th {
@@ -123,7 +191,7 @@ section,
 .section {
   margin: 1em auto;
   padding-bottom: 1em;
-  border-bottom: 1px solid #ddd;
+  border-bottom: 1px solid var(--divider-color);
   max-width: $page_width;
 
   &:last-child {
@@ -171,12 +239,12 @@ summary.label {
 }
 
 .box {
-  border: 1px solid #000;
+  border: 1px solid var(--box-border-color);
   text-align: center;
 
   &-lite {
     border: none;
-    border-top: 1px solid #ddd;
+    border-top: 1px solid var(--divider-color);
 
     &:last-child {
       border-right: none;
@@ -213,31 +281,31 @@ summary.label {
   font-size: 0.9em;
   line-height: 1em;
   background-color: transparent;
-  color: #000;
+  color: var(--field-text);
 
   &:hover,
   &:focus {
-    background-color: #f3f3f3;
-    color: #1d65ff;
+    background-color: var(--field-bg-hover);
+    color: var(--link-color);
   }
 
   .reverse & {
-    color: #fff;
-    background-color: #000;
+    color: var(--reverse-text);
+    background-color: var(--reverse-bg);
 
     &:hover,
     &:focus {
-      background-color: #222;
-      color: #6294ff;
+      background-color: var(--reverse-field-bg-hover);
+      color: var(--reverse-accent-color);
     }
   }
 
   &-focus {
-    border: 1px solid #f3f3f3;
+    border: 1px solid var(--field-visible-bg);
   }
 
   &-visible {
-    background-color: #f3f3f3;
+    background-color: var(--field-visible-bg);
   }
 }
 
@@ -348,7 +416,7 @@ select {
 }
 
 .muted {
-  color: #666;
+  color: var(--muted-text-color);
 }
 
 .centered,
@@ -369,12 +437,12 @@ select {
 }
 
 .reverse {
-  background: #000;
-  color: #fff;
+  background: var(--reverse-bg);
+  color: var(--reverse-text);
 }
 
 .danger {
-  color: #ff1d30;
+  color: var(--danger-text-color);
 }
 
 .title {
@@ -388,7 +456,7 @@ select {
 .button-primary {
   display: inline-block;
   appearance: none;
-  border: 2px solid #000;
+  border: 2px solid var(--button-primary-border);
   box-sizing: border-box;
   margin: 1em 0;
   padding: 0.5em 0.75em;
@@ -396,27 +464,27 @@ select {
   font-size: 14px;
   text-align: center;
   text-decoration: none;
-  background-color: #000;
-  color: #fff;
+  background-color: var(--button-primary-bg);
+  color: var(--button-primary-text);
   cursor: pointer;
 
   &:hover,
   &:focus {
-    background-color: #444;
-    border-color: #444;
+    background-color: var(--button-primary-hover-bg);
+    border-color: var(--button-primary-hover-border);
   }
 }
 
 .button-secondary {
   @extend .button-primary;
   background-color: transparent;
-  color: #000;
+  color: var(--button-secondary-text);
 
   &:hover,
   &:focus {
     background-color: transparent;
-    border-color: #666;
-    color: #666;
+    border-color: var(--button-secondary-hover-border);
+    color: var(--button-secondary-hover-text);
   }
 }
 
@@ -431,14 +499,14 @@ select {
   margin-left: 5px;
   padding: 0;
   border-radius: 3px;
-  border: 1px solid #aaa;
+  border: 1px solid var(--icon-button-border);
   width: 24px;
   height: 24px;
   font-family: $text;
   font-size: 14px;
   line-height: 1;
   background: transparent;
-  color: #555;
+  color: var(--icon-button-text);
   cursor: pointer;
 }
 
@@ -449,44 +517,34 @@ select {
 
   &:hover,
   &:focus {
-    border-color: #1d65ff;
-    color: #1d65ff;
+    border-color: var(--link-color);
+    color: var(--link-color);
   }
 }
 
-.button-sort {
+.button-sort,
+.button-collapse {
   &:hover,
   &:focus {
-    border-color: #111;
-    color: #111;
+    border-color: var(--icon-button-hover-contrast);
+    color: var(--icon-button-hover-contrast);
   }
 }
 
-.deletable {
-  .button-delete {
-    // opacity: 0;
-
-    &:hover,
-    &:focus {
-      border-color: #ff1d30;
-      color: #ff1d30;
-    }
-  }
-
+.button-delete {
   &:hover,
   &:focus {
-    .button-delete {
-      opacity: 1;
-    }
+    border-color: var(--danger-text-color);
+    color: var(--danger-text-color);
   }
 }
 
 .quill-editor {
   font-family: $text;
-  background-color: #eee;
+  background-color: var(--editor-bg);
 
   [contenteditable] {
-    color: #000;
+    color: var(--editor-text);
   }
 
   .ql-editor h1 {
@@ -530,7 +588,11 @@ select {
     left: 0;
     right: 0;
     height: 100px;
-    background: linear-gradient(to bottom, #eeeeee00 75%, #eee 100%);
+    background: linear-gradient(
+      to bottom,
+      transparent 75%,
+      var(--editor-bg) 100%
+    );
     pointer-events: none;
   }
 }
@@ -549,7 +611,7 @@ select {
   }
 
   &:focus {
-    outline: 2px solid #1d65ff;
+    outline: 2px solid var(--focus-ring-color);
   }
 }
 
@@ -606,7 +668,7 @@ select {
 
 .list-item {
   padding: 0.25em;
-  border: 1px solid #bbb;
+  border: 1px solid var(--list-item-border-color);
   border-radius: 4px;
 }
 
@@ -620,7 +682,7 @@ select {
   width: 100%;
   max-width: $page_width;
   text-align: center;
-  background-color: #000;
+  background-color: var(--nav-bg);
   z-index: 10;
 
   ul {
@@ -640,22 +702,22 @@ select {
     padding: 0.5em 0.5em;
     font-family: $text;
     font-size: 1rem;
-    background-color: #000;
-    color: #fff;
+    background-color: var(--nav-bg);
+    color: var(--nav-text);
     cursor: pointer;
 
     &:hover,
     &:focus {
-      color: #6294ff;
+      color: var(--nav-hover-text);
     }
   }
 
   .active button {
-    background-color: #1d65ff;
+    background-color: var(--nav-active-bg);
 
     &:hover,
     &:focus {
-      color: #fff;
+      color: var(--nav-text);
     }
   }
 
@@ -675,7 +737,7 @@ select {
       font-size: 1.25rem;
       font-weight: bold;
       text-decoration: none;
-      color: #fff;
+      color: var(--nav-text);
 
       img {
         display: block;
@@ -688,7 +750,7 @@ select {
 
       &:hover,
       &:focus {
-        background-color: #1d65ff;
+        background-color: var(--nav-active-bg);
         color: #fff;
       }
     }
@@ -726,7 +788,7 @@ select {
 
       &:hover,
       &:focus {
-        background: #b31f1f;
+        background: var(--danger-bg-hover);
       }
     }
 
@@ -754,11 +816,11 @@ select {
       padding: 0 0.5rem;
       height: 37px;
       font-size: 1.25em;
-      color: #fff;
+      color: var(--nav-text);
 
       &.save-unsaved {
         &:hover {
-          background: #555;
+          background: var(--neutral-hover-bg);
         }
       }
 
@@ -770,16 +832,16 @@ select {
 
       &.save-saved {
         &:hover {
-          background: #28a745;
-          color: #fff;
+          background: var(--success-bg);
+          color: #fff; /* keep hard white for contrast */
         }
       }
 
       &.save-error {
-        color: #ffd43b;
+        color: var(--warning-text);
 
         &:hover {
-          background: #555;
+          background: var(--neutral-hover-bg);
         }
       }
 
@@ -811,8 +873,8 @@ select {
   left: 50%;
   transform: translateX(-50%);
   margin-top: 5px;
-  background: #333;
-  color: white;
+  background: var(--tooltip-bg);
+  color: var(--tooltip-text);
   padding: 4px 8px;
   border-radius: 4px;
   font-size: 11px;
@@ -828,7 +890,7 @@ select {
     height: 0;
     border-left: 4px solid transparent;
     border-right: 4px solid transparent;
-    border-bottom: 4px solid #333;
+    border-bottom: 4px solid var(--tooltip-bg);
   }
 }
 
@@ -1024,7 +1086,7 @@ select {
   // background-color: #f3f3f3;
   margin-top: 0.25rem;
   padding: 0.25rem;
-  border: 1px solid #ddd;
+  border: 1px solid var(--panel-border-color);
   border-radius: 4px;
   font-size: 0.85em;
 }
@@ -1046,7 +1108,7 @@ select {
   margin-bottom: 2em;
   padding: 0.75em 1em;
   max-width: 700px;
-  background-color: whitesmoke;
+  background-color: var(--announcement-bg);
 
   > * {
     margin: 0;
@@ -1066,10 +1128,10 @@ select {
 }
 
 .attack-card {
-  border: 1px solid #ddd;
+  border: 1px solid var(--card-border-color);
   border-radius: 4px;
   padding: 0.5rem;
-  background: transparent;
+  background: var(--card-bg);
 }
 
 .attack-header {
@@ -1155,140 +1217,69 @@ select {
 
 html.dark-mode {
   color-scheme: dark;
-  background-color: #1a1a1a;
-  color: #ccc;
+  background-color: var(--page-bg);
+  color: var(--text-color);
 
-  a {
-    color: #6294ff;
+  /* Dark theme variable overrides */
+  --page-bg: #1a1a1a;
+  --text-color: #ccc;
+  --muted-text-color: #999;
+  --danger-text-color: #ff626f;
+  --link-color: #78cdff;
+  --focus-ring-color: #78cdff;
 
-    &:visited {
-      color: #6294ff;
-    }
-  }
+  --divider-color: #ccc;
+  --panel-border-color: #333;
+  --box-border-color: #ccc;
+  --list-item-border-color: #999;
+  --chip-border-color: #666;
 
-  .announcement {
-    background-color: #060606;
-  }
+  --field-text: #ccc;
+  --field-bg-hover: #333;
+  --field-visible-bg: #333;
+  --reverse-bg: #ccc;
+  --reverse-text: #1a1a1a;
+  --reverse-field-bg-hover: #eee;
+  --reverse-accent-color: #1d65ff;
 
-  .character-actions {
-    border-color: #333;
-  }
+  --button-primary-bg: #ccc;
+  --button-primary-border: #ccc;
+  --button-primary-text: #1a1a1a;
+  --button-primary-hover-bg: #eee;
+  --button-primary-hover-border: #eee;
 
-  .button-primary {
-    border-color: #ccc;
-    background-color: #ccc;
-    color: #1a1a1a;
+  --button-secondary-text: #ccc;
+  --button-secondary-hover-border: #fff;
+  --button-secondary-hover-text: #fff;
 
-    &:visited {
-      color: #1a1a1a;
-    }
+  --icon-button-border: #666;
+  --icon-button-text: #999;
+  --icon-button-hover-contrast: #fff;
 
-    &:hover,
-    &:focus {
-      background-color: #eee;
-    }
-  }
+  --editor-bg: #222;
+  --editor-text: #ccc;
 
-  .button-secondary {
-    background-color: transparent;
-    color: #ccc;
+  --nav-bg: #1a1a1a;
+  --nav-text: #ccc;
+  --nav-hover-text: #78cdff;
+  --nav-active-bg: #1d65ff;
+  --nav-border-bottom-color: #ccc;
 
-    &:visited {
-      color: #ccc;
-    }
+  --announcement-bg: #060606;
+  --card-border-color: #ccc;
+  --card-bg: #1a1a1a;
+  --tooltip-bg: #333;
+  --tooltip-text: #fff;
 
-    &:hover,
-    &:focus {
-      border-color: #fff;
-      background-color: transparent;
-      color: #fff;
-    }
-  }
-
-  .button-add,
-  .button-delete,
-  .button-sort,
-  .button-collapse {
-    border-color: #666;
-    color: #999;
-
-    &:hover,
-    &:focus {
-      border-color: #fff;
-      color: #fff;
-    }
-  }
-
-  .button-delete {
-    &:hover,
-    &:focus {
-      border-color: #ff626f;
-      color: #ff626f;
-    }
-  }
-
-  .reverse {
-    background-color: #ccc;
-    color: #1a1a1a;
-
-    .field {
-      background-color: #ccc;
-      color: #1a1a1a;
-
-      &:hover,
-      &:focus {
-        background-color: #eee;
-        color: #1d65ff;
-      }
-    }
-  }
-
-  .danger {
-    color: #ff626f;
-  }
-
-  .muted {
-    color: #999;
-  }
-
-  .box {
-    border-color: #ccc;
-  }
-
-  .field {
-    color: #ccc;
-
-    &-visible {
-      background-color: #333;
-      color: #ccc;
-    }
-
-    &:hover,
-    &:focus {
-      background-color: #333;
-    }
-  }
-
-  .list-item {
-    border-color: #999;
-  }
+  --success-bg: #28a745;
+  --warning-text: #ffd43b;
+  --neutral-hover-bg: #555;
+  --danger-bg-hover: #b31f1f;
 
   .sheet-nav {
-    border-bottom: 1px solid #ccc;
-    background-color: #1a1a1a;
-
-    button {
-      background-color: #1a1a1a;
-      color: #ccc;
-
-      &:hover,
-      &:focus {
-        color: #6294ff;
-      }
-    }
+    border-block-end: 1px solid var(--nav-border-bottom-color);
 
     .active button {
-      background-color: #1d65ff;
       color: #fff;
 
       &:hover,
@@ -1296,45 +1287,6 @@ html.dark-mode {
         color: #fff;
       }
     }
-
-    .delete-character-button button {
-      &:hover,
-      &:focus {
-        background: #b31f1f;
-      }
-    }
-  }
-
-  .back-button a,
-  .back-button a:visited {
-    color: #ccc;
-  }
-
-  .back-button a:hover {
-    color: #fff;
-  }
-
-  .quill-editor {
-    background-color: #222;
-    color: #ccc;
-
-    [contenteditable] {
-      color: #ccc;
-    }
-
-    a {
-      color: #6294ff;
-    }
-
-    &.collapsed {
-      &:after {
-        background: linear-gradient(to bottom, #22222200 75%, #222222 100%);
-      }
-    }
-  }
-
-  .ql-editor:focus {
-    outline: 2px solid #6294ff;
   }
 
   .mini-icon svg {
@@ -1347,17 +1299,12 @@ html.dark-mode {
 
   .checkbox-group {
     input[type='checkbox'] {
-      background-color: #333;
-      border-color: #ccc;
+      background-color: var(--field-bg-hover);
+      border-color: var(--box-border-color);
     }
   }
 
-  .attack-card {
-    border-color: #ccc;
-    background: #1a1a1a;
-  }
-
   .stat-label {
-    color: #999;
+    color: var(--muted-text-color);
   }
 }
