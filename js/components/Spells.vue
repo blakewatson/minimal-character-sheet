@@ -61,7 +61,7 @@
         <span class="slot-label reverse">0</span>
         <span class="label centered">Cantrips</span>
         <button-collapse
-          :collapsed="cantripsCollapsed"
+          :collapsed="!shouldCollapseAll"
           @click="updateCantripsCollapsed()"
           collapse-title="Collapse all cantrips"
           expand-title="Expand all cantrips"
@@ -93,12 +93,6 @@ import SpellGroup from './SpellGroup';
 export default {
   name: 'Spells',
 
-  data() {
-    return {
-      cantripsCollapsed: false,
-    };
-  },
-
   computed: {
     ...mapState([
       'abilities',
@@ -111,6 +105,11 @@ export default {
       'readOnly',
     ]),
     ...mapGetters(['modifiers']),
+
+    // button should collapse all cantrips if any are expanded
+    shouldCollapseAll() {
+      return this.cantripsList.some((cantrip) => !cantrip.collapsed);
+    },
   },
 
   methods: {
@@ -119,14 +118,14 @@ export default {
     },
 
     updateCantripsCollapsed() {
-      this.cantripsCollapsed = !this.cantripsCollapsed;
+      const newState = this.shouldCollapseAll;
 
       this.cantripsList.forEach((item, i) => {
         this.$store.commit('updateListField', {
           field: 'cantripsList',
           i,
           val: item.val,
-          collapsed: this.cantripsCollapsed,
+          collapsed: newState,
         });
       });
     },

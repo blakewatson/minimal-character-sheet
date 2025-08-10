@@ -81,8 +81,8 @@
 </template>
 
 <script>
-import QuillEditor from './QuillEditor';
 import ButtonCollapse from './ButtonCollapse';
+import QuillEditor from './QuillEditor';
 
 export default {
   name: 'List',

@@ -24,7 +24,7 @@
         ></field>
       </div>
       <button-collapse
-        :collapsed="spellsCollapsed"
+        :collapsed="!shouldCollapseAll"
         @click="updateSpellsCollapsed()"
         :collapse-title="`Collapse all level ${level} spells`"
         :expand-title="`Expand all level ${level} spells`"
@@ -37,20 +37,14 @@
 
 <script>
 import { mapState } from 'vuex';
+import ButtonCollapse from './ButtonCollapse';
 import Field from './Field';
 import SpellList from './SpellList';
-import ButtonCollapse from './ButtonCollapse';
 
 export default {
   name: 'SpellGroup',
 
   props: ['level'],
-
-  data() {
-    return {
-      spellsCollapsed: false,
-    };
-  },
 
   computed: {
     ...mapState(['readOnly']),
@@ -65,6 +59,12 @@ export default {
 
     listField() {
       return `lvl${this.level}Spells`;
+    },
+
+    shouldCollapseAll() {
+      return this.$store.state[this.listField].spells.some(
+        (spell) => !spell.collapsed,
+      );
     },
   },
 
@@ -84,14 +84,14 @@ export default {
     },
 
     updateSpellsCollapsed() {
-      this.spellsCollapsed = !this.spellsCollapsed;
+      const newState = this.shouldCollapseAll;
 
       const spells = this.$store.state[this.listField].spells;
       spells.forEach((_, i) => {
         this.$store.commit('updateSpellCollapsed', {
           field: this.listField,
           i,
-          collapsed: this.spellsCollapsed,
+          collapsed: newState,
         });
       });
     },
