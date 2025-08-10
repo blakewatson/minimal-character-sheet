@@ -7,21 +7,18 @@
 
     <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
 
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+      rel="stylesheet"
+    />
+
     <link
       rel="stylesheet"
-      href="https://unpkg.com/gutenberg-css@0.7/dist/gutenberg.min.css"
+      href="{{ @BASE }}/dist/gutenberg.min.css"
       media="all"
     />
-    <link
-      rel="stylesheet"
-      href="https://unpkg.com/gutenberg-css@0.7/dist/themes/modern.min.css"
-      media="all"
-    />
-    <!-- <link
-      rel="stylesheet"
-      href="https://cdn.jsdelivr.net/npm/water.css@2/out/light.css"
-      media="screen"
-    /> -->
 
     <link rel="stylesheet" href="{{ @BASE }}/dist/spacing.css" />
     <link rel="stylesheet" href="{{ @BASE }}/dist/print.css" />
@@ -45,6 +42,7 @@
         window.sheet = "{{ @sheet | raw }}";
         window.characterName = "{{ @character_name | raw }}";
         window.is_2024 = {{ @is_2024 | raw }};
+        document.title = `${window.characterName} - Minimal character sheet`;
       </script>
       <script src="{{ @BASE }}/dist/print.js"></script>
     </check>

@@ -26,6 +26,7 @@ export default new Vuex.Store({
     ac: 10,
     speed: 25,
     initiative: 0,
+    proficiencyOverride: null,
     inspiration: false,
     shortRests: 0,
     deathSaves: {
@@ -221,6 +222,9 @@ export default new Vuex.Store({
     },
 
     proficiencyBonus(state) {
+      if (state.proficiencyOverride !== null && state.proficiencyOverride !== undefined) {
+        return state.proficiencyOverride;
+      }
       var level = state.level;
       var row = state.levelData.find((data) => level === data.lvl);
       if (!row) return 2;
@@ -316,6 +320,10 @@ export default new Vuex.Store({
 
     updateShortRests(state, payload) {
       state.shortRests = payload;
+    },
+
+    updateProficiencyOverride(state, payload) {
+      state.proficiencyOverride = payload;
     },
 
     updateSkillProficiency(state, payload) {
