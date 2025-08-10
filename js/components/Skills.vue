@@ -22,31 +22,32 @@
           type="checkbox"
         />
 
-        <label title="Toggle proficiency">
-          <input
-            type="checkbox"
-            :checked="skill.proficient"
-            :disabled="readOnly || skill.doubleProficient"
-            @change="setProficiency(i, 'proficient')"
-          />
-
-          <span class="sr-only">Toggle proficiency</span>
-        </label>
+        <input
+          type="checkbox"
+          :id="`skill-prof-${i}`"
+          :checked="skill.proficient"
+          :disabled="readOnly || skill.doubleProficient"
+          @change="setProficiency(i, 'proficient')"
+        />
 
         <button
           :disabled="readOnly"
           @click="openOverrideDialog(skill)"
           title="Override modifier"
-          class="skill-button"
+          class="button-discoverable skill-modifier mr-xs"
+          :class="{ 'skill-override': Boolean(skill.modifierOverride) }"
         >
-          <strong
-            class="skill-modifier"
-            :class="{ 'skill-override': Boolean(skill.modifierOverride) }"
-            >{{ getSkillModifier(skill) | signedNumString }}</strong
-          >
+          {{ getSkillModifier(skill) | signedNumString }}
+        </button>
+
+        <label
+          :for="`skill-prof-${i}`"
+          title="Toggle proficiency"
+          class="skill-label"
+        >
           {{ skill.name }}
           <span class="small muted">({{ skill.ability }})</span>
-        </button>
+        </label>
       </li>
     </ul>
 
