@@ -10,7 +10,7 @@
 
         <input
           :checked="skill.doubleProficient"
-          :disabled="readOnly"
+          :disabled="readOnly || !skill.proficient"
           :id="`double-prof-${i}`"
           :style="{
             opacity: skill.proficient ? 1 : 0,
@@ -39,9 +39,11 @@
           title="Override modifier"
           class="skill-button"
         >
-          <strong class="skill-modifier" :class="{ 'skill-override': Boolean(skill.modifierOverride) }">{{
-            getSkillModifier(skill) | signedNumString
-          }}</strong>
+          <strong
+            class="skill-modifier"
+            :class="{ 'skill-override': Boolean(skill.modifierOverride) }"
+            >{{ getSkillModifier(skill) | signedNumString }}</strong
+          >
           {{ skill.name }}
           <span class="small muted">({{ skill.ability }})</span>
         </button>
@@ -72,14 +74,26 @@
           :value="modifierOverride"
           @update-value="modifierOverride = $event"
           id="skill-modifier"
-          style="min-width: 50px;"
+          style="min-width: 50px"
           type="number"
         ></field>
 
         <div class="mt-md">
           <button type="submit" class="button-primary">Save</button>
-          <button type="button" @click="removeOverride" class="button-secondary">Remove override</button>
-          <button type="button" @click="closeOverrideDialog" class="button-secondary">Cancel</button>
+          <button
+            type="button"
+            @click="removeOverride"
+            class="button-secondary"
+          >
+            Remove override
+          </button>
+          <button
+            type="button"
+            @click="closeOverrideDialog"
+            class="button-secondary"
+          >
+            Cancel
+          </button>
         </div>
       </form>
     </dialog>
@@ -87,11 +101,11 @@
 </template>
 
 <script>
-import { mapState, mapGetters } from "vuex";
-import Field from "./Field.vue";
+import { mapGetters, mapState } from 'vuex';
+import Field from './Field.vue';
 
 export default {
-  name: "Skills",
+  name: 'Skills',
 
   data() {
     return {
@@ -101,8 +115,8 @@ export default {
   },
 
   computed: {
-    ...mapState(["skills", "readOnly"]),
-    ...mapGetters(["modifiers", "proficiencyBonus"]),
+    ...mapState(['skills', 'readOnly']),
+    ...mapGetters(['modifiers', 'proficiencyBonus']),
   },
 
   methods: {
@@ -134,13 +148,13 @@ export default {
       var proficient = this.skills[i].proficient;
       var doubleProficient = this.skills[i].doubleProficient;
 
-      if (prop === "proficient") {
+      if (prop === 'proficient') {
         proficient = !proficient;
-      } else if (prop === "doubleProficient") {
+      } else if (prop === 'doubleProficient') {
         doubleProficient = !doubleProficient;
       }
 
-      this.$store.commit("updateSkillProficiency", {
+      this.$store.commit('updateSkillProficiency', {
         i,
         proficient,
         doubleProficient,
@@ -150,13 +164,13 @@ export default {
     getPassivePerception() {
       // Find the Perception skill
       const perceptionSkill = this.skills.find(
-        (skill) => skill.name === "Perception"
+        (skill) => skill.name === 'Perception',
       );
       if (perceptionSkill) {
         return 10 + this.getSkillModifier(perceptionSkill);
       }
       // Fallback to just Wisdom modifier if Perception skill not found
-      return 10 + this.getSkillModifier({ ability: "WIS" });
+      return 10 + this.getSkillModifier({ ability: 'WIS' });
     },
 
     openOverrideDialog(skill) {
@@ -173,15 +187,16 @@ export default {
     },
 
     saveOverride() {
-      let override = this.modifierOverride === "" ? null : this.modifierOverride ?? null;
+      let override =
+        this.modifierOverride === '' ? null : (this.modifierOverride ?? null);
 
       // Validate and parse the override value
       if (override !== null && override !== undefined) {
         const overrideStr = String(override);
-        
+
         // Check if string starts with +, -, or digit and rest are digits
         const validPattern = /^[+\-\d]\d*$/;
-        
+
         if (validPattern.test(overrideStr)) {
           try {
             override = parseInt(overrideStr, 10);
@@ -197,7 +212,7 @@ export default {
         }
       }
 
-      this.$store.commit("updateSkillModifierOverride", {
+      this.$store.commit('updateSkillModifierOverride', {
         skillName: this.selectedSkill.name,
         modifierOverride: override,
       });
@@ -208,7 +223,7 @@ export default {
     },
 
     removeOverride() {
-      this.$store.commit("updateSkillModifierOverride", {
+      this.$store.commit('updateSkillModifierOverride', {
         skillName: this.selectedSkill.name,
         modifierOverride: null,
       });

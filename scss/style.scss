@@ -184,6 +184,7 @@ td {
 }
 
 button {
+  font-size: 1rem;
   color: currentColor;
 }
 
@@ -485,6 +486,20 @@ select {
     background-color: transparent;
     border-color: var(--button-secondary-hover-border);
     color: var(--button-secondary-hover-text);
+  }
+}
+
+.button-discoverable {
+  border: 1px solid transparent;
+  border-radius: 3px;
+  font-family: $text;
+  background-color: transparent;
+  color: var(--text-color);
+  cursor: pointer;
+
+  &:hover,
+  &:focus {
+    border-color: var(--button-primary-hover-border);
   }
 }
 

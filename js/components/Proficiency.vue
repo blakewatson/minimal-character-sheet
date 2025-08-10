@@ -19,10 +19,19 @@
       ></field>
     </div>
 
-    <div class="vert-center">
-      <span class="meta small muted">Proficiency bonus</span>
-      <span class="huge padded">{{ proficiencyBonus | signedNumString }}</span>
-    </div>
+    <button
+      :disabled="readOnly"
+      @click="openProficiencyDialog"
+      title="Override proficiency bonus"
+      class="button-discoverable vert-center"
+    >
+      <div class="meta small muted mr-sm">Proficiency bonus</div>
+      <span
+        class="huge"
+        :class="{ 'skill-override': Boolean(proficiencyOverride) }"
+        >{{ proficiencyBonus | signedNumString }}</span
+      >
+    </button>
 
     <div class="vert-center">
       <label class="vert-center meta small muted">
@@ -47,6 +56,47 @@
         type="number"
       ></field>
     </div>
+
+    <dialog class="skill-override-dialog" ref="proficiencyDialog">
+      <form @submit.prevent="saveProficiencyOverride">
+        <p>
+          <strong>Proficiency bonus override</strong>
+        </p>
+        <p>
+          If you need to override the standard proficiency bonus calculation,
+          you can enter it here. Click Remove override to revert back to the
+          standard calculation.
+        </p>
+
+        <label for="proficiency-bonus">Proficiency bonus</label>
+        <field
+          :readOnly="readOnly"
+          :value="proficiencyOverrideValue"
+          @update-value="proficiencyOverrideValue = $event"
+          id="proficiency-bonus"
+          style="min-width: 50px"
+          type="number"
+        ></field>
+
+        <div class="mt-md">
+          <button type="submit" class="button-primary">Save</button>
+          <button
+            type="button"
+            @click="removeProficiencyOverride"
+            class="button-secondary"
+          >
+            Remove override
+          </button>
+          <button
+            type="button"
+            @click="closeProficiencyDialog"
+            class="button-secondary"
+          >
+            Cancel
+          </button>
+        </div>
+      </form>
+    </dialog>
   </section>
 </template>
 
@@ -57,9 +107,21 @@ import Field from './Field';
 export default {
   name: 'Proficiency',
 
+  data() {
+    return {
+      proficiencyOverrideValue: null,
+    };
+  },
+
   computed: {
     ...mapGetters(['proficiencyBonus']),
-    ...mapState(['inspiration', 'readOnly', 'initiative', 'shortRests']),
+    ...mapState([
+      'inspiration',
+      'readOnly',
+      'initiative',
+      'shortRests',
+      'proficiencyOverride',
+    ]),
   },
 
   methods: {
@@ -74,6 +136,51 @@ export default {
     updateShortRests(val) {
       val = val ? parseInt(val) : 0;
       this.$store.commit('updateShortRests', val);
+    },
+
+    openProficiencyDialog() {
+      this.$refs.proficiencyDialog.showModal();
+      this.proficiencyOverrideValue = this.proficiencyBonus.toString();
+    },
+
+    closeProficiencyDialog() {
+      this.$refs.proficiencyDialog.close();
+      this.proficiencyOverrideValue = null;
+    },
+
+    saveProficiencyOverride() {
+      let override =
+        this.proficiencyOverrideValue === ''
+          ? null
+          : (this.proficiencyOverrideValue ?? null);
+
+      if (override !== null && override !== undefined) {
+        const overrideStr = String(override);
+        const validPattern = /^[+\-\d]\d*$/;
+
+        if (validPattern.test(overrideStr)) {
+          try {
+            override = parseInt(overrideStr, 10);
+            if (isNaN(override)) {
+              override = null;
+            }
+          } catch (error) {
+            override = null;
+          }
+        } else {
+          override = null;
+        }
+      }
+
+      this.$store.commit('updateProficiencyOverride', override);
+      this.$refs.proficiencyDialog.close();
+      this.proficiencyOverrideValue = null;
+    },
+
+    removeProficiencyOverride() {
+      this.$store.commit('updateProficiencyOverride', null);
+      this.$refs.proficiencyDialog.close();
+      this.proficiencyOverrideValue = null;
     },
   },
 
