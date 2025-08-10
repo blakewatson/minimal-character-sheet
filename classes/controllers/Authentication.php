@@ -11,7 +11,7 @@ class Authentication {
     public function __construct( $f3 ) {
         $this->f3 = $f3;
         $this->db = $f3->get( 'DB' );
-        $this->session = new \DB\SQL\Session( $this->db, 'sessions', function( $sess ) { return true; } );
+        $this->session = new \DB\SQL\Session( $this->db, 'sessions', true, function( $sess ) { return true; } );
     }
 
     public function registration_form( $f3 ) {
