@@ -4,6 +4,11 @@ html {
   font-size: 12px;
 }
 
+body {
+  font-family: 'Roboto', sans-serif;
+  font-optical-sizing: auto;
+}
+
 a::after {
   display: none;
 }
@@ -18,16 +23,31 @@ a::after {
 
 /* #region Typography ---------- */
 
+.character-name {
+  font-size: 1.75em;
+  font-weight: 800;
+}
+
 h1 {
+  font-family: 'Roboto', sans-serif;
+  font-optical-sizing: auto;
   font-size: 1.3em;
   margin-block: 0.5rem;
   break-after: avoid;
+  font-weight: bold;
 }
 
 h2 {
+  font-family: 'Roboto', sans-serif;
+  font-optical-sizing: auto;
   margin-block: 0.5rem;
   font-size: 1.15em;
   break-after: avoid;
+  font-weight: bold;
+}
+
+strong {
+  font-weight: bold;
 }
 
 ul {
