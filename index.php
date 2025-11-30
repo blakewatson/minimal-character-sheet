@@ -65,6 +65,11 @@ $f3->route( 'POST /request-password-reset', 'Authentication->request_password_re
 $f3->route( 'GET /password-reset/@email/@clear_token', 'Authentication->password_reset_form' );
 $f3->route( 'POST /password-reset', 'Authentication->password_reset' );
 
+// admin dashboard
+$f3->route( 'GET /admin', 'Admin->admin_dashboard' );
+$f3->route( 'GET /admin/users', 'Admin->admin_users' );
+$f3->route( 'GET|POST /admin/restore-sheet', 'Admin->restore_sheet' );
+
 // set up custom error page
 $f3->set( 'ONERROR', function( $f3, $params ) {
     echo \Template::instance()->render( 'templates/error.html' );

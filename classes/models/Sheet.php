@@ -23,6 +23,38 @@ class Sheet extends \DB\SQL\Mapper {
         $this->save();
     }
 
+    public function create_sheet_with_data( $name, $email, $data, $is_2024 = true ) {
+        do {
+            $slug = $this->random_slug();
+        } while ( $this->get_sheet_by_slug( $slug ) );
+
+        $this->slug = $slug;
+        $this->name = $name;
+        $this->email = $email;
+        $this->data = '';
+        $this->is_public = false;
+        $this->is_2024 = $is_2024;
+        $this->save();
+
+        // remove quoutes from start and end of data, if present
+        // if( substr( $data, 0, 1 ) === '"' && substr( $data, -1 ) === '"' ) {
+        //     $data = substr( $data, 1, -1 );
+        // }
+
+        // replace the id, slug, and name to the new sheet. Have to do double json decode because of the way data is sent
+        $sheet_data = json_decode( $data, true );
+        $sheet_data = json_decode( $sheet_data, true );
+
+        $sheet_data['id'] = $this->id;
+        $sheet_data['slug'] = $this->slug;
+        $sheet_data['characterName'] = $name;
+
+        // save updated data. Double json encode to match the way data is sent
+        $this->data = json_encode( json_encode( $sheet_data ) );
+
+        $this->save();
+    }
+
     public function get_sheet( $id ) {
         $this->load( [ 'id=?', $id ] );
         if( $this->dry() ) return false;

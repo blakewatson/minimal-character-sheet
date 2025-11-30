@@ -28,11 +28,43 @@ class Dashboard {
     }
 
     public function sheet_list( $f3 ) {
-        $email = $f3->get( 'SESSION.email' );
+        $current_user_email = $f3->get( 'SESSION.email' );
+
+        // get the current user to check admin status
+        $current_user = new User( $f3->get( 'DB' ) );
+        $current_user_data = $current_user->get_by_email( $current_user_email );
+        $is_admin = $current_user_data['is_admin'];
+
+        // check if user_id query parameter is present
+        $user_id = $f3->get( 'GET.user_id' );
+        $viewing_as_admin = false;
+
+        if( $user_id && $is_admin ) {
+            // admin is viewing another user's sheets
+            $viewing_as_admin = true;
+            $target_user = new User( $f3->get( 'DB' ) );
+            $target_user->load( [ 'id=?', $user_id ] );
+
+            if( $target_user->dry() ) {
+                $f3->error( 404 );
+                return;
+            }
+
+            $email = $target_user->get( 'email' );
+            $f3->set( 'viewing_user_email', $email );
+        } else {
+            // normal user viewing their own sheets
+            $email = $current_user_email;
+        }
+
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheets = $sheet->get_all_sheets( $email );
+
+        $f3->set( 'is_admin', $is_admin );
+        $f3->set( 'viewing_as_admin', $viewing_as_admin );
         $f3->set( 'sheets', $sheets );
         $f3->set( 'dashboard', true );
+        $f3->set( 'email', $current_user_email );
         $this->auth->set_csrf();
         echo \Template::instance()->render( 'templates/dashboard.html' );
     }

@@ -1,7 +1,19 @@
 <include href="templates/header.html" />
 
 <div class="dashboard container container-slim">
-    <h1>My Characters</h1>
+    <check if="{{ @viewing_as_admin }}">
+        <div style="background-color: #fffbcc; padding: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #ffcc00;">
+            <p style="margin: 0;"><strong>Admin View:</strong> You are viewing character sheets for {{ @viewing_user_email }}</p>
+            <p style="margin: 0.5rem 0 0 0;"><a href="/dashboard">Return to your dashboard</a> | <a href="/admin/users">Back to user list</a></p>
+        </div>
+    </check>
+
+    <h1>
+        <check if="{{ @viewing_as_admin }}">
+            <true>{{ @viewing_user_email }}'s Characters</true>
+            <false>My Characters</false>
+        </check>
+    </h1>
 
     <check if="{{ @sheets }}">
         <false>
@@ -47,48 +59,54 @@
         </repeat>
     </ul>
 
-    <p>
-        <a href="/add-sheet" class="button-primary">
-            <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
-            Add a character sheet
-        </a>
-    </p>
-    
-    <check if="{{ @sheets }}">
-        <p>Making a character sheet public means that anyone with the link can view a read-only version of the character sheet.</p>
+    <check if="{{ !@viewing_as_admin }}">
+        <p>
+            <a href="/add-sheet" class="button-primary">
+                <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
+                Add a character sheet
+            </a>
+        </p>
+
+        <check if="{{ @sheets }}">
+            <p>Making a character sheet public means that anyone with the link can view a read-only version of the character sheet.</p>
+        </check>
+
+        <div class="announcement">
+            <p>
+                <strong>2025-07-09:</strong> 2024 character sheets are here! When creating a new
+                sheet, you can choose the 2014 version or the 2024 version. Existing character sheets
+                will remain in the 2014 style.
+            </p>
+            <p>The app is now much more usable on mobile.</p>
+        </div>
+
+        <h1>Settings</h1>
+
+        <p>These settings apply to this device only.</p>
+
+        <p>
+            <label for="settingDarkMode">Dark Mode (experimental)</label>:
+            <input id="settingDarkMode" type="checkbox"><br>
+        </p>
+
+        <p>
+            <label for="settingTextareaFont">Font in text areas</label>:
+            <select id="settingTextareaFont">
+                <option value="default">Default (IBM Plex Mono)</option>
+                <option value="sans-serif">Sans-serif (system default)</option>
+                <option value="serif">Serif (system default)</option>
+            </select>
+        </p>
     </check>
 
-    <div class="announcement">
-        <p>
-            <strong>2025-07-09:</strong> 2024 character sheets are here! When creating a new
-            sheet, you can choose the 2014 version or the 2024 version. Existing character sheets
-            will remain in the 2014 style.
-        </p>
-        <p>The app is now much more usable on mobile.</p>
-    </div>
-
-    <h1>Settings</h1>
-
-    <p>These settings apply to this device only.</p>
-
-    <p>
-        <label for="settingDarkMode">Dark Mode (experimental)</label>:
-        <input id="settingDarkMode" type="checkbox"><br>
-    </p>
-
-    <p>
-        <label for="settingTextareaFont">Font in text areas</label>:
-        <select id="settingTextareaFont">
-            <option value="default">Default (IBM Plex Mono)</option>
-            <option value="sans-serif">Sans-serif (system default)</option>
-            <option value="serif">Serif (system default)</option>
-        </select>
-    </p>
-    
     <input type="hidden" id="csrf" value="{{ @CSRF }}">
 
     <div class="account-actions">
         <p>
+            <check if="{{ @is_admin }}">
+                <a href="/admin">Admin Dashboard</a>
+            </check>
+
             <a href="/logout">Logout</a>
         </p>
     </div>

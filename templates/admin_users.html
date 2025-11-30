@@ -1,0 +1,49 @@
+<include href="templates/header.html" />
+
+<div class="admin container container-slim">
+  <h1>Manage Users</h1>
+
+  <p><a href="/admin">Back to Admin Dashboard</a></p>
+
+  <check if="{{ @users }}">
+    <true>
+      <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem;">
+        <thead>
+          <tr>
+            <th style="text-align: left; padding: 0.5rem; border-bottom: 2px solid #ccc;">Email</th>
+            <th style="text-align: center; padding: 0.5rem; border-bottom: 2px solid #ccc;">Confirmed</th>
+            <th style="text-align: center; padding: 0.5rem; border-bottom: 2px solid #ccc;">Admin</th>
+            <th style="text-align: center; padding: 0.5rem; border-bottom: 2px solid #ccc;">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <repeat group="{{ @users }}" value="{{ @user }}">
+            <tr>
+              <td style="padding: 0.5rem; border-bottom: 1px solid #eee;">{{ @user.email }}</td>
+              <td style="text-align: center; padding: 0.5rem; border-bottom: 1px solid #eee;">
+                <check if="{{ @user.confirmed }}">
+                  <true>✓</true>
+                  <false>—</false>
+                </check>
+              </td>
+              <td style="text-align: center; padding: 0.5rem; border-bottom: 1px solid #eee;">
+                <check if="{{ @user.is_admin }}">
+                  <true>✓</true>
+                  <false>—</false>
+                </check>
+              </td>
+              <td style="text-align: center; padding: 0.5rem; border-bottom: 1px solid #eee;">
+                <a href="/dashboard?user_id={{ @user.id }}">View Sheets</a>
+              </td>
+            </tr>
+          </repeat>
+        </tbody>
+      </table>
+    </true>
+    <false>
+      <p>No users found.</p>
+    </false>
+  </check>
+</div>
+
+<include href="templates/footer.html" />

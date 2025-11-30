@@ -1,0 +1,47 @@
+<include href="templates/header.html" />
+
+<div class="admin container container-slim">
+  <h1>Admin - Restore Sheet</h1>
+
+  <form action="/admin/restore-sheet" method="POST">
+    <label class="block mb-md">
+      User Email:
+      <select name="email">
+        <repeat group="{{ @users }}" value="{{ @user }}">
+          <option value="{{ @user.email }}">{{ @user.email }}</option>
+        </repeat>
+      </select>
+    </label>
+
+    <div class="mb-md">
+      <label class="block mb-xs">D&D 5e Version:</label>
+      <label for="is-2024" class="label">
+        <input type="radio" id="is-2024" name="is_2024" value="1" checked />
+        2024 Edition
+      </label>
+      <label for="is-2014" class="label">
+        <input type="radio" id="is-2014" name="is_2024" value="0" /> 2014
+        Edition
+      </label>
+    </div>
+
+    <label class="block mb-sm">
+      Sheet Name:
+      <input type="text" name="sheet_name" />
+    </label>
+
+    <label class="block">
+      Sheet Data (JSON):<br />
+      <textarea name="sheet_data" rows="20" style="width: 100%"></textarea>
+    </label>
+
+    <div class="mt-md">
+      <button type="submit" class="button-primary mr-sm">Restore Sheet</button>
+      <a href="/admin" class="button">Back to Admin</a>
+    </div>
+
+    <input type="hidden" name="csrf" value="{{ @CSRF }}" />
+  </form>
+</div>
+
+<include href="templates/footer.html" />
