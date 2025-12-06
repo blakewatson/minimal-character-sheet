@@ -416,6 +416,20 @@ select {
   }
 }
 
+@media (max-width: 500px) {
+  .field {
+    font-size: max(0.9em, 16px);
+  }
+
+  select {
+    font-size: max(1em, 16px);
+  }
+
+  .ql-container {
+    font-size: max(1em, 16px) !important;
+  }
+}
+
 .muted {
   color: var(--muted-text-color);
 }
@@ -1192,6 +1206,22 @@ select {
   /* Hide desktop table on mobile */
   .attacks-table {
     display: none;
+  }
+}
+
+/* -- Spellcasting mobile ----------------------------------- */
+
+@media (max-width: 500px) {
+  .spellcasting {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    gap: 0.5rem;
+
+    > & {
+      width: 50%;
+      flex-shrink: 0;
+    }
   }
 }
 
