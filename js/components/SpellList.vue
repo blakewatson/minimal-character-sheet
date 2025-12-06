@@ -24,6 +24,7 @@
               :collapsed="item.collapsed"
               :initial-contents="item.name"
               :read-only="readOnly"
+              @update-collapsed="updateSpellCollapsed(i, $event)"
               @quill-text-change="updateSpellName(i, $event)"
             ></quill-editor>
           </div>
@@ -97,8 +98,8 @@
 </template>
 
 <script>
-import QuillEditor from './QuillEditor';
 import ButtonCollapse from './ButtonCollapse';
+import QuillEditor from './QuillEditor';
 
 export default {
   name: 'SpellList',

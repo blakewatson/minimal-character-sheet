@@ -11,6 +11,7 @@
           :collapsed="item.collapsed"
           :initial-contents="item.val"
           :read-only="readOnly"
+          @update-collapsed="updateItem(i, item.val, $event)"
           @quill-text-change="updateItem(i, $event)"
         ></quill-editor>
 

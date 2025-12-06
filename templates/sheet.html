@@ -1,8 +1,13 @@
 <include href="templates/header.html" />
 
-    <div id="sheet"></div>
+<div id="sheet"></div>
 
-    <input type="hidden" name="sheet_slug" id="sheet-slug" value="{{ @sheet_slug }}">
-    <input type="hidden" name="csrf" id="csrf" value="{{ @CSRF }}">
+<input
+  type="hidden"
+  name="sheet_slug"
+  id="sheet-slug"
+  value="{{ @sheet_slug }}"
+/>
+<input type="hidden" name="csrf" id="csrf" value="{{ @CSRF }}" />
 
 <include href="templates/footer.html" />
