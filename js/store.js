@@ -222,7 +222,10 @@ export default new Vuex.Store({
     },
 
     proficiencyBonus(state) {
-      if (state.proficiencyOverride !== null && state.proficiencyOverride !== undefined) {
+      if (
+        state.proficiencyOverride !== null &&
+        state.proficiencyOverride !== undefined
+      ) {
         return state.proficiencyOverride;
       }
       var level = state.level;
@@ -564,7 +567,7 @@ export default new Vuex.Store({
 
       if (sheet.data) {
         // merge sheet data on top of defaults
-        state = Object.assign({}, state, JSON.parse(sheet.data));
+        state = Object.assign({}, state, sheet.data);
       }
 
       // default initiative to dex modifier

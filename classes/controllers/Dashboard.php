@@ -168,6 +168,16 @@ class Dashboard {
         $email = $f3->get( 'SESSION.email' );
         $name = $f3->get( 'REQUEST.name' );
         $data = $f3->get( 'REQUEST.data' );
+
+        // Validate that the data is valid JSON
+        if( ! $data || json_decode( $data ) === null ) {
+            error_log( 'Invalid JSON received in save_sheet. Data: ' . substr( $data, 0, 200 ) );
+            $this->auth->set_csrf();
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_json', 'status' => 400 ]);
+            return;
+        }
+
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         

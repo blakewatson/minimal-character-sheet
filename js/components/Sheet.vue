@@ -237,6 +237,16 @@ export default {
           window.location.href = '/login';
         }
 
+        // Handle non-retryable errors (like invalid JSON)
+        if (!this.isRetryableError(error)) {
+          this.notyf.error({
+            duration: 0, // Persistent until dismissed
+            message:
+              'Failed to save character sheet. The data may be invalid. Please try reloading the page.',
+          });
+          return false;
+        }
+
         // For retryable errors (network issues, server errors), implement exponential backoff
         if (this.isRetryableError(error)) {
           this.isRetrying = true;
@@ -313,7 +323,7 @@ export default {
 
       const lowerError = errorMessage.toLowerCase();
       return retryableErrors.some((errorType) =>
-        lowerError.includes(errorType)
+        lowerError.includes(errorType),
       );
     },
 
