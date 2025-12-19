@@ -20,7 +20,14 @@ export default {
       default: false,
     },
     initialContents: {},
-    readOnly: {},
+    lazyLoad: {
+      type: Boolean,
+      default: true,
+    },
+    readOnly: {
+      type: Boolean,
+      default: false,
+    },
     toolbarOptions: {
       type: Array,
       default: () => [
@@ -42,6 +49,7 @@ export default {
       contents: null,
       isStatic: true,
       mouseDownEvent: null,
+      refreshListener: null,
     };
   },
 
@@ -379,19 +387,35 @@ export default {
   },
 
   mounted() {
+    // If not lazy loading, initialize Quill immediately
+    if (!this.lazyLoad) {
+      this.initQuill();
+      return;
+    }
+
+    // Otherwise, render static HTML content
     this.renderStaticContents();
 
-    // For read-only editors, listen for refresh events and update static DOM
+    // save the refresh listener for later removal
+    this.refreshListener = () => {
+      // If editor is still static, just re-render the static content
+      if (this.isStatic) {
+        this.renderStaticContents();
+      } else {
+        // Editor has been activated, use Quill's API
+        this.editor.setContents(this.initialContents);
+      }
+    };
+
+    // For read-only editors, listen for refresh events on the event bus and
+    // update static DOM
     if (this.readOnly) {
-      window.sheetEvent.$on('quill-refresh', () => {
-        // If editor is still static, just re-render the static content
-        if (this.isStatic) {
-          this.renderStaticContents();
-        } else {
-          // Editor has been activated, use Quill's API
-          this.editor.setContents(this.initialContents);
-        }
-      });
+      window.sheetEvent.$on('quill-refresh', this.refreshListener);
+    }
+  },
+  beforeDestroy() {
+    if (this.refreshListener) {
+      window.sheetEvent.$off('quill-refresh', this.refreshListener);
     }
   },
 };

@@ -23,6 +23,8 @@
 
       <attacks></attacks>
 
+      <trackable-fields></trackable-fields>
+
       <text-section
         title="Features & Traits"
         field="featuresText"
@@ -92,6 +94,7 @@ import Skills from './Skills';
 import Spells from './Spells';
 import Tabs from './Tabs';
 import TextSection from './TextSection';
+import TrackableFields from './TrackableFields';
 
 export default {
   name: 'Sheet',
@@ -374,6 +377,7 @@ export default {
     skills: Skills,
     proficiency: Proficiency,
     attacks: Attacks,
+    'trackable-fields': TrackableFields,
     equipment: Equipment,
     spells: Spells,
     'text-section': TextSection,

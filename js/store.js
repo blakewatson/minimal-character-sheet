@@ -180,6 +180,7 @@ export default new Vuex.Store({
       },
     ],
     attacks: [],
+    trackableFields: [],
     coins: [
       { name: 'cp', amount: 0 },
       { name: 'sp', amount: 0 },
@@ -412,6 +413,61 @@ export default new Vuex.Store({
       }
     },
 
+    updateTrackableField(state, payload) {
+      var field = state.trackableFields.find(
+        (field) => field.id === payload.id,
+      );
+      if (!field) return;
+
+      state.trackableFields = state.trackableFields.map((f) => {
+        if (f.id === payload.id) {
+          f[payload.field] = payload.val;
+        }
+        return f;
+      });
+    },
+
+    addTrackableField(state, payload) {
+      var field = {
+        id: Date.now(),
+        name: '',
+        used: 0,
+        max: 0,
+        notes: '',
+      };
+      state.trackableFields.push(field);
+    },
+
+    deleteTrackableField(state, payload) {
+      state.trackableFields = state.trackableFields.filter(
+        (f) => f.id !== payload.id,
+      );
+    },
+
+    sortTrackableField(state, payload) {
+      var id = payload.id;
+      var direction = payload.direction;
+      var curIndex = state.trackableFields.findIndex((f) => f.id === id);
+
+      if (curIndex === -1) return;
+
+      if (direction === 'up') {
+        if (curIndex === 0) return;
+        var deletedFields = state.trackableFields.splice(curIndex, 1);
+        var fieldToMove = deletedFields[0];
+        state.trackableFields.splice(curIndex - 1, 0, fieldToMove);
+        return;
+      }
+
+      if (direction === 'down') {
+        if (curIndex === state.trackableFields.length - 1) return;
+        var deletedFields = state.trackableFields.splice(curIndex, 1);
+        var fieldToMove = deletedFields[0];
+        state.trackableFields.splice(curIndex + 1, 0, fieldToMove);
+        return;
+      }
+    },
+
     updateCoins(state, payload) {
       if (payload.i >= state.coins.length) return;
       Vue.set(state.coins[payload.i], 'amount', payload.amount);
@@ -585,6 +641,16 @@ export default new Vuex.Store({
         });
       }
 
+      // ensure existing trackable fields have all required properties
+      if (state.trackableFields && state.trackableFields.length > 0) {
+        state.trackableFields.forEach((field) => {
+          if (!field.hasOwnProperty('name')) field.name = '';
+          if (!field.hasOwnProperty('used')) field.used = 0;
+          if (!field.hasOwnProperty('max')) field.max = 0;
+          if (!field.hasOwnProperty('notes')) field.notes = '';
+        });
+      }
+
       // ensure cantripsList has collapsed boolean
       if (state.cantripsList && state.cantripsList.length > 0) {
         state.cantripsList.forEach((cantrip) => {
@@ -629,8 +695,11 @@ export default new Vuex.Store({
       var state = JSON.parse(JSON.stringify(storeState));
 
       if (sheet.data) {
+        // support older sheets with stringified data
+        const sheetData =
+          typeof sheet.data === 'string' ? JSON.parse(sheet.data) : sheet.data;
         // merge sheet data on top of defaults
-        state = Object.assign({}, state, JSON.parse(sheet.data));
+        state = Object.assign({}, state, sheetData);
       }
 
       // ensure existing attacks have weaponNotes field
@@ -639,6 +708,16 @@ export default new Vuex.Store({
           if (!attack.hasOwnProperty('weaponNotes')) {
             attack.weaponNotes = '';
           }
+        });
+      }
+
+      // ensure existing trackable fields have all required properties
+      if (state.trackableFields && state.trackableFields.length > 0) {
+        state.trackableFields.forEach((field) => {
+          if (!field.hasOwnProperty('name')) field.name = '';
+          if (!field.hasOwnProperty('used')) field.used = 0;
+          if (!field.hasOwnProperty('max')) field.max = 0;
+          if (!field.hasOwnProperty('notes')) field.notes = '';
         });
       }
 

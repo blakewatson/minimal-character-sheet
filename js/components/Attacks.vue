@@ -3,7 +3,7 @@
     <summary class="label centered">Attacks & Weapons</summary>
 
     <!-- Desktop Table Layout -->
-    <table v-show="attacks.length > 0 && !isMobile" class="attacks-table">
+    <table v-if="attacks.length > 0 && !isMobile" class="attacks-table">
       <thead>
         <tr>
           <th class="text-left">Name</th>
@@ -100,7 +100,6 @@
               <quill-editor
                 :initial-contents="a.weaponNotes"
                 :read-only="readOnly"
-                :toolbar-options="['bold', 'italic', 'strike', 'link']"
                 @quill-text-change="updateAttacks(a.id, 'weaponNotes', $event)"
                 class="attack-notes"
                 style="width: 100%"
@@ -112,7 +111,7 @@
     </table>
 
     <!-- Mobile Card Layout -->
-    <div v-show="attacks.length > 0 && isMobile" class="attacks-mobile">
+    <div v-if="attacks.length > 0 && isMobile" class="attacks-mobile">
       <div v-for="(a, i) in attacks" :key="a.id" class="attack-card">
         <div class="attack-header">
           <field
@@ -191,7 +190,6 @@
           <quill-editor
             :initial-contents="a.weaponNotes"
             :read-only="readOnly"
-            :toolbar-options="['bold', 'italic', 'strike', 'link']"
             @quill-text-change="updateAttacks(a.id, 'weaponNotes', $event)"
           ></quill-editor>
         </div>

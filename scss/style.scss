@@ -1148,6 +1148,73 @@ select {
   }
 }
 
+/* -- Trackable Fields -------------------------------------- */
+
+.trackable-fields-section {
+  position: relative;
+}
+
+.trackable-fields-info-button {
+  position: absolute;
+  top: 0;
+  right: 0;
+  padding: 0.1em 0.5em;
+  font-size: 0.8em;
+}
+
+.trackable-fields-mobile {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.trackable-field-card {
+  border: 1px solid var(--card-border-color);
+  border-radius: 4px;
+  padding: 0.5rem;
+  background: var(--card-bg);
+}
+
+.trackable-field-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 0.25rem;
+}
+
+.trackable-field-name {
+  flex: 1;
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.trackable-field-stats {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 0.25rem;
+}
+
+.trackable-field-notes {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  .stat-label {
+    margin-bottom: 0.25rem;
+  }
+
+  .ql-editor {
+    padding: 0.5em;
+  }
+}
+
+@media (max-width: 675px) {
+  /* Hide desktop table on mobile */
+  .trackable-fields-table {
+    display: none;
+  }
+}
+
 /* -- Mobile Attacks ---------------------------------------- */
 
 .attacks-mobile {
