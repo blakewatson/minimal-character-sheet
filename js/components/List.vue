@@ -8,7 +8,7 @@
         class="list-item deletable"
       >
         <quill-editor
-          :collapsed="item.collapsed"
+          :collapsed="readOnly ? false : item.collapsed"
           :initial-contents="item.val"
           :read-only="readOnly"
           @update-collapsed="updateItem(i, item.val, $event)"

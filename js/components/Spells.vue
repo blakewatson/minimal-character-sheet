@@ -67,6 +67,8 @@
           expand-title="Expand all cantrips"
           v-if="!readOnly"
         ></button-collapse>
+        <!-- else empty element to maintain layout -->
+        <span v-else></span>
       </div>
       <list list-field="cantripsList" :read-only="readOnly"></list>
     </div>

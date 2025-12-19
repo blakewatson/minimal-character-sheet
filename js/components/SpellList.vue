@@ -21,7 +21,7 @@
           <div class="size-full">
             <label class="sr-only">Spell name and description</label>
             <quill-editor
-              :collapsed="item.collapsed"
+              :collapsed="readOnly ? false : item.collapsed"
               :initial-contents="item.name"
               :read-only="readOnly"
               @update-collapsed="updateSpellCollapsed(i, $event)"
