@@ -246,7 +246,7 @@
         <p><strong>What are Trackable Fields?</strong></p>
         <p>
           Track limited-use resources like Superiority Dice, Focus Points,
-          Sorcery Points, or other class features that recharge on rest.
+          attunement slots, and rechargeable class features.
         </p>
         <div class="mt-md">
           <button
