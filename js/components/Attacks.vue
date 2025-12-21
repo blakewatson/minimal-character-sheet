@@ -1,15 +1,15 @@
 <template>
-  <details open class="section">
-    <summary class="label centered">Attacks & Weapons</summary>
+  <details open class="border-b border-neutral-300 pb-8">
+    <summary class="section-label">Attacks & Weapons</summary>
 
     <!-- Desktop Table Layout -->
-    <table v-if="attacks.length > 0 && !isMobile" class="attacks-table">
+    <table v-if="attacks.length > 0 && !isMobile" class="mb-2 w-full text-sm">
       <thead>
         <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Atk Bonus</th>
-          <th class="text-left">Damage</th>
-          <th class="text-right">Actions</th>
+          <th class="px-2 text-left">Name</th>
+          <th class="px-2 text-right">Atk&nbsp;Bonus</th>
+          <th class="px-2 text-left">Damage</th>
+          <th class="px-2 text-right">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -17,86 +17,91 @@
         <tr
           v-for="(a, i) in attacksAndNotes"
           :key="a.id"
-          :class="{ 'attack-row': a.isAttack, 'note-row': a.isNote }"
+          :class="{
+            'border-t border-neutral-300': a.isAttack,
+          }"
           :style="{ 'z-index': attacks.length - i }"
-          class="deletable"
         >
-          <td v-if="a.isAttack">
+          <td v-if="a.isAttack" class="p-2">
             <field
+              :auto-size="false"
               :read-only="readOnly"
               :value="a.name"
               @update-value="updateAttacks(a.id, 'name', $event)"
-              class="size-full small text-left strong"
+              class="w-full text-left text-[13px]! font-bold"
               placeholder="Weapon"
             ></field>
           </td>
-          <td v-if="a.isAttack" class="text-center">
+
+          <td v-if="a.isAttack" class="w-px p-2 text-right whitespace-nowrap">
             <field
               :read-only="readOnly"
               :value="a.attackBonus"
               @update-value="updateAttacks(a.id, 'attackBonus', $event)"
+              class="text-right text-sm!"
             ></field>
           </td>
-          <td v-if="a.isAttack">
+
+          <td v-if="a.isAttack" class="p-2">
             <field
+              :auto-size="false"
               :read-only="readOnly"
               :value="a.damage"
               @update-value="updateAttacks(a.id, 'damage', $event)"
-              class="size-full small text-left"
+              class="w-full text-left text-[13px]"
               placeholder="Ex: 1d6 slashing"
             ></field>
           </td>
-          <td
-            v-if="a.isAttack"
-            class="vert-center"
-            style="gap: 0.2em; justify-content: flex-end"
-          >
-            <button
-              :disabled="readOnly"
-              @click="sortAttacks(a.id, 'up')"
-              class="button button-sort"
-              title="Move up"
-              type="button"
-              v-if="!readOnly && i > 0"
-            >
-              <span class="sr-only">Move up</span>
-              <i
-                class="fa-sharp fa-regular fa-arrow-up"
-                role="presentation"
-              ></i>
-            </button>
 
-            <button
-              :disabled="readOnly"
-              @click="sortAttacks(a.id, 'down')"
-              class="button button-sort"
-              title="Move down"
-              type="button"
-              v-if="!readOnly && i < attacksAndNotes.length - 2"
-            >
-              <span class="sr-only">Move down</span>
-              <i
-                class="fa-sharp fa-regular fa-arrow-down"
-                role="presentation"
-              ></i>
-            </button>
+          <td v-if="a.isAttack" class="w-px p-2 whitespace-nowrap">
+            <div class="flex items-center justify-end gap-1">
+              <button
+                :disabled="readOnly"
+                @click="sortAttacks(a.id, 'up')"
+                class="button-icon cursor-pointer"
+                title="Move up"
+                type="button"
+                v-if="!readOnly && i > 0"
+              >
+                <span class="sr-only">Move up</span>
+                <i
+                  class="fa-sharp fa-regular fa-arrow-up"
+                  role="presentation"
+                ></i>
+              </button>
 
-            <button
-              :disabled="readOnly"
-              @click="deleteAttack(a.id)"
-              class="button button-delete"
-              title="Delete attack"
-              type="button"
-              v-if="!readOnly"
-            >
-              <span class="sr-only">Delete attack</span>
-              <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
-            </button>
+              <button
+                :disabled="readOnly"
+                @click="sortAttacks(a.id, 'down')"
+                class="button-icon cursor-pointer"
+                title="Move down"
+                type="button"
+                v-if="!readOnly && i < attacksAndNotes.length - 2"
+              >
+                <span class="sr-only">Move down</span>
+                <i
+                  class="fa-sharp fa-regular fa-arrow-down"
+                  role="presentation"
+                ></i>
+              </button>
+
+              <button
+                :disabled="readOnly"
+                @click="deleteAttack(a.id)"
+                class="button-icon cursor-pointer hover:border-red-600 hover:text-red-600"
+                title="Delete attack"
+                type="button"
+                v-if="!readOnly"
+              >
+                <span class="sr-only">Delete attack</span>
+                <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
+              </button>
+            </div>
           </td>
 
           <td v-if="a.isNote" colspan="4">
-            <div class="vert-center pl-lg" style="gap: 0.5em">
-              <span class="meta small muted">Notes</span>
+            <div class="flex items-center gap-2 pb-2">
+              <span class="small-label">Notes</span>
               <quill-editor
                 :initial-contents="a.weaponNotes"
                 :read-only="readOnly"
@@ -111,22 +116,26 @@
     </table>
 
     <!-- Mobile Card Layout -->
-    <div v-if="attacks.length > 0 && isMobile" class="attacks-mobile">
-      <div v-for="(a, i) in attacks" :key="a.id" class="attack-card">
-        <div class="attack-header">
+    <div v-if="attacks.length > 0 && isMobile" class="">
+      <div
+        v-for="(a, i) in attacks"
+        :key="a.id"
+        class="mb-4 rounded border border-neutral-300 p-2"
+      >
+        <div class="flex items-center justify-between gap-2">
           <field
-            class="attack-name"
-            align="left"
-            :value="a.name"
+            :auto-size="false"
             :read-only="readOnly"
+            :value="a.name"
             @update-value="updateAttacks(a.id, 'name', $event)"
+            class="grow text-sm font-bold"
             placeholder="Weapon name"
           ></field>
 
           <button
             :disabled="readOnly"
             @click="sortAttacks(a.id, 'up')"
-            class="button button-sort"
+            class="button-icon cursor-pointer"
             type="button"
             v-if="!readOnly && i > 0"
           >
@@ -137,7 +146,7 @@
           <button
             :disabled="readOnly"
             @click="sortAttacks(a.id, 'down')"
-            class="button button-sort"
+            class="button-icon cursor-pointer"
             type="button"
             v-if="!readOnly && i < attacks.length - 1"
           >
@@ -147,10 +156,11 @@
               role="presentation"
             ></i>
           </button>
+
           <button
             v-if="!readOnly"
             type="button"
-            class="button button-delete"
+            class="button-icon cursor-pointer hover:border-red-600 hover:text-red-600"
             :disabled="readOnly"
             @click="deleteAttack(a.id)"
           >
@@ -159,34 +169,36 @@
           </button>
         </div>
 
-        <div class="attack-stats">
-          <div class="stat-group">
-            <label class="meta small muted" :for="`attack-bonus-${a.id}`">
+        <div class="flex items-center gap-4">
+          <div class="flex items-baseline gap-1">
+            <label class="small-label" :for="`attack-bonus-${a.id}`">
               {{ isMobile ? 'Atk Bonus' : 'Attack Bonus' }}
             </label>
             <field
               :id="`attack-bonus-${a.id}`"
-              class="stat-value"
+              class="text-sm!"
               :value="a.attackBonus"
               :read-only="readOnly"
               @update-value="updateAttacks(a.id, 'attackBonus', $event)"
             ></field>
           </div>
-          <div class="stat-group">
-            <label class="meta small muted" :for="`attack-damage-${a.id}`"
+
+          <div class="flex items-baseline gap-1">
+            <label class="small-label" :for="`attack-damage-${a.id}`"
               >Damage</label
             >
             <field
               :id="`attack-damage-${a.id}`"
-              class="stat-value"
+              class="text-sm!"
               :value="a.damage"
               :read-only="readOnly"
               @update-value="updateAttacks(a.id, 'damage', $event)"
             ></field>
           </div>
         </div>
-        <div class="attack-notes">
-          <label class="meta small muted">Notes</label>
+
+        <div>
+          <label class="small-label">Notes</label>
           <quill-editor
             :initial-contents="a.weaponNotes"
             :read-only="readOnly"
@@ -200,7 +212,7 @@
       <button
         :disabled="readOnly"
         @click="$store.commit('addAttack')"
-        class="button button-add"
+        class="button-icon cursor-pointer"
         title="Add an attack"
         type="button"
       >

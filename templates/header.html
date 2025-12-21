@@ -12,13 +12,12 @@
     <title>Minimal character sheet</title>
 
     <link rel="icon" href="/images/favicon.svg" type="image/svg+xml" />
-    <link rel="stylesheet" href="{{ @BASE }}/dist/reset.min.css" />
     <link
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=IBM+Plex+Mono:400,400i,700,700i"
     />
     <link href="{{ @BASE }}/dist/quill.bubble.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ @BASE }}/dist/style.css" />
+    <link rel="stylesheet" href="{{ @BASE }}/dist/app.css" />
 
     <check if="{{ @lightbox ?? false }}">
       <link rel="stylesheet" href="{{ @BASE }}/dist/baguetteBox.min.css" />
@@ -46,4 +45,4 @@
   </head>
 
   <!-- prettier-ignore -->
-  <body>
+  <body class="font-mono overflow-x-hidden max-w-full">

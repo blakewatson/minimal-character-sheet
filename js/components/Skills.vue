@@ -1,9 +1,9 @@
 <template>
-  <details open class="section">
-    <summary class="label centered">Skills</summary>
+  <details open class="border-b border-neutral-300 pb-4">
+    <summary class="section-label">Skills</summary>
 
-    <ul class="skills-list">
-      <li class="skill-item" v-for="(skill, i) in skills">
+    <ul class="sm:columns-2">
+      <li class="mb-2 flex items-center gap-2" v-for="(skill, i) in skills">
         <label class="sr-only" :for="`double-prof-${i}`"
           >Double proficiency</label
         >
@@ -17,7 +17,7 @@
             pointerEvents: skill.proficient ? 'auto' : 'none',
           }"
           @change="setProficiency(i, 'doubleProficient')"
-          class="mr-sm"
+          class="mr-1"
           title="Toggle double proficiency"
           type="checkbox"
         />
@@ -34,8 +34,8 @@
           :disabled="readOnly"
           @click="openOverrideDialog(skill)"
           title="Override modifier"
-          class="button-discoverable skill-modifier mr-xs"
-          :class="{ 'skill-override': Boolean(skill.modifierOverride) }"
+          class="w-10 cursor-pointer rounded-sm border border-transparent px-1 text-right hover:border-neutral-950"
+          :class="{ underline: Boolean(skill.modifierOverride) }"
         >
           {{ getSkillModifier(skill) | signedNumString }}
         </button>
@@ -46,15 +46,14 @@
           class="skill-label"
         >
           {{ skill.name }}
-          <span class="small muted">({{ skill.ability }})</span>
+          <span class="small-label not-italic">({{ skill.ability }})</span>
         </label>
       </li>
     </ul>
 
-    <p class="centered">
-      <br />
-      <strong class="skill-modifier">{{ getPassivePerception() }}</strong>
-      Passive Perception <span class="small muted">(WIS)</span>
+    <p class="py-3 text-center">
+      <strong class="">{{ getPassivePerception() }}</strong>
+      Passive Perception <span class="small-label not-italic">(WIS)</span>
     </p>
 
     <dialog class="skill-override-dialog" ref="overrideDialog">

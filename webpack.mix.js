@@ -11,15 +11,24 @@ let mix = require('laravel-mix');
  |
  */
 
+mix.setPublicPath('dist');
+
 mix
-    .js('js/app.js', 'dist/app.js').vue({version: 2})
-    .js('js/dashboard.js', 'dist/dashboard.js').vue({version: 2})
-    .js('js/print.js', 'dist/print.js').vue({version: 2})
-    .sass('scss/style.scss', 'dist/style.css')
-    .copy('node_modules/quill/dist/quill.bubble.css', 'dist/quill.bubble.css')
-    .options({
-        processCssUrls: false
-    })
+  .js('js/app.js', 'dist/app.js')
+  .js('js/dashboard.js', 'dist/dashboard.js')
+  .js('js/print.js', 'dist/print.js')
+  .vue({ version: 2 })
+  .sass('scss/style.scss', 'dist/style.css')
+  .postCss('css/app.css', 'dist/app.css', [require('@tailwindcss/postcss')])
+  .copy('node_modules/quill/dist/quill.bubble.css', 'dist/quill.bubble.css')
+  .options({
+    processCssUrls: false,
+  })
+  .webpackConfig({
+    watchOptions: {
+      ignored: ['**/dist/**', '**/data/**', '**/node_modules/**'],
+    },
+  });
 
 // Full API
 // mix.js(src, output);

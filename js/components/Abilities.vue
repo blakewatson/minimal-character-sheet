@@ -1,25 +1,32 @@
 <template>
-    <section>
-        <div class="abilities row">
-            <ability v-for="(a, i) in abilities" :ability="a" :modifier="modifiers[i].val" :key="a.name"></ability>
-        </div>
-    </section>
+  <section>
+    <div
+      class="grid grid-cols-[65px_65px_65px] justify-center justify-items-center gap-4 border-b border-neutral-300 py-4 min-[530px]:flex min-[530px]:justify-between"
+    >
+      <ability
+        v-for="(a, i) in abilities"
+        :ability="a"
+        :modifier="modifiers[i].val"
+        :key="a.name"
+      ></ability>
+    </div>
+  </section>
 </template>
 
 <script>
-import { mapState, mapGetters } from 'vuex';
+import { mapGetters, mapState } from 'vuex';
 import Ability from './Ability';
 
 export default {
-    name: 'Abilities',
+  name: 'Abilities',
 
-    computed: {
-        ...mapState(['abilities']),
-        ...mapGetters(['modifiers'])
-    },
+  computed: {
+    ...mapState(['abilities']),
+    ...mapGetters(['modifiers']),
+  },
 
-    components: {
-        'ability': Ability
-    }
-}
+  components: {
+    ability: Ability,
+  },
+};
 </script>

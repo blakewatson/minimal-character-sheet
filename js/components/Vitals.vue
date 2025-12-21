@@ -1,77 +1,83 @@
 <template>
   <div>
-    <div class="row vitals-row">
-      <div class="box reverse">
-        <label for="ac-field" class="block centered label">AC</label>
+    <div
+      class="mb-4 grid grid-cols-3 justify-center gap-3 sm:flex sm:items-start sm:justify-between"
+    >
+      <div
+        class="border-t border-neutral-950 bg-neutral-950 text-center text-neutral-50"
+      >
+        <label for="ac-field" class="block text-sm">AC</label>
         <field
-          id="ac-field"
-          class="centered huge block padded"
-          :value="ac"
           :read-only="readOnly"
+          :value="ac"
           @update-value="updateVitals('ac', $event)"
+          class="bg-neutral-950! text-center text-lg! text-neutral-50! hover:text-blue-300! focus:text-blue-300! sm:text-2xl!"
+          id="ac-field"
         ></field>
       </div>
 
-      <div class="box box-lite">
-        <label for="hp-field" class="block centered label">HP</label>
+      <div class="border-t border-neutral-300 text-center">
+        <label for="hp-field" class="block text-sm">HP</label>
         <field
-          id="hp-field"
-          class="huge padded"
-          :value="hp"
           :read-only="readOnly"
+          :value="hp"
           @update-value="updateVitals('hp', $event)"
+          class="text-center text-lg! sm:text-2xl!"
+          id="hp-field"
         ></field
         >/<field
-          class="normal strong"
-          :value="maxHp"
           :read-only="readOnly"
+          :value="maxHp"
           @update-value="updateVitals('maxHp', $event)"
+          class="text-center text-lg! font-bold"
         ></field>
       </div>
 
-      <div class="box box-lite">
-        <label for="temp-hp-field" class="block centered label">Temp HP</label>
+      <div class="border-t border-neutral-300 text-center">
+        <label for="temp-hp-field" class="block text-sm">Temp HP</label>
         <field
           id="temp-hp-field"
-          class="centered huge block padded"
+          class="text-center text-lg! sm:text-2xl!"
           :value="tempHp"
           :read-only="readOnly"
           @update-value="updateVitals('tempHp', $event)"
         ></field>
       </div>
 
-      <div class="box box-lite">
-        <label for="hit-die-field" class="block centered label">Hit die</label>
+      <div class="border-t border-neutral-300 text-center">
+        <label for="hit-die-field" class="block text-sm">Hit die</label>
         <field
-          id="hit-die-field"
-          class="huge padded"
-          :value="hitDie"
           :read-only="readOnly"
+          :value="hitDie"
           @update-value="updateVitals('hitDie', $event)"
+          class="text-center text-lg! sm:text-2xl!"
+          id="hit-die-field"
         ></field
         >/<field
-          class="normal"
+          :read-only="readOnly"
           :value="totalHitDie"
-          :read-only="readOnly"
           @update-value="updateVitals('totalHitDie', $event)"
+          class="text-center text-lg!"
         ></field>
       </div>
 
-      <div class="box box-lite">
-        <label for="speed-field" class="block centered label">Speed</label>
+      <div class="border-t border-neutral-300 text-center">
+        <label for="speed-field" class="block text-sm">Speed</label>
         <field
-          id="speed-field"
-          class="huge padded"
-          :value="speed"
           :read-only="readOnly"
+          :value="speed"
           @update-value="updateVitals('speed', $event)"
+          class="text-center text-lg! sm:text-2xl!"
+          id="speed-field"
         ></field>
       </div>
 
-      <div class="box box-lite">
-        <span class="centered label">Death saves</span>
+      <div
+        class="flex flex-col items-center border-t border-neutral-300 text-center"
+      >
+        <span class="mb-1 block text-sm">Death saves</span>
 
-        <div class="death-saves-row mb-xs">
+        <div class="mb-1 flex gap-1.5">
           <i class="mini-icon fa-sharp fa-regular fa-check"></i>
 
           <input
@@ -84,7 +90,7 @@
           />
         </div>
 
-        <div class="death-saves-row">
+        <div class="flex gap-1.5">
           <i class="mini-icon fa-sharp fa-regular fa-skull"></i>
           <input
             :checked="save"
@@ -98,31 +104,27 @@
       </div>
     </div>
 
-    <div class="row mt-sm" style="justify-content: center; flex-wrap: wrap">
-      <span class="no-break mb-xs mr-sm">
-        <label for="characterConditions" class="meta small muted"
-          >Conditions</label
-        >
+    <div class="flex flex-wrap justify-center gap-x-4">
+      <span class="mb-1 inline-flex items-baseline gap-1">
+        <label for="characterConditions" class="small-label">Conditions</label>
         <field
-          id="characterConditions"
-          align="left"
-          :value="conditions"
           :read-only="readOnly"
+          :value="conditions"
           @update-value="updateVitals('conditions', $event)"
+          id="characterConditions"
           placeholder="None"
         ></field>
       </span>
 
-      <span class="no-break mb-xs">
-        <label for="characterConcentration" class="meta small muted"
-          >Concentration</label
-        >
+      <span class="mb-1 inline-flex items-baseline gap-1">
+        <label for="characterConcentration" class="small-label">
+          Concentration
+        </label>
         <field
-          id="characterConcentration"
-          align="left"
-          :value="concentration"
           :read-only="readOnly"
+          :value="concentration"
           @update-value="updateVitals('concentration', $event)"
+          id="characterConcentration"
           placeholder="None"
         ></field>
       </span>

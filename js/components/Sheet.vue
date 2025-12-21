@@ -1,5 +1,5 @@
 <template>
-  <div id="sheet" class="sheet">
+  <div id="sheet" class="mx-auto mt-10 max-w-162.5 px-4 sm:mt-12 sm:px-0">
     <tabs
       :has-unsaved-changes="hasUnsavedChanges"
       :is-error="isError"
@@ -12,9 +12,9 @@
       @update-view="view = $event"
     ></tabs>
 
-    <bio></bio>
+    <bio class=""></bio>
 
-    <div class="page" v-show="view === 'main'">
+    <div class="" v-show="view === 'main'">
       <proficiency></proficiency>
 
       <abilities></abilities>
@@ -40,11 +40,11 @@
       ></text-section>
     </div>
 
-    <div class="page" v-show="view === 'spells'">
+    <div class="" v-show="view === 'spells'">
       <spells></spells>
     </div>
 
-    <div class="page" v-show="view === 'details'">
+    <div class="" v-show="view === 'details'">
       <text-section
         title="Traits, Ideals, Bonds, & Flaws"
         field="personalityText"
@@ -71,7 +71,7 @@
       ></text-section>
     </div>
 
-    <div class="page" v-show="view === 'notes'">
+    <div class="" v-show="view === 'notes'">
       <text-section
         title="Notes"
         field="notesText"

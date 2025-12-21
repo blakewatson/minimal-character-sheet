@@ -3,5 +3,6 @@
     "/dist/dashboard.js": "/dist/dashboard.js",
     "/dist/print.js": "/dist/print.js",
     "/dist/style.css": "/dist/style.css",
+    "/dist/app.css": "/dist/app.css",
     "/dist/quill.bubble.css": "/dist/quill.bubble.css"
 }

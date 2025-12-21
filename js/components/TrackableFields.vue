@@ -1,11 +1,11 @@
 <template>
-  <details open class="section trackable-fields-section">
-    <summary class="label centered">Trackable Fields</summary>
+  <details open class="relative mb-4">
+    <summary class="section-label">Trackable Fields</summary>
 
     <!-- Info Button -->
     <button
       @click="openInfoDialog"
-      class="button-discoverable trackable-fields-info-button"
+      class="absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1 hover:border-neutral-950"
       title="What are trackable fields?"
       type="button"
     >
@@ -16,14 +16,14 @@
     <!-- Desktop Table Layout -->
     <table
       v-if="trackableFields.length > 0 && !isMobile"
-      class="trackable-fields-table"
+      class="mb-2 w-full text-sm"
     >
       <thead>
         <tr>
-          <th class="text-left">Name</th>
-          <th class="text-center">Used</th>
-          <th class="text-center">Max</th>
-          <th class="text-right">Actions</th>
+          <th class="px-2 text-left">Name</th>
+          <th class="px-2 text-center">Used</th>
+          <th class="px-2 text-center">Max</th>
+          <th class="px-2 text-right">Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -31,20 +31,24 @@
         <tr
           v-for="(field, i) in trackableFieldsAndNotes"
           :key="field.id"
-          :class="{ 'field-row': field.isField, 'note-row': field.isNote }"
+          :class="{ 'border-t border-neutral-300': field.isField }"
           :style="{ 'z-index': trackableFields.length - i }"
-          class="deletable"
         >
-          <td v-if="field.isField">
+          <td v-if="field.isField" class="p-2">
             <field
+              :auto-size="false"
               :read-only="readOnly"
               :value="field.name"
               @update-value="updateTrackableField(field.id, 'name', $event)"
-              class="size-full small text-left strong"
+              class="w-full text-left text-[13px]! font-bold"
               placeholder="Name"
             ></field>
           </td>
-          <td v-if="field.isField" class="text-center">
+
+          <td
+            v-if="field.isField"
+            class="w-px p-2 text-center whitespace-nowrap"
+          >
             <field
               :read-only="readOnly"
               :value="field.used"
@@ -52,7 +56,11 @@
               type="number"
             ></field>
           </td>
-          <td v-if="field.isField" class="text-center">
+
+          <td
+            v-if="field.isField"
+            class="w-px p-2 text-center whitespace-nowrap"
+          >
             <field
               :read-only="readOnly"
               :value="field.max"
@@ -60,64 +68,66 @@
               type="number"
             ></field>
           </td>
+
           <td
             v-if="field.isField"
-            class="vert-center"
+            class="w-px p-2 whitespace-nowrap"
             style="gap: 0.2em; justify-content: flex-end"
           >
-            <button
-              :disabled="readOnly"
-              @click="sortTrackableField(field.id, 'up')"
-              class="button button-sort"
-              title="Move up"
-              type="button"
-              v-if="!readOnly && i > 0"
-            >
-              <span class="sr-only">Move up</span>
-              <i
-                class="fa-sharp fa-regular fa-arrow-up"
-                role="presentation"
-              ></i>
-            </button>
+            <div class="flex items-center justify-end gap-1">
+              <button
+                :disabled="readOnly"
+                @click="sortTrackableField(field.id, 'up')"
+                class="button-icon"
+                title="Move up"
+                type="button"
+                v-if="!readOnly && i > 0"
+              >
+                <span class="sr-only">Move up</span>
+                <i
+                  class="fa-sharp fa-regular fa-arrow-up"
+                  role="presentation"
+                ></i>
+              </button>
 
-            <button
-              :disabled="readOnly"
-              @click="sortTrackableField(field.id, 'down')"
-              class="button button-sort"
-              title="Move down"
-              type="button"
-              v-if="!readOnly && i < trackableFieldsAndNotes.length - 2"
-            >
-              <span class="sr-only">Move down</span>
-              <i
-                class="fa-sharp fa-regular fa-arrow-down"
-                role="presentation"
-              ></i>
-            </button>
+              <button
+                :disabled="readOnly"
+                @click="sortTrackableField(field.id, 'down')"
+                class="button-icon"
+                title="Move down"
+                type="button"
+                v-if="!readOnly && i < trackableFieldsAndNotes.length - 2"
+              >
+                <span class="sr-only">Move down</span>
+                <i
+                  class="fa-sharp fa-regular fa-arrow-down"
+                  role="presentation"
+                ></i>
+              </button>
 
-            <button
-              :disabled="readOnly"
-              @click="deleteTrackableField(field.id)"
-              class="button button-delete"
-              title="Delete field"
-              type="button"
-              v-if="!readOnly"
-            >
-              <span class="sr-only">Delete field</span>
-              <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
-            </button>
+              <button
+                :disabled="readOnly"
+                @click="deleteTrackableField(field.id)"
+                class="button-icon hover:border-red-600 hover:text-red-600"
+                title="Delete field"
+                type="button"
+                v-if="!readOnly"
+              >
+                <span class="sr-only">Delete field</span>
+                <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
+              </button>
+            </div>
           </td>
 
           <td v-if="field.isNote" colspan="4">
-            <div class="vert-center pl-lg" style="gap: 0.5em">
-              <span class="meta small muted">Notes</span>
+            <div class="flex items-center gap-2 pb-2">
+              <span class="small-label">Notes</span>
               <quill-editor
                 :initial-contents="field.notes"
                 :read-only="readOnly"
                 @quill-text-change="
                   updateTrackableField(field.id, 'notes', $event)
                 "
-                class="trackable-field-notes"
                 style="width: 100%"
               ></quill-editor>
             </div>
@@ -127,29 +137,26 @@
     </table>
 
     <!-- Mobile Card Layout -->
-    <div
-      v-if="trackableFields.length > 0 && isMobile"
-      class="trackable-fields-mobile"
-    >
+    <div v-if="trackableFields.length > 0 && isMobile" class="">
       <div
         v-for="(field, i) in trackableFields"
         :key="field.id"
-        class="trackable-field-card"
+        class="mb-4 rounded border border-neutral-300 p-2"
       >
-        <div class="trackable-field-header">
+        <div class="flex items-center justify-between gap-2">
           <field
-            class="trackable-field-name"
-            align="left"
-            :value="field.name"
+            :auto-size="false"
             :read-only="readOnly"
+            :value="field.name"
             @update-value="updateTrackableField(field.id, 'name', $event)"
+            class="w-full grow text-sm font-bold"
             placeholder="Name"
           ></field>
 
           <button
             :disabled="readOnly"
             @click="sortTrackableField(field.id, 'up')"
-            class="button button-sort"
+            class="button-icon"
             type="button"
             v-if="!readOnly && i > 0"
           >
@@ -160,7 +167,7 @@
           <button
             :disabled="readOnly"
             @click="sortTrackableField(field.id, 'down')"
-            class="button button-sort"
+            class="button-icon"
             type="button"
             v-if="!readOnly && i < trackableFields.length - 1"
           >
@@ -173,7 +180,7 @@
           <button
             v-if="!readOnly"
             type="button"
-            class="button button-delete"
+            class="button-icon hover:border-red-600 hover:text-red-600"
             :disabled="readOnly"
             @click="deleteTrackableField(field.id)"
           >
@@ -182,42 +189,41 @@
           </button>
         </div>
 
-        <div class="trackable-field-stats">
-          <div class="stat-group">
+        <div class="flex items-center gap-4">
+          <div class="flex items-baseline gap-1">
             <label
-              class="meta small muted"
+              class="small-label"
               :for="`trackable-field-used-${field.id}`"
             >
               Used
             </label>
             <field
               :id="`trackable-field-used-${field.id}`"
-              class="stat-value"
-              :value="field.used"
               :read-only="readOnly"
+              :value="field.used"
               @update-value="updateTrackableField(field.id, 'used', $event)"
+              class="text-sm!"
               type="number"
             ></field>
           </div>
-          <div class="stat-group">
-            <label
-              class="meta small muted"
-              :for="`trackable-field-max-${field.id}`"
-            >
+
+          <div class="flex items-baseline gap-1">
+            <label class="small-label" :for="`trackable-field-max-${field.id}`">
               Max
             </label>
             <field
               :id="`trackable-field-max-${field.id}`"
-              class="stat-value"
-              :value="field.max"
               :read-only="readOnly"
+              :value="field.max"
               @update-value="updateTrackableField(field.id, 'max', $event)"
+              class="text-sm!"
               type="number"
             ></field>
           </div>
         </div>
-        <div class="trackable-field-notes">
-          <label class="meta small muted">Notes</label>
+
+        <div>
+          <label class="small-label">Notes</label>
           <quill-editor
             :initial-contents="field.notes"
             :read-only="readOnly"
@@ -231,7 +237,7 @@
       <button
         :disabled="readOnly"
         @click="$store.commit('addTrackableField')"
-        class="button button-add"
+        class="button-icon"
         title="Add a trackable field"
         type="button"
       >

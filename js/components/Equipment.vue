@@ -1,43 +1,61 @@
 <template>
-    <details open class="section">
-        <summary class="label centered">Equipment</summary>
+  <details open class="mb-4 border-t border-neutral-300">
+    <summary class="section-label mb-2">Equipment</summary>
 
-        <div class="row vert-after">
-            <div class="box box-lite" v-for="(c, i) in coins">
-                <label :for="'coin-' + i" class="label centered">{{ c.name }}</label>
-                <field :id="'coin-' + i" type="number" classNames="centered huge padded" :value="c.amount" :read-only="readOnly" @update-value="updateAmount(i, $event)"></field>
-            </div>
-        </div>
+    <div class="mb-4 flex items-center justify-between gap-4">
+      <div
+        class="flex flex-col items-center border-t border-neutral-300"
+        v-for="(c, i) in coins"
+      >
+        <label
+          :for="'coin-' + i"
+          class="text-center text-sm tracking-wider uppercase"
+          >{{ c.name }}</label
+        >
+        <field
+          :id="'coin-' + i"
+          :read-only="readOnly"
+          :value="c.amount"
+          @update-value="updateAmount(i, $event)"
+          class="min-[500px]:text-xl sm:text-2xl"
+          type="number"
+        ></field>
+      </div>
+    </div>
 
-        <quill-editor :initial-contents="equipmentText" :read-only="readOnly" @quill-text-change="updateEquipment"></quill-editor>
-    </details>
+    <quill-editor
+      :initial-contents="equipmentText"
+      :read-only="readOnly"
+      @quill-text-change="updateEquipment"
+    ></quill-editor>
+  </details>
 </template>
 
 <script>
 import { mapState } from 'vuex';
-import QuillEditor from './QuillEditor';
 import Field from './Field';
+import QuillEditor from './QuillEditor';
 
 export default {
-    name: 'Equipment',
+  name: 'Equipment',
 
-    computed: {
-        ...mapState(['coins', 'equipmentText', 'readOnly'])
+  computed: {
+    ...mapState(['coins', 'equipmentText', 'readOnly']),
+  },
+
+  methods: {
+    updateAmount(i, val) {
+      this.$store.commit('updateCoins', { i, amount: val });
     },
 
-    methods: {
-        updateAmount(i, val) {
-            this.$store.commit('updateCoins', { i, amount: val });
-        },
-
-        updateEquipment(val) {
-            this.$store.commit('updateEquipment', { val });
-        }
+    updateEquipment(val) {
+      this.$store.commit('updateEquipment', { val });
     },
+  },
 
-    components: {
-        'quill-editor': QuillEditor,
-        'field': Field
-    }
-}
+  components: {
+    'quill-editor': QuillEditor,
+    field: Field,
+  },
+};
 </script>

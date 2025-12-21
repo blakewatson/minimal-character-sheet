@@ -1,0 +1,76 @@
+@import 'tailwindcss';
+
+@theme {
+  --breakpoint-sm: 660px;
+  --font-mono: 'IBM Plex Mono', monospace;
+}
+
+@layer components {
+  .button-icon {
+    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em] text-neutral-600 hover:border-neutral-950 hover:text-neutral-950;
+  }
+
+  .section-label {
+    @apply cursor-pointer py-3 text-center text-sm tracking-wider uppercase;
+  }
+
+  .small-label {
+    @apply text-xs text-neutral-500 italic;
+  }
+}
+
+.ql-editor {
+  @apply overflow-visible p-2;
+
+  & h1 {
+    font-size: 1.5em;
+    font-weight: bold;
+  }
+
+  & h2 {
+    font-size: 1.25em;
+    font-weight: bold;
+  }
+
+  & ul,
+  & ol {
+    padding-left: 0;
+  }
+
+  & li {
+    margin-bottom: 0.5em;
+  }
+
+  & em {
+    font-style: italic;
+  }
+
+  & strong {
+    font-weight: bold;
+  }
+
+  & a {
+    color: var(--color-blue-600);
+    text-decoration: underline;
+  }
+}
+
+.ql-tooltip {
+  z-index: 1;
+}
+
+.ql-close {
+  font-family:
+    system-ui,
+    -apple-system,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    Oxygen,
+    Ubuntu,
+    Cantarell,
+    'Open Sans',
+    'Helvetica Neue',
+    sans-serif;
+  line-height: 1;
+}
