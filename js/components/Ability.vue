@@ -1,5 +1,7 @@
 <template>
-  <div class="flex w-16 flex-col items-center border border-neutral-950">
+  <div
+    class="flex w-16 flex-col items-center rounded-xs border border-neutral-950"
+  >
     <div
       class="mb-1 self-stretch bg-neutral-950 py-0.5 text-center text-sm text-neutral-50"
     >

@@ -1,8 +1,12 @@
 <template>
   <button
-    :title="collapsed ? (expandTitle || 'Expand content') : (collapseTitle || 'Collapse content')"
+    :title="
+      collapsed
+        ? expandTitle || 'Expand content'
+        : collapseTitle || 'Collapse content'
+    "
     @click="$emit('click')"
-    class="button button-collapse"
+    class="button-icon"
     type="button"
   >
     <i
@@ -14,7 +18,11 @@
       role="presentation"
     ></i>
     <div class="sr-only">
-      {{ collapsed ? (expandTitle || 'Expand content') : (collapseTitle || 'Collapse content') }}
+      {{
+        collapsed
+          ? expandTitle || 'Expand content'
+          : collapseTitle || 'Collapse content'
+      }}
     </div>
   </button>
 </template>

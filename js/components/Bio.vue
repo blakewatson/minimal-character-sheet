@@ -1,5 +1,5 @@
 <template>
-  <section class="mb-4 border-b border-neutral-300 pb-4">
+  <section class="pb-2">
     <div class="mb-4">
       <span class="mb-1 inline-flex items-baseline gap-1">
         <label for="characterName" class="small-label">Name</label>

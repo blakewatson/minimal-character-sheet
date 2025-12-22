@@ -1,10 +1,10 @@
 <template>
-  <details open class="mb-4 border-t border-neutral-300">
+  <details open class="mb-4 border-t border-neutral-950">
     <summary class="section-label mb-2">Equipment</summary>
 
     <div class="mb-4 flex items-center justify-between gap-4">
       <div
-        class="flex flex-col items-center border-t border-neutral-300"
+        class="flex flex-col items-center border-t border-neutral-950"
         v-for="(c, i) in coins"
       >
         <label
@@ -17,7 +17,7 @@
           :read-only="readOnly"
           :value="c.amount"
           @update-value="updateAmount(i, $event)"
-          class="min-[500px]:text-xl sm:text-2xl"
+          class="text-center min-[500px]:text-xl sm:text-2xl"
           type="number"
         ></field>
       </div>

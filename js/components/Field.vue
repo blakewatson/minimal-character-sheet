@@ -30,7 +30,7 @@ export default {
   computed: {
     computedClasses() {
       let classes =
-        'text-base px-1 py-0.5 text-neutral-800 hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700';
+        'text-[15px] px-1 py-0.5 text-neutral-800 hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700 rounded-xs';
 
       classes += this.autoSize ? ' box-content' : ' box-border';
 

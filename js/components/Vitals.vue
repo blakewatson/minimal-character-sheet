@@ -4,7 +4,7 @@
       class="mb-4 grid grid-cols-3 justify-center gap-3 sm:flex sm:items-start sm:justify-between"
     >
       <div
-        class="border-t border-neutral-950 bg-neutral-950 text-center text-neutral-50"
+        class="rounded-xs border-t border-neutral-950 bg-neutral-950 text-center text-neutral-50"
       >
         <label for="ac-field" class="block text-sm">AC</label>
         <field
@@ -16,7 +16,7 @@
         ></field>
       </div>
 
-      <div class="border-t border-neutral-300 text-center">
+      <div class="border-t border-neutral-950 text-center">
         <label for="hp-field" class="block text-sm">HP</label>
         <field
           :read-only="readOnly"
@@ -33,7 +33,7 @@
         ></field>
       </div>
 
-      <div class="border-t border-neutral-300 text-center">
+      <div class="border-t border-neutral-950 text-center">
         <label for="temp-hp-field" class="block text-sm">Temp HP</label>
         <field
           id="temp-hp-field"
@@ -44,7 +44,7 @@
         ></field>
       </div>
 
-      <div class="border-t border-neutral-300 text-center">
+      <div class="border-t border-neutral-950 text-center">
         <label for="hit-die-field" class="block text-sm">Hit die</label>
         <field
           :read-only="readOnly"
@@ -61,7 +61,7 @@
         ></field>
       </div>
 
-      <div class="border-t border-neutral-300 text-center">
+      <div class="border-t border-neutral-950 text-center">
         <label for="speed-field" class="block text-sm">Speed</label>
         <field
           :read-only="readOnly"
@@ -73,7 +73,7 @@
       </div>
 
       <div
-        class="flex flex-col items-center border-t border-neutral-300 text-center"
+        class="flex flex-col items-center border-t border-neutral-950 text-center"
       >
         <span class="mb-1 block text-sm">Death saves</span>
 

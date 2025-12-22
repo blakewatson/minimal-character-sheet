@@ -1,5 +1,5 @@
 <template>
-  <details open class="mb-4 border-t border-neutral-300">
+  <details open class="mb-4 border-t border-neutral-950">
     <summary class="section-label">{{ title }}</summary>
     <quill-editor
       :initial-contents="textField"

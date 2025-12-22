@@ -1,12 +1,6 @@
 <template>
   <section
-    class="flex items-center justify-around border-b border-neutral-300"
-    style="
-      flex-wrap: wrap;
-      margin-top: -0.5rem;
-      padding-bottom: 0.5rem;
-      gap: 0.5rem;
-    "
+    class="flex flex-wrap items-center justify-around gap-2 border-t border-neutral-950 pt-2 pb-2"
   >
     <div class="flex items-center gap-1">
       <label class="small-label" for="initiative">Initiative</label>
@@ -56,51 +50,48 @@
       ></field>
     </div>
 
-    <dialog class="skill-override-dialog" ref="proficiencyDialog">
-      <form @submit.prevent="saveProficiencyOverride">
-        <p>
-          <strong>Proficiency bonus override</strong>
-        </p>
-        <p>
+    <app-dialog
+      @close="showProficiencyDialog = false"
+      @submit="saveProficiencyOverride"
+      title="Proficiency bonus override"
+      close-label="Cancel"
+      v-if="showProficiencyDialog"
+    >
+      <template #content>
+        <p class="mb-2">
           If you need to override the standard proficiency bonus calculation,
           you can enter it here. Click Remove override to revert back to the
           standard calculation.
         </p>
 
-        <label for="proficiency-bonus">Proficiency bonus</label>
+        <label for="proficiency-bonus" class="small-label text-base"
+          >Proficiency bonus</label
+        >
+
         <field
           :readOnly="readOnly"
           :value="proficiencyOverrideValue"
           @update-value="proficiencyOverrideValue = $event"
           id="proficiency-bonus"
-          style="min-width: 50px"
+          class="min-w-14 bg-neutral-100 text-center text-lg!"
           type="number"
         ></field>
+      </template>
 
-        <div class="mt-md">
-          <button type="submit" class="button-primary">Save</button>
-          <button
-            type="button"
-            @click="removeProficiencyOverride"
-            class="button-secondary"
-          >
-            Remove override
-          </button>
-          <button
-            type="button"
-            @click="closeProficiencyDialog"
-            class="button-secondary"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </dialog>
+      <template #actions>
+        <button type="submit" class="button-primary">Save</button>
+
+        <button type="button" @click="removeProficiencyOverride" class="button">
+          Remove override
+        </button>
+      </template>
+    </app-dialog>
   </section>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import AppDialog from './AppDialog.vue';
 import Field from './Field';
 
 export default {
@@ -109,6 +100,7 @@ export default {
   data() {
     return {
       proficiencyOverrideValue: null,
+      showProficiencyDialog: false,
     };
   },
 
@@ -138,13 +130,8 @@ export default {
     },
 
     openProficiencyDialog() {
-      this.$refs.proficiencyDialog.showModal();
       this.proficiencyOverrideValue = this.proficiencyBonus.toString();
-    },
-
-    closeProficiencyDialog() {
-      this.$refs.proficiencyDialog.close();
-      this.proficiencyOverrideValue = null;
+      this.showProficiencyDialog = true;
     },
 
     saveProficiencyOverride() {
@@ -184,6 +171,7 @@ export default {
   },
 
   components: {
+    'app-dialog': AppDialog,
     field: Field,
   },
 };

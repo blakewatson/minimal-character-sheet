@@ -1,5 +1,5 @@
 <template>
-  <details open class="border-b border-neutral-300 pb-8">
+  <details open class="border-t border-neutral-950 pb-8">
     <summary class="section-label">Attacks & Weapons</summary>
 
     <!-- Desktop Table Layout -->
@@ -18,7 +18,7 @@
           v-for="(a, i) in attacksAndNotes"
           :key="a.id"
           :class="{
-            'border-t border-neutral-300': a.isAttack,
+            'border-t border-neutral-400': a.isAttack,
           }"
           :style="{ 'z-index': attacks.length - i }"
         >

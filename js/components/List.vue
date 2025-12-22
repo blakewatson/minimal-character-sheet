@@ -5,7 +5,7 @@
         v-for="(item, i) in items"
         :key="item.id"
         :k="item.id"
-        class="list-item deletable"
+        class="mb-2 rounded border border-neutral-400 p-1"
       >
         <quill-editor
           :collapsed="readOnly ? false : item.collapsed"
@@ -16,7 +16,7 @@
         ></quill-editor>
 
         <div
-          class="mt-sm"
+          class="mt-1"
           style="display: flex; justify-content: flex-end; gap: 0.25rem"
         >
           <button-collapse
@@ -28,7 +28,7 @@
           <button
             :disabled="readOnly"
             @click="sortItems(item.id, 'up')"
-            class="button button-sort"
+            class="button-icon"
             title="Move up"
             type="button"
             v-if="!readOnly && i > 0"
@@ -40,7 +40,7 @@
           <button
             :disabled="readOnly"
             @click="sortItems(item.id, 'down')"
-            class="button button-sort"
+            class="button-icon"
             title="Move down"
             type="button"
             v-if="!readOnly && i < items.length - 1"
@@ -55,7 +55,7 @@
           <button
             :disabled="readOnly"
             @click="deleteItem(i)"
-            class="button button-delete"
+            class="button-icon hover:border-red-600 hover:text-red-600"
             title="Delete"
             type="button"
             v-if="!readOnly"
@@ -66,11 +66,12 @@
         </div>
       </li>
     </ul>
+
     <p class="text-center" v-if="!readOnly">
       <button
         :disabled="readOnly"
         @click="addToList"
-        class="button-add"
+        class="button-icon"
         title="Add list item"
         type="button"
       >

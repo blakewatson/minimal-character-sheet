@@ -1,5 +1,5 @@
 <template>
-  <details open class="border-b border-neutral-300 pb-4">
+  <details open class="border-t border-neutral-950 pb-4">
     <summary class="section-label">Skills</summary>
 
     <ul class="sm:columns-2">
@@ -56,52 +56,48 @@
       Passive Perception <span class="small-label not-italic">(WIS)</span>
     </p>
 
-    <dialog class="skill-override-dialog" ref="overrideDialog">
-      <form @submit.prevent="saveOverride">
-        <p>
-          <strong>{{ selectedSkill?.name }} modifier</strong>
-        </p>
-        <p>
+    <app-dialog
+      @close="closeOverrideDialog"
+      @submit="saveOverride"
+      title="Skill modifier override"
+      close-label="Cancel"
+      v-if="showOverrideDialog"
+    >
+      <template #content>
+        <p class="mb-2">
           If you need to override the standard modifier calculation for
           <strong>{{ selectedSkill?.name }}</strong
           >, you can enter it here. Click Remove override to revert back to the
           standard calculation.
         </p>
 
-        <label for="skill-modifier">{{ selectedSkill?.name }}</label>
+        <label for="skill-modifier" class="small-label text-base">{{
+          selectedSkill?.name
+        }}</label>
         <field
           :readOnly="readOnly"
           :value="modifierOverride"
           @update-value="modifierOverride = $event"
+          class="min-w-14 bg-neutral-100 text-center text-lg!"
           id="skill-modifier"
           style="min-width: 50px"
           type="number"
         ></field>
+      </template>
 
-        <div class="mt-md">
-          <button type="submit" class="button-primary">Save</button>
-          <button
-            type="button"
-            @click="removeOverride"
-            class="button-secondary"
-          >
-            Remove override
-          </button>
-          <button
-            type="button"
-            @click="closeOverrideDialog"
-            class="button-secondary"
-          >
-            Cancel
-          </button>
-        </div>
-      </form>
-    </dialog>
+      <template #actions>
+        <button type="submit" class="button-primary">Save</button>
+        <button type="button" @click="removeOverride" class="button">
+          Remove override
+        </button>
+      </template>
+    </app-dialog>
   </details>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex';
+import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
 
 export default {
@@ -111,6 +107,7 @@ export default {
     return {
       modifierOverride: null,
       selectedSkill: null,
+      showOverrideDialog: false,
     };
   },
 
@@ -175,13 +172,12 @@ export default {
 
     openOverrideDialog(skill) {
       this.selectedSkill = skill;
-      this.$refs.overrideDialog.showModal();
       this.modifierOverride = this.getSkillModifier(skill).toString();
-      console.log(this.modifierOverride);
+      this.showOverrideDialog = true;
     },
 
     closeOverrideDialog() {
-      this.$refs.overrideDialog.close();
+      this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
     },
@@ -234,6 +230,7 @@ export default {
   },
 
   components: {
+    'app-dialog': AppDialog,
     field: Field,
   },
 };

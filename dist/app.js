@@ -190,6 +190,79 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./js/components/AppDialog.vue":
+/*!*************************************!*\
+  !*** ./js/components/AppDialog.vue ***!
+  \*************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _AppDialog_vue_vue_type_template_id_cde94c50__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppDialog.vue?vue&type=template&id=cde94c50 */ "./js/components/AppDialog.vue?vue&type=template&id=cde94c50");
+/* harmony import */ var _AppDialog_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./AppDialog.vue?vue&type=script&lang=js */ "./js/components/AppDialog.vue?vue&type=script&lang=js");
+/* harmony import */ var _node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! !../../node_modules/vue-loader/lib/runtime/componentNormalizer.js */ "./node_modules/vue-loader/lib/runtime/componentNormalizer.js");
+
+
+
+
+
+/* normalize component */
+;
+var component = (0,_node_modules_vue_loader_lib_runtime_componentNormalizer_js__WEBPACK_IMPORTED_MODULE_2__["default"])(
+  _AppDialog_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_1__["default"],
+  _AppDialog_vue_vue_type_template_id_cde94c50__WEBPACK_IMPORTED_MODULE_0__.render,
+  _AppDialog_vue_vue_type_template_id_cde94c50__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns,
+  false,
+  null,
+  null,
+  null
+  
+)
+
+/* hot reload */
+if (false) // removed by dead control flow
+{ var api; }
+component.options.__file = "js/components/AppDialog.vue"
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (component.exports);
+
+/***/ }),
+
+/***/ "./js/components/AppDialog.vue?vue&type=script&lang=js":
+/*!*************************************************************!*\
+  !*** ./js/components/AppDialog.vue?vue&type=script&lang=js ***!
+  \*************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDialog_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AppDialog.vue?vue&type=script&lang=js */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/AppDialog.vue?vue&type=script&lang=js");
+ /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = (_node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDialog_vue_vue_type_script_lang_js__WEBPACK_IMPORTED_MODULE_0__["default"]); 
+
+/***/ }),
+
+/***/ "./js/components/AppDialog.vue?vue&type=template&id=cde94c50":
+/*!*******************************************************************!*\
+  !*** ./js/components/AppDialog.vue?vue&type=template&id=cde94c50 ***!
+  \*******************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDialog_vue_vue_type_template_id_cde94c50__WEBPACK_IMPORTED_MODULE_0__.render),
+/* harmony export */   staticRenderFns: () => (/* reexport safe */ _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDialog_vue_vue_type_template_id_cde94c50__WEBPACK_IMPORTED_MODULE_0__.staticRenderFns)
+/* harmony export */ });
+/* harmony import */ var _node_modules_babel_loader_lib_index_js_clonedRuleSet_5_use_0_node_modules_vue_loader_lib_loaders_templateLoader_js_ruleSet_1_rules_2_node_modules_vue_loader_lib_index_js_vue_loader_options_AppDialog_vue_vue_type_template_id_cde94c50__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! -!../../node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!../../node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!../../node_modules/vue-loader/lib/index.js??vue-loader-options!./AppDialog.vue?vue&type=template&id=cde94c50 */ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/AppDialog.vue?vue&type=template&id=cde94c50");
+
+
+/***/ }),
+
 /***/ "./js/components/Attacks.vue":
 /*!***********************************!*\
   !*** ./js/components/Attacks.vue ***!
@@ -2459,6 +2532,46 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/AppDialog.vue?vue&type=script&lang=js":
+/*!*****************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/AppDialog.vue?vue&type=script&lang=js ***!
+  \*****************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
+/* harmony export */ });
+/* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
+  name: 'AppDialog',
+  props: {
+    closeLabel: {
+      type: String,
+      "default": 'Close'
+    },
+    open: {
+      type: Boolean,
+      "default": false
+    },
+    title: String
+  },
+  methods: {
+    closeDialog: function closeDialog() {
+      this.$el.close();
+      this.$emit('close');
+    },
+    submitForm: function submitForm() {
+      this.$emit('submit');
+    }
+  },
+  mounted: function mounted() {
+    this.$el.showModal();
+  }
+});
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/Attacks.vue?vue&type=script&lang=js":
 /*!***************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/Attacks.vue?vue&type=script&lang=js ***!
@@ -2693,7 +2806,7 @@ __webpack_require__.r(__webpack_exports__);
   },
   computed: {
     computedClasses: function computedClasses() {
-      var classes = 'text-base px-1 py-0.5 text-neutral-800 hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700';
+      var classes = 'text-[15px] px-1 py-0.5 text-neutral-800 hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700 rounded-xs';
       classes += this.autoSize ? ' box-content' : ' box-border';
       return classes;
     },
@@ -2799,8 +2912,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _AppDialog_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppDialog.vue */ "./js/components/AppDialog.vue");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -2809,14 +2923,16 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Proficiency',
   data: function data() {
     return {
-      proficiencyOverrideValue: null
+      proficiencyOverrideValue: null,
+      showProficiencyDialog: false
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['proficiencyBonus'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['inspiration', 'readOnly', 'initiative', 'shortRests', 'proficiencyOverride'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['proficiencyBonus'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['inspiration', 'readOnly', 'initiative', 'shortRests', 'proficiencyOverride'])),
   methods: {
     updateInitiative: function updateInitiative(val) {
       this.$store.commit('updateInitiative', val);
@@ -2829,12 +2945,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       this.$store.commit('updateShortRests', val);
     },
     openProficiencyDialog: function openProficiencyDialog() {
-      this.$refs.proficiencyDialog.showModal();
       this.proficiencyOverrideValue = this.proficiencyBonus.toString();
-    },
-    closeProficiencyDialog: function closeProficiencyDialog() {
-      this.$refs.proficiencyDialog.close();
-      this.proficiencyOverrideValue = null;
+      this.showProficiencyDialog = true;
     },
     saveProficiencyOverride: function saveProficiencyOverride() {
       var _this$proficiencyOver;
@@ -2866,7 +2978,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   components: {
-    field: _Field__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'app-dialog': _AppDialog_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    field: _Field__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -3665,8 +3778,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _Field_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Field.vue */ "./js/components/Field.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _AppDialog_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppDialog.vue */ "./js/components/AppDialog.vue");
+/* harmony import */ var _Field_vue__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field.vue */ "./js/components/Field.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -3675,15 +3789,17 @@ function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" 
 function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'Skills',
   data: function data() {
     return {
       modifierOverride: null,
-      selectedSkill: null
+      selectedSkill: null,
+      showOverrideDialog: false
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapState)(['skills', 'readOnly'])), (0,vuex__WEBPACK_IMPORTED_MODULE_1__.mapGetters)(['modifiers', 'proficiencyBonus'])),
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['skills', 'readOnly'])), (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapGetters)(['modifiers', 'proficiencyBonus'])),
   methods: {
     getSkillModifier: function getSkillModifier(skill) {
       var mod = this.modifiers.reduce(function (acc, m) {
@@ -3730,12 +3846,11 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     openOverrideDialog: function openOverrideDialog(skill) {
       this.selectedSkill = skill;
-      this.$refs.overrideDialog.showModal();
       this.modifierOverride = this.getSkillModifier(skill).toString();
-      console.log(this.modifierOverride);
+      this.showOverrideDialog = true;
     },
     closeOverrideDialog: function closeOverrideDialog() {
-      this.$refs.overrideDialog.close();
+      this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
     },
@@ -3782,7 +3897,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     }
   },
   components: {
-    field: _Field_vue__WEBPACK_IMPORTED_MODULE_0__["default"]
+    'app-dialog': _AppDialog_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    field: _Field_vue__WEBPACK_IMPORTED_MODULE_1__["default"]
   }
 });
 
@@ -4185,9 +4301,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ __webpack_require__.d(__webpack_exports__, {
 /* harmony export */   "default": () => (__WEBPACK_DEFAULT_EXPORT__)
 /* harmony export */ });
-/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
-/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
-/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
+/* harmony import */ var vuex__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! vuex */ "./node_modules/vuex/dist/vuex.esm.js");
+/* harmony import */ var _AppDialog_vue__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./AppDialog.vue */ "./js/components/AppDialog.vue");
+/* harmony import */ var _Field__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Field */ "./js/components/Field.vue");
+/* harmony import */ var _QuillEditor__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./QuillEditor */ "./js/components/QuillEditor.vue");
 function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
 function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
@@ -4197,15 +4314,17 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
 
 
 
+
 /* harmony default export */ const __WEBPACK_DEFAULT_EXPORT__ = ({
   name: 'TrackableFields',
   data: function data() {
     return {
       isMobile: false,
-      mediaQuery: null
+      mediaQuery: null,
+      showInfoDialog: false
     };
   },
-  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_2__.mapState)(['trackableFields', 'readOnly'])), {}, {
+  computed: _objectSpread(_objectSpread({}, (0,vuex__WEBPACK_IMPORTED_MODULE_3__.mapState)(['trackableFields', 'readOnly'])), {}, {
     trackableFieldsAndNotes: function trackableFieldsAndNotes() {
       var rows = [];
       this.trackableFields.forEach(function (field, index) {
@@ -4259,17 +4378,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         id: id,
         direction: direction
       });
-    },
-    openInfoDialog: function openInfoDialog() {
-      this.$refs.infoDialog.showModal();
-    },
-    closeInfoDialog: function closeInfoDialog() {
-      this.$refs.infoDialog.close();
     }
   },
   components: {
-    field: _Field__WEBPACK_IMPORTED_MODULE_0__["default"],
-    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_1__["default"]
+    'app-dialog': _AppDialog_vue__WEBPACK_IMPORTED_MODULE_0__["default"],
+    field: _Field__WEBPACK_IMPORTED_MODULE_1__["default"],
+    'quill-editor': _QuillEditor__WEBPACK_IMPORTED_MODULE_2__["default"]
   }
 });
 
@@ -4341,7 +4455,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('section', [_c('div', {
-    staticClass: "grid grid-cols-[65px_65px_65px] justify-center justify-items-center gap-4 border-b border-neutral-300 py-4 min-[530px]:flex min-[530px]:justify-between"
+    staticClass: "grid grid-cols-[65px_65px_65px] justify-center justify-items-center gap-4 border-t border-neutral-950 py-4 min-[530px]:flex min-[530px]:justify-between"
   }, _vm._l(_vm.abilities, function (a, i) {
     return _c('ability', {
       key: a.name,
@@ -4374,7 +4488,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
-    staticClass: "flex w-16 flex-col items-center border border-neutral-950"
+    staticClass: "flex w-16 flex-col items-center rounded-xs border border-neutral-950"
   }, [_c('div', {
     staticClass: "mb-1 self-stretch bg-neutral-950 py-0.5 text-center text-sm text-neutral-50"
   }, [_vm._v("\n    " + _vm._s(_vm.ability.name) + "\n  ")]), _vm._v(" "), _c('span', {
@@ -4425,6 +4539,58 @@ render._withStripped = true;
 
 /***/ }),
 
+/***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/AppDialog.vue?vue&type=template&id=cde94c50":
+/*!****************************************************************************************************************************************************************************************************************************************************************************!*\
+  !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/AppDialog.vue?vue&type=template&id=cde94c50 ***!
+  \****************************************************************************************************************************************************************************************************************************************************************************/
+/***/ ((__unused_webpack_module, __webpack_exports__, __webpack_require__) => {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export */ __webpack_require__.d(__webpack_exports__, {
+/* harmony export */   render: () => (/* binding */ render),
+/* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
+/* harmony export */ });
+function _typeof(o) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (o) { return typeof o; } : function (o) { return o && "function" == typeof Symbol && o.constructor === Symbol && o !== Symbol.prototype ? "symbol" : typeof o; }, _typeof(o); }
+function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
+function _objectSpread(e) { for (var r = 1; r < arguments.length; r++) { var t = null != arguments[r] ? arguments[r] : {}; r % 2 ? ownKeys(Object(t), !0).forEach(function (r) { _defineProperty(e, r, t[r]); }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(e, Object.getOwnPropertyDescriptors(t)) : ownKeys(Object(t)).forEach(function (r) { Object.defineProperty(e, r, Object.getOwnPropertyDescriptor(t, r)); }); } return e; }
+function _defineProperty(e, r, t) { return (r = _toPropertyKey(r)) in e ? Object.defineProperty(e, r, { value: t, enumerable: !0, configurable: !0, writable: !0 }) : e[r] = t, e; }
+function _toPropertyKey(t) { var i = _toPrimitive(t, "string"); return "symbol" == _typeof(i) ? i : i + ""; }
+function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e = t[Symbol.toPrimitive]; if (void 0 !== e) { var i = e.call(t, r || "default"); if ("object" != _typeof(i)) return i; throw new TypeError("@@toPrimitive must return a primitive value."); } return ("string" === r ? String : Number)(t); }
+var render = function render() {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c('dialog', _vm._b({
+    staticClass: "fixed top-1/2 left-1/2 max-w-160 -translate-1/2 rounded border border-neutral-300 bg-white p-4 shadow-lg"
+  }, 'dialog', _objectSpread({}, _vm.$attrs), false), [_vm._t("default", function () {
+    return [_c('form', {
+      on: {
+        "submit": function submit($event) {
+          $event.preventDefault();
+          return _vm.submitForm.apply(null, arguments);
+        }
+      }
+    }, [_c('h2', {
+      staticClass: "mb-2 text-lg font-bold"
+    }, [_vm._v(_vm._s(_vm.title))]), _vm._v(" "), _vm._t("content"), _vm._v(" "), _c('div', {
+      staticClass: "mt-4"
+    }, [_vm._t("actions"), _vm._v(" "), _c('button', {
+      staticClass: "button",
+      attrs: {
+        "type": "button"
+      },
+      on: {
+        "click": _vm.closeDialog
+      }
+    }, [_vm._v("\n          " + _vm._s(_vm.closeLabel) + "\n        ")])], 2)], 2)];
+  })], 2);
+};
+var staticRenderFns = [];
+render._withStripped = true;
+
+
+/***/ }),
+
 /***/ "./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/Attacks.vue?vue&type=template&id=c9c1020c":
 /*!**************************************************************************************************************************************************************************************************************************************************************************!*\
   !*** ./node_modules/babel-loader/lib/index.js??clonedRuleSet-5.use[0]!./node_modules/vue-loader/lib/loaders/templateLoader.js??ruleSet[1].rules[2]!./node_modules/vue-loader/lib/index.js??vue-loader-options!./js/components/Attacks.vue?vue&type=template&id=c9c1020c ***!
@@ -4441,7 +4607,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "border-b border-neutral-300 pb-8",
+    staticClass: "border-t border-neutral-950 pb-8",
     attrs: {
       "open": ""
     }
@@ -4453,7 +4619,7 @@ var render = function render() {
     return _c('tr', {
       key: a.id,
       "class": {
-        'border-t border-neutral-300': a.isAttack
+        'border-t border-neutral-400': a.isAttack
       },
       style: {
         'z-index': _vm.attacks.length - i
@@ -4768,7 +4934,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('section', {
-    staticClass: "mb-4 border-b border-neutral-300 pb-4"
+    staticClass: "pb-2"
   }, [_c('div', {
     staticClass: "mb-4"
   }, [_c('span', {
@@ -4936,7 +5102,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('button', {
-    staticClass: "button button-collapse",
+    staticClass: "button-icon",
     attrs: {
       "title": _vm.collapsed ? _vm.expandTitle || 'Expand content' : _vm.collapseTitle || 'Collapse content',
       "type": "button"
@@ -4977,7 +5143,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "mb-4 border-t border-neutral-300",
+    staticClass: "mb-4 border-t border-neutral-950",
     attrs: {
       "open": ""
     }
@@ -4987,14 +5153,14 @@ var render = function render() {
     staticClass: "mb-4 flex items-center justify-between gap-4"
   }, _vm._l(_vm.coins, function (c, i) {
     return _c('div', {
-      staticClass: "flex flex-col items-center border-t border-neutral-300"
+      staticClass: "flex flex-col items-center border-t border-neutral-950"
     }, [_c('label', {
       staticClass: "text-center text-sm tracking-wider uppercase",
       attrs: {
         "for": 'coin-' + i
       }
     }, [_vm._v(_vm._s(c.name))]), _vm._v(" "), _c('field', {
-      staticClass: "min-[500px]:text-xl sm:text-2xl",
+      staticClass: "text-center min-[500px]:text-xl sm:text-2xl",
       attrs: {
         "id": 'coin-' + i,
         "read-only": _vm.readOnly,
@@ -5089,7 +5255,7 @@ var render = function render() {
   }, [_c('ul', _vm._l(_vm.items, function (item, i) {
     return _c('li', {
       key: item.id,
-      staticClass: "list-item deletable",
+      staticClass: "mb-2 rounded border border-neutral-400 p-1",
       attrs: {
         "k": item.id
       }
@@ -5108,7 +5274,7 @@ var render = function render() {
         }
       }
     }), _vm._v(" "), _c('div', {
-      staticClass: "mt-sm",
+      staticClass: "mt-1",
       staticStyle: {
         "display": "flex",
         "justify-content": "flex-end",
@@ -5124,7 +5290,7 @@ var render = function render() {
         }
       }
     }) : _vm._e(), _vm._v(" "), !_vm.readOnly && i > 0 ? _c('button', {
-      staticClass: "button button-sort",
+      staticClass: "button-icon",
       attrs: {
         "disabled": _vm.readOnly,
         "title": "Move up",
@@ -5143,7 +5309,7 @@ var render = function render() {
         "role": "presentation"
       }
     })]) : _vm._e(), _vm._v(" "), !_vm.readOnly && i < _vm.items.length - 1 ? _c('button', {
-      staticClass: "button button-sort",
+      staticClass: "button-icon",
       attrs: {
         "disabled": _vm.readOnly,
         "title": "Move down",
@@ -5162,7 +5328,7 @@ var render = function render() {
         "role": "presentation"
       }
     })]) : _vm._e(), _vm._v(" "), !_vm.readOnly ? _c('button', {
-      staticClass: "button button-delete",
+      staticClass: "button-icon hover:border-red-600 hover:text-red-600",
       attrs: {
         "disabled": _vm.readOnly,
         "title": "Delete",
@@ -5184,7 +5350,7 @@ var render = function render() {
   }), 0), _vm._v(" "), !_vm.readOnly ? _c('p', {
     staticClass: "text-center"
   }, [_c('button', {
-    staticClass: "button-add",
+    staticClass: "button-icon",
     attrs: {
       "disabled": _vm.readOnly,
       "title": "Add list item",
@@ -5224,13 +5390,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('section', {
-    staticClass: "flex items-center justify-around border-b border-neutral-300",
-    staticStyle: {
-      "flex-wrap": "wrap",
-      "margin-top": "-0.5rem",
-      "padding-bottom": "0.5rem",
-      "gap": "0.5rem"
-    }
+    staticClass: "flex flex-wrap items-center justify-around gap-2 border-t border-neutral-950 pt-2 pb-2"
   }, [_c('div', {
     staticClass: "flex items-center gap-1"
   }, [_c('label', {
@@ -5305,65 +5465,66 @@ var render = function render() {
         return _vm.updateShortRests($event);
       }
     }
-  })], 1), _vm._v(" "), _c('dialog', {
-    ref: "proficiencyDialog",
-    staticClass: "skill-override-dialog"
-  }, [_c('form', {
-    on: {
-      "submit": function submit($event) {
-        $event.preventDefault();
-        return _vm.saveProficiencyOverride.apply(null, arguments);
-      }
-    }
-  }, [_vm._m(0), _vm._v(" "), _c('p', [_vm._v("\n        If you need to override the standard proficiency bonus calculation,\n        you can enter it here. Click Remove override to revert back to the\n        standard calculation.\n      ")]), _vm._v(" "), _c('label', {
+  })], 1), _vm._v(" "), _vm.showProficiencyDialog ? _c('app-dialog', {
     attrs: {
-      "for": "proficiency-bonus"
-    }
-  }, [_vm._v("Proficiency bonus")]), _vm._v(" "), _c('field', {
-    staticStyle: {
-      "min-width": "50px"
-    },
-    attrs: {
-      "readOnly": _vm.readOnly,
-      "value": _vm.proficiencyOverrideValue,
-      "id": "proficiency-bonus",
-      "type": "number"
+      "title": "Proficiency bonus override",
+      "close-label": "Cancel"
     },
     on: {
-      "update-value": function updateValue($event) {
-        _vm.proficiencyOverrideValue = $event;
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mt-md"
-  }, [_c('button', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
-    staticClass: "button-secondary",
-    attrs: {
-      "type": "button"
+      "close": function close($event) {
+        _vm.showProficiencyDialog = false;
+      },
+      "submit": _vm.saveProficiencyOverride
     },
-    on: {
-      "click": _vm.removeProficiencyOverride
-    }
-  }, [_vm._v("\n          Remove override\n        ")]), _vm._v(" "), _c('button', {
-    staticClass: "button-secondary",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.closeProficiencyDialog
-    }
-  }, [_vm._v("\n          Cancel\n        ")])])], 1)])]);
+    scopedSlots: _vm._u([{
+      key: "content",
+      fn: function fn() {
+        return [_c('p', {
+          staticClass: "mb-2"
+        }, [_vm._v("\n        If you need to override the standard proficiency bonus calculation,\n        you can enter it here. Click Remove override to revert back to the\n        standard calculation.\n      ")]), _vm._v(" "), _c('label', {
+          staticClass: "small-label text-base",
+          attrs: {
+            "for": "proficiency-bonus"
+          }
+        }, [_vm._v("Proficiency bonus")]), _vm._v(" "), _c('field', {
+          staticClass: "min-w-14 bg-neutral-100 text-center text-lg!",
+          attrs: {
+            "readOnly": _vm.readOnly,
+            "value": _vm.proficiencyOverrideValue,
+            "id": "proficiency-bonus",
+            "type": "number"
+          },
+          on: {
+            "update-value": function updateValue($event) {
+              _vm.proficiencyOverrideValue = $event;
+            }
+          }
+        })];
+      },
+      proxy: true
+    }, {
+      key: "actions",
+      fn: function fn() {
+        return [_c('button', {
+          staticClass: "button-primary",
+          attrs: {
+            "type": "submit"
+          }
+        }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+          staticClass: "button",
+          attrs: {
+            "type": "button"
+          },
+          on: {
+            "click": _vm.removeProficiencyOverride
+          }
+        }, [_vm._v("\n        Remove override\n      ")])];
+      },
+      proxy: true
+    }], null, false, 1633924233)
+  }) : _vm._e()], 1);
 };
-var staticRenderFns = [function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c('p', [_c('strong', [_vm._v("Proficiency bonus override")])]);
-}];
+var staticRenderFns = [];
 render._withStripped = true;
 
 
@@ -5385,7 +5546,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', _vm._b({
-    staticClass: "bg-neutral-100 font-mono *:font-mono *:text-[13px] has-focus:outline-2 has-focus:outline-blue-600",
+    staticClass: "quill-editor rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[13px] has-focus:outline-2 has-focus:outline-blue-600",
     on: {
       "mousedown": _vm.onMouseDown,
       "mouseup": _vm.onMouseUp
@@ -5525,11 +5686,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */   staticRenderFns: () => (/* binding */ staticRenderFns)
 /* harmony export */ });
 var render = function render() {
-  var _vm$selectedSkill, _vm$selectedSkill2, _vm$selectedSkill3;
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "border-b border-neutral-300 pb-4",
+    staticClass: "border-t border-neutral-950 pb-4",
     attrs: {
       "open": ""
     }
@@ -5606,59 +5766,66 @@ var render = function render() {
     staticClass: "py-3 text-center"
   }, [_c('strong', {}, [_vm._v(_vm._s(_vm.getPassivePerception()))]), _vm._v("\n    Passive Perception "), _c('span', {
     staticClass: "small-label not-italic"
-  }, [_vm._v("(WIS)")])]), _vm._v(" "), _c('dialog', {
-    ref: "overrideDialog",
-    staticClass: "skill-override-dialog"
-  }, [_c('form', {
-    on: {
-      "submit": function submit($event) {
-        $event.preventDefault();
-        return _vm.saveOverride.apply(null, arguments);
-      }
-    }
-  }, [_c('p', [_c('strong', [_vm._v(_vm._s((_vm$selectedSkill = _vm.selectedSkill) === null || _vm$selectedSkill === void 0 ? void 0 : _vm$selectedSkill.name) + " modifier")])]), _vm._v(" "), _c('p', [_vm._v("\n        If you need to override the standard modifier calculation for\n        "), _c('strong', [_vm._v(_vm._s((_vm$selectedSkill2 = _vm.selectedSkill) === null || _vm$selectedSkill2 === void 0 ? void 0 : _vm$selectedSkill2.name))]), _vm._v(", you can enter it here. Click Remove override to revert back to the\n        standard calculation.\n      ")]), _vm._v(" "), _c('label', {
+  }, [_vm._v("(WIS)")])]), _vm._v(" "), _vm.showOverrideDialog ? _c('app-dialog', {
     attrs: {
-      "for": "skill-modifier"
-    }
-  }, [_vm._v(_vm._s((_vm$selectedSkill3 = _vm.selectedSkill) === null || _vm$selectedSkill3 === void 0 ? void 0 : _vm$selectedSkill3.name))]), _vm._v(" "), _c('field', {
-    staticStyle: {
-      "min-width": "50px"
-    },
-    attrs: {
-      "readOnly": _vm.readOnly,
-      "value": _vm.modifierOverride,
-      "id": "skill-modifier",
-      "type": "number"
+      "title": "Skill modifier override",
+      "close-label": "Cancel"
     },
     on: {
-      "update-value": function updateValue($event) {
-        _vm.modifierOverride = $event;
-      }
-    }
-  }), _vm._v(" "), _c('div', {
-    staticClass: "mt-md"
-  }, [_c('button', {
-    staticClass: "button-primary",
-    attrs: {
-      "type": "submit"
-    }
-  }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
-    staticClass: "button-secondary",
-    attrs: {
-      "type": "button"
+      "close": _vm.closeOverrideDialog,
+      "submit": _vm.saveOverride
     },
-    on: {
-      "click": _vm.removeOverride
-    }
-  }, [_vm._v("\n          Remove override\n        ")]), _vm._v(" "), _c('button', {
-    staticClass: "button-secondary",
-    attrs: {
-      "type": "button"
-    },
-    on: {
-      "click": _vm.closeOverrideDialog
-    }
-  }, [_vm._v("\n          Cancel\n        ")])])], 1)])]);
+    scopedSlots: _vm._u([{
+      key: "content",
+      fn: function fn() {
+        var _vm$selectedSkill, _vm$selectedSkill2;
+        return [_c('p', {
+          staticClass: "mb-2"
+        }, [_vm._v("\n        If you need to override the standard modifier calculation for\n        "), _c('strong', [_vm._v(_vm._s((_vm$selectedSkill = _vm.selectedSkill) === null || _vm$selectedSkill === void 0 ? void 0 : _vm$selectedSkill.name))]), _vm._v(", you can enter it here. Click Remove override to revert back to the\n        standard calculation.\n      ")]), _vm._v(" "), _c('label', {
+          staticClass: "small-label text-base",
+          attrs: {
+            "for": "skill-modifier"
+          }
+        }, [_vm._v(_vm._s((_vm$selectedSkill2 = _vm.selectedSkill) === null || _vm$selectedSkill2 === void 0 ? void 0 : _vm$selectedSkill2.name))]), _vm._v(" "), _c('field', {
+          staticClass: "min-w-14 bg-neutral-100 text-center text-lg!",
+          staticStyle: {
+            "min-width": "50px"
+          },
+          attrs: {
+            "readOnly": _vm.readOnly,
+            "value": _vm.modifierOverride,
+            "id": "skill-modifier",
+            "type": "number"
+          },
+          on: {
+            "update-value": function updateValue($event) {
+              _vm.modifierOverride = $event;
+            }
+          }
+        })];
+      },
+      proxy: true
+    }, {
+      key: "actions",
+      fn: function fn() {
+        return [_c('button', {
+          staticClass: "button-primary",
+          attrs: {
+            "type": "submit"
+          }
+        }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
+          staticClass: "button",
+          attrs: {
+            "type": "button"
+          },
+          on: {
+            "click": _vm.removeOverride
+          }
+        }, [_vm._v("\n        Remove override\n      ")])];
+      },
+      proxy: true
+    }], null, false, 4233794801)
+  }) : _vm._e()], 1);
 };
 var staticRenderFns = [];
 render._withStripped = true;
@@ -5682,20 +5849,20 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', [_c('div', {
-    staticClass: "box box-lite row row-vert-centered mb-sm"
+    staticClass: "mb-2 flex items-center justify-between border-t border-neutral-950"
   }, [_c('span', {
-    staticClass: "slot-label reverse"
+    staticClass: "bg-neutral-950 px-2 text-xl text-neutral-50"
   }, [_vm._v(_vm._s(_vm.level))]), _vm._v(" "), _c('div', {
-    staticClass: "spell-slots"
+    staticClass: "flex items-baseline gap-1"
   }, [_c('span', {
-    staticClass: "label label-inline"
+    staticClass: "small-label min-[500px]:text-sm"
   }, [_vm._v("Slots:")]), _vm._v(" "), _c('field', {
-    staticClass: "spell-slots-total",
+    staticClass: "mr-1.5 text-sm! font-bold sm:mr-4",
     attrs: {
+      "read-only": _vm.readOnly,
       "value": _vm.totalSlots,
-      "type": "number",
       "min": "0",
-      "read-only": _vm.readOnly
+      "type": "number"
     },
     on: {
       "update-value": function updateValue($event) {
@@ -5703,15 +5870,15 @@ var render = function render() {
       }
     }
   }), _vm._v(" "), _c('span', {
-    staticClass: "label label-inline"
+    staticClass: "small-label min-[500px]:text-sm"
   }, [_vm._v("Expended:")]), _vm._v(" "), _c('field', {
-    staticClass: "spell-slots-expended",
+    staticClass: "text-sm!",
     attrs: {
-      "value": _vm.expendedSlots,
-      "type": "number",
-      "min": "0",
       "max": _vm.totalSlots,
-      "read-only": _vm.readOnly
+      "read-only": _vm.readOnly,
+      "value": _vm.expendedSlots,
+      "min": "0",
+      "type": "number"
     },
     on: {
       "update-value": function updateValue($event) {
@@ -5719,9 +5886,10 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), !_vm.readOnly ? _c('button-collapse', {
+    staticClass: "mt-1",
     attrs: {
-      "collapsed": !_vm.shouldCollapseAll,
       "collapse-title": "Collapse all level ".concat(_vm.level, " spells"),
+      "collapsed": !_vm.shouldCollapseAll,
       "expand-title": "Expand all level ".concat(_vm.level, " spells")
     },
     on: {
@@ -5758,13 +5926,15 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
-    staticClass: "spell-list"
-  }, [_c('ul', _vm._l(_vm.spellItems, function (item, i) {
+    staticClass: "spell-list mb-6"
+  }, [_c('ul', {
+    staticClass: "mb-4"
+  }, _vm._l(_vm.spellItems, function (item, i) {
     return _c('li', {
       key: item.id,
-      staticClass: "list-item deletable"
+      staticClass: "mb-2 rounded border border-neutral-400 p-1"
     }, [_c('div', {
-      staticClass: "row"
+      staticClass: "flex items-start gap-2"
     }, [_c('input', {
       attrs: {
         "disabled": _vm.readOnly,
@@ -5785,7 +5955,7 @@ var render = function render() {
       attrs: {
         "for": "spell-prepared-".concat(item.id)
       }
-    }, [_vm._v("Prepared")]), _vm._v(" "), _c('div', {
+    }, [_vm._v("\n          Prepared\n        ")]), _vm._v(" "), _c('div', {
       staticClass: "size-full"
     }, [_c('label', {
       staticClass: "sr-only"
@@ -5804,12 +5974,7 @@ var render = function render() {
         }
       }
     })], 1)]), _vm._v(" "), _c('div', {
-      staticClass: "mt-sm",
-      staticStyle: {
-        "display": "flex",
-        "justify-content": "flex-end",
-        "gap": "0.25rem"
-      }
+      staticClass: "mt-1 flex items-center justify-end gap-1"
     }, [!_vm.readOnly ? _c('button-collapse', {
       attrs: {
         "collapsed": item.collapsed
@@ -5820,7 +5985,7 @@ var render = function render() {
         }
       }
     }) : _vm._e(), _vm._v(" "), !_vm.readOnly && i > 0 ? _c('button', {
-      staticClass: "button button-sort",
+      staticClass: "button-icon",
       attrs: {
         "disabled": _vm.readOnly,
         "title": "Move up",
@@ -5839,7 +6004,7 @@ var render = function render() {
         "role": "presentation"
       }
     })]) : _vm._e(), _vm._v(" "), !_vm.readOnly && i < _vm.spellItems.length - 1 ? _c('button', {
-      staticClass: "button button-sort",
+      staticClass: "button-icon",
       attrs: {
         "disabled": _vm.readOnly,
         "title": "Move down",
@@ -5858,7 +6023,7 @@ var render = function render() {
         "role": "presentation"
       }
     })]) : _vm._e(), _vm._v(" "), !_vm.readOnly ? _c('button', {
-      staticClass: "button button-delete",
+      staticClass: "button-icon hover:border-red-600 hover:text-red-600",
       attrs: {
         "disabled": _vm.readOnly,
         "title": "Delete spell",
@@ -5880,7 +6045,7 @@ var render = function render() {
   }), 0), _vm._v(" "), !_vm.readOnly ? _c('p', {
     staticClass: "text-center"
   }, [_c('button', {
-    staticClass: "button-add",
+    staticClass: "button-icon",
     attrs: {
       "disabled": _vm.readOnly,
       "title": "Add spell",
@@ -5920,21 +6085,18 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('section', [_c('h1', {
-    staticClass: "label centered"
+    staticClass: "section-label pt-0 font-bold"
   }, [_vm._v("Spellcasting")]), _vm._v(" "), _c('div', {
-    staticClass: "spellcasting row vert-after",
-    staticStyle: {
-      "gap": "0.5rem"
-    }
+    staticClass: "grid grid-cols-2 items-start justify-between gap-2 sm:flex sm:flex-wrap"
   }, [_c('div', {
-    staticClass: "box box-lite"
+    staticClass: "flex flex-col items-center border-t border-neutral-950"
   }, [_c('span', {
-    staticClass: "label centered"
+    staticClass: "text-center text-sm sm:mb-1"
   }, [_vm._v("Class")]), _vm._v(" "), _c('field', {
-    staticClass: "centered block",
+    staticClass: "text-center text-[13px]! min-[500px]:text-sm!",
     attrs: {
-      "value": _vm.spClass,
-      "read-only": _vm.readOnly
+      "read-only": _vm.readOnly,
+      "value": _vm.spClass
     },
     on: {
       "update-value": function updateValue($event) {
@@ -5942,10 +6104,11 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "box box-lite"
+    staticClass: "flex flex-col items-center border-t border-neutral-950"
   }, [_c('span', {
-    staticClass: "label centered"
+    staticClass: "text-center text-sm sm:mb-1"
   }, [_vm._v("Ability")]), _vm._v(" "), !_vm.readOnly ? _c('select', {
+    staticClass: "px-1 py-0.5 text-center hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700",
     on: {
       "input": function input($event) {
         return _vm.updateSpellInfo('spAbility', $event.target.value);
@@ -5964,14 +6127,14 @@ var render = function render() {
       "padding": "0.25em"
     }
   }, [_vm._v(_vm._s(_vm.spAbility))])]), _vm._v(" "), _c('div', {
-    staticClass: "box"
+    staticClass: "flex flex-col items-center border-t border-neutral-950"
   }, [_c('label', {
-    staticClass: "label centered reverse",
+    staticClass: "text-center text-sm",
     attrs: {
       "for": "spell-save-dc"
     }
   }, [_vm._v("Spell Save DC")]), _vm._v(" "), _c('field', {
-    staticClass: "centered block padded huge",
+    staticClass: "text-center sm:text-2xl",
     attrs: {
       "id": "spell-save-dc",
       "value": _vm.spSave,
@@ -5983,14 +6146,14 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "box"
+    staticClass: "flex flex-col items-center border-t border-neutral-950"
   }, [_c('label', {
-    staticClass: "label centered reverse",
+    staticClass: "text-center text-sm",
     attrs: {
       "for": "spell-attack-bonus"
     }
   }, [_vm._v("Attack Bonus")]), _vm._v(" "), _c('field', {
-    staticClass: "centered block padded huge",
+    staticClass: "text-center sm:text-2xl",
     attrs: {
       "id": "spell-attack-bonus",
       "value": _vm.spAttack,
@@ -6001,13 +6164,16 @@ var render = function render() {
         return _vm.updateSpellInfo('spAttack', $event);
       }
     }
-  })], 1)]), _vm._v(" "), _c('div', [_c('div', {
-    staticClass: "box box-lite row row-vert-centered mb-sm"
+  })], 1)]), _vm._v(" "), _c('div', {
+    staticClass: "my-6"
+  }, [_c('div', {
+    staticClass: "mb-2 flex items-center justify-between border-t border-neutral-950"
   }, [_c('span', {
-    staticClass: "slot-label reverse"
+    staticClass: "bg-neutral-950 px-2 text-xl text-neutral-50"
   }, [_vm._v("0")]), _vm._v(" "), _c('span', {
-    staticClass: "label centered"
+    staticClass: "text-center text-sm tracking-wider uppercase"
   }, [_vm._v("Cantrips")]), _vm._v(" "), !_vm.readOnly ? _c('button-collapse', {
+    staticClass: "mt-1",
     attrs: {
       "collapsed": !_vm.shouldCollapseAll,
       "collapse-title": "Collapse all cantrips",
@@ -6083,7 +6249,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('nav', {
-    staticClass: "fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 bg-neutral-950 text-neutral-50 sm:max-w-162.5"
+    staticClass: "fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 rounded-b-xs bg-neutral-950 text-neutral-50 sm:max-w-162.5"
   }, [_c('ul', {
     staticClass: "flex items-center justify-center gap-1 text-[13px] sm:gap-2"
   }, [_vm._m(0), _vm._v(" "), _c('li', {
@@ -6218,7 +6384,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "mb-4 border-t border-neutral-300",
+    staticClass: "mb-4 border-t border-neutral-950",
     attrs: {
       "open": ""
     }
@@ -6256,7 +6422,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "relative mb-4",
+    staticClass: "relative border-t border-neutral-950 pb-8",
     attrs: {
       "open": ""
     }
@@ -6269,7 +6435,9 @@ var render = function render() {
       "type": "button"
     },
     on: {
-      "click": _vm.openInfoDialog
+      "click": function click($event) {
+        _vm.showInfoDialog = true;
+      }
     }
   }, [_c('i', {
     staticClass: "fa-sharp fa-regular fa-circle-question",
@@ -6566,20 +6734,23 @@ var render = function render() {
     attrs: {
       "role": "presentation"
     }
-  })])]) : _vm._e(), _vm._v(" "), _c('dialog', {
-    ref: "infoDialog",
-    staticClass: "skill-override-dialog"
-  }, [_c('div', [_vm._m(1), _vm._v(" "), _c('p', [_vm._v("\n        Track limited-use resources like Superiority Dice, Focus Points,\n        attunement slots, and rechargeable class features.\n      ")]), _vm._v(" "), _c('div', {
-    staticClass: "mt-md"
-  }, [_c('button', {
-    staticClass: "button button-primary",
+  })])]) : _vm._e(), _vm._v(" "), _vm.showInfoDialog ? _c('app-dialog', {
     attrs: {
-      "type": "button"
+      "title": "What are Trackable Fields?"
     },
     on: {
-      "click": _vm.closeInfoDialog
-    }
-  }, [_vm._v("\n          Close\n        ")])])])])]);
+      "close": function close($event) {
+        _vm.showInfoDialog = false;
+      }
+    },
+    scopedSlots: _vm._u([{
+      key: "content",
+      fn: function fn() {
+        return [_c('p', [_vm._v("\n        Track limited-use resources like Superiority Dice, Focus Points,\n        attunement slots, and rechargeable class features.\n      ")])];
+      },
+      proxy: true
+    }], null, false, 2888233586)
+  }) : _vm._e()], 1);
 };
 var staticRenderFns = [function () {
   var _vm = this,
@@ -6593,10 +6764,6 @@ var staticRenderFns = [function () {
   }, [_vm._v("Max")]), _vm._v(" "), _c('th', {
     staticClass: "px-2 text-right"
   }, [_vm._v("Actions")])])]);
-}, function () {
-  var _vm = this,
-    _c = _vm._self._c;
-  return _c('p', [_c('strong', [_vm._v("What are Trackable Fields?")])]);
 }];
 render._withStripped = true;
 
@@ -6621,7 +6788,7 @@ var render = function render() {
   return _c('div', [_c('div', {
     staticClass: "mb-4 grid grid-cols-3 justify-center gap-3 sm:flex sm:items-start sm:justify-between"
   }, [_c('div', {
-    staticClass: "border-t border-neutral-950 bg-neutral-950 text-center text-neutral-50"
+    staticClass: "rounded-xs border-t border-neutral-950 bg-neutral-950 text-center text-neutral-50"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6640,7 +6807,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-300 text-center"
+    staticClass: "border-t border-neutral-950 text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6670,7 +6837,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-300 text-center"
+    staticClass: "border-t border-neutral-950 text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6689,7 +6856,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-300 text-center"
+    staticClass: "border-t border-neutral-950 text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6719,7 +6886,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-300 text-center"
+    staticClass: "border-t border-neutral-950 text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6738,7 +6905,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "flex flex-col items-center border-t border-neutral-300 text-center"
+    staticClass: "flex flex-col items-center border-t border-neutral-950 text-center"
   }, [_c('span', {
     staticClass: "mb-1 block text-sm"
   }, [_vm._v("Death saves")]), _vm._v(" "), _c('div', {

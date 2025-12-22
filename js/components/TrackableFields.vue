@@ -1,10 +1,10 @@
 <template>
-  <details open class="relative mb-4">
+  <details open class="relative border-t border-neutral-950 pb-8">
     <summary class="section-label">Trackable Fields</summary>
 
     <!-- Info Button -->
     <button
-      @click="openInfoDialog"
+      @click="showInfoDialog = true"
       class="absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1 hover:border-neutral-950"
       title="What are trackable fields?"
       type="button"
@@ -247,29 +247,24 @@
     </p>
 
     <!-- Info Dialog -->
-    <dialog class="skill-override-dialog" ref="infoDialog">
-      <div>
-        <p><strong>What are Trackable Fields?</strong></p>
+    <app-dialog
+      @close="showInfoDialog = false"
+      title="What are Trackable Fields?"
+      v-if="showInfoDialog"
+    >
+      <template #content>
         <p>
           Track limited-use resources like Superiority Dice, Focus Points,
           attunement slots, and rechargeable class features.
         </p>
-        <div class="mt-md">
-          <button
-            @click="closeInfoDialog"
-            class="button button-primary"
-            type="button"
-          >
-            Close
-          </button>
-        </div>
-      </div>
-    </dialog>
+      </template>
+    </app-dialog>
   </details>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import AppDialog from './AppDialog.vue';
 import Field from './Field';
 import QuillEditor from './QuillEditor';
 
@@ -280,6 +275,7 @@ export default {
     return {
       isMobile: false,
       mediaQuery: null,
+      showInfoDialog: false,
     };
   },
 
@@ -341,17 +337,10 @@ export default {
     sortTrackableField(id, direction) {
       this.$store.commit('sortTrackableField', { id, direction });
     },
-
-    openInfoDialog() {
-      this.$refs.infoDialog.showModal();
-    },
-
-    closeInfoDialog() {
-      this.$refs.infoDialog.close();
-    },
   },
 
   components: {
+    'app-dialog': AppDialog,
     field: Field,
     'quill-editor': QuillEditor,
   },

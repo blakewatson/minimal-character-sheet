@@ -1,12 +1,12 @@
 <template>
-  <div class="spell-list">
-    <ul>
+  <div class="spell-list mb-6">
+    <ul class="mb-4">
       <li
         v-for="(item, i) in spellItems"
         :key="item.id"
-        class="list-item deletable"
+        class="mb-2 rounded border border-neutral-400 p-1"
       >
-        <div class="row">
+        <div class="flex items-start gap-2">
           <input
             :checked="item.prepared"
             :disabled="readOnly"
@@ -15,9 +15,10 @@
             title="Prepared"
             type="checkbox"
           />
-          <label :for="`spell-prepared-${item.id}`" class="sr-only"
-            >Prepared</label
-          >
+          <label :for="`spell-prepared-${item.id}`" class="sr-only">
+            Prepared
+          </label>
+
           <div class="size-full">
             <label class="sr-only">Spell name and description</label>
             <quill-editor
@@ -30,10 +31,7 @@
           </div>
         </div>
 
-        <div
-          class="mt-sm"
-          style="display: flex; justify-content: flex-end; gap: 0.25rem"
-        >
+        <div class="mt-1 flex items-center justify-end gap-1">
           <button-collapse
             :collapsed="item.collapsed"
             @click="updateSpellCollapsed(i, !item.collapsed)"
@@ -43,7 +41,7 @@
           <button
             :disabled="readOnly"
             @click="sortSpells(item.id, 'up')"
-            class="button button-sort"
+            class="button-icon"
             title="Move up"
             type="button"
             v-if="!readOnly && i > 0"
@@ -55,7 +53,7 @@
           <button
             :disabled="readOnly"
             @click="sortSpells(item.id, 'down')"
-            class="button button-sort"
+            class="button-icon"
             title="Move down"
             type="button"
             v-if="!readOnly && i < spellItems.length - 1"
@@ -70,7 +68,7 @@
           <button
             :disabled="readOnly"
             @click="deleteSpell(i)"
-            class="button button-delete"
+            class="button-icon hover:border-red-600 hover:text-red-600"
             title="Delete spell"
             type="button"
             v-if="!readOnly"
@@ -86,7 +84,7 @@
       <button
         :disabled="readOnly"
         @click="addSpell"
-        class="button-add"
+        class="button-icon"
         title="Add spell"
         type="button"
       >

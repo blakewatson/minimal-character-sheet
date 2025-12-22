@@ -1,36 +1,45 @@
 <template>
   <div>
-    <div class="box box-lite row row-vert-centered mb-sm">
-      <span class="slot-label reverse">{{ level }}</span>
-      <div class="spell-slots">
-        <span class="label label-inline">Slots:</span>
+    <div
+      class="mb-2 flex items-center justify-between border-t border-neutral-950"
+    >
+      <span class="bg-neutral-950 px-2 text-xl text-neutral-50">{{
+        level
+      }}</span>
+
+      <div class="flex items-baseline gap-1">
+        <span class="small-label min-[500px]:text-sm">Slots:</span>
         <field
-          :value="totalSlots"
-          type="number"
-          class="spell-slots-total"
-          min="0"
           :read-only="readOnly"
+          :value="totalSlots"
           @update-value="updateSlots($event)"
-        ></field>
-        <span class="label label-inline">Expended:</span>
-        <field
-          :value="expendedSlots"
-          type="number"
-          class="spell-slots-expended"
+          class="mr-1.5 text-sm! font-bold sm:mr-4"
           min="0"
+          type="number"
+        ></field>
+
+        <span class="small-label min-[500px]:text-sm">Expended:</span>
+        <field
           :max="totalSlots"
           :read-only="readOnly"
+          :value="expendedSlots"
           @update-value="updateExpended($event)"
+          class="text-sm!"
+          min="0"
+          type="number"
         ></field>
       </div>
+
       <button-collapse
-        :collapsed="!shouldCollapseAll"
-        @click="updateSpellsCollapsed()"
         :collapse-title="`Collapse all level ${level} spells`"
+        :collapsed="!shouldCollapseAll"
         :expand-title="`Expand all level ${level} spells`"
+        @click="updateSpellsCollapsed()"
+        class="mt-1"
         v-if="!readOnly"
       ></button-collapse>
     </div>
+
     <spell-list :list-field="listField" :read-only="readOnly"></spell-list>
   </div>
 </template>

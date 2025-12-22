@@ -1,23 +1,26 @@
 <template>
   <section>
-    <h1 class="label centered">Spellcasting</h1>
+    <h1 class="section-label pt-0 font-bold">Spellcasting</h1>
 
-    <div class="spellcasting row vert-after" style="gap: 0.5rem">
-      <div class="box box-lite">
-        <span class="label centered">Class</span>
+    <div
+      class="grid grid-cols-2 items-start justify-between gap-2 sm:flex sm:flex-wrap"
+    >
+      <div class="flex flex-col items-center border-t border-neutral-950">
+        <span class="text-center text-sm sm:mb-1">Class</span>
         <field
-          class="centered block"
-          :value="spClass"
           :read-only="readOnly"
+          :value="spClass"
           @update-value="updateSpellInfo('spClass', $event)"
+          class="text-center text-[13px]! min-[500px]:text-sm!"
         ></field>
       </div>
 
-      <div class="box box-lite">
-        <span class="label centered">Ability</span>
+      <div class="flex flex-col items-center border-t border-neutral-950">
+        <span class="text-center text-sm sm:mb-1">Ability</span>
         <select
           v-if="!readOnly"
           @input="updateSpellInfo('spAbility', $event.target.value)"
+          class="px-1 py-0.5 text-center hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700"
         >
           <option
             v-for="(a, idx) in abilities"
@@ -30,25 +33,26 @@
         <div class="block" style="padding: 0.25em" v-else>{{ spAbility }}</div>
       </div>
 
-      <div class="box">
-        <label for="spell-save-dc" class="label centered reverse"
+      <div class="flex flex-col items-center border-t border-neutral-950">
+        <label for="spell-save-dc" class="text-center text-sm"
           >Spell Save DC</label
         >
         <field
           id="spell-save-dc"
-          class="centered block padded huge"
+          class="text-center sm:text-2xl"
           :value="spSave"
           :read-only="readOnly"
           @update-value="updateSpellInfo('spSave', $event)"
         ></field>
       </div>
-      <div class="box">
-        <label for="spell-attack-bonus" class="label centered reverse"
+
+      <div class="flex flex-col items-center border-t border-neutral-950">
+        <label for="spell-attack-bonus" class="text-center text-sm"
           >Attack Bonus</label
         >
         <field
           id="spell-attack-bonus"
-          class="centered block padded huge"
+          class="text-center sm:text-2xl"
           :value="spAttack"
           :read-only="readOnly"
           @update-value="updateSpellInfo('spAttack', $event)"
@@ -56,17 +60,23 @@
       </div>
     </div>
 
-    <div>
-      <div class="box box-lite row row-vert-centered mb-sm">
-        <span class="slot-label reverse">0</span>
-        <span class="label centered">Cantrips</span>
+    <div class="my-6">
+      <div
+        class="mb-2 flex items-center justify-between border-t border-neutral-950"
+      >
+        <span class="bg-neutral-950 px-2 text-xl text-neutral-50">0</span>
+        <span class="text-center text-sm tracking-wider uppercase"
+          >Cantrips</span
+        >
         <button-collapse
           :collapsed="!shouldCollapseAll"
           @click="updateCantripsCollapsed()"
+          class="mt-1"
           collapse-title="Collapse all cantrips"
           expand-title="Expand all cantrips"
           v-if="!readOnly"
         ></button-collapse>
+
         <!-- else empty element to maintain layout -->
         <span v-else></span>
       </div>

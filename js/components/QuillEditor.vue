@@ -1,6 +1,6 @@
 <template>
   <div
-    class="bg-neutral-100 font-mono *:font-mono *:text-[13px] has-focus:outline-2 has-focus:outline-blue-600"
+    class="quill-editor rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[13px] has-focus:outline-2 has-focus:outline-blue-600"
     v-bind="$attrs"
     @mousedown="onMouseDown"
     @mouseup="onMouseUp"
