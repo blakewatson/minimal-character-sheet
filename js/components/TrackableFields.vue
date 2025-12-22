@@ -31,7 +31,7 @@
         <tr
           v-for="(field, i) in trackableFieldsAndNotes"
           :key="field.id"
-          :class="{ 'border-t border-neutral-300': field.isField }"
+          :class="{ 'border-t border-neutral-400': field.isField }"
           :style="{ 'z-index': trackableFields.length - i }"
         >
           <td v-if="field.isField" class="p-2">
@@ -141,7 +141,7 @@
       <div
         v-for="(field, i) in trackableFields"
         :key="field.id"
-        class="mb-4 rounded border border-neutral-300 p-2"
+        class="mb-4 rounded border border-neutral-400 p-2"
       >
         <div class="flex items-center justify-between gap-2">
           <field

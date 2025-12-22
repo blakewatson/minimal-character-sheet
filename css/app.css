@@ -1,17 +1,64 @@
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark-mode, .dark-mode *));
+
 @theme {
   --breakpoint-sm: 660px;
   --font-mono: 'IBM Plex Mono', monospace;
 }
 
+@layer base {
+  .dark-mode,
+  .dark-mode * {
+    color-scheme: dark;
+  }
+
+  h1,
+  h2 {
+    @apply mb-2 text-lg font-bold;
+  }
+
+  p {
+    @apply mb-4;
+  }
+
+  a {
+    @apply text-blue-600 underline dark:text-blue-300;
+  }
+
+  .page {
+    input,
+    textarea {
+      @apply rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 text-neutral-950 dark:border-zinc-600 dark:bg-zinc-800 dark:text-neutral-100;
+    }
+
+    input[type='text'],
+    input[type='email'],
+    input[type='password'] {
+      @apply w-full;
+    }
+
+    select {
+      @apply rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 text-neutral-950 dark:border-zinc-600 dark:bg-zinc-800 dark:text-neutral-100;
+    }
+  }
+}
+
 @layer components {
   .button {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-950 hover:border-blue-600 hover:text-blue-600;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-950 hover:border-blue-600 hover:text-blue-600 dark:border-neutral-100 dark:text-neutral-100 dark:hover:border-blue-300 dark:hover:text-blue-300;
+
+    a& {
+      @apply no-underline;
+    }
   }
 
   .button-primary {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-950 bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 hover:border-blue-600 hover:bg-blue-600;
+    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-950 bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 hover:border-blue-600 hover:bg-blue-600 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950 dark:hover:border-blue-300 dark:hover:bg-blue-300;
+
+    a& {
+      @apply no-underline;
+    }
   }
 
   .button-icon {

@@ -3,8 +3,11 @@
     class="fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 rounded-b-xs bg-neutral-950 text-neutral-50 sm:max-w-162.5"
   >
     <ul class="flex items-center justify-center gap-1 text-[13px] sm:gap-2">
-      <li class="absolute top-1/2 left-1 -translate-y-1/2">
-        <a href="/dashboard" class="px-2 py-1.5 text-xl">
+      <li class="absolute top-1/2 left-0 h-full -translate-y-1/2">
+        <a
+          href="/dashboard"
+          class="flex h-full items-center px-2 text-xl text-inherit no-underline hover:bg-blue-600"
+        >
           <i class="fa-sharp fa-regular fa-house" role="presentation"></i>
           <span class="sr-only">Dashboard</span>
         </a>
@@ -42,13 +45,16 @@
         </button>
       </li>
 
-      <li class="absolute top-1/2 right-1 -translate-y-1/2" v-if="!readOnly">
+      <li
+        class="absolute top-1/2 right-0 h-full -translate-y-1/2"
+        v-if="!readOnly"
+      >
         <button
           @click="manualSave"
           :class="saveIndicatorClass"
           :disabled="saveStatus === 'saving'"
           :title="computedSaveButtonTitle"
-          class="cursor-pointer text-xl"
+          class="h-full cursor-pointer px-1 text-xl hover:bg-green-600"
         >
           <span v-if="saveStatus === 'unsaved'">
             <i

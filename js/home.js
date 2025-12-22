@@ -1,10 +1,9 @@
 // Initialize baguettebox for screenshot gallery
 function initBaguettebox() {
-  if (typeof baguetteBox !== "undefined") {
+  if (typeof baguetteBox !== 'undefined') {
     console.log('baguetteBox is defined');
-    baguetteBox.run('.screenshot-gallery');
+    baguetteBox.run('[data-screenshot-gallery]');
   }
 }
-
 
 document.addEventListener('DOMContentLoaded', initBaguettebox);

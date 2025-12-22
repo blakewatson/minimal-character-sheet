@@ -48,7 +48,7 @@
               :read-only="readOnly"
               :value="a.damage"
               @update-value="updateAttacks(a.id, 'damage', $event)"
-              class="w-full text-left text-[13px]"
+              class="w-full text-left text-[13px]!"
               placeholder="Ex: 1d6 slashing"
             ></field>
           </td>
@@ -120,7 +120,7 @@
       <div
         v-for="(a, i) in attacks"
         :key="a.id"
-        class="mb-4 rounded border border-neutral-300 p-2"
+        class="mb-4 rounded border border-neutral-400 p-2"
       >
         <div class="flex items-center justify-between gap-2">
           <field

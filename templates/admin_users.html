@@ -1,39 +1,46 @@
 <include href="templates/header.html" />
 
-<div class="admin container container-slim">
+<div class="page mx-auto max-w-180 px-4 py-8">
   <h1>Manage Users</h1>
 
   <p><a href="/admin">Back to Admin Dashboard</a></p>
 
   <check if="{{ @users }}">
     <true>
-      <table style="width: 100%; border-collapse: collapse; margin-top: 1.5rem;">
+      <table class="mt-6 w-full border-collapse text-sm">
         <thead>
-          <tr>
-            <th style="text-align: left; padding: 0.5rem; border-bottom: 2px solid #ccc;">Email</th>
-            <th style="text-align: center; padding: 0.5rem; border-bottom: 2px solid #ccc;">Confirmed</th>
-            <th style="text-align: center; padding: 0.5rem; border-bottom: 2px solid #ccc;">Admin</th>
-            <th style="text-align: center; padding: 0.5rem; border-bottom: 2px solid #ccc;">Actions</th>
+          <tr
+            class="*:border-b-2 *:border-neutral-400 *:p-2 *:dark:border-neutral-600"
+          >
+            <th class="text-left">Email</th>
+            <th>Confirmed</th>
+            <th class="text-center">Admin</th>
+            <th class="text-center">Actions</th>
           </tr>
         </thead>
         <tbody>
           <repeat group="{{ @users }}" value="{{ @user }}">
-            <tr>
-              <td style="padding: 0.5rem; border-bottom: 1px solid #eee;">{{ @user.email }}</td>
-              <td style="text-align: center; padding: 0.5rem; border-bottom: 1px solid #eee;">
+            <tr
+              class="*:boeder-neutral-400 *:border-t *:p-2 dark:*:border-neutral-600"
+            >
+              <td class="wrap-anywhere">{{ @user.email }}</td>
+
+              <td class="text-center">
                 <check if="{{ @user.confirmed }}">
-                  <true>✓</true>
+                  <true><i class="fa-sharp fa-regular fa-check"></i></true>
                   <false>—</false>
                 </check>
               </td>
-              <td style="text-align: center; padding: 0.5rem; border-bottom: 1px solid #eee;">
+
+              <td class="text-center">
                 <check if="{{ @user.is_admin }}">
                   <true>✓</true>
                   <false>—</false>
                 </check>
               </td>
-              <td style="text-align: center; padding: 0.5rem; border-bottom: 1px solid #eee;">
-                <a href="/dashboard?user_id={{ @user.id }}">View Sheets</a>
+
+              <td>
+                <a href="/dashboard?user_id={{ @user.id }}">View&nbsp;Sheets</a>
               </td>
             </tr>
           </repeat>

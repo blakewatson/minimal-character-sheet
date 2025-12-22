@@ -1,29 +1,29 @@
 <include href="templates/header.html" />
 
-<div class="container container-center-center">
-    <div class="inner">
-        <check if="isset( @success_message )">
-            <true>
-                <p>{{ @success_message }}</p>
-            </true>
-    
-            <false>
-                <h1>Send confirmation email</h1>
-    
-                <form action="/register/confirm/send" method="post">
-                    <p>
-                        <label for="email" class="label block">Email</label>
-                        <input type="email" id="email" name="email" class="field field-visible">
-                    </p>
-    
-                    <input type="hidden" name="username">
-                    <input type="hidden" name="csrf" value="{{ @CSRF }}">
-    
-                    <p><button type="submit" class="button-primary">Log In</button></p>
-                </form>
-            </false>
-        </check>
-    </div>
+<div class="page mx-auto flex h-screen items-center justify-center p-4">
+  <div class="w-full max-w-120">
+    <check if="isset( @success_message )">
+      <true>
+        <p>{{ @success_message }}</p>
+      </true>
+
+      <false>
+        <h1>Send confirmation email</h1>
+
+        <form action="/register/confirm/send" method="post">
+          <p>
+            <label for="email" class="block">Email</label>
+            <input type="email" id="email" name="email" />
+          </p>
+
+          <input type="hidden" name="username" />
+          <input type="hidden" name="csrf" value="{{ @CSRF }}" />
+
+          <p><button type="submit" class="button-primary">Log In</button></p>
+        </form>
+      </false>
+    </check>
+  </div>
 </div>
 
 <include href="templates/footer.html" />

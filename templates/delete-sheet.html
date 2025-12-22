@@ -1,15 +1,18 @@
 <include href="templates/header.html" />
 
-
-<div class="container container-slim">
+<div class="page mx-auto flex h-screen items-center justify-center p-4">
+  <div class="w-full max-w-120">
     <h1>Delete</h1>
 
     <check if="{{ @deleted }}">
-        <true><p>Character sheet deleted.</p></true>
-        <false><p>Something went wrong. Unable to delete character sheet.</p></false>
+      <true><p>Character sheet deleted.</p></true>
+      <false
+        ><p>Something went wrong. Unable to delete character sheet.</p></false
+      >
     </check>
 
     <p><a href="/dashboard">Back to Dashboard</a></p>
+  </div>
 </div>
 
 <include href="templates/footer.html" />

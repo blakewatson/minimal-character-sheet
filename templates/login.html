@@ -1,42 +1,47 @@
 <include href="templates/header.html" />
 
-    <div class="container container-center-center">
-        <div class="inner">
-            <h1>Login</h1>
-    
-            <check if="{{ isset(@error_message) }}">
-                <p>{{ @error_message }}</p>
-            </check>
+<div class="page mx-auto flex h-screen items-center justify-center p-4">
+  <div class="w-full max-w-120">
+    <h1>Login</h1>
 
-            <check if="{{ isset(@failed_confirmation) }}">
-                <p>
-                    You must confirm your account before you can log in. Please check your email.
-                    Never received the email? <a href="/register/confirm/send">Click here to send a new confirmation email</a>.
-                    <a href="/">Go to homepage</a>.
-                </p>
-            </check>
-    
-            <form action="/login" method="post">
-                <p>
-                    <label for="email" class="label block">Email</label>
-                    <input type="email" id="email" name="email" class="field field-visible">
-                </p>
-    
-                <p>
-                    <label for="pw" class="label block">Password</label>
-                    <input type="password" id="pw" name="pw" class="field field-visible">
-                </p>
-    
-                <input type="hidden" name="username">
-                <input type="hidden" name="csrf" value="{{ @CSRF }}">
-    
-                <p><button type="submit" class="button-primary">Log In</button></p>
-            </form>
-    
-            <p><a href="/register">Create an account</a></p>
-            
-            <p><a href="/request-password-reset">Forgot password?</a></p>
-        </div>
-    </div>
+    <check if="{{ isset(@error_message) }}">
+      <p class="text-red-600 dark:text-red-400">{{ @error_message }}</p>
+    </check>
+
+    <check if="{{ isset(@failed_confirmation) }}">
+      <p>
+        You must confirm your account before you can log in. Please check your
+        email. Never received the email?
+        <a href="/register/confirm/send"
+          >Click here to send a new confirmation email</a
+        >. <a href="/">Go to homepage</a>.
+      </p>
+    </check>
+
+    <form action="/login" method="post">
+      <p>
+        <label for="email" class="label block">Email</label>
+        <input type="email" id="email" name="email" class="" />
+      </p>
+
+      <p>
+        <label for="pw" class="label block">Password</label>
+        <input type="password" id="pw" name="pw" class="" />
+      </p>
+
+      <input type="hidden" name="username" />
+      <input type="hidden" name="csrf" value="{{ @CSRF }}" />
+
+      <p>
+        <button type="submit" class="button-primary">Log In</button>
+        <a href="/" class="button">Go home</a>
+      </p>
+    </form>
+
+    <p><a href="/register">Create an account</a></p>
+
+    <p><a href="/request-password-reset">Forgot password?</a></p>
+  </div>
+</div>
 
 <include href="templates/footer.html" />

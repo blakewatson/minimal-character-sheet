@@ -1,14 +1,14 @@
 <include href="templates/header.html" />
 
-<div class="container">
-    <check if="{{ @success }}">
-        <h1>Account confirmed</h1>
-        <p>You can now <a href="/login">log in to your account</a>.</p>
-    </check>
+<div class="page mx-auto max-w-175 px-4 py-6">
+  <check if="{{ @success }}">
+    <h1>Account confirmed</h1>
+    <p>You can now <a href="/login">log in to your account</a>.</p>
+  </check>
 
-    <check if="{{ isset(@error_message) }}">
-        <h1>{{ @error_message }}</h1>
-    </check>
+  <check if="{{ isset(@error_message) }}">
+    <h1>{{ @error_message }}</h1>
+  </check>
 </div>
 
 <include href="templates/footer.html" />

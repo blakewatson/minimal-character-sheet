@@ -1,5 +1,5 @@
 <template>
-  <section>
+  <section class="border-t border-neutral-950 pt-4">
     <h1 class="section-label pt-0 font-bold">Spellcasting</h1>
 
     <div
@@ -62,23 +62,28 @@
 
     <div class="my-6">
       <div
-        class="mb-2 flex items-center justify-between border-t border-neutral-950"
+        class="relative mb-3 flex items-center justify-center border-t border-neutral-950"
       >
-        <span class="bg-neutral-950 px-2 text-xl text-neutral-50">0</span>
-        <span class="text-center text-sm tracking-wider uppercase"
+        <span
+          class="absolute top-0 left-0 bg-neutral-950 px-2 text-xl text-neutral-50"
+        >
+          <div class="sr-only">Level</div>
+          0
+        </span>
+
+        <span
+          class="mx-auto mt-1 grow text-center text-sm tracking-wider uppercase"
           >Cantrips</span
         >
+
         <button-collapse
           :collapsed="!shouldCollapseAll"
           @click="updateCantripsCollapsed()"
-          class="mt-1"
+          class="absolute top-1 right-0"
           collapse-title="Collapse all cantrips"
           expand-title="Expand all cantrips"
           v-if="!readOnly"
         ></button-collapse>
-
-        <!-- else empty element to maintain layout -->
-        <span v-else></span>
       </div>
       <list list-field="cantripsList" :read-only="readOnly"></list>
     </div>

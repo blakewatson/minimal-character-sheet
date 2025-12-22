@@ -4655,7 +4655,7 @@ var render = function render() {
     })], 1) : _vm._e(), _vm._v(" "), a.isAttack ? _c('td', {
       staticClass: "p-2"
     }, [_c('field', {
-      staticClass: "w-full text-left text-[13px]",
+      staticClass: "w-full text-left text-[13px]!",
       attrs: {
         "auto-size": false,
         "read-only": _vm.readOnly,
@@ -4754,7 +4754,7 @@ var render = function render() {
   }), 0)]) : _vm._e(), _vm._v(" "), _vm.attacks.length > 0 && _vm.isMobile ? _c('div', {}, _vm._l(_vm.attacks, function (a, i) {
     return _c('div', {
       key: a.id,
-      staticClass: "mb-4 rounded border border-neutral-300 p-2"
+      staticClass: "mb-4 rounded border border-neutral-400 p-2"
     }, [_c('div', {
       staticClass: "flex items-center justify-between gap-2"
     }, [_c('field', {
@@ -6084,7 +6084,9 @@ __webpack_require__.r(__webpack_exports__);
 var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
-  return _c('section', [_c('h1', {
+  return _c('section', {
+    staticClass: "border-t border-neutral-950 pt-4"
+  }, [_c('h1', {
     staticClass: "section-label pt-0 font-bold"
   }, [_vm._v("Spellcasting")]), _vm._v(" "), _c('div', {
     staticClass: "grid grid-cols-2 items-start justify-between gap-2 sm:flex sm:flex-wrap"
@@ -6167,13 +6169,11 @@ var render = function render() {
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "my-6"
   }, [_c('div', {
-    staticClass: "mb-2 flex items-center justify-between border-t border-neutral-950"
-  }, [_c('span', {
-    staticClass: "bg-neutral-950 px-2 text-xl text-neutral-50"
-  }, [_vm._v("0")]), _vm._v(" "), _c('span', {
-    staticClass: "text-center text-sm tracking-wider uppercase"
+    staticClass: "relative mb-3 flex items-center justify-center border-t border-neutral-950"
+  }, [_vm._m(0), _vm._v(" "), _c('span', {
+    staticClass: "mx-auto mt-1 grow text-center text-sm tracking-wider uppercase"
   }, [_vm._v("Cantrips")]), _vm._v(" "), !_vm.readOnly ? _c('button-collapse', {
-    staticClass: "mt-1",
+    staticClass: "absolute top-1 right-0",
     attrs: {
       "collapsed": !_vm.shouldCollapseAll,
       "collapse-title": "Collapse all cantrips",
@@ -6184,7 +6184,7 @@ var render = function render() {
         return _vm.updateCantripsCollapsed();
       }
     }
-  }) : _c('span')], 1), _vm._v(" "), _c('list', {
+  }) : _vm._e()], 1), _vm._v(" "), _c('list', {
     attrs: {
       "list-field": "cantripsList",
       "read-only": _vm.readOnly
@@ -6227,7 +6227,15 @@ var render = function render() {
     }
   })], 1);
 };
-var staticRenderFns = [];
+var staticRenderFns = [function () {
+  var _vm = this,
+    _c = _vm._self._c;
+  return _c('span', {
+    staticClass: "absolute top-0 left-0 bg-neutral-950 px-2 text-xl text-neutral-50"
+  }, [_c('div', {
+    staticClass: "sr-only"
+  }, [_vm._v("Level")]), _vm._v("\n        0\n      ")]);
+}];
 render._withStripped = true;
 
 
@@ -6297,9 +6305,9 @@ var render = function render() {
       }
     }
   }, [_vm._v("\n        Notes\n      ")])]), _vm._v(" "), !_vm.readOnly ? _c('li', {
-    staticClass: "absolute top-1/2 right-1 -translate-y-1/2"
+    staticClass: "absolute top-1/2 right-0 h-full -translate-y-1/2"
   }, [_c('button', {
-    staticClass: "cursor-pointer text-xl",
+    staticClass: "h-full cursor-pointer px-1 text-xl hover:bg-green-600",
     "class": _vm.saveIndicatorClass,
     attrs: {
       "disabled": _vm.saveStatus === 'saving',
@@ -6348,9 +6356,9 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c('li', {
-    staticClass: "absolute top-1/2 left-1 -translate-y-1/2"
+    staticClass: "absolute top-1/2 left-0 h-full -translate-y-1/2"
   }, [_c('a', {
-    staticClass: "px-2 py-1.5 text-xl",
+    staticClass: "flex h-full items-center px-2 text-xl text-inherit no-underline hover:bg-blue-600",
     attrs: {
       "href": "/dashboard"
     }
@@ -6452,7 +6460,7 @@ var render = function render() {
     return _c('tr', {
       key: field.id,
       "class": {
-        'border-t border-neutral-300': field.isField
+        'border-t border-neutral-400': field.isField
       },
       style: {
         'z-index': _vm.trackableFields.length - i
@@ -6588,7 +6596,7 @@ var render = function render() {
   }), 0)]) : _vm._e(), _vm._v(" "), _vm.trackableFields.length > 0 && _vm.isMobile ? _c('div', {}, _vm._l(_vm.trackableFields, function (field, i) {
     return _c('div', {
       key: field.id,
-      staticClass: "mb-4 rounded border border-neutral-300 p-2"
+      staticClass: "mb-4 rounded border border-neutral-400 p-2"
     }, [_c('div', {
       staticClass: "flex items-center justify-between gap-2"
     }, [_c('field', {

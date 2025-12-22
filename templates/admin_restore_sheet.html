@@ -1,10 +1,10 @@
 <include href="templates/header.html" />
 
-<div class="admin container container-slim">
+<div class="page mx-auto max-w-180 px-4 py-8">
   <h1>Admin - Restore Sheet</h1>
 
   <form action="/admin/restore-sheet" method="POST">
-    <label class="block mb-md">
+    <label class="mb-8 block">
       User Email:
       <select name="email">
         <repeat group="{{ @users }}" value="{{ @user }}">
@@ -13,8 +13,8 @@
       </select>
     </label>
 
-    <div class="mb-md">
-      <label class="block mb-xs">D&D 5e Version:</label>
+    <div class="mb-8">
+      <label class="block">D&D 5e Version:</label>
       <label for="is-2024" class="label">
         <input type="radio" id="is-2024" name="is_2024" value="1" checked />
         2024 Edition
@@ -25,7 +25,7 @@
       </label>
     </div>
 
-    <label class="block mb-sm">
+    <label class="mb-4 block">
       Sheet Name:
       <input type="text" name="sheet_name" />
     </label>
@@ -35,7 +35,7 @@
       <textarea name="sheet_data" rows="20" style="width: 100%"></textarea>
     </label>
 
-    <div class="mt-md">
+    <div class="mt-8">
       <button type="submit" class="button-primary mr-sm">Restore Sheet</button>
       <a href="/admin" class="button">Back to Admin</a>
     </div>

@@ -1,129 +1,178 @@
 <include href="templates/header.html" />
 
-<div class="dashboard container container-slim">
+<div class="page mx-auto max-w-175 px-4 py-6" data-dashboard>
+  <check if="{{ @viewing_as_admin }}">
+    <div
+      class="mb-6 rounded border border-yellow-400 bg-yellow-50 p-4 dark:border-yellow-600 dark:bg-yellow-950"
+    >
+      <p style="margin: 0">
+        <strong>Admin View:</strong> You are viewing character sheets for {{
+        @viewing_user_email }}
+      </p>
+      <p style="margin: 0.5rem 0 0 0">
+        <a href="/dashboard">Return to your dashboard</a> |
+        <a href="/admin/users">Back to user list</a>
+      </p>
+    </div>
+  </check>
+
+  <h1 class="mt-8 mb-4">
     <check if="{{ @viewing_as_admin }}">
-        <div style="background-color: #fffbcc; padding: 1rem; margin-bottom: 1.5rem; border-left: 4px solid #ffcc00;">
-            <p style="margin: 0;"><strong>Admin View:</strong> You are viewing character sheets for {{ @viewing_user_email }}</p>
-            <p style="margin: 0.5rem 0 0 0;"><a href="/dashboard">Return to your dashboard</a> | <a href="/admin/users">Back to user list</a></p>
-        </div>
+      <true>{{ @viewing_user_email }}'s Characters</true>
+      <false>My Characters</false>
     </check>
+  </h1>
 
-    <h1>
-        <check if="{{ @viewing_as_admin }}">
-            <true>{{ @viewing_user_email }}'s Characters</true>
-            <false>My Characters</false>
-        </check>
-    </h1>
+  <check if="{{ @sheets }}">
+    <p class="mt-4 text-sm text-neutral-600 dark:text-neutral-300">
+      Making a character sheet public means that anyone with the link can view a
+      read-only version of the character sheet.
+    </p>
+  </check>
 
-    <check if="{{ @sheets }}">
-        <false>
-            <p>Nothing to see here. Create a character by clicking the link below.</p>
-        </false>
-    </check>
+  <check if="{{ @sheets }}">
+    <false>
+      <p>Nothing to see here. Create a character by clicking the link below.</p>
+    </false>
+  </check>
 
-    <ul id="sheet-list" class="sheet-list">
-        <repeat group="{{ @sheets }}" value="{{ @sheet }}">
-            <li>
-                <p>
-                    <a href="/sheet/{{ @sheet.slug }}">
-                        <check if="@sheet.name">
-                            <true>{{ @sheet.name }}</true>
-                            <false>Untitled Character</false>
-                        </check>
-                    </a>
-                </p>
-
-                <div class="character-actions" style="font-size: 0.85em;">
-                    <p>
-                        <label>
-                            <input type="checkbox" data-is-public data-sheet="{{ @sheet.slug }}" {{ @sheet.is_public ? 'checked' : '' }}>
-                            Public
-                        </label>
-                    </p>
-
-                    <p style="margin-left: auto;">
-                        <a href="/print/{{ @sheet.slug }}" title="Print">
-                            <i class="fa-sharp fa-regular fa-print" role="presentation"></i>
-                            <span class="sr-only">Print</span>
-                        </a>
-                    </p>
-
-                    <p>
-                        <a href="#" class="danger" data-delete-sheet data-sheet="{{ @sheet.slug }}" title="Delete">
-                            <i class="fa-sharp fa-regular fa-trash" role="presentation"></i>
-                            <span class="sr-only">Delete</span>
-                        </a>
-                    </p>
-                </div>
-            </li>
-        </repeat>
-    </ul>
-
-    <check if="{{ !@viewing_as_admin }}">
-        <p>
-            <a href="/add-sheet" class="button-primary">
-                <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
-                Add a character sheet
-            </a>
-        </p>
-
-        <check if="{{ @sheets }}">
-            <p>Making a character sheet public means that anyone with the link can view a read-only version of the character sheet.</p>
-        </check>
-
-        <div class="announcement">
-            <p>
-                <strong>2025-12-19:</strong> There is a new trackable fields
-                section for keeping up with rechargeable class features like
-                focus points and superiority dice, as well as things like attuned
-                magic items.
-            </p>
-        </div>
-
-        <div class="announcement">
-            <p>
-                <strong>2025-07-09:</strong> 2024 character sheets are here! When creating a new
-                sheet, you can choose the 2014 version or the 2024 version. Existing character sheets
-                will remain in the 2014 style.
-            </p>
-            <p>The app is now much more usable on mobile.</p>
-        </div>
-
-        <h1>Settings</h1>
-
-        <p>These settings apply to this device only.</p>
-
-        <p>
-            <label for="settingDarkMode">Dark Mode (experimental)</label>:
-            <input id="settingDarkMode" type="checkbox"><br>
-        </p>
-
-        <p>
-            <label for="settingTextareaFont">Font in text areas</label>:
-            <select id="settingTextareaFont">
-                <option value="default">Default (IBM Plex Mono)</option>
-                <option value="sans-serif">Sans-serif (system default)</option>
-                <option value="serif">Serif (system default)</option>
-            </select>
-        </p>
-    </check>
-
-    <input type="hidden" id="csrf" value="{{ @CSRF }}">
-
-    <div class="account-actions">
-        <p>
-            <check if="{{ @is_admin }}">
-                <a href="/admin">Admin Dashboard</a>
+  <ul id="sheet-list" class="my-6">
+    <repeat group="{{ @sheets }}" value="{{ @sheet }}">
+      <li class="mb-4">
+        <p class="mb-1.5">
+          <a href="/sheet/{{ @sheet.slug }}">
+            <check if="@sheet.name">
+              <true>{{ @sheet.name }}</true>
+              <false>Untitled Character</false>
             </check>
-
-            <a href="/logout">Logout</a>
+          </a>
         </p>
+
+        <div
+          class="flex items-center gap-2 rounded border border-neutral-400 px-2 py-1 text-sm *:mb-0 dark:border-neutral-600"
+        >
+          <p>
+            <label>
+              <check if="{{  @sheet.is_public }}">
+                <true>
+                  <input
+                    type="checkbox"
+                    checked
+                    data-is-public
+                    data-sheet="{{ @sheet.slug }}"
+                  />
+                </true>
+                <false>
+                  <input
+                    type="checkbox"
+                    data-is-public
+                    data-sheet="{{ @sheet.slug }}"
+                  />
+                </false>
+              </check>
+              Public
+            </label>
+          </p>
+
+          <p style="margin-left: auto">
+            <a href="/print/{{ @sheet.slug }}" title="Print">
+              <i class="fa-sharp fa-regular fa-print" role="presentation"></i>
+              <span class="sr-only">Print</span>
+            </a>
+          </p>
+
+          <p>
+            <a
+              href="#"
+              class="text-red-600 dark:text-red-400"
+              data-delete-sheet
+              data-sheet="{{ @sheet.slug }}"
+              title="Delete"
+            >
+              <i class="fa-sharp fa-regular fa-trash" role="presentation"></i>
+              <span class="sr-only">Delete</span>
+            </a>
+          </p>
+        </div>
+      </li>
+    </repeat>
+  </ul>
+
+  <check if="{{ !@viewing_as_admin }}">
+    <p>
+      <a href="/add-sheet" class="button-primary">
+        <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
+        Add a character sheet
+      </a>
+    </p>
+
+    <hr class="mt-8 mb-6" />
+
+    <h1 class="mt-00">Settings</h1>
+
+    <p>These settings apply to this device only.</p>
+
+    <p>
+      <label for="settingDarkMode">Dark Mode</label>:
+      <input id="settingDarkMode" type="checkbox" /><br />
+    </p>
+
+    <p>
+      <label for="settingTextareaFont">Font in text areas</label>:
+      <select id="settingTextareaFont" class="">
+        <option value="default">Default (IBM Plex Mono)</option>
+        <option value="sans-serif">Sans-serif (system default)</option>
+        <option value="serif">Serif (system default)</option>
+      </select>
+    </p>
+
+    <hr class="my-8" />
+
+    <h2>Announcements</h2>
+
+    <div
+      class="my-6 rounded border border-slate-400 bg-slate-100 p-4 shadow *:last:mb-0 dark:border-neutral-600 dark:bg-zinc-800"
+    >
+      <p>
+        <strong>2025-12-19:</strong> There is a new trackable fields section for
+        keeping up with rechargeable class features like focus points and
+        superiority dice, as well as things like attuned magic items.
+      </p>
     </div>
 
-    <div class="support-me">
-        <p>Made with ❤️ and ☕️ by <a href="https://www.blakewatson.com/">Blake Watson</a>.</p>
-        <p>Buy me a coffee on <a href="https://ko-fi.com/L3L4WOIV">Ko-fi</a>.</p>
+    <div
+      class="my-6 rounded border border-slate-400 bg-slate-100 p-4 shadow *:last:mb-0 dark:border-neutral-600 dark:bg-zinc-800"
+    >
+      <p>
+        <strong>2025-07-09:</strong> 2024 character sheets are here! When
+        creating a new sheet, you can choose the 2014 version or the 2024
+        version. Existing character sheets will remain in the 2014 style.
+      </p>
+      <p>The app is now much more usable on mobile.</p>
     </div>
+  </check>
+
+  <input type="hidden" id="csrf" value="{{ @CSRF }}" />
+
+  <div
+    class="absolute top-0 right-0 flex items-baseline gap-6 p-4 pr-6 text-right"
+  >
+    <a href="/">Home</a>
+
+    <check if="{{ @is_admin }}">
+      <a href="/admin">Admin Dashboard</a>
+    </check>
+
+    <a href="/logout">Logout</a>
+  </div>
+
+  <div class="mt-16 text-center">
+    <p>
+      Made with ❤️ and ☕️ by
+      <a href="https://www.blakewatson.com/">Blake Watson</a>.
+    </p>
+    <p>Buy me a coffee on <a href="https://ko-fi.com/L3L4WOIV">Ko-fi</a>.</p>
+  </div>
 </div>
 
 <include href="templates/footer.html" />
