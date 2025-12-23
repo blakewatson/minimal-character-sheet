@@ -108,6 +108,10 @@
       </a>
     </p>
 
+    <p class="my-8">
+      Need help? <a href="mailto:blake@blakewatson.com">Email Blake</a>
+    </p>
+
     <hr class="mt-8 mb-6" />
 
     <h1 class="mt-00">Settings</h1>
@@ -136,6 +140,24 @@
       class="my-6 rounded border border-slate-400 bg-slate-100 p-4 shadow *:last:mb-0 dark:border-neutral-600 dark:bg-zinc-800"
     >
       <p>
+        <strong>2025-12-23:</strong> I restyled the UI from scratch. The general
+        look and feel is the same but there are many subtle improvements. In
+        particular you should notice an improved mobile experience. You may need
+        to hard refresh your browser if you aren't seeing the new design.
+      </p>
+
+      <p>
+        This update will make it easier for me to add new features in the future
+        so stay tuned! As always, you can
+        <a href="mailto:blake@blakewatson.com">shoot me an email</a> if you have
+        any problems, feedback, or requests.
+      </p>
+    </div>
+
+    <div
+      class="my-6 rounded border border-slate-400 bg-slate-100 p-4 shadow *:last:mb-0 dark:border-neutral-600 dark:bg-zinc-800"
+    >
+      <p>
         <strong>2025-12-19:</strong> There is a new trackable fields section for
         keeping up with rechargeable class features like focus points and
         superiority dice, as well as things like attuned magic items.
@@ -157,9 +179,11 @@
   <input type="hidden" id="csrf" value="{{ @CSRF }}" />
 
   <div
-    class="absolute top-0 right-0 flex items-baseline gap-6 p-4 pr-6 text-right"
+    class="absolute top-0 right-0 flex items-baseline gap-6 p-4 pr-6 text-right text-xs sm:text-base"
   >
     <a href="/">Home</a>
+
+    <a href="mailto:blake@blakewatson.com">Email Blake</a>
 
     <check if="{{ @is_admin }}">
       <a href="/admin">Admin Dashboard</a>
