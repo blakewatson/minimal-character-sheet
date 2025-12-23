@@ -536,6 +536,15 @@
     -moz-column-gap: calc(var(--spacing) * 4);
          column-gap: calc(var(--spacing) * 4);
   }
+  .gap-y-0\.5 {
+    row-gap: calc(var(--spacing) * 0.5);
+  }
+  .gap-y-1 {
+    row-gap: calc(var(--spacing) * 1);
+  }
+  .gap-y-2 {
+    row-gap: calc(var(--spacing) * 2);
+  }
   .self-stretch {
     align-self: stretch;
   }
@@ -716,6 +725,9 @@
   .text-\[15px\] {
     font-size: 15px;
   }
+  .text-\[16px\] {
+    font-size: 16px;
+  }
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
@@ -870,6 +882,11 @@
   .\*\:text-\[13px\] {
     :is(& > *) {
       font-size: 13px;
+    }
+  }
+  .\*\:text-\[16px\] {
+    :is(& > *) {
+      font-size: 16px;
     }
   }
   .\*\:last\:mb-0 {
@@ -1117,6 +1134,18 @@
     @media (width >= 660px) {
       font-size: var(--text-base);
       line-height: var(--tw-leading, var(--text-base--line-height));
+    }
+  }
+  .sm\:text-\[15px\] {
+    @media (width >= 660px) {
+      font-size: 15px;
+    }
+  }
+  .sm\:\*\:text-\[13px\] {
+    @media (width >= 660px) {
+      :is(& > *) {
+        font-size: 13px;
+      }
     }
   }
   .dark\:border-b {

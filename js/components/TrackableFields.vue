@@ -152,10 +152,11 @@
         <div class="flex items-center justify-between gap-2">
           <field
             :auto-size="false"
+            :class="isMobile ? '' : 'text-sm!'"
             :read-only="readOnly"
             :value="field.name"
             @update-value="updateTrackableField(field.id, 'name', $event)"
-            class="w-full grow text-sm font-bold"
+            class="w-full grow font-bold"
             placeholder="Name"
           ></field>
 
@@ -204,11 +205,11 @@
               Used
             </label>
             <field
+              :class="isMobile ? '' : 'text-sm!'"
               :id="`trackable-field-used-${field.id}`"
               :read-only="readOnly"
               :value="field.used"
               @update-value="updateTrackableField(field.id, 'used', $event)"
-              class="text-sm!"
               type="number"
             ></field>
           </div>
@@ -218,11 +219,11 @@
               Max
             </label>
             <field
+              :class="isMobile ? '' : 'text-sm!'"
               :id="`trackable-field-max-${field.id}`"
               :read-only="readOnly"
               :value="field.max"
               @update-value="updateTrackableField(field.id, 'max', $event)"
-              class="text-sm!"
               type="number"
             ></field>
           </div>

@@ -60,7 +60,7 @@
     </p>
 
     <app-dialog
-      @close="closeOverrideDialog"
+      @close="showOverrideDialog = false"
       @submit="saveOverride"
       title="Skill modifier override"
       close-label="Cancel"
@@ -216,7 +216,7 @@ export default {
         modifierOverride: override,
       });
 
-      this.$refs.overrideDialog.close();
+      this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
     },
@@ -226,7 +226,7 @@ export default {
         skillName: this.selectedSkill.name,
         modifierOverride: null,
       });
-      this.$refs.overrideDialog.close();
+      this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
     },

@@ -124,6 +124,8 @@ export default {
       // Update the URL hash without triggering a page reload
       const newUrl = `${window.location.pathname}${window.location.search}#${newView}`;
       window.history.pushState(null, '', newUrl);
+      // scroll to top when changing views, todo: save scroll position per view
+      window.scrollTo(0, 0);
     },
   },
 

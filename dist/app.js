@@ -3452,6 +3452,8 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
       // Update the URL hash without triggering a page reload
       var newUrl = "".concat(window.location.pathname).concat(window.location.search, "#").concat(newView);
       window.history.pushState(null, '', newUrl);
+      // scroll to top when changing views, todo: save scroll position per view
+      window.scrollTo(0, 0);
     }
   },
   methods: {
@@ -3882,7 +3884,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         skillName: this.selectedSkill.name,
         modifierOverride: override
       });
-      this.$refs.overrideDialog.close();
+      this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
     },
@@ -3891,7 +3893,7 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         skillName: this.selectedSkill.name,
         modifierOverride: null
       });
-      this.$refs.overrideDialog.close();
+      this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
     }
@@ -4642,7 +4644,8 @@ var render = function render() {
     })], 1) : _vm._e(), _vm._v(" "), a.isAttack ? _c('td', {
       staticClass: "w-px p-2 text-right whitespace-nowrap"
     }, [_c('field', {
-      staticClass: "text-right text-sm!",
+      staticClass: "text-right",
+      "class": _vm.isMobile ? 'text-sm!' : '',
       attrs: {
         "read-only": _vm.readOnly,
         "value": a.attackBonus
@@ -4758,7 +4761,8 @@ var render = function render() {
     }, [_c('div', {
       staticClass: "flex items-center justify-between gap-2"
     }, [_c('field', {
-      staticClass: "grow text-sm font-bold",
+      staticClass: "grow font-bold",
+      "class": _vm.isMobile ? '' : 'text-sm!',
       attrs: {
         "auto-size": false,
         "read-only": _vm.readOnly,
@@ -4825,7 +4829,7 @@ var render = function render() {
         "role": "presentation"
       }
     })]) : _vm._e()], 1), _vm._v(" "), _c('div', {
-      staticClass: "flex items-center gap-4"
+      staticClass: "flex flex-wrap items-center gap-x-4"
     }, [_c('div', {
       staticClass: "flex items-baseline gap-1"
     }, [_c('label', {
@@ -4833,12 +4837,12 @@ var render = function render() {
       attrs: {
         "for": "attack-bonus-".concat(a.id)
       }
-    }, [_vm._v("\n            " + _vm._s(_vm.isMobile ? 'Atk Bonus' : 'Attack Bonus') + "\n          ")]), _vm._v(" "), _c('field', {
-      staticClass: "text-sm!",
+    }, [_vm._v("\n            " + _vm._s(_vm.isMobile ? 'Atk Bonus' : 'Attack Bonus') + "\n          ")]), _vm._v(" "), _c('field', {
+      "class": _vm.isMobile ? '' : 'text-sm!',
       attrs: {
         "id": "attack-bonus-".concat(a.id),
-        "value": a.attackBonus,
-        "read-only": _vm.readOnly
+        "read-only": _vm.readOnly,
+        "value": a.attackBonus
       },
       on: {
         "update-value": function updateValue($event) {
@@ -4853,11 +4857,11 @@ var render = function render() {
         "for": "attack-damage-".concat(a.id)
       }
     }, [_vm._v("Damage")]), _vm._v(" "), _c('field', {
-      staticClass: "text-sm!",
+      "class": _vm.isMobile ? '' : 'text-sm!',
       attrs: {
         "id": "attack-damage-".concat(a.id),
-        "value": a.damage,
-        "read-only": _vm.readOnly
+        "read-only": _vm.readOnly,
+        "value": a.damage
       },
       on: {
         "update-value": function updateValue($event) {
@@ -5211,7 +5215,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('input', _vm._b({
-    staticClass: "text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent rounded-xs border border-transparent px-1 py-0.5 text-[15px] hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-2 dark:hover:border-neutral-700 dark:hover:bg-black dark:focus:bg-black",
+    staticClass: "text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent rounded-xs border border-transparent px-1 py-0.5 text-[16px] hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-2 sm:text-[15px] dark:hover:border-neutral-700 dark:hover:bg-black dark:focus:bg-black",
     "class": this.computedClasses,
     style: _vm.autoSize ? {
       width: _vm.computedWidth
@@ -5547,7 +5551,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', _vm._b({
-    staticClass: "quill-editor has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[13px] has-focus:outline-2 dark:bg-neutral-800",
+    staticClass: "quill-editor has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[16px] has-focus:outline-2 sm:*:text-[13px] dark:bg-neutral-800",
     on: {
       "mousedown": _vm.onMouseDown,
       "mouseup": _vm.onMouseUp
@@ -5773,7 +5777,9 @@ var render = function render() {
       "close-label": "Cancel"
     },
     on: {
-      "close": _vm.closeOverrideDialog,
+      "close": function close($event) {
+        _vm.showOverrideDialog = false;
+      },
       "submit": _vm.saveOverride
     },
     scopedSlots: _vm._u([{
@@ -6605,7 +6611,8 @@ var render = function render() {
     }, [_c('div', {
       staticClass: "flex items-center justify-between gap-2"
     }, [_c('field', {
-      staticClass: "w-full grow text-sm font-bold",
+      staticClass: "w-full grow font-bold",
+      "class": _vm.isMobile ? '' : 'text-sm!',
       attrs: {
         "auto-size": false,
         "read-only": _vm.readOnly,
@@ -6681,7 +6688,7 @@ var render = function render() {
         "for": "trackable-field-used-".concat(field.id)
       }
     }, [_vm._v("\n            Used\n          ")]), _vm._v(" "), _c('field', {
-      staticClass: "text-sm!",
+      "class": _vm.isMobile ? '' : 'text-sm!',
       attrs: {
         "id": "trackable-field-used-".concat(field.id),
         "read-only": _vm.readOnly,
@@ -6701,7 +6708,7 @@ var render = function render() {
         "for": "trackable-field-max-".concat(field.id)
       }
     }, [_vm._v("\n            Max\n          ")]), _vm._v(" "), _c('field', {
-      staticClass: "text-sm!",
+      "class": _vm.isMobile ? '' : 'text-sm!',
       attrs: {
         "id": "trackable-field-max-".concat(field.id),
         "read-only": _vm.readOnly,

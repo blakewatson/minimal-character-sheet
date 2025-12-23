@@ -38,10 +38,11 @@
 
           <td v-if="a.isAttack" class="w-px p-2 text-right whitespace-nowrap">
             <field
+              :class="isMobile ? 'text-sm!' : ''"
               :read-only="readOnly"
               :value="a.attackBonus"
               @update-value="updateAttacks(a.id, 'attackBonus', $event)"
-              class="text-right text-sm!"
+              class="text-right"
             ></field>
           </td>
 
@@ -128,10 +129,11 @@
         <div class="flex items-center justify-between gap-2">
           <field
             :auto-size="false"
+            :class="isMobile ? '' : 'text-sm!'"
             :read-only="readOnly"
             :value="a.name"
             @update-value="updateAttacks(a.id, 'name', $event)"
-            class="grow text-sm font-bold"
+            class="grow font-bold"
             placeholder="Weapon name"
           ></field>
 
@@ -172,16 +174,16 @@
           </button>
         </div>
 
-        <div class="flex items-center gap-4">
+        <div class="flex flex-wrap items-center gap-x-4">
           <div class="flex items-baseline gap-1">
             <label class="small-label" :for="`attack-bonus-${a.id}`">
-              {{ isMobile ? 'Atk Bonus' : 'Attack Bonus' }}
+              {{ isMobile ? 'Atk&nbsp;Bonus' : 'Attack Bonus' }}
             </label>
             <field
+              :class="isMobile ? '' : 'text-sm!'"
               :id="`attack-bonus-${a.id}`"
-              class="text-sm!"
-              :value="a.attackBonus"
               :read-only="readOnly"
+              :value="a.attackBonus"
               @update-value="updateAttacks(a.id, 'attackBonus', $event)"
             ></field>
           </div>
@@ -191,10 +193,10 @@
               >Damage</label
             >
             <field
+              :class="isMobile ? '' : 'text-sm!'"
               :id="`attack-damage-${a.id}`"
-              class="text-sm!"
-              :value="a.damage"
               :read-only="readOnly"
+              :value="a.damage"
               @update-value="updateAttacks(a.id, 'damage', $event)"
             ></field>
           </div>
