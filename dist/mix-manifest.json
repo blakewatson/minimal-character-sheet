@@ -2,7 +2,6 @@
     "/app.js": "/app.js",
     "/dashboard.js": "/dashboard.js",
     "/print.js": "/print.js",
-    "/style.css": "/style.css",
     "/app.css": "/app.css",
     "/quill.bubble.css": "/quill.bubble.css"
 }

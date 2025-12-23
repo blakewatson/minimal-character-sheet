@@ -18,7 +18,6 @@ mix
   .js('js/dashboard.js', 'dist/dashboard.js')
   .js('js/print.js', 'dist/print.js')
   .vue({ version: 2 })
-  .sass('scss/style.scss', 'dist/style.css')
   .postCss('css/app.css', 'dist/app.css', [require('@tailwindcss/postcss')])
   .copy('node_modules/quill/dist/quill.bubble.css', 'dist/quill.bubble.css')
   .options({
