@@ -169,8 +169,10 @@ class Dashboard {
         $name = $f3->get( 'REQUEST.name' );
         $data = $f3->get( 'REQUEST.data' );
 
-        // Validate that the data is valid JSON
-        if( ! $data || json_decode( $data ) === null ) {
+        $decoded_sheet = json_decode( $data, true );
+
+        // Validate that the data is valid JSON and includes a name
+        if( ! $data || $decoded_sheet === null || !$name || !$decoded_sheet['characterName'] ) {
             error_log( 'Invalid JSON received in save_sheet. Data: ' . substr( $data, 0, 200 ) );
             $this->auth->set_csrf();
             $f3->status( 400 );

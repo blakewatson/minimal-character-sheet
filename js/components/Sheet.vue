@@ -146,9 +146,6 @@ export default {
         this.hasUnsavedChanges = true;
         this.throttledSave();
       });
-
-      // go ahead and trigger the first autosave
-      window.sheetEvent.$emit('autosave');
     },
 
     async manualSave() {

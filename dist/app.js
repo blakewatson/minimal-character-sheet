@@ -3491,9 +3491,6 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         _this.hasUnsavedChanges = true;
         _this.throttledSave();
       });
-
-      // go ahead and trigger the first autosave
-      window.sheetEvent.$emit('autosave');
     },
     manualSave: function manualSave() {
       var _this2 = this;
