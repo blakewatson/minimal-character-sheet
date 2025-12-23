@@ -4,6 +4,7 @@ class Token {
 
 	public $id;
 	public $interval;
+	public $life_in_hours;
 	public $clear;
 	public $hash;
 	public $expiry;
