@@ -1,11 +1,14 @@
 <template>
-  <details open class="border-light-foreground relative border-t pb-8">
+  <details
+    open
+    class="border-light-foreground dark:border-dark-foreground relative border-t pb-8"
+  >
     <summary class="section-label">Trackable Fields</summary>
 
     <!-- Info Button -->
     <button
       @click="showInfoDialog = true"
-      class="hover:border-light-foreground absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1"
+      class="hover:border-light-foreground dark:hover:border-dark-foreground absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1"
       title="What are trackable fields?"
       type="button"
     >
@@ -31,7 +34,10 @@
         <tr
           v-for="(field, i) in trackableFieldsAndNotes"
           :key="field.id"
-          :class="{ 'border-t border-neutral-400': field.isField }"
+          :class="{
+            'border-t border-neutral-400 dark:border-neutral-500':
+              field.isField,
+          }"
           :style="{ 'z-index': trackableFields.length - i }"
         >
           <td v-if="field.isField" class="p-2">

@@ -29,6 +29,7 @@
     --color-neutral-600: oklch(43.9% 0 0);
     --color-neutral-700: oklch(37.1% 0 0);
     --color-neutral-800: oklch(26.9% 0 0);
+    --color-neutral-900: oklch(20.5% 0 0);
     --color-neutral-950: oklch(14.5% 0 0);
     --color-black: #000;
     --color-white: #fff;
@@ -1203,6 +1204,22 @@
       }
     }
   }
+  .dark\:backdrop\:bg-\[rgba\(0\,0\,0\,0\.5\)\] {
+    &:where(.dark-mode, .dark-mode *) {
+      &::backdrop {
+        background-color: rgba(0,0,0,0.5);
+      }
+    }
+  }
+  .dark\:hover\:border-dark-foreground {
+    &:where(.dark-mode, .dark-mode *) {
+      &:hover {
+        @media (hover: hover) {
+          border-color: var(--color-dark-foreground);
+        }
+      }
+    }
+  }
   .dark\:hover\:border-neutral-400 {
     &:where(.dark-mode, .dark-mode *) {
       &:hover {
@@ -1518,7 +1535,7 @@
       }
     }
     &:where(.dark-mode, .dark-mode *) {
-      border-color: var(--color-neutral-600);
+      border-color: var(--color-neutral-500);
     }
     &:where(.dark-mode, .dark-mode *) {
       color: var(--color-dark-muted-foreground);

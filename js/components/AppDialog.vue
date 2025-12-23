@@ -1,6 +1,6 @@
 <template>
   <dialog
-    class="bg-light-background dark:bg-dark-background max-w-90% fixed top-1/2 left-1/2 w-160 -translate-1/2 rounded border border-neutral-300 p-4 shadow-lg"
+    class="bg-light-background dark:bg-dark-background max-w-90% fixed top-1/2 left-1/2 w-160 -translate-1/2 rounded border border-neutral-300 p-4 shadow-lg dark:border-neutral-600 dark:backdrop:bg-[rgba(0,0,0,0.5)]"
     v-bind="{ ...$attrs }"
   >
     <slot>

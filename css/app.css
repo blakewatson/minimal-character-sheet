@@ -88,7 +88,7 @@
   }
 
   .button-icon {
-    @apply hover:text-light-foreground hover:border-light-foreground text-light-muted-foreground dark:hover:text-dark-foreground dark:hover:border-dark-foreground dark:text-dark-muted-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em] dark:border-neutral-600;
+    @apply hover:text-light-foreground hover:border-light-foreground text-light-muted-foreground dark:hover:text-dark-foreground dark:hover:border-dark-foreground dark:text-dark-muted-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em] dark:border-neutral-500;
 
     &.danger {
       @apply hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger;

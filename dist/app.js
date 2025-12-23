@@ -4561,7 +4561,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('dialog', _vm._b({
-    staticClass: "bg-light-background dark:bg-dark-background max-w-90% fixed top-1/2 left-1/2 w-160 -translate-1/2 rounded border border-neutral-300 p-4 shadow-lg"
+    staticClass: "bg-light-background dark:bg-dark-background max-w-90% fixed top-1/2 left-1/2 w-160 -translate-1/2 rounded border border-neutral-300 p-4 shadow-lg dark:border-neutral-600 dark:backdrop:bg-[rgba(0,0,0,0.5)]"
   }, 'dialog', _objectSpread({}, _vm.$attrs), false), [_vm._t("default", function () {
     return [_c('form', {
       on: {
@@ -6435,14 +6435,14 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "border-light-foreground relative border-t pb-8",
+    staticClass: "border-light-foreground dark:border-dark-foreground relative border-t pb-8",
     attrs: {
       "open": ""
     }
   }, [_c('summary', {
     staticClass: "section-label"
   }, [_vm._v("Trackable Fields")]), _vm._v(" "), _c('button', {
-    staticClass: "hover:border-light-foreground absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1",
+    staticClass: "hover:border-light-foreground dark:hover:border-dark-foreground absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1",
     attrs: {
       "title": "What are trackable fields?",
       "type": "button"
@@ -6465,7 +6465,7 @@ var render = function render() {
     return _c('tr', {
       key: field.id,
       "class": {
-        'border-t border-neutral-400': field.isField
+        'border-t border-neutral-400 dark:border-neutral-500': field.isField
       },
       style: {
         'z-index': _vm.trackableFields.length - i
