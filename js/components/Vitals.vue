@@ -16,7 +16,9 @@
         ></field>
       </div>
 
-      <div class="border-light-foreground border-t text-center">
+      <div
+        class="border-light-foreground dark:border-dark-foreground border-t text-center"
+      >
         <label for="hp-field" class="block text-sm">HP</label>
         <field
           :read-only="readOnly"
@@ -33,7 +35,9 @@
         ></field>
       </div>
 
-      <div class="border-light-foreground border-t text-center">
+      <div
+        class="border-light-foreground dark:border-dark-foreground border-t text-center"
+      >
         <label for="temp-hp-field" class="block text-sm">Temp HP</label>
         <field
           id="temp-hp-field"
@@ -44,7 +48,9 @@
         ></field>
       </div>
 
-      <div class="border-light-foreground border-t text-center">
+      <div
+        class="border-light-foreground dark:border-dark-foreground border-t text-center"
+      >
         <label for="hit-die-field" class="block text-sm">Hit die</label>
         <field
           :read-only="readOnly"
@@ -61,7 +67,9 @@
         ></field>
       </div>
 
-      <div class="border-light-foreground border-t text-center">
+      <div
+        class="border-light-foreground dark:border-dark-foreground border-t text-center"
+      >
         <label for="speed-field" class="block text-sm">Speed</label>
         <field
           :read-only="readOnly"
@@ -73,7 +81,7 @@
       </div>
 
       <div
-        class="border-light-foreground flex flex-col items-center border-t text-center"
+        class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t text-center"
       >
         <span class="mb-1 block text-sm">Death saves</span>
 

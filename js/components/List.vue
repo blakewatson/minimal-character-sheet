@@ -5,7 +5,7 @@
         v-for="(item, i) in items"
         :key="item.id"
         :k="item.id"
-        class="mb-2 rounded border border-neutral-400 p-1"
+        class="mb-2 rounded border border-neutral-400 p-1 dark:border-neutral-600"
       >
         <quill-editor
           :collapsed="readOnly ? false : item.collapsed"

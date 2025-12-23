@@ -4,7 +4,7 @@
       <li
         v-for="(item, i) in spellItems"
         :key="item.id"
-        class="mb-2 rounded border border-neutral-400 p-1"
+        class="mb-2 rounded border border-neutral-400 p-1 dark:border-neutral-600"
       >
         <div class="flex items-start gap-2">
           <input

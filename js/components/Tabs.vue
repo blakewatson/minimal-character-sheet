@@ -1,6 +1,6 @@
 <template>
   <nav
-    class="dark:bg-dark-background dark:text-dark-foreground fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 rounded-b-xs bg-neutral-950 text-neutral-50 sm:max-w-162.5 dark:border-b dark:border-neutral-300"
+    class="dark:bg-dark-background dark:text-dark-foreground bg-light-foreground fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 rounded-b-xs text-neutral-50 sm:max-w-162.5 dark:border-b dark:border-neutral-300"
   >
     <ul class="flex items-center justify-center gap-1 text-[13px] sm:gap-2">
       <li class="absolute top-1/2 left-0 h-full -translate-y-1/2">

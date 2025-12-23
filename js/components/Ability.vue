@@ -1,9 +1,9 @@
 <template>
   <div
-    class="border-light-foreground flex w-16 flex-col items-center rounded-xs border"
+    class="border-light-foreground dark:border-dark-foreground flex w-16 flex-col items-center rounded-xs border"
   >
     <div
-      class="bg-light-foreground text-light-background mb-1 self-stretch py-0.5 text-center text-sm"
+      class="text-reverse bg-reverse mb-1 self-stretch py-0.5 text-center text-sm"
     >
       {{ ability.name }}
     </div>
@@ -18,7 +18,9 @@
       type="number"
     ></field>
 
-    <div class="border-light-foreground mt-2 flex gap-2 border-t pt-2">
+    <div
+      class="border-light-foreground dark:border-dark-foreground mt-2 flex gap-2 border-t pt-2"
+    >
       <label
         :for="inputId"
         class="small-label"

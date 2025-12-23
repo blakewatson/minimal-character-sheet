@@ -1,5 +1,8 @@
 <template>
-  <details open class="border-light-foreground border-t pb-4">
+  <details
+    open
+    class="border-light-foreground dark:border-dark-foreground border-t pb-4"
+  >
     <summary class="section-label">Skills</summary>
 
     <ul class="sm:columns-2">
@@ -34,7 +37,7 @@
           :disabled="readOnly"
           @click="openOverrideDialog(skill)"
           title="Override modifier"
-          class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right"
+          class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right dark:hover:border-neutral-400"
           :class="{ underline: Boolean(skill.modifierOverride) }"
         >
           {{ getSkillModifier(skill) | signedNumString }}

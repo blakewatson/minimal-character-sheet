@@ -1,7 +1,7 @@
 <template>
   <div>
     <div
-      class="border-light-foreground mb-2 flex items-center justify-between border-t"
+      class="border-light-foreground dark:border-dark-foreground mb-2 flex items-center justify-between border-t"
     >
       <span class="text-reverse bg-reverse px-2 text-xl">{{ level }}</span>
 

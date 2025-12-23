@@ -1,7 +1,7 @@
 <template>
   <section>
     <div
-      class="grid grid-cols-[65px_65px_65px] justify-center justify-items-center gap-4 border-t border-neutral-950 py-4 min-[530px]:flex min-[530px]:justify-between"
+      class="border-light-foreground dark:border-dark-foreground grid grid-cols-[65px_65px_65px] justify-center justify-items-center gap-4 border-t py-4 min-[530px]:flex min-[530px]:justify-between"
     >
       <ability
         v-for="(a, i) in abilities"

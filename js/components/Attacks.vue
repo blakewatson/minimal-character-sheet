@@ -1,5 +1,8 @@
 <template>
-  <details open class="border-light-foreground border-t pb-8">
+  <details
+    open
+    class="border-light-foreground dark:border-dark-foreground border-t pb-8"
+  >
     <summary class="section-label">Attacks & Weapons</summary>
 
     <!-- Desktop Table Layout -->
@@ -18,7 +21,7 @@
           v-for="(a, i) in attacksAndNotes"
           :key="a.id"
           :class="{
-            'border-t border-neutral-400': a.isAttack,
+            'border-t border-neutral-400 dark:border-neutral-500': a.isAttack,
           }"
           :style="{ 'z-index': attacks.length - i }"
         >
@@ -88,7 +91,7 @@
               <button
                 :disabled="readOnly"
                 @click="deleteAttack(a.id)"
-                class="button-icon cursor-pointer hover:border-red-600 hover:text-red-600"
+                class="button-icon danger"
                 title="Delete attack"
                 type="button"
                 v-if="!readOnly"

@@ -1,6 +1,6 @@
 <template>
   <section
-    class="flex flex-wrap items-center justify-around gap-2 border-t border-neutral-950 pt-2 pb-2"
+    class="border-light-foreground dark:border-dark-foreground flex flex-wrap items-center justify-around gap-2 border-t pt-2 pb-2"
   >
     <div class="flex items-center gap-1">
       <label class="small-label" for="initiative">Initiative</label>
@@ -17,7 +17,7 @@
       :disabled="readOnly"
       @click="openProficiencyDialog"
       title="Override proficiency bonus"
-      class="flex cursor-pointer items-center gap-2 rounded-xs border border-transparent px-1 hover:border-neutral-950"
+      class="hover:border-light-foreground flex cursor-pointer items-center gap-2 rounded-xs border border-transparent px-1 dark:hover:border-neutral-400"
     >
       <div class="small-label">Proficiency bonus</div>
       <span
