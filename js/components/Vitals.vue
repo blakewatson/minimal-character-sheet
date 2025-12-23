@@ -112,8 +112,8 @@
       </div>
     </div>
 
-    <div class="flex flex-wrap justify-center gap-x-4">
-      <span class="mb-1 inline-flex items-baseline gap-1">
+    <div class="flex max-w-full flex-wrap justify-center gap-x-4">
+      <span class="mb-1 inline-flex max-w-full flex-wrap items-baseline gap-1">
         <label for="characterConditions" class="small-label">Conditions</label>
         <field
           :read-only="readOnly"
@@ -124,7 +124,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full flex-wrap items-baseline gap-1">
         <label for="characterConcentration" class="small-label">
           Concentration
         </label>

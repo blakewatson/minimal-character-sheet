@@ -9,7 +9,7 @@
     :value="value"
     @input="updateValue"
     v-bind="{ ...$attrs }"
-    class="text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent rounded-xs border border-transparent px-1 py-0.5 text-[16px] hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-2 sm:text-[15px] dark:hover:border-neutral-700 dark:hover:bg-black dark:focus:bg-black"
+    class="text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent max-w-full rounded-xs border border-transparent px-1 py-0.5 text-[16px] hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-2 sm:text-[15px] dark:hover:border-neutral-700 dark:hover:bg-black dark:focus:bg-black"
   />
 </template>
 

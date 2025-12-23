@@ -1,7 +1,7 @@
 <template>
   <section class="pb-2">
     <div class="mb-4">
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterName" class="small-label">Name</label>
         <field
           :read-only="readOnly"
@@ -14,7 +14,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterBackground" class="small-label">Background</label>
         <field
           :read-only="readOnly"
@@ -27,7 +27,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterRace" class="small-label">
           {{ is_2024 ? 'Species' : 'Race' }}
         </label>
@@ -42,7 +42,7 @@
 
       <br class="hidden sm:block" />
 
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterClass" class="small-label">Class</label>
         <field
           id="characterClass"
@@ -54,7 +54,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterLevel" class="small-label">Level</label>
         <field
           :read-only="readOnly"
@@ -67,7 +67,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterXp" class="small-label">XP</label>
         <field
           id="characterXp"
@@ -79,7 +79,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex items-baseline gap-1">
+      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterAlignment" class="small-label">Alignment</label>
         <field
           id="characterAlignment"
