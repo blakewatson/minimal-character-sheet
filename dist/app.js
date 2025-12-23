@@ -4184,10 +4184,10 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
     },
     saveIndicatorClass: function saveIndicatorClass() {
       return {
-        'save-unsaved': this.saveStatus === 'unsaved',
-        'save-saving': this.saveStatus === 'saving',
-        'save-saved': this.saveStatus === 'saved',
-        'save-error': this.saveStatus === 'error'
+        'hover:bg-neutral-500': this.saveStatus === 'unsaved',
+        '': this.saveStatus === 'saving',
+        'hover:bg-green-600 hover:text-white': this.saveStatus === 'saved',
+        'text-amber-300 hover:bg-neutral-500 hover:text-white': this.saveStatus === 'error'
       };
     },
     computedSaveButtonTitle: function computedSaveButtonTitle() {
@@ -6312,7 +6312,7 @@ var render = function render() {
   }, [_vm._v("\n        Notes\n      ")])]), _vm._v(" "), !_vm.readOnly ? _c('li', {
     staticClass: "absolute top-1/2 right-0 h-full -translate-y-1/2"
   }, [_c('button', {
-    staticClass: "h-full cursor-pointer px-1 text-xl hover:bg-green-600",
+    staticClass: "h-full cursor-pointer px-1 text-xl disabled:cursor-not-allowed",
     "class": _vm.saveIndicatorClass,
     attrs: {
       "disabled": _vm.saveStatus === 'saving',
@@ -6329,7 +6329,7 @@ var render = function render() {
   }), _vm._v(" "), _c('span', {
     staticClass: "sr-only"
   }, [_vm._v("Unsaved changes")])]) : _vm.saveStatus === 'saving' ? _c('span', [_c('i', {
-    staticClass: "fa-sharp fa-regular fa-spinner-third",
+    staticClass: "fa-sharp fa-regular fa-spinner-third fa-spin",
     attrs: {
       "role": "presentation"
     }
@@ -6363,7 +6363,7 @@ var staticRenderFns = [function () {
   return _c('li', {
     staticClass: "absolute top-1/2 left-0 h-full -translate-y-1/2"
   }, [_c('a', {
-    staticClass: "hover:bg-light-accent flex h-full items-center px-2 text-xl text-inherit no-underline",
+    staticClass: "hover:bg-light-accent flex h-full items-center px-2 text-xl text-inherit no-underline hover:text-white",
     attrs: {
       "href": "/dashboard"
     }

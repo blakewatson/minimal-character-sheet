@@ -8,6 +8,7 @@
     --font-mono: 'IBM Plex Mono', monospace;
     --color-red-400: oklch(70.4% 0.191 22.216);
     --color-red-600: oklch(57.7% 0.245 27.325);
+    --color-amber-300: oklch(87.9% 0.169 91.605);
     --color-yellow-50: oklch(98.7% 0.026 102.212);
     --color-yellow-400: oklch(85.2% 0.199 91.936);
     --color-yellow-600: oklch(68.1% 0.162 75.834);
@@ -55,11 +56,13 @@
     --color-light-foreground: var(--color-neutral-950);
     --color-light-background: var(--color-white);
     --color-light-muted-foreground: var(--color-neutral-600);
-    --color-dark-muted-foreground: var(--color-neutral-400);
     --color-light-accent: var(--color-blue-700);
+    --color-light-danger: var(--color-red-600);
     --color-dark-accent: var(--color-blue-300);
     --color-dark-foreground: var(--color-neutral-300);
     --color-dark-background: oklch(22% 0 0);
+    --color-dark-muted-foreground: var(--color-neutral-400);
+    --color-dark-danger: var(--color-red-400);
   }
 }
 @layer base {
@@ -595,9 +598,6 @@
   .bg-neutral-100 {
     background-color: var(--color-neutral-100);
   }
-  .bg-neutral-950 {
-    background-color: var(--color-neutral-950);
-  }
   .bg-slate-100 {
     background-color: var(--color-slate-100);
   }
@@ -740,6 +740,9 @@
     &:where(.dark-mode, .dark-mode *) {
       color: var(--color-dark-background) !important;
     }
+  }
+  .text-amber-300 {
+    color: var(--color-amber-300);
   }
   .text-inherit {
     color: inherit;
@@ -917,6 +920,13 @@
       }
     }
   }
+  .hover\:bg-neutral-500 {
+    &:hover {
+      @media (hover: hover) {
+        background-color: var(--color-neutral-500);
+      }
+    }
+  }
   .hover\:text-dark-accent {
     &:hover {
       @media (hover: hover) {
@@ -942,6 +952,13 @@
     &:hover {
       @media (hover: hover) {
         color: var(--color-red-600);
+      }
+    }
+  }
+  .hover\:text-white {
+    &:hover {
+      @media (hover: hover) {
+        color: var(--color-white);
       }
     }
   }
@@ -976,6 +993,11 @@
     &:focus {
       outline-style: var(--tw-outline-style);
       outline-width: 2px;
+    }
+  }
+  .disabled\:cursor-not-allowed {
+    &:disabled {
+      cursor: not-allowed;
     }
   }
   .has-focus\:outline-2 {
@@ -1279,6 +1301,9 @@
     }
   }
 }
+:root {
+  --fa-animation-duration: 1s;
+}
 @layer base {
   html * {
     color-scheme: light;
@@ -1515,25 +1540,25 @@
     &.danger {
       &:hover {
         @media (hover: hover) {
-          border-color: var(--color-red-600);
+          border-color: var(--color-light-danger);
         }
       }
       &:hover {
         @media (hover: hover) {
-          color: var(--color-red-600);
+          color: var(--color-light-danger);
         }
       }
       &:where(.dark-mode, .dark-mode *) {
         &:hover {
           @media (hover: hover) {
-            border-color: var(--color-red-400);
+            border-color: var(--color-dark-danger);
           }
         }
       }
       &:where(.dark-mode, .dark-mode *) {
         &:hover {
           @media (hover: hover) {
-            color: var(--color-red-400);
+            color: var(--color-dark-danger);
           }
         }
       }
@@ -1557,6 +1582,44 @@
     &:where(.dark-mode, .dark-mode *) {
       color: var(--color-dark-muted-foreground);
     }
+  }
+  .retry-bubble {
+    background-color: var(--color-light-foreground);
+    &:where(.dark-mode, .dark-mode *) {
+      background-color: var(--color-dark-foreground);
+    }
+    color: var(--color-light-background);
+    &:where(.dark-mode, .dark-mode *) {
+      color: var(--color-dark-background);
+    }
+    --tw-shadow: 0 1px 3px 0 var(--tw-shadow-color, rgb(0 0 0 / 0.1)), 0 1px 2px -1px var(--tw-shadow-color, rgb(0 0 0 / 0.1));
+    box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 1000;
+  }
+  .retry-arrow {
+    border-bottom-style: var(--tw-border-style);
+    border-bottom-width: 4px;
+    border-bottom-color: var(--color-light-foreground);
+    &:where(.dark-mode, .dark-mode *) {
+      border-bottom-color: var(--color-dark-foreground);
+    }
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
   }
 }
 .ql-editor,
@@ -1635,6 +1698,11 @@
     'Helvetica Neue',
     sans-serif;
   line-height: 1;
+}
+.notyf__message {
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.3;
 }
 @property --tw-translate-x {
   syntax: "*";

@@ -1,5 +1,9 @@
 @import 'tailwindcss';
 
+:root {
+  --fa-animation-duration: 1s;
+}
+
 @custom-variant dark (&:where(.dark-mode, .dark-mode *));
 
 @theme {
@@ -8,11 +12,13 @@
   --color-light-foreground: var(--color-neutral-950);
   --color-light-background: var(--color-white);
   --color-light-muted-foreground: var(--color-neutral-600);
-  --color-dark-muted-foreground: var(--color-neutral-400);
   --color-light-accent: var(--color-blue-700);
+  --color-light-danger: var(--color-red-600);
   --color-dark-accent: var(--color-blue-300);
   --color-dark-foreground: var(--color-neutral-300);
   --color-dark-background: oklch(22% 0 0);
+  --color-dark-muted-foreground: var(--color-neutral-400);
+  --color-dark-danger: var(--color-red-400);
 }
 
 @layer base {
@@ -85,7 +91,7 @@
     @apply hover:text-light-foreground hover:border-light-foreground text-light-muted-foreground dark:hover:text-dark-foreground dark:hover:border-dark-foreground dark:text-dark-muted-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em] dark:border-neutral-600;
 
     &.danger {
-      @apply hover:border-red-600 hover:text-red-600 dark:hover:border-red-400 dark:hover:text-red-400;
+      @apply hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger;
     }
   }
 
@@ -96,6 +102,33 @@
   .small-label {
     @apply text-light-muted-foreground dark:text-dark-muted-foreground text-xs italic;
   }
+
+  .retry-bubble {
+    @apply text-reverse bg-reverse shadow-sm;
+
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    margin-top: 5px;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    white-space: nowrap;
+    z-index: 1000;
+  }
+
+  .retry-arrow {
+    @apply border-b-light-foreground dark:border-b-dark-foreground border-b-4;
+    position: absolute;
+    top: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 0;
+    height: 0;
+    border-left: 4px solid transparent;
+    border-right: 4px solid transparent;
+  }
 }
 
 @utility text-reverse {
@@ -105,6 +138,8 @@
 @utility bg-reverse {
   @apply bg-light-foreground dark:bg-dark-foreground;
 }
+
+/* -- Quill editor styles ----------------------------------- */
 
 .ql-editor,
 .ql-bubble .ql-editor {
@@ -190,4 +225,12 @@
     'Helvetica Neue',
     sans-serif;
   line-height: 1;
+}
+
+/* -- Notyf toast styles ------------------------------------ */
+
+.notyf__message {
+  font-family: system-ui, sans-serif;
+  font-size: 0.9rem;
+  line-height: 1.3;
 }

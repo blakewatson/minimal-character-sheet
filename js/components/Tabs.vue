@@ -6,7 +6,7 @@
       <li class="absolute top-1/2 left-0 h-full -translate-y-1/2">
         <a
           href="/dashboard"
-          class="hover:bg-light-accent flex h-full items-center px-2 text-xl text-inherit no-underline"
+          class="hover:bg-light-accent flex h-full items-center px-2 text-xl text-inherit no-underline hover:text-white"
         >
           <i class="fa-sharp fa-regular fa-house" role="presentation"></i>
           <span class="sr-only">Dashboard</span>
@@ -62,7 +62,7 @@
           :class="saveIndicatorClass"
           :disabled="saveStatus === 'saving'"
           :title="computedSaveButtonTitle"
-          class="h-full cursor-pointer px-1 text-xl hover:bg-green-600"
+          class="h-full cursor-pointer px-1 text-xl disabled:cursor-not-allowed"
         >
           <span v-if="saveStatus === 'unsaved'">
             <i
@@ -73,7 +73,7 @@
           </span>
           <span v-else-if="saveStatus === 'saving'">
             <i
-              class="fa-sharp fa-regular fa-spinner-third"
+              class="fa-sharp fa-regular fa-spinner-third fa-spin"
               role="presentation"
             ></i>
             <span class="sr-only">Saving...</span>
@@ -153,10 +153,11 @@ export default {
 
     saveIndicatorClass() {
       return {
-        'save-unsaved': this.saveStatus === 'unsaved',
-        'save-saving': this.saveStatus === 'saving',
-        'save-saved': this.saveStatus === 'saved',
-        'save-error': this.saveStatus === 'error',
+        'hover:bg-neutral-500': this.saveStatus === 'unsaved',
+        '': this.saveStatus === 'saving',
+        'hover:bg-green-600 hover:text-white': this.saveStatus === 'saved',
+        'text-amber-300 hover:bg-neutral-500 hover:text-white':
+          this.saveStatus === 'error',
       };
     },
 
