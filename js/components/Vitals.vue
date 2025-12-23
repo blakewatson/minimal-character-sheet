@@ -11,7 +11,7 @@
           :read-only="readOnly"
           :value="ac"
           @update-value="updateVitals('ac', $event)"
-          class="text-reverse! hover:bg-light-foreground! hover:text-dark-accent! focus:text-dark-accent! focus:bg-light-foreground! dark:hover:text-dark-accent! dark:hover:bg-light-foreground! dark:focus:text-dark-accent! text-center text-lg! sm:text-2xl!"
+          class="text-reverse! focus:outline-dark-accent! hover:bg-light-foreground! hover:text-dark-accent! focus:text-dark-accent! focus:bg-light-foreground! dark:hover:text-dark-accent! dark:hover:bg-light-foreground! dark:focus:text-dark-accent! text-center text-lg! sm:text-2xl!"
           id="ac-field"
         ></field>
       </div>

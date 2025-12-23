@@ -9,6 +9,11 @@
 @theme {
   --breakpoint-sm: 660px;
   --font-mono: 'IBM Plex Mono', monospace;
+  --font-sans: system-ui, sans-serif;
+  --font-serif:
+    Charter, 'Bitstream Charter', Iowan Old Style, Apple Garamond, Baskerville,
+    Times New Roman, Droid Serif, Times, Source Serif Pro, serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
   --color-light-foreground: var(--color-neutral-950);
   --color-light-background: var(--color-white);
   --color-light-muted-foreground: var(--color-neutral-600);

@@ -3038,8 +3038,15 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
       contents: null,
       isStatic: true,
       mouseDownEvent: null,
-      refreshListener: null
+      refreshListener: null,
+      useSans: false,
+      useSerif: false
     };
+  },
+  computed: {
+    computedClasses: function computedClasses() {
+      return this.useSans ? ' font-sans *:font-sans sm:*:text-[15px]' : this.useSerif ? ' font-serif *:font-serif sm:*:text-[15px]' : ' font-mono *:font-mono sm:*:text-[13px]';
+    }
   },
   watch: {
     // This has to be done manually because Quill adds its own classes to the
@@ -3082,6 +3089,14 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
           window.open(event.target.href, '_blank');
         }
       });
+    },
+    getFontSetting: function getFontSetting() {
+      var fontSetting = window.localStorage.getItem('setting-textarea-font');
+      if (fontSetting === 'sans-serif') {
+        this.useSans = true;
+      } else if (fontSetting === 'serif') {
+        this.useSerif = true;
+      }
     },
     /**
      * LAZY LOADING MECHANISM - Step 1: Capture mousedown
@@ -3344,6 +3359,8 @@ function _arrayLikeToArray(r, a) { (null == a || a > r.length) && (a = r.length)
   },
   mounted: function mounted() {
     var _this3 = this;
+    this.getFontSetting();
+
     // If not lazy loading, initialize Quill immediately
     if (!this.lazyLoad) {
       this.initQuill();
@@ -5551,7 +5568,8 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', _vm._b({
-    staticClass: "quill-editor has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[16px] has-focus:outline-2 sm:*:text-[13px] dark:bg-neutral-800",
+    staticClass: "quill-editor ql-bubble has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 *:text-[16px] has-focus:outline-2 dark:bg-neutral-800",
+    "class": _vm.computedClasses,
     on: {
       "mousedown": _vm.onMouseDown,
       "mouseup": _vm.onMouseUp
@@ -6815,7 +6833,7 @@ var render = function render() {
       "for": "ac-field"
     }
   }, [_vm._v("AC")]), _vm._v(" "), _c('field', {
-    staticClass: "text-reverse! hover:bg-light-foreground! hover:text-dark-accent! focus:text-dark-accent! focus:bg-light-foreground! dark:hover:text-dark-accent! dark:hover:bg-light-foreground! dark:focus:text-dark-accent! text-center text-lg! sm:text-2xl!",
+    staticClass: "text-reverse! focus:outline-dark-accent! hover:bg-light-foreground! hover:text-dark-accent! focus:text-dark-accent! focus:bg-light-foreground! dark:hover:text-dark-accent! dark:hover:bg-light-foreground! dark:focus:text-dark-accent! text-center text-lg! sm:text-2xl!",
     attrs: {
       "read-only": _vm.readOnly,
       "value": _vm.ac,

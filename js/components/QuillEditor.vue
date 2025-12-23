@@ -1,6 +1,7 @@
 <template>
   <div
-    class="quill-editor has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[16px] has-focus:outline-2 sm:*:text-[13px] dark:bg-neutral-800"
+    :class="computedClasses"
+    class="quill-editor ql-bubble has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 *:text-[16px] has-focus:outline-2 dark:bg-neutral-800"
     v-bind="$attrs"
     @mousedown="onMouseDown"
     @mouseup="onMouseUp"
@@ -50,7 +51,19 @@ export default {
       isStatic: true,
       mouseDownEvent: null,
       refreshListener: null,
+      useSans: false,
+      useSerif: false,
     };
+  },
+
+  computed: {
+    computedClasses() {
+      return this.useSans
+        ? ' font-sans *:font-sans sm:*:text-[15px]'
+        : this.useSerif
+          ? ' font-serif *:font-serif sm:*:text-[15px]'
+          : ' font-mono *:font-mono sm:*:text-[13px]';
+    },
   },
 
   watch: {
@@ -115,6 +128,16 @@ export default {
           window.open(event.target.href, '_blank');
         }
       });
+    },
+
+    getFontSetting() {
+      var fontSetting = window.localStorage.getItem('setting-textarea-font');
+
+      if (fontSetting === 'sans-serif') {
+        this.useSans = true;
+      } else if (fontSetting === 'serif') {
+        this.useSerif = true;
+      }
     },
 
     /**
@@ -387,6 +410,8 @@ export default {
   },
 
   mounted() {
+    this.getFontSetting();
+
     // If not lazy loading, initialize Quill immediately
     if (!this.lazyLoad) {
       this.initQuill();
@@ -413,6 +438,7 @@ export default {
       window.sheetEvent.$on('quill-refresh', this.refreshListener);
     }
   },
+
   beforeDestroy() {
     if (this.refreshListener) {
       window.sheetEvent.$off('quill-refresh', this.refreshListener);

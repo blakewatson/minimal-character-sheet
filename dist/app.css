@@ -3,8 +3,10 @@
 @layer theme, base, components, utilities;
 @layer theme {
   :root, :host {
-    --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji",
-      "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    --font-sans: system-ui, sans-serif;
+    --font-serif: Charter, 'Bitstream Charter', Iowan Old Style, Apple Garamond, Baskerville,
+    Times New Roman, Droid Serif, Times, Source Serif Pro, serif,
+    Apple Color Emoji, Segoe UI Emoji, Segoe UI Symbol;
     --font-mono: 'IBM Plex Mono', monospace;
     --color-red-400: oklch(70.4% 0.191 22.216);
     --color-red-600: oklch(57.7% 0.245 27.325);
@@ -29,7 +31,6 @@
     --color-neutral-600: oklch(43.9% 0 0);
     --color-neutral-700: oklch(37.1% 0 0);
     --color-neutral-800: oklch(26.9% 0 0);
-    --color-neutral-900: oklch(20.5% 0 0);
     --color-neutral-950: oklch(14.5% 0 0);
     --color-black: #000;
     --color-white: #fff;
@@ -536,15 +537,6 @@
     -moz-column-gap: calc(var(--spacing) * 4);
          column-gap: calc(var(--spacing) * 4);
   }
-  .gap-y-0\.5 {
-    row-gap: calc(var(--spacing) * 0.5);
-  }
-  .gap-y-1 {
-    row-gap: calc(var(--spacing) * 1);
-  }
-  .gap-y-2 {
-    row-gap: calc(var(--spacing) * 2);
-  }
   .self-stretch {
     align-self: stretch;
   }
@@ -692,6 +684,12 @@
   .font-mono {
     font-family: var(--font-mono);
   }
+  .font-sans {
+    font-family: var(--font-sans);
+  }
+  .font-serif {
+    font-family: var(--font-serif);
+  }
   .text-base {
     font-size: var(--text-base);
     line-height: var(--tw-leading, var(--text-base--line-height));
@@ -721,9 +719,6 @@
   }
   .text-\[13px\]\! {
     font-size: 13px !important;
-  }
-  .text-\[15px\] {
-    font-size: 15px;
   }
   .text-\[16px\] {
     font-size: 16px;
@@ -879,9 +874,14 @@
       font-family: var(--font-mono);
     }
   }
-  .\*\:text-\[13px\] {
+  .\*\:font-sans {
     :is(& > *) {
-      font-size: 13px;
+      font-family: var(--font-sans);
+    }
+  }
+  .\*\:font-serif {
+    :is(& > *) {
+      font-family: var(--font-serif);
     }
   }
   .\*\:text-\[16px\] {
@@ -1011,6 +1011,11 @@
     &:focus {
       outline-style: var(--tw-outline-style);
       outline-width: 2px;
+    }
+  }
+  .focus\:outline-dark-accent\! {
+    &:focus {
+      outline-color: var(--color-dark-accent) !important;
     }
   }
   .disabled\:cursor-not-allowed {
@@ -1145,6 +1150,13 @@
     @media (width >= 660px) {
       :is(& > *) {
         font-size: 13px;
+      }
+    }
+  }
+  .sm\:\*\:text-\[15px\] {
+    @media (width >= 660px) {
+      :is(& > *) {
+        font-size: 15px;
       }
     }
   }
