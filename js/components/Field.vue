@@ -1,5 +1,6 @@
 <template>
   <input
+    :class="this.computedClasses"
     :disabled="isReadOnly"
     :id="id"
     :placeholder="optionalValue(placeholder, '')"
@@ -8,7 +9,7 @@
     :value="value"
     @input="updateValue"
     v-bind="{ ...$attrs }"
-    :class="this.computedClasses"
+    class="text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent rounded-xs border border-transparent px-1 py-0.5 text-[15px] hover:bg-neutral-100 focus:bg-neutral-100 dark:hover:border-neutral-700 dark:hover:bg-black dark:focus:bg-black"
   />
 </template>
 
@@ -24,15 +25,13 @@ export default {
     id: String,
     placeholder: String,
     readOnly: Boolean,
+    reverse: Boolean,
     type: String,
     value: [String, Number],
   },
   computed: {
     computedClasses() {
-      let classes =
-        'text-[15px] px-1 py-0.5 text-neutral-800 hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700 rounded-xs';
-
-      classes += this.autoSize ? ' box-content' : ' box-border';
+      let classes = this.autoSize ? ' box-content' : ' box-border';
 
       return classes;
     },

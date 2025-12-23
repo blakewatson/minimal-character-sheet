@@ -2801,13 +2801,13 @@ __webpack_require__.r(__webpack_exports__);
     id: String,
     placeholder: String,
     readOnly: Boolean,
+    reverse: Boolean,
     type: String,
     value: [String, Number]
   },
   computed: {
     computedClasses: function computedClasses() {
-      var classes = 'text-[15px] px-1 py-0.5 text-neutral-800 hover:bg-neutral-100 hover:text-blue-700 focus:bg-neutral-100 focus:text-blue-700 rounded-xs';
-      classes += this.autoSize ? ' box-content' : ' box-border';
+      var classes = this.autoSize ? ' box-content' : ' box-border';
       return classes;
     },
     computedWidth: function computedWidth() {
@@ -2968,12 +2968,12 @@ function _toPrimitive(t, r) { if ("object" != _typeof(t) || !t) return t; var e 
         }
       }
       this.$store.commit('updateProficiencyOverride', override);
-      this.$refs.proficiencyDialog.close();
+      this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },
     removeProficiencyOverride: function removeProficiencyOverride() {
       this.$store.commit('updateProficiencyOverride', null);
-      this.$refs.proficiencyDialog.close();
+      this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     }
   },
@@ -4488,9 +4488,9 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', {
-    staticClass: "flex w-16 flex-col items-center rounded-xs border border-neutral-950"
+    staticClass: "border-light-foreground flex w-16 flex-col items-center rounded-xs border"
   }, [_c('div', {
-    staticClass: "mb-1 self-stretch bg-neutral-950 py-0.5 text-center text-sm text-neutral-50"
+    staticClass: "bg-light-foreground text-light-background mb-1 self-stretch py-0.5 text-center text-sm"
   }, [_vm._v("\n    " + _vm._s(_vm.ability.name) + "\n  ")]), _vm._v(" "), _c('span', {
     staticClass: "block text-center text-xl"
   }, [_vm._v(_vm._s(_vm._f("signedNumString")(_vm.modifier)))]), _vm._v(" "), _c('field', {
@@ -4506,7 +4506,7 @@ var render = function render() {
       }
     }
   }), _vm._v(" "), _c('div', {
-    staticClass: "mt-2 flex gap-2 border-t border-neutral-950 pt-2"
+    staticClass: "border-light-foreground mt-2 flex gap-2 border-t pt-2"
   }, [_c('label', {
     staticClass: "small-label",
     staticStyle: {
@@ -4561,7 +4561,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('dialog', _vm._b({
-    staticClass: "fixed top-1/2 left-1/2 max-w-160 -translate-1/2 rounded border border-neutral-300 bg-white p-4 shadow-lg"
+    staticClass: "bg-light-background dark:bg-dark-background max-w-90% fixed top-1/2 left-1/2 w-160 -translate-1/2 rounded border border-neutral-300 p-4 shadow-lg"
   }, 'dialog', _objectSpread({}, _vm.$attrs), false), [_vm._t("default", function () {
     return [_c('form', {
       on: {
@@ -4607,7 +4607,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "border-t border-neutral-950 pb-8",
+    staticClass: "border-light-foreground border-t pb-8",
     attrs: {
       "open": ""
     }
@@ -5143,7 +5143,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "mb-4 border-t border-neutral-950",
+    staticClass: "border-light-foreground dark:border-dark-foreground mb-4 border-t",
     attrs: {
       "open": ""
     }
@@ -5153,7 +5153,7 @@ var render = function render() {
     staticClass: "mb-4 flex items-center justify-between gap-4"
   }, _vm._l(_vm.coins, function (c, i) {
     return _c('div', {
-      staticClass: "flex flex-col items-center border-t border-neutral-950"
+      staticClass: "border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
     }, [_c('label', {
       staticClass: "text-center text-sm tracking-wider uppercase",
       attrs: {
@@ -5211,6 +5211,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('input', _vm._b({
+    staticClass: "text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent rounded-xs border border-transparent px-1 py-0.5 text-[15px] hover:bg-neutral-100 focus:bg-neutral-100 dark:hover:border-neutral-700 dark:hover:bg-black dark:focus:bg-black",
     "class": this.computedClasses,
     style: _vm.autoSize ? {
       width: _vm.computedWidth
@@ -5411,7 +5412,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('button', {
-    staticClass: "flex cursor-pointer items-center gap-2 rounded-sm border border-transparent px-1 hover:border-neutral-950",
+    staticClass: "flex cursor-pointer items-center gap-2 rounded-xs border border-transparent px-1 hover:border-neutral-950",
     attrs: {
       "disabled": _vm.readOnly,
       "title": "Override proficiency bonus"
@@ -5487,7 +5488,7 @@ var render = function render() {
             "for": "proficiency-bonus"
           }
         }, [_vm._v("Proficiency bonus")]), _vm._v(" "), _c('field', {
-          staticClass: "min-w-14 bg-neutral-100 text-center text-lg!",
+          staticClass: "min-w-14 text-center text-lg!",
           attrs: {
             "readOnly": _vm.readOnly,
             "value": _vm.proficiencyOverrideValue,
@@ -5506,12 +5507,12 @@ var render = function render() {
       key: "actions",
       fn: function fn() {
         return [_c('button', {
-          staticClass: "button-primary",
+          staticClass: "button-primary mb-2",
           attrs: {
             "type": "submit"
           }
         }, [_vm._v("Save")]), _vm._v(" "), _c('button', {
-          staticClass: "button",
+          staticClass: "button mb-2",
           attrs: {
             "type": "button"
           },
@@ -5521,7 +5522,7 @@ var render = function render() {
         }, [_vm._v("\n        Remove override\n      ")])];
       },
       proxy: true
-    }], null, false, 1633924233)
+    }], null, false, 2359315560)
   }) : _vm._e()], 1);
 };
 var staticRenderFns = [];
@@ -5546,7 +5547,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', _vm._b({
-    staticClass: "quill-editor rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[13px] has-focus:outline-2 has-focus:outline-blue-600",
+    staticClass: "quill-editor has-focus:outline-light-accent rounded-xs bg-neutral-100 font-mono *:font-mono *:text-[13px] has-focus:outline-2",
     on: {
       "mousedown": _vm.onMouseDown,
       "mouseup": _vm.onMouseUp
@@ -5689,7 +5690,7 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "border-t border-neutral-950 pb-4",
+    staticClass: "border-light-foreground border-t pb-4",
     attrs: {
       "open": ""
     }
@@ -5740,7 +5741,7 @@ var render = function render() {
         }
       }
     }), _vm._v(" "), _c('button', {
-      staticClass: "w-10 cursor-pointer rounded-sm border border-transparent px-1 text-right hover:border-neutral-950",
+      staticClass: "hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right",
       "class": {
         underline: Boolean(skill.modifierOverride)
       },
@@ -5849,9 +5850,9 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('div', [_c('div', {
-    staticClass: "mb-2 flex items-center justify-between border-t border-neutral-950"
+    staticClass: "border-light-foreground mb-2 flex items-center justify-between border-t"
   }, [_c('span', {
-    staticClass: "bg-neutral-950 px-2 text-xl text-neutral-50"
+    staticClass: "text-reverse bg-reverse px-2 text-xl"
   }, [_vm._v(_vm._s(_vm.level))]), _vm._v(" "), _c('div', {
     staticClass: "flex items-baseline gap-1"
   }, [_c('span', {
@@ -6085,13 +6086,13 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('section', {
-    staticClass: "border-t border-neutral-950 pt-4"
+    staticClass: "border-light-foreground border-t pt-4"
   }, [_c('h1', {
     staticClass: "section-label pt-0 font-bold"
   }, [_vm._v("Spellcasting")]), _vm._v(" "), _c('div', {
     staticClass: "grid grid-cols-2 items-start justify-between gap-2 sm:flex sm:flex-wrap"
   }, [_c('div', {
-    staticClass: "flex flex-col items-center border-t border-neutral-950"
+    staticClass: "border-light-foreground flex flex-col items-center border-t"
   }, [_c('span', {
     staticClass: "text-center text-sm sm:mb-1"
   }, [_vm._v("Class")]), _vm._v(" "), _c('field', {
@@ -6106,7 +6107,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "flex flex-col items-center border-t border-neutral-950"
+    staticClass: "border-light-foreground flex flex-col items-center border-t"
   }, [_c('span', {
     staticClass: "text-center text-sm sm:mb-1"
   }, [_vm._v("Ability")]), _vm._v(" "), !_vm.readOnly ? _c('select', {
@@ -6129,7 +6130,7 @@ var render = function render() {
       "padding": "0.25em"
     }
   }, [_vm._v(_vm._s(_vm.spAbility))])]), _vm._v(" "), _c('div', {
-    staticClass: "flex flex-col items-center border-t border-neutral-950"
+    staticClass: "border-light-foreground flex flex-col items-center border-t"
   }, [_c('label', {
     staticClass: "text-center text-sm",
     attrs: {
@@ -6148,7 +6149,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "flex flex-col items-center border-t border-neutral-950"
+    staticClass: "border-light-foreground flex flex-col items-center border-t"
   }, [_c('label', {
     staticClass: "text-center text-sm",
     attrs: {
@@ -6169,7 +6170,7 @@ var render = function render() {
   })], 1)]), _vm._v(" "), _c('div', {
     staticClass: "my-6"
   }, [_c('div', {
-    staticClass: "relative mb-3 flex items-center justify-center border-t border-neutral-950"
+    staticClass: "border-light-foreground relative mb-3 flex items-center justify-center border-t"
   }, [_vm._m(0), _vm._v(" "), _c('span', {
     staticClass: "mx-auto mt-1 grow text-center text-sm tracking-wider uppercase"
   }, [_vm._v("Cantrips")]), _vm._v(" "), !_vm.readOnly ? _c('button-collapse', {
@@ -6231,7 +6232,7 @@ var staticRenderFns = [function () {
   var _vm = this,
     _c = _vm._self._c;
   return _c('span', {
-    staticClass: "absolute top-0 left-0 bg-neutral-950 px-2 text-xl text-neutral-50"
+    staticClass: "text-reverse bg-reverse absolute top-0 left-0 px-2 text-xl"
   }, [_c('div', {
     staticClass: "sr-only"
   }, [_vm._v("Level")]), _vm._v("\n        0\n      ")]);
@@ -6257,15 +6258,16 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('nav', {
-    staticClass: "fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 rounded-b-xs bg-neutral-950 text-neutral-50 sm:max-w-162.5"
+    staticClass: "dark:bg-dark-background dark:text-dark-foreground fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 rounded-b-xs bg-neutral-950 text-neutral-50 sm:max-w-162.5 dark:border-b dark:border-neutral-300"
   }, [_c('ul', {
     staticClass: "flex items-center justify-center gap-1 text-[13px] sm:gap-2"
   }, [_vm._m(0), _vm._v(" "), _c('li', {
     "class": {
-      'bg-blue-700 text-white': _vm.view === 'main'
+      'bg-light-accent text-white hover:text-white!': _vm.view === 'main',
+      'hover:text-dark-accent': _vm.view !== 'main'
     }
   }, [_c('button', {
-    staticClass: "cursor-pointer px-2 py-1.5 sm:text-base",
+    staticClass: "px-2 py-1.5 sm:text-base",
     on: {
       "click": function click($event) {
         return _vm.updateView('main');
@@ -6273,10 +6275,11 @@ var render = function render() {
     }
   }, [_vm._v("\n        Main\n      ")])]), _vm._v(" "), _c('li', {
     "class": {
-      'bg-blue-700 text-white': _vm.view === 'spells'
+      'bg-light-accent text-white hover:text-white!': _vm.view === 'spells',
+      'hover:text-dark-accent': _vm.view !== 'spells'
     }
   }, [_c('button', {
-    staticClass: "cursor-pointer px-2 py-1.5 sm:text-base",
+    staticClass: "px-2 py-1.5 sm:text-base",
     on: {
       "click": function click($event) {
         return _vm.updateView('spells');
@@ -6284,10 +6287,11 @@ var render = function render() {
     }
   }, [_vm._v("\n        Spells\n      ")])]), _vm._v(" "), _c('li', {
     "class": {
-      'bg-blue-700 text-white': _vm.view === 'details'
+      'bg-light-accent text-white hover:text-white!': _vm.view === 'details',
+      'hover:text-dark-accent': _vm.view !== 'details'
     }
   }, [_c('button', {
-    staticClass: "cursor-pointer px-2 py-1.5 sm:text-base",
+    staticClass: "px-2 py-1.5 sm:text-base",
     on: {
       "click": function click($event) {
         return _vm.updateView('details');
@@ -6295,10 +6299,11 @@ var render = function render() {
     }
   }, [_vm._v("\n        Details\n      ")])]), _vm._v(" "), _c('li', {
     "class": {
-      'bg-blue-700 text-white': _vm.view === 'notes'
+      'bg-light-accent text-white hover:text-white!': _vm.view === 'notes',
+      'hover:text-dark-accent': _vm.view !== 'notes'
     }
   }, [_c('button', {
-    staticClass: "cursor-pointer px-2 py-1.5 sm:text-base",
+    staticClass: "px-2 py-1.5 sm:text-base",
     on: {
       "click": function click($event) {
         return _vm.updateView('notes');
@@ -6358,7 +6363,7 @@ var staticRenderFns = [function () {
   return _c('li', {
     staticClass: "absolute top-1/2 left-0 h-full -translate-y-1/2"
   }, [_c('a', {
-    staticClass: "flex h-full items-center px-2 text-xl text-inherit no-underline hover:bg-blue-600",
+    staticClass: "hover:bg-light-accent flex h-full items-center px-2 text-xl text-inherit no-underline",
     attrs: {
       "href": "/dashboard"
     }
@@ -6430,14 +6435,14 @@ var render = function render() {
   var _vm = this,
     _c = _vm._self._c;
   return _c('details', {
-    staticClass: "relative border-t border-neutral-950 pb-8",
+    staticClass: "border-light-foreground relative border-t pb-8",
     attrs: {
       "open": ""
     }
   }, [_c('summary', {
     staticClass: "section-label"
   }, [_vm._v("Trackable Fields")]), _vm._v(" "), _c('button', {
-    staticClass: "absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1 hover:border-neutral-950",
+    staticClass: "hover:border-light-foreground absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1",
     attrs: {
       "title": "What are trackable fields?",
       "type": "button"
@@ -6796,14 +6801,14 @@ var render = function render() {
   return _c('div', [_c('div', {
     staticClass: "mb-4 grid grid-cols-3 justify-center gap-3 sm:flex sm:items-start sm:justify-between"
   }, [_c('div', {
-    staticClass: "rounded-xs border-t border-neutral-950 bg-neutral-950 text-center text-neutral-50"
+    staticClass: "text-reverse bg-reverse border-light-foreground dark:border-dark-foreground rounded-xs border-t text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
       "for": "ac-field"
     }
   }, [_vm._v("AC")]), _vm._v(" "), _c('field', {
-    staticClass: "bg-neutral-950! text-center text-lg! text-neutral-50! hover:text-blue-300! focus:text-blue-300! sm:text-2xl!",
+    staticClass: "text-reverse! hover:bg-light-foreground! hover:text-dark-accent! focus:text-dark-accent! focus:bg-light-foreground! dark:hover:text-dark-accent! dark:hover:bg-light-foreground! dark:focus:text-dark-accent! text-center text-lg! sm:text-2xl!",
     attrs: {
       "read-only": _vm.readOnly,
       "value": _vm.ac,
@@ -6815,7 +6820,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-950 text-center"
+    staticClass: "border-light-foreground border-t text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6845,7 +6850,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-950 text-center"
+    staticClass: "border-light-foreground border-t text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6864,7 +6869,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-950 text-center"
+    staticClass: "border-light-foreground border-t text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6894,7 +6899,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "border-t border-neutral-950 text-center"
+    staticClass: "border-light-foreground border-t text-center"
   }, [_c('label', {
     staticClass: "block text-sm",
     attrs: {
@@ -6913,7 +6918,7 @@ var render = function render() {
       }
     }
   })], 1), _vm._v(" "), _c('div', {
-    staticClass: "flex flex-col items-center border-t border-neutral-950 text-center"
+    staticClass: "border-light-foreground flex flex-col items-center border-t text-center"
   }, [_c('span', {
     staticClass: "mb-1 block text-sm"
   }, [_vm._v("Death saves")]), _vm._v(" "), _c('div', {

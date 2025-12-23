@@ -1,11 +1,11 @@
 <template>
-  <section class="border-t border-neutral-950 pt-4">
+  <section class="border-light-foreground border-t pt-4">
     <h1 class="section-label pt-0 font-bold">Spellcasting</h1>
 
     <div
       class="grid grid-cols-2 items-start justify-between gap-2 sm:flex sm:flex-wrap"
     >
-      <div class="flex flex-col items-center border-t border-neutral-950">
+      <div class="border-light-foreground flex flex-col items-center border-t">
         <span class="text-center text-sm sm:mb-1">Class</span>
         <field
           :read-only="readOnly"
@@ -15,7 +15,7 @@
         ></field>
       </div>
 
-      <div class="flex flex-col items-center border-t border-neutral-950">
+      <div class="border-light-foreground flex flex-col items-center border-t">
         <span class="text-center text-sm sm:mb-1">Ability</span>
         <select
           v-if="!readOnly"
@@ -33,7 +33,7 @@
         <div class="block" style="padding: 0.25em" v-else>{{ spAbility }}</div>
       </div>
 
-      <div class="flex flex-col items-center border-t border-neutral-950">
+      <div class="border-light-foreground flex flex-col items-center border-t">
         <label for="spell-save-dc" class="text-center text-sm"
           >Spell Save DC</label
         >
@@ -46,7 +46,7 @@
         ></field>
       </div>
 
-      <div class="flex flex-col items-center border-t border-neutral-950">
+      <div class="border-light-foreground flex flex-col items-center border-t">
         <label for="spell-attack-bonus" class="text-center text-sm"
           >Attack Bonus</label
         >
@@ -62,10 +62,10 @@
 
     <div class="my-6">
       <div
-        class="relative mb-3 flex items-center justify-center border-t border-neutral-950"
+        class="border-light-foreground relative mb-3 flex items-center justify-center border-t"
       >
         <span
-          class="absolute top-0 left-0 bg-neutral-950 px-2 text-xl text-neutral-50"
+          class="text-reverse bg-reverse absolute top-0 left-0 px-2 text-xl"
         >
           <div class="sr-only">Level</div>
           0

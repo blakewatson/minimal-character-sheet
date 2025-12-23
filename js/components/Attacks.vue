@@ -1,5 +1,5 @@
 <template>
-  <details open class="border-t border-neutral-950 pb-8">
+  <details open class="border-light-foreground border-t pb-8">
     <summary class="section-label">Attacks & Weapons</summary>
 
     <!-- Desktop Table Layout -->

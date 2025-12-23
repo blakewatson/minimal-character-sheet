@@ -1,10 +1,13 @@
 <template>
-  <details open class="mb-4 border-t border-neutral-950">
+  <details
+    open
+    class="border-light-foreground dark:border-dark-foreground mb-4 border-t"
+  >
     <summary class="section-label mb-2">Equipment</summary>
 
     <div class="mb-4 flex items-center justify-between gap-4">
       <div
-        class="flex flex-col items-center border-t border-neutral-950"
+        class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
         v-for="(c, i) in coins"
       >
         <label

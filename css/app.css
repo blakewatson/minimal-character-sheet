@@ -5,9 +5,21 @@
 @theme {
   --breakpoint-sm: 660px;
   --font-mono: 'IBM Plex Mono', monospace;
+  --color-light-foreground: var(--color-neutral-950);
+  --color-light-background: var(--color-white);
+  --color-light-muted-foreground: var(--color-neutral-600);
+  --color-dark-muted-foreground: var(--color-neutral-300);
+  --color-light-accent: var(--color-blue-700);
+  --color-dark-accent: var(--color-blue-300);
+  --color-dark-foreground: var(--color-neutral-200);
+  --color-dark-background: var(--color-neutral-900);
 }
 
 @layer base {
+  html * {
+    color-scheme: light;
+  }
+
   .dark-mode,
   .dark-mode * {
     color-scheme: dark;
@@ -23,13 +35,17 @@
   }
 
   a {
-    @apply text-blue-600 underline dark:text-blue-300;
+    @apply text-light-accent dark:text-dark-accent underline;
+  }
+
+  button {
+    @apply cursor-pointer;
   }
 
   .page {
     input,
     textarea {
-      @apply rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 text-neutral-950 dark:border-zinc-600 dark:bg-zinc-800 dark:text-neutral-100;
+      @apply text-light-foreground dark:text-dark-foreground rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 dark:border-zinc-600 dark:bg-zinc-800;
     }
 
     input[type='text'],
@@ -39,14 +55,14 @@
     }
 
     select {
-      @apply rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 text-neutral-950 dark:border-zinc-600 dark:bg-zinc-800 dark:text-neutral-100;
+      @apply text-light-foreground dark:text-dark-foreground rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 dark:border-zinc-600 dark:bg-zinc-800;
     }
   }
 }
 
 @layer components {
   .button {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-950 hover:border-blue-600 hover:text-blue-600 dark:border-neutral-100 dark:text-neutral-100 dark:hover:border-blue-300 dark:hover:text-blue-300;
+    @apply text-light-foreground hover:border-light-accent dark:text-dark-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border px-3 py-2 text-base leading-[1em] hover:text-blue-600 dark:border-neutral-100 dark:hover:border-blue-300 dark:hover:text-blue-300;
 
     a& {
       @apply no-underline;
@@ -54,7 +70,7 @@
   }
 
   .button-primary {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-950 bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 hover:border-blue-600 hover:bg-blue-600 dark:border-neutral-100 dark:bg-neutral-100 dark:text-neutral-950 dark:hover:border-blue-300 dark:hover:bg-blue-300;
+    @apply hover:border-light-accent dark:text-light-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 hover:bg-blue-600 dark:border-neutral-100 dark:bg-neutral-100 dark:hover:border-blue-300 dark:hover:bg-blue-300;
 
     a& {
       @apply no-underline;
@@ -62,7 +78,7 @@
   }
 
   .button-icon {
-    @apply inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em] text-neutral-600 hover:border-neutral-950 hover:text-neutral-950;
+    @apply hover:text-light-foreground hover:border-light-foreground text-light-muted-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em];
   }
 
   .section-label {
@@ -70,8 +86,16 @@
   }
 
   .small-label {
-    @apply text-xs text-neutral-500 italic;
+    @apply text-light-muted-foreground dark:text-dark-muted-foreground text-xs italic;
   }
+}
+
+@utility text-reverse {
+  @apply text-light-background dark:text-dark-background;
+}
+
+@utility bg-reverse {
+  @apply bg-light-foreground dark:bg-dark-foreground;
 }
 
 .ql-editor,
@@ -106,8 +130,7 @@
   }
 
   & a {
-    color: var(--color-blue-600);
-    text-decoration: underline;
+    @apply text-light-accent dark:text-dark-accent underline;
   }
 }
 

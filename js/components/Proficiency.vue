@@ -17,7 +17,7 @@
       :disabled="readOnly"
       @click="openProficiencyDialog"
       title="Override proficiency bonus"
-      class="flex cursor-pointer items-center gap-2 rounded-sm border border-transparent px-1 hover:border-neutral-950"
+      class="flex cursor-pointer items-center gap-2 rounded-xs border border-transparent px-1 hover:border-neutral-950"
     >
       <div class="small-label">Proficiency bonus</div>
       <span
@@ -73,15 +73,19 @@
           :value="proficiencyOverrideValue"
           @update-value="proficiencyOverrideValue = $event"
           id="proficiency-bonus"
-          class="min-w-14 bg-neutral-100 text-center text-lg!"
+          class="min-w-14 text-center text-lg!"
           type="number"
         ></field>
       </template>
 
       <template #actions>
-        <button type="submit" class="button-primary">Save</button>
+        <button type="submit" class="button-primary mb-2">Save</button>
 
-        <button type="button" @click="removeProficiencyOverride" class="button">
+        <button
+          type="button"
+          @click="removeProficiencyOverride"
+          class="button mb-2"
+        >
           Remove override
         </button>
       </template>
@@ -159,13 +163,13 @@ export default {
       }
 
       this.$store.commit('updateProficiencyOverride', override);
-      this.$refs.proficiencyDialog.close();
+      this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },
 
     removeProficiencyOverride() {
       this.$store.commit('updateProficiencyOverride', null);
-      this.$refs.proficiencyDialog.close();
+      this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },
   },

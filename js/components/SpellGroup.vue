@@ -1,11 +1,9 @@
 <template>
   <div>
     <div
-      class="mb-2 flex items-center justify-between border-t border-neutral-950"
+      class="border-light-foreground mb-2 flex items-center justify-between border-t"
     >
-      <span class="bg-neutral-950 px-2 text-xl text-neutral-50">{{
-        level
-      }}</span>
+      <span class="text-reverse bg-reverse px-2 text-xl">{{ level }}</span>
 
       <div class="flex items-baseline gap-1">
         <span class="small-label min-[500px]:text-sm">Slots:</span>

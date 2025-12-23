@@ -4,19 +4,19 @@
       class="mb-4 grid grid-cols-3 justify-center gap-3 sm:flex sm:items-start sm:justify-between"
     >
       <div
-        class="rounded-xs border-t border-neutral-950 bg-neutral-950 text-center text-neutral-50"
+        class="text-reverse bg-reverse border-light-foreground dark:border-dark-foreground rounded-xs border-t text-center"
       >
         <label for="ac-field" class="block text-sm">AC</label>
         <field
           :read-only="readOnly"
           :value="ac"
           @update-value="updateVitals('ac', $event)"
-          class="bg-neutral-950! text-center text-lg! text-neutral-50! hover:text-blue-300! focus:text-blue-300! sm:text-2xl!"
+          class="text-reverse! hover:bg-light-foreground! hover:text-dark-accent! focus:text-dark-accent! focus:bg-light-foreground! dark:hover:text-dark-accent! dark:hover:bg-light-foreground! dark:focus:text-dark-accent! text-center text-lg! sm:text-2xl!"
           id="ac-field"
         ></field>
       </div>
 
-      <div class="border-t border-neutral-950 text-center">
+      <div class="border-light-foreground border-t text-center">
         <label for="hp-field" class="block text-sm">HP</label>
         <field
           :read-only="readOnly"
@@ -33,7 +33,7 @@
         ></field>
       </div>
 
-      <div class="border-t border-neutral-950 text-center">
+      <div class="border-light-foreground border-t text-center">
         <label for="temp-hp-field" class="block text-sm">Temp HP</label>
         <field
           id="temp-hp-field"
@@ -44,7 +44,7 @@
         ></field>
       </div>
 
-      <div class="border-t border-neutral-950 text-center">
+      <div class="border-light-foreground border-t text-center">
         <label for="hit-die-field" class="block text-sm">Hit die</label>
         <field
           :read-only="readOnly"
@@ -61,7 +61,7 @@
         ></field>
       </div>
 
-      <div class="border-t border-neutral-950 text-center">
+      <div class="border-light-foreground border-t text-center">
         <label for="speed-field" class="block text-sm">Speed</label>
         <field
           :read-only="readOnly"
@@ -73,7 +73,7 @@
       </div>
 
       <div
-        class="flex flex-col items-center border-t border-neutral-950 text-center"
+        class="border-light-foreground flex flex-col items-center border-t text-center"
       >
         <span class="mb-1 block text-sm">Death saves</span>
 
