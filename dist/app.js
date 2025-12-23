@@ -5421,7 +5421,7 @@ var render = function render() {
       "for": "initiative"
     }
   }, [_vm._v("Initiative")]), _vm._v(" "), _c('field', {
-    staticClass: "text-center min-[500px]:text-xl sm:text-2xl",
+    staticClass: "text-center min-[500px]:text-xl sm:text-2xl!",
     attrs: {
       "read-only": _vm.readOnly,
       "value": _vm.initiative,
@@ -5475,7 +5475,7 @@ var render = function render() {
       "for": "shortRests"
     }
   }, [_vm._v("Short rests")]), _vm._v(" "), _c('field', {
-    staticClass: "text-center min-[500px]:text-xl sm:text-2xl",
+    staticClass: "text-center min-[500px]:text-xl sm:text-2xl!",
     attrs: {
       "read-only": _vm.readOnly,
       "value": _vm.shortRests,

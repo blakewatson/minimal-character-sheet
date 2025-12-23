@@ -8,7 +8,7 @@
         :read-only="readOnly"
         :value="initiative"
         @update-value="updateInitiative($event)"
-        class="text-center min-[500px]:text-xl sm:text-2xl"
+        class="text-center min-[500px]:text-xl sm:text-2xl!"
         id="initiative"
       ></field>
     </div>
@@ -44,7 +44,7 @@
         :read-only="readOnly"
         :value="shortRests"
         @update-value="updateShortRests($event)"
-        class="text-center min-[500px]:text-xl sm:text-2xl"
+        class="text-center min-[500px]:text-xl sm:text-2xl!"
         id="shortRests"
         type="number"
       ></field>
