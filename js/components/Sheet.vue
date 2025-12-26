@@ -65,16 +65,14 @@
       ></text-section>
 
       <text-section
-        title="Allies & Organizations"
-        field="organizationsText"
-        :read-only="readOnly"
-      ></text-section>
-    </div>
-
-    <div class="" v-show="view === 'notes'">
-      <text-section
         title="Notes"
         field="notesText"
+        :read-only="readOnly"
+      ></text-section>
+
+      <text-section
+        title="Allies & Organizations"
+        field="organizationsText"
         :read-only="readOnly"
       ></text-section>
     </div>

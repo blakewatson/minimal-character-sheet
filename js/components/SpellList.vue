@@ -68,7 +68,7 @@
           <button
             :disabled="readOnly"
             @click="deleteSpell(i)"
-            class="button-icon hover:border-red-600 hover:text-red-600"
+            class="button-icon hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger"
             title="Delete spell"
             type="button"
             v-if="!readOnly"

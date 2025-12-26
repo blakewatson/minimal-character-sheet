@@ -6,6 +6,12 @@ import { signedNumString } from './utils';
 /* -- Event bus -- */
 window.sheetEvent = new Vue();
 
+window.md = window.markdownit({
+  html: true,
+  linkify: true,
+  typographer: true,
+});
+
 Vue.filter('signedNumString', signedNumString);
 
 new Vue({

@@ -59,3 +59,25 @@ export const signedNumString = (num) => {
   if (num > 0) return `+${num}`;
   return num.toString();
 };
+
+export async function copyHtmlToClipboard(htmlContent, plainTextContent) {
+  try {
+    // 1. Create a Blob for the HTML version
+    const htmlBlob = new Blob([htmlContent], { type: 'text/html' });
+
+    // 2. Create a Blob for the plain text version (highly recommended fallback)
+    const textBlob = new Blob([plainTextContent], { type: 'text/plain' });
+
+    // 3. Create a ClipboardItem with both formats
+    // The keys are the MIME types
+    const item = new ClipboardItem({
+      'text/html': htmlBlob,
+      'text/plain': textBlob,
+    });
+
+    // 4. Write the item to the clipboard
+    return navigator.clipboard.write([item]);
+  } catch (err) {
+    console.error('Failed to copy: ', err);
+  }
+}

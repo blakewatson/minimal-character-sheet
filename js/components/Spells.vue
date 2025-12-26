@@ -10,7 +10,7 @@
       <div
         class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
       >
-        <span class="text-center text-sm sm:mb-1">Class</span>
+        <span class="text-center text-sm">Class</span>
         <field
           :read-only="readOnly"
           :value="spClass"
@@ -22,7 +22,7 @@
       <div
         class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
       >
-        <span class="text-center text-sm sm:mb-1">Ability</span>
+        <span class="text-center text-sm">Ability</span>
         <select
           v-if="!readOnly"
           @input="updateSpellInfo('spAbility', $event.target.value)"

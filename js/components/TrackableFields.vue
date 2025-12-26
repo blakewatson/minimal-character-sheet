@@ -187,7 +187,7 @@
           <button
             v-if="!readOnly"
             type="button"
-            class="button-icon hover:border-red-600 hover:text-red-600"
+            class="button-icon hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger"
             :disabled="readOnly"
             @click="deleteTrackableField(field.id)"
           >

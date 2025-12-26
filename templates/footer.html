@@ -1,6 +1,7 @@
     <script src="{{ @BASE }}/js/settings.js"></script>
 
     <check if="{{ isset(@app) }}">
+        <script src="{{ @BASE }}/js/lib/markdown-it.min.js"></script>
         <script>window.sheet = "{{ @sheet | raw }}";</script>
         <script>window.characterName = "{{ @character_name | raw }}";</script>
         <script>window.is_2024 = {{ @is_2024 | raw }};</script>

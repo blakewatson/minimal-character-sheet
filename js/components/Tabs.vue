@@ -42,14 +42,19 @@
           Details
         </button>
       </li>
-      <li
-        :class="{
-          'bg-light-accent text-white hover:text-white!': view === 'notes',
-          'hover:text-dark-accent': view !== 'notes',
-        }"
-      >
-        <button class="px-2 py-1.5 sm:text-base" @click="updateView('notes')">
-          Notes
+
+      <li>
+        <button
+          @click="openSearchDialog"
+          class="hover:text-dark-accent h-full cursor-pointer py-1.5 text-xl leading-4"
+          title="Search spells"
+          type="button"
+        >
+          <span class="sr-only">Search spells</span>
+          <i
+            class="fa-sharp fa-regular fa-book-sparkles"
+            role="presentation"
+          ></i>
         </button>
       </li>
 
@@ -105,11 +110,28 @@
         </button>
       </li> -->
     </ul>
+
+    <add-content-dialog
+      ref="addContentDialog"
+      @close="showSearchDialog = false"
+    >
+      <template #content>
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent elit
+          lorem, placerat non gravida eu, tincidunt a nibh. Vivamus bibendum
+          gravida est, sed mollis nulla feugiat a. Ut porttitor, elit in rhoncus
+          adipiscing, quam augue interdum dolor, et adipiscing elit nulla cursus
+          sem. Praesent turpis mi, egestas in interdum in, adipiscing ac tellus.
+          Ut sollicitudin elit ut nunc luctus sit amet venenatis turpis commodo.
+        </p>
+      </template>
+    </add-content-dialog>
   </nav>
 </template>
 
 <script>
 import { mapState } from 'vuex';
+import AddContentDialog from './AddContentDialog';
 
 export default {
   name: 'Tabs',
@@ -123,6 +145,10 @@ export default {
     'retryCount',
     'view',
   ],
+
+  data() {
+    return {};
+  },
 
   computed: {
     ...mapState(['readOnly']),
@@ -187,6 +213,10 @@ export default {
   },
 
   methods: {
+    openSearchDialog() {
+      this.$refs.addContentDialog.openDialog();
+    },
+
     updateView(view) {
       this.$emit('update-view', view);
     },
@@ -219,6 +249,20 @@ export default {
     isRetrying(newVal) {
       console.log('isRetrying', newVal);
     },
+  },
+
+  mounted() {
+    // catch super-k shortcut to open the add content dialog
+    window.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'k' && (e.metaKey || e.ctrlKey)) {
+        e.preventDefault();
+        this.openSearchDialog();
+      }
+    });
+  },
+
+  components: {
+    'add-content-dialog': AddContentDialog,
   },
 };
 </script>

@@ -77,7 +77,7 @@
 
 @layer components {
   .button {
-    @apply text-light-foreground hover:border-light-accent dark:text-dark-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border px-3 py-2 text-base leading-[1em] hover:text-blue-600 dark:border-neutral-100 dark:hover:border-blue-300 dark:hover:text-blue-300;
+    @apply text-light-foreground enabled:hover:border-light-accent dark:text-dark-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border px-3 py-2 text-base leading-[1em] enabled:hover:text-blue-600 disabled:opacity-50 dark:border-neutral-100 dark:enabled:hover:border-blue-300 dark:enabled:hover:text-blue-300;
 
     a& {
       @apply no-underline;
@@ -85,7 +85,7 @@
   }
 
   .button-primary {
-    @apply hover:border-light-accent dark:text-light-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 hover:bg-blue-600 dark:border-neutral-100 dark:bg-neutral-100 dark:hover:border-blue-300 dark:hover:bg-blue-300;
+    @apply enabled:hover:border-light-accent dark:text-light-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 enabled:hover:bg-blue-600 disabled:opacity-50 dark:border-neutral-100 dark:bg-neutral-100 dark:enabled:hover:border-blue-300 dark:enabled:hover:bg-blue-300;
 
     a& {
       @apply no-underline;
@@ -93,10 +93,10 @@
   }
 
   .button-icon {
-    @apply hover:text-light-foreground hover:border-light-foreground text-light-muted-foreground dark:hover:text-dark-foreground dark:hover:border-dark-foreground dark:text-dark-muted-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em] dark:border-neutral-500;
+    @apply enabled:hover:text-light-foreground enabled:hover:border-light-foreground text-light-muted-foreground dark:enabled:hover:text-dark-foreground dark:enabled:hover:border-dark-foreground dark:text-dark-muted-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border border-neutral-400 px-0.5 py-1 text-sm leading-[1em] dark:border-neutral-500;
 
     &.danger {
-      @apply hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger;
+      @apply enabled:hover:border-light-danger enabled:hover:text-light-danger dark:enabled:hover:border-dark-danger dark:enabled:hover:text-dark-danger;
     }
   }
 
