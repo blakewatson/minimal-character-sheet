@@ -47,10 +47,10 @@
         <button
           @click="openSearchDialog"
           class="hover:text-dark-accent h-full cursor-pointer py-1.5 text-xl leading-4"
-          title="Search spells"
+          title="Search Open5e content"
           type="button"
         >
-          <span class="sr-only">Search spells</span>
+          <span class="sr-only">Search Open5e content</span>
           <i
             class="fa-sharp fa-regular fa-book-sparkles"
             role="presentation"

@@ -58,11 +58,17 @@ export default {
 
   computed: {
     computedClasses() {
-      return this.useSans
+      const classes = this.useSans
         ? ' font-sans *:font-sans sm:*:text-[15px]'
         : this.useSerif
           ? ' font-serif *:font-serif sm:*:text-[15px]'
           : ' font-mono *:font-mono sm:*:text-[13px]';
+
+      if (this.collapsed) {
+        return classes + ' collapsed';
+      }
+
+      return classes;
     },
   },
 
@@ -74,7 +80,7 @@ export default {
         return;
       }
 
-      this.$el.classList.toggle('collapsed', val);
+      // this.$el.classList.toggle('collapsed', val);
     },
   },
 

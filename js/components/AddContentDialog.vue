@@ -34,8 +34,11 @@
             v-model="selectedEndpoint"
             class="text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent border-light-muted-foreground dark:border-dark-muted-foreground h-[32.5px] w-full max-w-full rounded-xs border px-2 py-1 text-[16px] hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-2 sm:text-[15px] dark:bg-black dark:hover:bg-black dark:focus:bg-black"
           >
-            <option :value="endpoint" v-for="endpoint in sortedEndpoints">
-              {{ capitalize(endpoint) }}
+            <option
+              :value="endpoint"
+              v-for="(endpoint, idx) in sortedEndpoints"
+            >
+              {{ endpointLabels[idx] }}
             </option>
           </select>
         </div>
@@ -70,7 +73,7 @@
       </p>
 
       <div
-        class="mt-2"
+        class="content-results mt-2"
         v-if="searchResults && searchResults.results.length > 0"
       >
         <div
@@ -78,11 +81,17 @@
           class="*:border-light-muted-foreground *:dark:border-dark-muted-foreground *:border-t *:py-3"
           v-for="result in searchResults.results"
         >
-          <spell
+          <background-details
+            :background="result"
+            @close="closeDialog"
+            v-if="selectedEndpoint === 'backgrounds'"
+          ></background-details>
+
+          <spell-details
             :spell="result"
             @close="closeDialog"
             v-if="selectedEndpoint === 'spells'"
-          ></spell>
+          ></spell-details>
         </div>
       </div>
 
@@ -127,7 +136,8 @@
 
 <script>
 import Field from './Field.vue';
-import Spell from './SearchResults/Spell.vue';
+import BackgroundDetails from './SearchResults/BackgroundDetails.vue';
+import SpellDetails from './SearchResults/SpellDetails.vue';
 
 export default {
   name: 'AddContentDialog',
@@ -156,11 +166,23 @@ export default {
       searchQuery: '',
       searchResults: null,
       selectedEndpoint: 'spells',
-      supportedEndpoints: ['spells'],
+      supportedEndpoints: ['backgrounds', 'spells'],
     };
   },
 
   computed: {
+    endpointLabels() {
+      return this.sortedEndpoints.map((key) => {
+        let label = key;
+
+        if (key === 'magicitems') {
+          return 'Magic items';
+        }
+
+        return this.capitalize(key);
+      });
+    },
+
     isSupportedEndpoint() {
       return this.supportedEndpoints.includes(this.selectedEndpoint);
     },
@@ -245,8 +267,9 @@ export default {
   mounted() {},
 
   components: {
+    'background-details': BackgroundDetails,
     field: Field,
-    spell: Spell,
+    'spell-details': SpellDetails,
   },
 };
 </script>

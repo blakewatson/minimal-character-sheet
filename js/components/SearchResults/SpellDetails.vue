@@ -102,7 +102,7 @@
 import CopyContentButton from '../CopyContentButton.vue';
 
 export default {
-  name: 'Spell',
+  name: 'SpellDetails',
   props: {
     spell: {
       type: Object,

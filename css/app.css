@@ -73,6 +73,22 @@
       @apply text-light-foreground dark:text-dark-foreground rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 dark:border-zinc-600 dark:bg-zinc-800;
     }
   }
+
+  .content-results {
+    h3,
+    h4 {
+      @apply mb-4 font-bold;
+    }
+
+    table {
+      @apply mb-4 w-full border-collapse;
+    }
+
+    th,
+    td {
+      @apply border-light-muted-foreground dark:border-dark-muted-foreground border px-1 py-1;
+    }
+  }
 }
 
 @layer components {
