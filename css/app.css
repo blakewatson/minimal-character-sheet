@@ -92,6 +92,10 @@
 }
 
 @layer components {
+  .announcement {
+    @apply my-6 rounded border border-slate-400 bg-slate-100 p-4 shadow *:last:mb-0 dark:border-neutral-600 dark:bg-zinc-800;
+  }
+
   .button {
     @apply text-light-foreground enabled:hover:border-light-accent dark:text-dark-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border px-3 py-2 text-base leading-[1em] enabled:hover:text-blue-600 disabled:opacity-50 dark:border-neutral-100 dark:enabled:hover:border-blue-300 dark:enabled:hover:text-blue-300;
 
