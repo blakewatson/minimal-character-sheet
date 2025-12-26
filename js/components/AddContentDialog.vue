@@ -21,8 +21,8 @@
       </p>
 
       <p>
-        Search to find spells, creatures, abilities, and more from the Open5e
-        API.
+        Search to find spells, backgrounds, and more (coming soon) from the
+        Open5e API.
       </p>
 
       <div class="flex flex-col items-stretch gap-2 sm:flex-row sm:items-end">
@@ -34,11 +34,8 @@
             v-model="selectedEndpoint"
             class="text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent border-light-muted-foreground dark:border-dark-muted-foreground h-[32.5px] w-full max-w-full rounded-xs border px-2 py-1 text-[16px] hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-2 sm:text-[15px] dark:bg-black dark:hover:bg-black dark:focus:bg-black"
           >
-            <option
-              :value="endpoint"
-              v-for="(endpoint, idx) in sortedEndpoints"
-            >
-              {{ endpointLabels[idx] }}
+            <option :value="endpoint" v-for="endpoint in supportedEndpoints">
+              {{ endpointLabels[endpoint] }}
             </option>
           </select>
         </div>
@@ -172,15 +169,18 @@ export default {
 
   computed: {
     endpointLabels() {
-      return this.sortedEndpoints.map((key) => {
-        let label = key;
+      const labels = {};
 
+      this.sortedEndpoints.forEach((key) => {
         if (key === 'magicitems') {
-          return 'Magic items';
+          labels[key] = 'Magic items';
+          return;
         }
 
-        return this.capitalize(key);
+        labels[key] = this.capitalize(key);
       });
+
+      return labels;
     },
 
     isSupportedEndpoint() {
