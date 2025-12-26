@@ -252,6 +252,13 @@
   line-height: 1;
 }
 
+.ql-container.ql-bubble:not(.ql-disabled) a:not(.ql-close) {
+  &::before,
+  &::after {
+    display: none;
+  }
+}
+
 /* -- Notyf toast styles ------------------------------------ */
 
 .notyf__message {

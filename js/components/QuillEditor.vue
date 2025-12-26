@@ -1,7 +1,7 @@
 <template>
   <div
     :class="computedClasses"
-    class="quill-editor ql-bubble has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 *:text-[16px] has-focus:outline-2 dark:bg-neutral-800"
+    class="quill-editor ql-bubble ql-container has-focus:outline-light-accent dark:has-focus:outline-dark-accent rounded-xs bg-neutral-100 *:text-[16px] has-focus:outline-2 dark:bg-neutral-800"
     v-bind="$attrs"
     @click="onEditorClick"
   ></div>
@@ -68,18 +68,6 @@ export default {
       }
 
       return classes;
-    },
-  },
-
-  watch: {
-    // This has to be done manually because Quill adds its own classes to the
-    // container and Vue's class syntax will overwrite them.
-    collapsed(val) {
-      if (this.readOnly) {
-        return;
-      }
-
-      // this.$el.classList.toggle('collapsed', val);
     },
   },
 
