@@ -384,7 +384,7 @@ export default {
     const parsedSheet = JSON.parse(sheet);
     if (parsedSheet.is_public && parsedSheet.email === null) {
       this.isPublic = true;
-      setInterval(() => this.refreshLoop(), 5000);
+      setInterval(() => this.refreshLoop(), 30000);
     }
 
     if (!this.isPublic) {
