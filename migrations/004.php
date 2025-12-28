@@ -14,17 +14,17 @@ $columnNames = array_column($columns, 'name');
 
 // Add created_at column if it doesn't exist
 if (!in_array('created_at', $columnNames)) {
-    $db->exec('ALTER TABLE "sheet" ADD COLUMN "created_at" TEXT;');
+    $db->exec('ALTER TABLE "sheet" ADD COLUMN "created_at" TEXT DEFAULT NULL;');
 }
 
 // Add updated_at column if it doesn't exist
 if (!in_array('updated_at', $columnNames)) {
-    $db->exec('ALTER TABLE "sheet" ADD COLUMN "updated_at" TEXT;');
+    $db->exec('ALTER TABLE "sheet" ADD COLUMN "updated_at" TEXT DEFAULT NULL;');
 }
 
-// Add deleted_at column if it doesn't exist (for soft delete feature)
+// Add deleted_at column if it doesn't exist (NULL by default for soft deletes)
 if (!in_array('deleted_at', $columnNames)) {
-    $db->exec('ALTER TABLE "sheet" ADD COLUMN "deleted_at" TEXT;');
+    $db->exec('ALTER TABLE "sheet" ADD COLUMN "deleted_at" TEXT DEFAULT NULL;');
 }
 
 die;
