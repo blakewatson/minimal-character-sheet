@@ -20,10 +20,6 @@ export default {
       default: false,
     },
     initialContents: {},
-    lazyLoad: {
-      type: Boolean,
-      default: true,
-    },
     readOnly: {
       type: Boolean,
       default: false,
@@ -134,6 +130,10 @@ export default {
     },
 
     onEditorClick() {
+      if (this.readOnly) {
+        return;
+      }
+
       if (this.isStatic) {
         this.initQuill();
       }
@@ -163,7 +163,7 @@ export default {
     this.getFontSetting();
 
     // If not lazy loading, initialize Quill immediately
-    if (!this.collapsed) {
+    if (!this.collapsed && !this.readOnly) {
       this.initQuill();
       return;
     }
@@ -175,10 +175,14 @@ export default {
     this.refreshListener = () => {
       // If editor is still static, just re-render the static content
       if (this.isStatic) {
-        this.renderStaticContents();
+        this.$nextTick(() => {
+          this.renderStaticContents();
+        });
       } else {
-        // Editor has been activated, use Quill's API
-        this.editor.setContents(this.initialContents);
+        this.$nextTick(() => {
+          // Editor has been activated, use Quill's API
+          this.editor.setContents(this.initialContents);
+        });
       }
     };
 

@@ -108,6 +108,7 @@ export default {
       retryCount: 0,
       retryMax: 3,
       retryTimer: null,
+      updatedAt: null,
       view: 'main',
     };
   },
@@ -336,16 +337,20 @@ export default {
       this.retryCount = 0;
     },
 
-    refreshLoop() {
-      var sheetSlug = document.querySelector('#sheet-slug').value;
+    refreshLoop(slug, updatedAt) {
+      var params = updatedAt
+        ? `?updated_at=${encodeURIComponent(updatedAt)}`
+        : '';
 
-      fetch(`/sheet-data/${sheetSlug}`)
+      fetch(`/sheet-data/${slug}${params}`)
         .then((r) => r.json())
         .then((data) => {
-          if (data.success) {
+          if (data.success && data.sheet) {
             this.$store
               .dispatch('updateState', { sheet: data.sheet })
               .catch((reason) => console.log(reason));
+            // update the local updated_at to avoid repeated fetches
+            this.updatedAt = data.sheet.updated_at;
           }
         })
         .catch((reason) => console.error(reason));
@@ -382,9 +387,14 @@ export default {
 
   mounted() {
     const parsedSheet = JSON.parse(sheet);
+
     if (parsedSheet.is_public && parsedSheet.email === null) {
       this.isPublic = true;
-      setInterval(() => this.refreshLoop(), 30000);
+      this.updatedAt = parsedSheet.updated_at;
+      setInterval(
+        () => this.refreshLoop(parsedSheet.slug, this.updatedAt),
+        30000,
+      );
     }
 
     if (!this.isPublic) {

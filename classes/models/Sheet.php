@@ -20,6 +20,8 @@ class Sheet extends \DB\SQL\Mapper {
         $this->email = $email;
         $this->is_public = false;
         $this->is_2024 = $is_2024;
+        $this->created_at = date('Y-m-d H:i:s');
+        $this->updated_at = date('Y-m-d H:i:s');
         $this->save();
     }
 
@@ -34,6 +36,8 @@ class Sheet extends \DB\SQL\Mapper {
         $this->data = '';
         $this->is_public = false;
         $this->is_2024 = $is_2024;
+        $this->created_at = date('Y-m-d H:i:s');
+        $this->updated_at = date('Y-m-d H:i:s');
         $this->save();
 
         // Handle both JSON strings and already-decoded data to prevent double-encoding
@@ -73,6 +77,8 @@ class Sheet extends \DB\SQL\Mapper {
             'data' => $this->decode_sheet_data( $this->data ),
             'is_public' => $this->exists( 'is_public' ) ? (bool) $this->get( 'is_public' ) : false,
             'is_2024' => $this->exists( 'is_2024' ) ? (bool) $this->get( 'is_2024' ) : true,
+            'created_at' => $this->exists( 'created_at' ) ? $this->get( 'created_at' ) : null,
+            'updated_at' => $this->exists( 'updated_at' ) ? $this->get( 'updated_at' ) : null,
             'email' => $this->email
         ];
     }
@@ -87,6 +93,8 @@ class Sheet extends \DB\SQL\Mapper {
             'data' => $this->decode_sheet_data( $this->data ),
             'is_public' => $this->exists( 'is_public' ) ? (bool) $this->get( 'is_public' ) : false,
             'is_2024' => $this->exists( 'is_2024' ) ? (bool) $this->get( 'is_2024' ) : true,
+            'created_at' => $this->exists( 'created_at' ) ? $this->get( 'created_at' ) : null,
+            'updated_at' => $this->exists( 'updated_at' ) ? $this->get( 'updated_at' ) : null,
             'email' => $this->email
         ];
     }
@@ -138,6 +146,7 @@ class Sheet extends \DB\SQL\Mapper {
             $this->set( 'data', json_encode( $data ) );
         }
 
+        $this->set('updated_at', date('Y-m-d H:i:s'));
         return $this->save();
     }
 

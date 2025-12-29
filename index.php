@@ -44,6 +44,9 @@ $f3->route( 'POST /make-public/@sheet_slug', 'Dashboard->make_sheet_public' );
 $f3->route( 'GET /sheet/@sheet_slug', 'Dashboard->sheet_single' );
 $f3->route( 'POST /sheet/@sheet_slug', 'Dashboard->save_sheet' );
 $f3->route( 'DELETE /sheet/@sheet_slug', 'Dashboard->delete_sheet' );
+// read-only public sheet refresh. This endpoint receives a request for a sheet
+// and provides an updated date if it exists. The endpoint returns sheet data
+// only if the sheet has been updated.
 $f3->route( 'GET /sheet-data/@sheet_slug', 'Dashboard->get_sheet_data' );
 $f3->route( 'GET /print/@sheet_slug', 'Dashboard->print_sheet' );
 

@@ -134,6 +134,18 @@ class Dashboard {
             // redact the email address
             $sheet_data['email'] = null;
         }
+
+        // get updated_at from request
+        $client_updated_at = $f3->get( 'GET.updated_at' );
+
+        // if the sheet has not been updated since the client's last fetch, return no content
+        if ( $client_updated_at && $sheet_data['updated_at'] && $sheet_data['updated_at'] == $client_updated_at ) {
+            echo json_encode([
+                'success' => true,
+                'sheet' => null
+            ]);
+            return;
+        }
         
         echo json_encode([
             'success' => true,
