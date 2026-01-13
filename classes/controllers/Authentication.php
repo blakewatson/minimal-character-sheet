@@ -422,8 +422,8 @@ class Authentication {
             'https://%s/%s/%s/%s',
             $_SERVER['SERVER_NAME'],
             $url_path,
-            $email,
-            $user->token_cleartext
+            urlencode($email),
+            urlencode($user->token_cleartext)
         );
 
         $message = "$message\n\n$url";
