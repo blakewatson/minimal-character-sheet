@@ -26,6 +26,9 @@
           >- {{ spell.reaction_condition }}</span
         >
       </li>
+      <li v-if="spell.duration">
+        <strong>Duration:</strong> {{ spell.duration }}
+      </li>
       <li v-if="spell.range">
         <strong>Range:</strong> {{ spell.range }}
         <span v-if="spell.range_unit">{{ spell.range_unit }}</span>
@@ -132,6 +135,9 @@ export default {
       text += `Casting Time: ${this.replaceUnderscores(
         this.capitalize(this.spell.casting_time),
       )}\n`;
+      if (this.spell.duration) {
+        text += `Duration: ${this.spell.duration}\n`;
+      }
       if (this.spell.reaction_condition) {
         text += `- ${this.spell.reaction_condition}\n`;
       }
