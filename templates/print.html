@@ -44,7 +44,7 @@
         window.is_2024 = {{ @is_2024 | raw }};
         document.title = `${window.characterName} - Minimal character sheet`;
       </script>
-      <script src="{{ @BASE }}/dist/print.js"></script>
+      <script src="{{ @BASE }}{{ mix('/print.js') }}"></script>
     </check>
   </body>
 </html>

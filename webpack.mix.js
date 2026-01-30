@@ -27,7 +27,8 @@ mix
     watchOptions: {
       ignored: ['**/dist/**', '**/data/**', '**/node_modules/**'],
     },
-  });
+  })
+  .version();
 
 // Full API
 // mix.js(src, output);

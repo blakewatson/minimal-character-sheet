@@ -1,7 +1,7 @@
 {
-    "/app.js": "/app.js",
-    "/dashboard.js": "/dashboard.js",
-    "/print.js": "/print.js",
-    "/app.css": "/app.css",
-    "/quill.bubble.css": "/quill.bubble.css"
+    "/app.js": "/app.js?id=7d82e16bc57080153050d25a8ac57d3e",
+    "/dashboard.js": "/dashboard.js?id=7be3510a4cbc930b16f35a059369352d",
+    "/print.js": "/print.js?id=716035954797eba5e5bb55e3890d18cf",
+    "/app.css": "/app.css?id=be3bce21331f29b1b8042f8aef1e4bcb",
+    "/quill.bubble.css": "/quill.bubble.css?id=4086472a4e8c1c4adb2a6940e6967eae"
 }

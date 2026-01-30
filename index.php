@@ -78,4 +78,27 @@ $f3->set( 'ONERROR', function( $f3, $params ) {
     echo \Template::instance()->render( 'templates/error.html' );
 } );
 
+/**
+ * Helper functions
+ * Move these to a separate helpers.php file if the list grows.
+ */
+
+/**
+ * Returns a versioned asset path using Laravel Mix's manifest file.
+ * Used in templates for cache busting: {{ mix('/app.js') }}
+ */
+function mix($path) {
+    static $manifest;
+    if (!$manifest) {
+        $manifestPath = __DIR__ . '/dist/mix-manifest.json';
+        if (file_exists($manifestPath)) {
+            $manifest = json_decode(file_get_contents($manifestPath), true);
+        } else {
+            $manifest = [];
+        }
+    }
+    $path = '/' . ltrim($path, '/');
+    return '/dist' . ($manifest[$path] ?? $path);
+}
+
 $f3->run();

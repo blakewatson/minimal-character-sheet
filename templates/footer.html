@@ -5,11 +5,11 @@
         <script>window.sheet = "{{ @sheet | raw }}";</script>
         <script>window.characterName = "{{ @character_name | raw }}";</script>
         <script>window.is_2024 = {{ @is_2024 | raw }};</script>
-        <script src="{{ @BASE }}/dist/app.js?v=4"></script>
+        <script src="{{ @BASE }}{{ mix('/app.js') }}"></script>
     </check>
     
     <check if="{{ isset(@dashboard) }}">
-        <script src="{{ @BASE }}/dist/dashboard.js"></script>
+        <script src="{{ @BASE }}{{ mix('/dashboard.js') }}"></script>
     </check>
 
 </body>
