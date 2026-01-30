@@ -196,6 +196,7 @@ export default new Vuex.Store({
     treasureText: {},
     organizationsText: {},
     notesText: {},
+    passivePerceptionOverride: null,
     spClass: '',
     spAbility: 'WIS',
     spSave: '',
@@ -353,6 +354,10 @@ export default new Vuex.Store({
         }
         return skill;
       });
+    },
+
+    updatePassivePerceptionOverride(state, payload) {
+      state.passivePerceptionOverride = payload;
     },
 
     updateSavingThrow(state, payload) {

@@ -55,7 +55,15 @@
     </ul>
 
     <p class="py-3 text-center">
-      <strong class="">{{ getPassivePerception() }}</strong>
+      <button
+        :disabled="readOnly"
+        @click="openPassivePerceptionDialog"
+        title="Override passive perception"
+        class="hover:border-light-foreground cursor-pointer rounded-xs border border-transparent px-1 dark:hover:border-neutral-400"
+        :class="{ underline: passivePerceptionOverride !== null }"
+      >
+        <strong class="">{{ getPassivePerception() }}</strong>
+      </button>
       Passive Perception <span class="small-label not-italic">(WIS)</span>
     </p>
 
@@ -115,7 +123,7 @@ export default {
   },
 
   computed: {
-    ...mapState(['skills', 'readOnly']),
+    ...mapState(['skills', 'readOnly', 'passivePerceptionOverride']),
     ...mapGetters(['modifiers', 'proficiencyBonus']),
   },
 
@@ -162,6 +170,14 @@ export default {
     },
 
     getPassivePerception() {
+      // Check for override first
+      if (
+        this.passivePerceptionOverride !== null &&
+        this.passivePerceptionOverride !== undefined
+      ) {
+        return this.passivePerceptionOverride;
+      }
+
       // Find the Perception skill
       const perceptionSkill = this.skills.find(
         (skill) => skill.name === 'Perception',
@@ -176,6 +192,16 @@ export default {
     openOverrideDialog(skill) {
       this.selectedSkill = skill;
       this.modifierOverride = this.getSkillModifier(skill).toString();
+      this.showOverrideDialog = true;
+    },
+
+    openPassivePerceptionDialog() {
+      // Create a pseudo-skill object for passive perception
+      this.selectedSkill = {
+        name: 'Passive Perception',
+        isPassivePerception: true,
+      };
+      this.modifierOverride = this.getPassivePerception().toString();
       this.showOverrideDialog = true;
     },
 
@@ -211,10 +237,15 @@ export default {
         }
       }
 
-      this.$store.commit('updateSkillModifierOverride', {
-        skillName: this.selectedSkill.name,
-        modifierOverride: override,
-      });
+      // Check if this is passive perception or a regular skill
+      if (this.selectedSkill.isPassivePerception) {
+        this.$store.commit('updatePassivePerceptionOverride', override);
+      } else {
+        this.$store.commit('updateSkillModifierOverride', {
+          skillName: this.selectedSkill.name,
+          modifierOverride: override,
+        });
+      }
 
       this.showOverrideDialog = false;
       this.selectedSkill = null;
@@ -222,10 +253,15 @@ export default {
     },
 
     removeOverride() {
-      this.$store.commit('updateSkillModifierOverride', {
-        skillName: this.selectedSkill.name,
-        modifierOverride: null,
-      });
+      // Check if this is passive perception or a regular skill
+      if (this.selectedSkill.isPassivePerception) {
+        this.$store.commit('updatePassivePerceptionOverride', null);
+      } else {
+        this.$store.commit('updateSkillModifierOverride', {
+          skillName: this.selectedSkill.name,
+          modifierOverride: null,
+        });
+      }
       this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
