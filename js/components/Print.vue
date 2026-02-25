@@ -3,7 +3,7 @@
     <h1 class="character-name text-left">{{ characterName }}</h1>
 
     <!-- Character info -->
-    <div class="flex flex-wrap mb-md">
+    <div class="mb-md flex flex-wrap">
       <print-field :value="className" label="Class"></print-field>
 
       <print-field :value="level" label="Level"></print-field>
@@ -21,7 +21,7 @@
     </div>
 
     <!-- Vitals -->
-    <div class="flex flex-wrap align-items-center gap-lg">
+    <div class="align-items-center gap-lg flex flex-wrap">
       <print-field :value="ac" label="AC" box big center></print-field>
 
       <print-field :value="`_________/${maxHp}`" label="HP"></print-field>
@@ -34,7 +34,7 @@
 
       <print-field label="Death saves" center>
         <div>
-          <div class="flex align-items-center gap-sm mb-xs">
+          <div class="align-items-center gap-sm mb-xs flex">
             <span class="mini-icon" style="position: relative; top: -2px">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                 <path
@@ -45,7 +45,7 @@
             <input type="checkbox" v-for="_ in Array(3).fill(true)" />
           </div>
 
-          <div class="flex align-items-center gap-sm">
+          <div class="align-items-center gap-sm flex">
             <span class="mini-icon" style="position: relative; top: -2px">
               <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 640">
                 <path
@@ -60,7 +60,7 @@
     </div>
 
     <!-- Conditions -->
-    <div class="flex mt-md">
+    <div class="mt-md flex">
       <print-field
         label="Conditions"
         value="____________________________________"
@@ -75,7 +75,7 @@
     </div>
 
     <!-- Initiative, Proficiency bonus, Inspiration, Short rests -->
-    <div class="flex align-items-end mt-sm">
+    <div class="align-items-end mt-sm flex">
       <print-field :value="initiative" label="Initiative"></print-field>
 
       <print-field
@@ -91,7 +91,7 @@
     </div>
 
     <!-- Ability scores -->
-    <div class="flex mt-md">
+    <div class="mt-md flex">
       <print-field
         v-for="(ability, i) in abilities"
         :key="ability.name"
@@ -133,9 +133,9 @@
     <div class="skills mt-lg">
       <p class="header">Skills</p>
       <ul class="mb-sm pl-none" style="columns: 3">
-        <li class="flex align-items-center gap-sm" v-for="skill in skills">
+        <li class="align-items-center gap-sm flex" v-for="skill in skills">
           <div
-            class="flex align-items-center justify-content-end no-gap"
+            class="align-items-center justify-content-end no-gap flex"
             style="width: 32px"
           >
             <span
@@ -214,6 +214,48 @@
       </table>
     </div>
 
+    <!-- Trackable Fields -->
+    <div class="mt-md" v-if="trackableFields.length > 0">
+      <p class="header">Trackable Fields</p>
+
+      <table class="attacks-table" style="max-width: 5in">
+        <thead>
+          <tr>
+            <th>Name</th>
+            <th class="text-right">Used</th>
+            <th class="text-right">Max</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr :key="row.id" v-for="row in trackableFieldsAndNotes">
+            <td v-if="row.isField">{{ row.name }}</td>
+            <td v-if="row.isField" class="pt-md text-right">_________</td>
+            <td v-if="row.isField" class="text-right">
+              {{ row.max }}
+            </td>
+
+            <td
+              :class="{ 'weapon-notes': row.isNote }"
+              colspan="3"
+              v-if="row.isNote"
+            >
+              <small class="muted" v-html="row.notes"></small>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Features & Traits -->
+    <div class="mt-md" v-if="featuresText">
+      <p class="header">Features & Traits</p>
+
+      <div
+        class="quill-html mt-sm"
+        v-html="getHtmlFromQuill(featuresText)"
+      ></div>
+    </div>
+
     <!-- Equipment -->
     <div class="mt-md">
       <p class="header">Equipment</p>
@@ -244,21 +286,11 @@
       ></div>
     </div>
 
-    <!-- Features & Traits -->
-    <div class="mt-md" v-if="featuresText">
-      <p class="header">Features & Traits</p>
-
-      <div
-        class="quill-html mt-sm"
-        v-html="getHtmlFromQuill(featuresText)"
-      ></div>
-    </div>
-
     <!-- Spellcasting -->
     <div class="mt-md" v-if="hasSpells">
       <p class="header">Spellcasting</p>
 
-      <div class="flex align-items-center">
+      <div class="align-items-center flex">
         <print-field :value="spClass" label="Class"> </print-field>
 
         <print-field
@@ -301,7 +333,7 @@
         <div class="mt-lg" v-if="spellData.spells.length > 0">
           <p class="header">Level {{ idx + 1 }} spells</p>
 
-          <div class="flex pt-md">
+          <div class="pt-md flex">
             <print-field
               :value="spellData.slots"
               label="Slots"
@@ -376,6 +408,7 @@ export default {
       'skills',
       'attacks',
       'coins',
+      'trackableFields',
       'equipmentText',
       'proficienciesText',
       'featuresText',
@@ -415,6 +448,30 @@ export default {
         this.lvl8Spells,
         this.lvl9Spells,
       ];
+    },
+
+    trackableFieldsAndNotes() {
+      const rows = [];
+
+      this.trackableFields.forEach((field) => {
+        rows.push({
+          ...field,
+          isField: true,
+        });
+
+        if (field.notes) {
+          var html = this.getHtmlFromQuill(field.notes);
+        }
+
+        rows.push({
+          id: field.id + '-note',
+          isNote: true,
+          fieldId: field.id,
+          notes: html || '',
+        });
+      });
+
+      return rows;
     },
 
     attacksAndNotes() {
