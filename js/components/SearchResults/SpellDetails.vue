@@ -122,6 +122,11 @@ export default {
 
   computed: {
     copyableText() {
+      if (!this.spell) {
+        console.log('No spell provided');
+        return '';
+      }
+
       let text = `${this.spell.name}\n`;
 
       if (this.spell.document?.name) {

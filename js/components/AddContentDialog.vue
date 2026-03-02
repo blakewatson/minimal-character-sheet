@@ -84,6 +84,12 @@
             v-if="selectedEndpoint === 'backgrounds'"
           ></background-details>
 
+          <feat-details
+            :feat="result"
+            @close="closeDialog"
+            v-if="selectedEndpoint === 'feats'"
+          ></feat-details>
+
           <spell-details
             :spell="result"
             @close="closeDialog"
@@ -134,6 +140,7 @@
 <script>
 import Field from './Field.vue';
 import BackgroundDetails from './SearchResults/BackgroundDetails.vue';
+import FeatDetails from './SearchResults/FeatDetails.vue';
 import SpellDetails from './SearchResults/SpellDetails.vue';
 
 export default {
@@ -163,7 +170,7 @@ export default {
       searchQuery: '',
       searchResults: null,
       selectedEndpoint: 'spells',
-      supportedEndpoints: ['backgrounds', 'spells'],
+      supportedEndpoints: ['backgrounds', 'feats', 'spells'],
     };
   },
 
@@ -197,6 +204,12 @@ export default {
 
     urlNext() {
       return this.searchResults?.next;
+    },
+  },
+
+  watch: {
+    selectedEndpoint() {
+      this.searchResults = null;
     },
   },
 
@@ -268,6 +281,7 @@ export default {
 
   components: {
     'background-details': BackgroundDetails,
+    'feat-details': FeatDetails,
     field: Field,
     'spell-details': SpellDetails,
   },

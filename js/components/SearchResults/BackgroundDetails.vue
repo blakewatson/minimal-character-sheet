@@ -11,7 +11,7 @@
       >
     </summary>
 
-    <div class="mt-2" v-if="renderedDesc" v-html="renderedDesc"></div>
+    <div class="mt-2 text-sm" v-if="renderedDesc" v-html="renderedDesc"></div>
 
     <ul class="mt-2" v-if="renderedBenefits.length">
       <li class="text-sm" v-for="benefit in renderedBenefits">
@@ -53,6 +53,10 @@ export default {
 
   computed: {
     copyableText() {
+      if (!this.background) {
+        return '';
+      }
+
       let text = `${this.background.name}\n\n`;
 
       if (this.background.desc) {
