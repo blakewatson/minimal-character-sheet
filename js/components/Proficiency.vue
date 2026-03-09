@@ -1,9 +1,9 @@
 <template>
   <section
-    class="border-light-foreground dark:border-dark-foreground flex flex-wrap items-center justify-around gap-2 border-t pt-2 pb-2"
+    class="border-light-foreground dark:border-dark-foreground flex flex-wrap items-center justify-around gap-2 border-y pt-2 pb-2"
   >
     <div class="flex items-center gap-1">
-      <label class="small-label" for="initiative">Initiative</label>
+      <label class="small-label" for="initiative">{{ $t('Initiative') }}</label>
       <field
         :read-only="readOnly"
         :value="initiative"
@@ -15,11 +15,11 @@
 
     <button
       :disabled="readOnly"
+      :title="$t('Override proficiency bonus')"
       @click="openProficiencyDialog"
-      title="Override proficiency bonus"
       class="hover:border-light-foreground flex cursor-pointer items-center gap-2 rounded-xs border border-transparent px-1 dark:hover:border-neutral-400"
     >
-      <div class="small-label">Proficiency bonus</div>
+      <div class="small-label">{{ $t('Proficiency bonus') }}</div>
       <span
         class="min-[500px]:text-xl sm:text-2xl"
         :class="{ underline: Boolean(proficiencyOverride) }"
@@ -28,7 +28,7 @@
     </button>
 
     <div class="flex items-center gap-2">
-      <label class="small-label" for="inspiration"> Inspiration </label>
+      <label class="small-label" for="inspiration">{{ $t('Inspiration') }}</label>
       <input
         :checked="inspiration"
         :disabled="readOnly"
@@ -39,7 +39,7 @@
     </div>
 
     <div class="flex items-center gap-2">
-      <label class="small-label" for="shortRests">Short rests</label>
+      <label class="small-label" for="shortRests">{{ $t('Short rests') }}</label>
       <field
         :read-only="readOnly"
         :value="shortRests"
@@ -51,22 +51,20 @@
     </div>
 
     <app-dialog
+      :close-label="$t('Cancel')"
+      :title="$t('Proficiency bonus override')"
       @close="showProficiencyDialog = false"
       @submit="saveProficiencyOverride"
-      title="Proficiency bonus override"
-      close-label="Cancel"
       v-if="showProficiencyDialog"
     >
       <template #content>
         <p class="mb-2">
-          If you need to override the standard proficiency bonus calculation,
-          you can enter it here. Click Remove override to revert back to the
-          standard calculation.
+          {{ $t('Proficiency override description') }}
         </p>
 
-        <label for="proficiency-bonus" class="small-label text-base"
-          >Proficiency bonus</label
-        >
+        <label for="proficiency-bonus" class="small-label text-base">{{
+          $t('Proficiency bonus')
+        }}</label>
 
         <field
           :readOnly="readOnly"
@@ -79,14 +77,16 @@
       </template>
 
       <template #actions>
-        <button type="submit" class="button-primary mb-2">Save</button>
+        <button class="button-primary mb-2" type="submit">
+          {{ $t('Save') }}
+        </button>
 
         <button
-          type="button"
           @click="removeProficiencyOverride"
           class="button mb-2"
+          type="button"
         >
-          Remove override
+          {{ $t('Remove override') }}
         </button>
       </template>
     </app-dialog>

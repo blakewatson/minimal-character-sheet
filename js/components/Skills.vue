@@ -3,13 +3,13 @@
     open
     class="border-light-foreground dark:border-dark-foreground border-t pb-4"
   >
-    <summary class="section-label">Skills</summary>
+    <summary class="section-label">{{ $t('Skills') }}</summary>
 
     <ul class="sm:columns-2">
       <li class="mb-2 flex items-center gap-2" v-for="(skill, i) in skills">
-        <label class="sr-only" :for="`double-prof-${i}`"
-          >Double proficiency</label
-        >
+        <label :for="`double-prof-${i}`" class="sr-only">{{
+          $t('Double proficiency')
+        }}</label>
 
         <input
           :checked="skill.doubleProficient"
@@ -19,9 +19,9 @@
             opacity: skill.proficient ? 1 : 0,
             pointerEvents: skill.proficient ? 'auto' : 'none',
           }"
+          :title="$t('Toggle double proficiency')"
           @change="setProficiency(i, 'doubleProficient')"
           class="mr-1"
-          title="Toggle double proficiency"
           type="checkbox"
         />
 
@@ -34,56 +34,54 @@
         />
 
         <button
-          :disabled="readOnly"
-          @click="openOverrideDialog(skill)"
-          title="Override modifier"
-          class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right dark:hover:border-neutral-400"
           :class="{ underline: Boolean(skill.modifierOverride) }"
+          :disabled="readOnly"
+          :title="$t('Override modifier')"
+          @click="openOverrideDialog(skill)"
+          class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right dark:hover:border-neutral-400"
         >
           {{ getSkillModifier(skill) | signedNumString }}
         </button>
 
         <label
           :for="`skill-prof-${i}`"
-          title="Toggle proficiency"
+          :title="$t('Toggle proficiency')"
           class="skill-label"
         >
-          {{ skill.name }}
-          <span class="small-label not-italic">({{ skill.ability }})</span>
+          {{ $t(skill.name) }}
+          <span class="small-label not-italic">({{ $t(skill.ability) }})</span>
         </label>
       </li>
     </ul>
 
     <p class="py-3 text-center">
       <button
-        :disabled="readOnly"
-        @click="openPassivePerceptionDialog"
-        title="Override passive perception"
-        class="hover:border-light-foreground cursor-pointer rounded-xs border border-transparent px-1 dark:hover:border-neutral-400"
         :class="{ underline: passivePerceptionOverride !== null }"
+        :disabled="readOnly"
+        :title="$t('Override passive perception')"
+        @click="openPassivePerceptionDialog"
+        class="hover:border-light-foreground cursor-pointer rounded-xs border border-transparent px-1 dark:hover:border-neutral-400"
       >
         <strong class="">{{ getPassivePerception() }}</strong>
       </button>
-      Passive Perception <span class="small-label not-italic">(WIS)</span>
+      {{ $t('Passive Perception') }}
+      <span class="small-label not-italic">({{ $t('WIS') }})</span>
     </p>
 
     <app-dialog
+      :close-label="$t('Cancel')"
+      :title="$t('Skill modifier override')"
       @close="showOverrideDialog = false"
       @submit="saveOverride"
-      title="Skill modifier override"
-      close-label="Cancel"
       v-if="showOverrideDialog"
     >
       <template #content>
         <p class="mb-2">
-          If you need to override the standard modifier calculation for
-          <strong>{{ selectedSkill?.name }}</strong
-          >, you can enter it here. Click Remove override to revert back to the
-          standard calculation.
+          {{ $t('Proficiency override description') }}
         </p>
 
-        <label for="skill-modifier" class="small-label text-base">{{
-          selectedSkill?.name
+        <label class="small-label text-base" for="skill-modifier">{{
+          selectedSkill?.name ? $t(selectedSkill.name) : ''
         }}</label>
         <field
           :readOnly="readOnly"
@@ -97,9 +95,9 @@
       </template>
 
       <template #actions>
-        <button type="submit" class="button-primary">Save</button>
-        <button type="button" @click="removeOverride" class="button">
-          Remove override
+        <button class="button-primary" type="submit">{{ $t('Save') }}</button>
+        <button @click="removeOverride" class="button" type="button">
+          {{ $t('Remove override') }}
         </button>
       </template>
     </app-dialog>

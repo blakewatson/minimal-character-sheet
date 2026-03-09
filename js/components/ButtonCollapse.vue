@@ -2,8 +2,8 @@
   <button
     :title="
       collapsed
-        ? expandTitle || 'Expand content'
-        : collapseTitle || 'Collapse content'
+        ? expandTitle || $t('Expand content')
+        : collapseTitle || $t('Collapse content')
     "
     @click="$emit('click')"
     class="button-icon"
@@ -20,8 +20,8 @@
     <div class="sr-only">
       {{
         collapsed
-          ? expandTitle || 'Expand content'
-          : collapseTitle || 'Collapse content'
+          ? expandTitle || $t('Expand content')
+          : collapseTitle || $t('Collapse content')
       }}
     </div>
   </button>

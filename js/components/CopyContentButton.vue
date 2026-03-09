@@ -1,15 +1,15 @@
 <template>
   <div class="flex items-center gap-4">
-    <button class="button-primary" @click="copyToClipboardAndClose">
-      Copy and close
+    <button @click="copyToClipboardAndClose" class="button-primary">
+      {{ $t('Copy and close') }}
     </button>
 
-    <button class="button" @click="copyToClipboard">Copy</button>
-    <span class="text-green-700 dark:text-green-300" v-if="showCopySuccess">
-      Copied to clipboard!
+    <button @click="copyToClipboard" class="button">{{ $t('Copy') }}</button>
+    <span v-if="showCopySuccess" class="text-green-700 dark:text-green-300">
+      {{ $t('Copied to clipboard!') }}
     </span>
-    <span class="text-red-700 dark:text-red-300" v-if="showCopyError">
-      Failed to copy.
+    <span v-if="showCopyError" class="text-red-700 dark:text-red-300">
+      {{ $t('Failed to copy.') }}
     </span>
   </div>
 </template>
@@ -66,7 +66,7 @@ export default {
         await copyHtmlToClipboard(html, this.copyableText);
 
         const notyf = new Notyf({ duration: 2000 });
-        notyf.success('Copied spell to clipboard!');
+        notyf.success(this.$t('Copied to clipboard!'));
 
         this.$emit('close');
       } catch (err) {

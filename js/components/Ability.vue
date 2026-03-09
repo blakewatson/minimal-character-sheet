@@ -1,11 +1,11 @@
 <template>
   <div
-    class="border-light-foreground dark:border-dark-foreground flex w-16 flex-col items-center rounded-xs border"
+    class="border-light-foreground dark:border-dark-foreground flex min-w-16 flex-col items-center rounded-xs border"
   >
     <div
       class="text-reverse bg-reverse mb-1 self-stretch py-0.5 text-center text-sm"
     >
-      {{ ability.name }}
+      {{ $t(ability.name) }}
     </div>
     <span class="block text-center text-xl">{{
       modifier | signedNumString
@@ -19,14 +19,14 @@
     ></field>
 
     <div
-      class="border-light-foreground dark:border-dark-foreground mt-2 flex gap-2 border-t pt-2"
+      class="border-light-foreground dark:border-dark-foreground mt-2 flex gap-2 border-t px-1 pt-2"
     >
       <label
         :for="inputId"
         class="small-label"
         style="display: flex; align-items: center; gap: 0.125em"
       >
-        Save
+        {{ $t('Save (throw)') }}
       </label>
       <input
         v-if="savingThrow"

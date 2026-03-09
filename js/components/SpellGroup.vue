@@ -6,7 +6,7 @@
       <span class="text-reverse bg-reverse px-2 text-xl">{{ level }}</span>
 
       <div class="flex items-baseline gap-1">
-        <span class="small-label min-[500px]:text-sm">Slots:</span>
+        <span class="small-label min-[500px]:text-sm">{{ $t('Slots') }}:</span>
         <field
           :read-only="readOnly"
           :value="totalSlots"
@@ -16,7 +16,7 @@
           type="number"
         ></field>
 
-        <span class="small-label min-[500px]:text-sm">Expended:</span>
+        <span class="small-label min-[500px]:text-sm">{{ $t('Expended') }}:</span>
         <field
           :max="totalSlots"
           :read-only="readOnly"
@@ -29,9 +29,9 @@
       </div>
 
       <button-collapse
-        :collapse-title="`Collapse all level ${level} spells`"
+        :collapse-title="$t('Collapse all level {level} spells').replace('{level}', level)"
         :collapsed="!shouldCollapseAll"
-        :expand-title="`Expand all level ${level} spells`"
+        :expand-title="$t('Expand all level {level} spells').replace('{level}', level)"
         @click="updateSpellsCollapsed()"
         class="mt-1"
         v-if="!readOnly"

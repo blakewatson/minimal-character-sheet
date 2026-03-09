@@ -7,27 +7,26 @@
       <button
         @click="closeDialog"
         class="button-icon bg-reverse! text-reverse!"
-        title="Close dialog"
+        :title="$t('Close dialog')"
         type="button"
       >
         <i class="fa-sharp fa-regular fa-xmark h-full" role="presentation"></i>
-        <div class="sr-only">Close dialog</div>
+        <div class="sr-only">{{ $t('Close dialog') }}</div>
       </button>
     </div>
 
     <form @submit.prevent="handleSearch" class="h-full overflow-auto p-4">
       <p>
-        <strong>Search for content</strong>
+        <strong>{{ $t('Search for content') }}</strong>
       </p>
 
       <p>
-        Search to find spells, backgrounds, and more (coming soon) from the
-        Open5e API.
+        {{ $t('Search description') }}
       </p>
 
       <div class="flex flex-col items-stretch gap-2 sm:flex-row sm:items-end">
         <div>
-          <label class="block" for="endpoints">Category</label>
+          <label class="block" for="endpoints">{{ $t('Category') }}</label>
 
           <select
             id="endpoints"
@@ -41,7 +40,7 @@
         </div>
 
         <div class="grow">
-          <label class="block" for="spell-search">Search</label>
+          <label class="block" for="spell-search">{{ $t('Search') }}</label>
           <field
             :auto-size="false"
             :value="searchQuery"
@@ -61,12 +60,12 @@
         >
           <i class="fa-sharp fa-magnifying-glass" v-show="!isSearching"></i>
           <i class="fa-sharp fa-spinner-third fa-spin" v-show="isSearching"></i>
-          Search
+          {{ $t('Search') }}
         </button>
       </div>
 
       <p class="my-2" v-if="!isSupportedEndpoint">
-        Support for {{ capitalize(selectedEndpoint) }} coming soon!
+        {{ $t('Support coming soon', { category: endpointLabels[selectedEndpoint] }) }}
       </p>
 
       <div
@@ -98,7 +97,7 @@
         </div>
       </div>
 
-      <p class="mt-2" v-else-if="noResultsFound">No results found.</p>
+      <p class="mt-2" v-else-if="noResultsFound">{{ $t('No results found.') }}</p>
 
       <div
         class="my-4 flex items-center justify-center gap-4"
@@ -111,7 +110,7 @@
           type="button"
         >
           <i class="fa-sharp fa-chevron-left"></i>
-          Previous
+          {{ $t('Previous') }}
         </button>
         <button
           :disabled="!urlNext || isSearching"
@@ -119,18 +118,18 @@
           class="button gap-1"
           type="button"
         >
-          Next
+          {{ $t('Next') }}
           <i class="fa-sharp fa-chevron-right"></i>
         </button>
       </div>
 
       <div class="mt-8" style="border-top: 1px solid var(--divider-color)">
         <button
-          type="button"
           @click="closeDialog"
           class="button button-secondary my-none"
+          type="button"
         >
-          Close
+          {{ $t('Close') }}
         </button>
       </div>
     </form>
@@ -176,15 +175,28 @@ export default {
 
   computed: {
     endpointLabels() {
+      const labelMap = {
+        abilities: this.$t('Abilities'),
+        armor: this.$t('Armor'),
+        backgrounds: this.$t('Backgrounds'),
+        classes: this.$t('Classes'),
+        conditions: this.$t('Conditions'),
+        creatures: this.$t('Creatures'),
+        environments: this.$t('Environments'),
+        feats: this.$t('Feats'),
+        items: this.$t('Items'),
+        magicitems: this.$t('Magic items'),
+        services: this.$t('Services'),
+        skills: this.$t('Skills'),
+        species: this.$t('Species'),
+        spells: this.$t('Spells'),
+        weapons: this.$t('Weapons'),
+      };
+
       const labels = {};
 
       this.sortedEndpoints.forEach((key) => {
-        if (key === 'magicitems') {
-          labels[key] = 'Magic items';
-          return;
-        }
-
-        labels[key] = this.capitalize(key);
+        labels[key] = labelMap[key] || this.capitalize(key);
       });
 
       return labels;

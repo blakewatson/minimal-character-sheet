@@ -13,70 +13,72 @@
 
     <ul class="spell-info my-2 text-sm">
       <li>
-        <strong>Level:</strong>
-        {{ spell.level === 0 ? 'Cantrip' : spell.level }}
+        <strong>{{ $t('Level') }}:</strong>
+        {{ spell.level === 0 ? $t('Cantrip') : spell.level }}
       </li>
       <li v-if="spell.school">
-        <strong>School:</strong> {{ spell.school.name }}
+        <strong>{{ $t('School') }}:</strong> {{ spell.school.name }}
       </li>
       <li>
-        <strong>Casting Time:</strong>
+        <strong>{{ $t('Casting Time') }}:</strong>
         {{ replaceUnderscores(capitalize(spell.casting_time)) }}
         <span v-if="spell.reaction_condition"
           >- {{ spell.reaction_condition }}</span
         >
       </li>
       <li v-if="spell.duration">
-        <strong>Duration:</strong> {{ spell.duration }}
+        <strong>{{ $t('Duration') }}:</strong> {{ spell.duration }}
       </li>
       <li v-if="spell.range">
-        <strong>Range:</strong> {{ spell.range }}
+        <strong>{{ $t('Range') }}:</strong> {{ spell.range }}
         <span v-if="spell.range_unit">{{ spell.range_unit }}</span>
       </li>
-      <li v-else-if="spell.range === 0"><strong>Range:</strong> Self</li>
+      <li v-else-if="spell.range === 0">
+        <strong>{{ $t('Range') }}:</strong> {{ $t('Self') }}
+      </li>
       <li v-if="spell.target_type">
-        <strong>Target:</strong>
+        <strong>{{ $t('Target') }}:</strong>
         <span v-if="spell.target_count">{{ spell.target_count }}</span>
         {{ spell.target_type }}
       </li>
       <li v-if="spell.shape_type">
-        <strong>Area of Effect:</strong>
+        <strong>{{ $t('Area of Effect') }}:</strong>
         {{ capitalize(spell.shape_type) }}
         <span v-if="spell.shape_size"
           >({{ spell.shape_size }} {{ spell.shape_size_unit || '' }})</span
         >
       </li>
       <li v-if="spell.attack_roll">
-        <strong>Spell Attack</strong>
+        <strong>{{ $t('Spell Attack') }}</strong>
       </li>
       <li v-if="spell.saving_throw_ability">
-        <strong>Saving Throw:</strong>
+        <strong>{{ $t('Saving Throw') }}:</strong>
         {{ capitalize(spell.saving_throw_ability) }}
       </li>
       <li v-if="spell.damage_roll">
-        <strong>Damage:</strong> {{ spell.damage_roll }}
+        <strong>{{ $t('Damage') }}:</strong> {{ spell.damage_roll }}
         <span v-if="spell.damage_types">
           {{ spell.damage_types.map((type) => capitalize(type)).join(', ') }}
         </span>
       </li>
       <li v-if="spell.concentration">
-        <strong>Requires Concentration</strong>
+        <strong>{{ $t('Requires Concentration') }}</strong>
       </li>
       <li v-if="spell.somatic || spell.verbal || spell.material">
-        <strong>Components:</strong>
+        <strong>{{ $t('Components') }}:</strong>
         <span v-if="spell.verbal">V</span>
         <span v-if="spell.somatic">S</span>
         <span v-if="spell.material"
           >M<span v-if="spell.material_specified">
             - {{ spell.material_specified }}
-            <span v-if="spell.material_consumed"> (Consumed)</span>
+            <span v-if="spell.material_consumed"> ({{ $t('Consumed') }})</span>
             <span v-if="spell.material_cost">
-              (Cost: {{ spell.material_cost }})</span
+              ({{ $t('Cost') }}: {{ spell.material_cost }})</span
             >
           </span>
         </span>
       </li>
-      <li v-if="spell.ritual"><strong>Ritual</strong></li>
+      <li v-if="spell.ritual"><strong>{{ $t('Ritual') }}</strong></li>
     </ul>
 
     <div
@@ -87,7 +89,7 @@
 
     <div class="spell-higher-level my-2 text-sm" v-if="renderedHigherLevel">
       <p class="mb-2">
-        <strong>At higher levels:</strong>
+        <strong>{{ $t('At higher levels') }}:</strong>
       </p>
       <div v-html="renderedHigherLevel"></div>
     </div>
@@ -133,70 +135,70 @@ export default {
         text += `${this.spell.document.name}\n`;
       }
 
-      text += `\nLevel: ${this.spell.level === 0 ? 'Cantrip' : this.spell.level}\n`;
+      text += `\n${this.$t('Level')}: ${this.spell.level === 0 ? this.$t('Cantrip') : this.spell.level}\n`;
       if (this.spell.school) {
-        text += `School: ${this.spell.school.name}\n`;
+        text += `${this.$t('School')}: ${this.spell.school.name}\n`;
       }
-      text += `Casting Time: ${this.replaceUnderscores(
+      text += `${this.$t('Casting Time')}: ${this.replaceUnderscores(
         this.capitalize(this.spell.casting_time),
       )}\n`;
       if (this.spell.duration) {
-        text += `Duration: ${this.spell.duration}\n`;
+        text += `${this.$t('Duration')}: ${this.spell.duration}\n`;
       }
       if (this.spell.reaction_condition) {
         text += `- ${this.spell.reaction_condition}\n`;
       }
       if (this.spell.range) {
-        text += `Range: ${this.spell.range} ${this.spell.range_unit || ''}\n`;
+        text += `${this.$t('Range')}: ${this.spell.range} ${this.spell.range_unit || ''}\n`;
       }
       if (this.spell.target_type) {
-        text += `Target: ${
+        text += `${this.$t('Target')}: ${
           (this.spell.target_count ? this.spell.target_count + ' ' : '') +
           this.spell.target_type
         }\n`;
       }
       if (this.spell.shape_type) {
-        text += `Area of Effect: ${this.capitalize(this.spell.shape_type)} ${
+        text += `${this.$t('Area of Effect')}: ${this.capitalize(this.spell.shape_type)} ${
           this.spell.shape_size
             ? `(${this.spell.shape_size} ${this.spell.shape_size_unit || ''})`
             : ''
         }\n`;
       }
       if (this.spell.attack_roll) {
-        text += `Spell Attack\n`;
+        text += `${this.$t('Spell Attack')}\n`;
       }
       if (this.spell.saving_throw_ability) {
-        text += `Saving Throw: ${this.capitalize(this.spell.saving_throw_ability)}\n`;
+        text += `${this.$t('Saving Throw')}: ${this.capitalize(this.spell.saving_throw_ability)}\n`;
       }
       if (this.spell.damage_roll) {
-        text += `Damage: ${this.spell.damage_roll} ${this.spell.damage_types
+        text += `${this.$t('Damage')}: ${this.spell.damage_roll} ${this.spell.damage_types
           .map((type) => this.capitalize(type))
           .join(', ')}\n`;
       }
       if (this.spell.concentration) {
-        text += `Requires Concentration\n`;
+        text += `${this.$t('Requires Concentration')}\n`;
       }
       if (this.spell.somatic || this.spell.verbal || this.spell.material) {
-        text += `Components: ${
+        text += `${this.$t('Components')}: ${
           this.spell.verbal ? 'V ' : ''
         }${this.spell.somatic ? 'S ' : ''}${this.spell.material ? 'M' : ''}\n`;
 
         if (this.spell.material_specified) {
-          text += `- ${this.spell.material_specified} ${this.spell.material_consumed ? '(Consumed) ' : ''}${
+          text += `- ${this.spell.material_specified} ${this.spell.material_consumed ? `(${this.$t('Consumed')}) ` : ''}${
             this.spell.material_cost
-              ? `(Cost: ${this.spell.material_cost})`
+              ? `(${this.$t('Cost')}: ${this.spell.material_cost})`
               : ''
           }\n`;
         }
       }
       if (this.spell.ritual) {
-        text += `Ritual\n`;
+        text += `${this.$t('Ritual')}\n`;
       }
       if (this.spell.desc) {
         text += `\n${this.spell.desc}\n`;
       }
       if (this.spell.higher_level) {
-        text += `\nAt higher levels:\n${this.spell.higher_level}\n`;
+        text += `\n${this.$t('At higher levels')}:\n${this.spell.higher_level}\n`;
       }
       return text;
     },
@@ -256,7 +258,7 @@ export default {
         if (higherLevelEl) {
           html +=
             '<br>' +
-            '<strong>At Higher Levels</strong><br>' +
+            `<strong>${self.$t('At higher levels')}</strong><br>` +
             self.renderedHigherLevel;
         }
 

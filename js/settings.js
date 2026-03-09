@@ -26,6 +26,13 @@
     inputTextareaFont.addEventListener('change', (event) => {
       setTextareaFont(event.target.value);
     });
+
+    // language
+    var inputLanguage = document.getElementById('settingLanguage');
+    inputLanguage.value = localStorage.getItem('locale') || 'en';
+    inputLanguage.addEventListener('change', (event) => {
+      localStorage.setItem('locale', event.target.value);
+    });
   }
 
   function setDarkMode(val) {

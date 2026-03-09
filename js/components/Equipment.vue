@@ -3,7 +3,7 @@
     open
     class="border-light-foreground dark:border-dark-foreground mb-4 border-t"
   >
-    <summary class="section-label mb-2">Equipment</summary>
+    <summary class="section-label mb-2">{{ $t('Equipment') }}</summary>
 
     <div class="mb-4 flex items-center justify-between gap-4">
       <div
@@ -13,7 +13,7 @@
         <label
           :for="'coin-' + i"
           class="text-center text-sm tracking-wider uppercase"
-          >{{ c.name }}</label
+          >{{ $t(c.name) }}</label
         >
         <field
           :id="'coin-' + i"

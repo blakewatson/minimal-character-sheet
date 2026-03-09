@@ -3,7 +3,7 @@
     open
     class="border-light-foreground dark:border-dark-foreground mb-4 border-t"
   >
-    <summary class="section-label">{{ title }}</summary>
+    <summary class="section-label">{{ $t(title) }}</summary>
     <quill-editor
       :initial-contents="textField"
       :read-only="readOnly"

@@ -2,7 +2,7 @@
   <section
     class="border-light-foreground dark:border-dark-foreground border-t pt-4"
   >
-    <h1 class="section-label pt-0 font-bold">Spellcasting</h1>
+    <h1 class="section-label pt-0 font-bold">{{ $t('Spellcasting') }}</h1>
 
     <div
       class="grid grid-cols-2 items-start justify-between gap-2 sm:flex sm:flex-wrap"
@@ -10,7 +10,7 @@
       <div
         class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
       >
-        <span class="text-center text-sm">Class</span>
+        <span class="text-center text-sm">{{ $t('Class') }}</span>
         <field
           :read-only="readOnly"
           :value="spClass"
@@ -22,7 +22,7 @@
       <div
         class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
       >
-        <span class="text-center text-sm">Ability</span>
+        <span class="text-center text-sm">{{ $t('Ability') }}</span>
         <select
           v-if="!readOnly"
           @input="updateSpellInfo('spAbility', $event.target.value)"
@@ -30,42 +30,42 @@
         >
           <option
             v-for="(a, idx) in abilities"
-            :value="a.name"
             :selected="spAbility === a.name"
+            :value="a.name"
           >
-            {{ a.name }}: {{ modifiers[idx].val | signedNumString }}
+            {{ $t(a.name) }}: {{ modifiers[idx].val | signedNumString }}
           </option>
         </select>
-        <div class="block" style="padding: 0.25em" v-else>{{ spAbility }}</div>
+        <div class="block" style="padding: 0.25em" v-else>{{ $t(spAbility) }}</div>
       </div>
 
       <div
         class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
       >
-        <label for="spell-save-dc" class="text-center text-sm"
-          >Spell Save DC</label
-        >
+        <label class="text-center text-sm" for="spell-save-dc">{{
+          $t('Spell Save DC')
+        }}</label>
         <field
-          id="spell-save-dc"
-          class="text-center sm:text-2xl"
-          :value="spSave"
           :read-only="readOnly"
+          :value="spSave"
           @update-value="updateSpellInfo('spSave', $event)"
+          class="text-center sm:text-2xl"
+          id="spell-save-dc"
         ></field>
       </div>
 
       <div
         class="border-light-foreground dark:border-dark-foreground flex flex-col items-center border-t"
       >
-        <label for="spell-attack-bonus" class="text-center text-sm"
-          >Attack Bonus</label
-        >
+        <label class="text-center text-sm" for="spell-attack-bonus">{{
+          $t('Attack Bonus')
+        }}</label>
         <field
-          id="spell-attack-bonus"
-          class="text-center sm:text-2xl"
-          :value="spAttack"
           :read-only="readOnly"
+          :value="spAttack"
           @update-value="updateSpellInfo('spAttack', $event)"
+          class="text-center sm:text-2xl"
+          id="spell-attack-bonus"
         ></field>
       </div>
     </div>
@@ -77,21 +77,21 @@
         <span
           class="text-reverse bg-reverse absolute top-0 left-0 rounded-b-xs px-2 text-xl"
         >
-          <div class="sr-only">Level</div>
+          <div class="sr-only">{{ $t('Level') }}</div>
           0
         </span>
 
         <span
           class="mx-auto mt-1 grow text-center text-sm tracking-wider uppercase"
-          >Cantrips</span
+          >{{ $t('Cantrips') }}</span
         >
 
         <button-collapse
+          :collapse-title="$t('Collapse all cantrips')"
           :collapsed="!shouldCollapseAll"
+          :expand-title="$t('Expand all cantrips')"
           @click="updateCantripsCollapsed()"
           class="absolute top-1 right-0"
-          collapse-title="Collapse all cantrips"
-          expand-title="Expand all cantrips"
           v-if="!readOnly"
         ></button-collapse>
       </div>

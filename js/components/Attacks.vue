@@ -3,16 +3,16 @@
     open
     class="border-light-foreground dark:border-dark-foreground border-t pb-8"
   >
-    <summary class="section-label">Attacks & Weapons</summary>
+    <summary class="section-label">{{ $t('Attacks & Weapons') }}</summary>
 
     <!-- Desktop Table Layout -->
     <table v-if="attacks.length > 0 && !isMobile" class="mb-2 w-full text-sm">
       <thead>
         <tr>
-          <th class="px-2 text-left">Name</th>
-          <th class="px-2 text-right">Atk&nbsp;Bonus</th>
-          <th class="px-2 text-left">Damage</th>
-          <th class="px-2 text-right">Actions</th>
+          <th class="px-2 text-left">{{ $t('Name') }}</th>
+          <th class="px-2 text-right">{{ $t('Atk Bonus') }}</th>
+          <th class="px-2 text-left">{{ $t('Damage') }}</th>
+          <th class="px-2 text-right">{{ $t('Actions') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -28,11 +28,11 @@
           <td v-if="a.isAttack" class="p-2">
             <field
               :auto-size="false"
+              :placeholder="$t('Weapon')"
               :read-only="readOnly"
               :value="a.name"
               @update-value="updateAttacks(a.id, 'name', $event)"
               class="w-full text-left text-[13px]! font-bold"
-              placeholder="Weapon"
             ></field>
           </td>
 
@@ -61,13 +61,13 @@
             <div class="flex items-center justify-end gap-1">
               <button
                 :disabled="readOnly"
+                :title="$t('Move up')"
                 @click="sortAttacks(a.id, 'up')"
                 class="button-icon cursor-pointer"
-                title="Move up"
                 type="button"
                 v-if="!readOnly && i > 0"
               >
-                <span class="sr-only">Move up</span>
+                <span class="sr-only">{{ $t('Move up') }}</span>
                 <i
                   class="fa-sharp fa-regular fa-arrow-up"
                   role="presentation"
@@ -76,13 +76,13 @@
 
               <button
                 :disabled="readOnly"
+                :title="$t('Move down')"
                 @click="sortAttacks(a.id, 'down')"
                 class="button-icon cursor-pointer"
-                title="Move down"
                 type="button"
                 v-if="!readOnly && i < attacksAndNotes.length - 2"
               >
-                <span class="sr-only">Move down</span>
+                <span class="sr-only">{{ $t('Move down') }}</span>
                 <i
                   class="fa-sharp fa-regular fa-arrow-down"
                   role="presentation"
@@ -91,13 +91,13 @@
 
               <button
                 :disabled="readOnly"
+                :title="$t('Delete attack')"
                 @click="deleteAttack(a.id)"
                 class="button-icon danger"
-                title="Delete attack"
                 type="button"
                 v-if="!readOnly"
               >
-                <span class="sr-only">Delete attack</span>
+                <span class="sr-only">{{ $t('Delete attack') }}</span>
                 <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
               </button>
             </div>
@@ -105,7 +105,7 @@
 
           <td v-if="a.isNote" colspan="4">
             <div class="flex items-center gap-2 pb-2">
-              <span class="small-label">Notes</span>
+              <span class="small-label">{{ $t('Notes') }}</span>
               <quill-editor
                 :initial-contents="a.weaponNotes"
                 :read-only="readOnly"
@@ -130,32 +130,34 @@
           <field
             :auto-size="false"
             :class="isMobile ? '' : 'text-sm!'"
+            :placeholder="$t('Weapon name')"
             :read-only="readOnly"
             :value="a.name"
             @update-value="updateAttacks(a.id, 'name', $event)"
             class="grow font-bold"
-            placeholder="Weapon name"
           ></field>
 
           <button
             :disabled="readOnly"
+            :title="$t('Move up')"
             @click="sortAttacks(a.id, 'up')"
             class="button-icon cursor-pointer"
             type="button"
             v-if="!readOnly && i > 0"
           >
-            <span class="sr-only">Move up</span>
+            <span class="sr-only">{{ $t('Move up') }}</span>
             <i class="fa-sharp fa-regular fa-arrow-up" role="presentation"></i>
           </button>
 
           <button
             :disabled="readOnly"
+            :title="$t('Move down')"
             @click="sortAttacks(a.id, 'down')"
             class="button-icon cursor-pointer"
             type="button"
             v-if="!readOnly && i < attacks.length - 1"
           >
-            <span class="sr-only">Move down</span>
+            <span class="sr-only">{{ $t('Move down') }}</span>
             <i
               class="fa-sharp fa-regular fa-arrow-down"
               role="presentation"
@@ -163,21 +165,22 @@
           </button>
 
           <button
-            v-if="!readOnly"
-            type="button"
-            class="button-icon cursor-pointer hover:border-red-600 hover:text-red-600"
             :disabled="readOnly"
+            :title="$t('Delete attack')"
             @click="deleteAttack(a.id)"
+            class="button-icon cursor-pointer hover:border-red-600 hover:text-red-600"
+            type="button"
+            v-if="!readOnly"
           >
-            <span class="sr-only">Delete attack</span>
+            <span class="sr-only">{{ $t('Delete attack') }}</span>
             <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
           </button>
         </div>
 
         <div class="flex flex-wrap items-center gap-x-4">
           <div class="flex items-baseline gap-1">
-            <label class="small-label" :for="`attack-bonus-${a.id}`">
-              {{ isMobile ? 'Atk&nbsp;Bonus' : 'Attack Bonus' }}
+            <label :for="`attack-bonus-${a.id}`" class="small-label">
+              {{ $t(isMobile ? 'Atk Bonus' : 'Attack Bonus') }}
             </label>
             <field
               :class="isMobile ? '' : 'text-sm!'"
@@ -189,9 +192,9 @@
           </div>
 
           <div class="flex items-baseline gap-1">
-            <label class="small-label" :for="`attack-damage-${a.id}`"
-              >Damage</label
-            >
+            <label :for="`attack-damage-${a.id}`" class="small-label">{{
+              $t('Damage')
+            }}</label>
             <field
               :class="isMobile ? '' : 'text-sm!'"
               :id="`attack-damage-${a.id}`"
@@ -203,7 +206,7 @@
         </div>
 
         <div>
-          <label class="small-label">Notes</label>
+          <label class="small-label">{{ $t('Notes') }}</label>
           <quill-editor
             :initial-contents="a.weaponNotes"
             :read-only="readOnly"
@@ -216,12 +219,12 @@
     <p class="text-center" v-if="!readOnly">
       <button
         :disabled="readOnly"
+        :title="$t('Add an attack')"
         @click="$store.commit('addAttack')"
         class="button-icon cursor-pointer"
-        title="Add an attack"
         type="button"
       >
-        <span class="sr-only">Add an attack</span>
+        <span class="sr-only">{{ $t('Add an attack') }}</span>
         <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
       </button>
     </p>

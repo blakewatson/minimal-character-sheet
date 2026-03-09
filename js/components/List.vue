@@ -27,25 +27,25 @@
 
           <button
             :disabled="readOnly"
+            :title="$t('Move up')"
             @click="sortItems(item.id, 'up')"
             class="button-icon"
-            title="Move up"
             type="button"
             v-if="!readOnly && i > 0"
           >
-            <span class="sr-only">Move up</span>
+            <span class="sr-only">{{ $t('Move up') }}</span>
             <i class="fa-sharp fa-regular fa-arrow-up" role="presentation"></i>
           </button>
 
           <button
             :disabled="readOnly"
+            :title="$t('Move down')"
             @click="sortItems(item.id, 'down')"
             class="button-icon"
-            title="Move down"
             type="button"
             v-if="!readOnly && i < items.length - 1"
           >
-            <span class="sr-only">Move down</span>
+            <span class="sr-only">{{ $t('Move down') }}</span>
             <i
               class="fa-sharp fa-regular fa-arrow-down"
               role="presentation"
@@ -54,13 +54,13 @@
 
           <button
             :disabled="readOnly"
+            :title="$t('Delete')"
             @click="deleteItem(i)"
             class="button-icon hover:border-red-600 hover:text-red-600"
-            title="Delete"
             type="button"
             v-if="!readOnly"
           >
-            <span class="sr-only">Delete</span>
+            <span class="sr-only">{{ $t('Delete') }}</span>
             <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
           </button>
         </div>
@@ -70,12 +70,12 @@
     <p class="text-center" v-if="!readOnly">
       <button
         :disabled="readOnly"
+        :title="$t('Add list item')"
         @click="addToList"
         class="button-icon"
-        title="Add list item"
         type="button"
       >
-        <span class="sr-only">Add list item</span>
+        <span class="sr-only">{{ $t('Add list item') }}</span>
         <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
       </button>
     </p>

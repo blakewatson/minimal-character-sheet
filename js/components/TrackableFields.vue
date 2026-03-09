@@ -3,17 +3,17 @@
     open
     class="border-light-foreground dark:border-dark-foreground relative border-t pb-8"
   >
-    <summary class="section-label">Trackable Fields</summary>
+    <summary class="section-label">{{ $t('Trackable Fields') }}</summary>
 
     <!-- Info Button -->
     <button
       @click="showInfoDialog = true"
+      :title="$t('What are trackable fields?')"
       class="hover:border-light-foreground dark:hover:border-dark-foreground absolute top-2 right-0 flex cursor-pointer items-center gap-2 rounded-sm border border-transparent p-1"
-      title="What are trackable fields?"
       type="button"
     >
       <i class="fa-sharp fa-regular fa-circle-question" role="presentation"></i>
-      <span class="sr-only">What are trackable fields?</span>
+      <span class="sr-only">{{ $t('What are trackable fields?') }}</span>
     </button>
 
     <!-- Desktop Table Layout -->
@@ -23,10 +23,10 @@
     >
       <thead>
         <tr>
-          <th class="px-2 text-left">Name</th>
-          <th class="px-2 text-center">Used</th>
-          <th class="px-2 text-center">Max</th>
-          <th class="px-2 text-right">Actions</th>
+          <th class="px-2 text-left">{{ $t('Name') }}</th>
+          <th class="px-2 text-center">{{ $t('Used') }}</th>
+          <th class="px-2 text-center">{{ $t('Max') }}</th>
+          <th class="px-2 text-right">{{ $t('Actions') }}</th>
         </tr>
       </thead>
       <tbody>
@@ -43,11 +43,11 @@
           <td v-if="field.isField" class="p-2">
             <field
               :auto-size="false"
+              :placeholder="$t('Name')"
               :read-only="readOnly"
               :value="field.name"
               @update-value="updateTrackableField(field.id, 'name', $event)"
               class="w-full text-left text-[13px]! font-bold"
-              placeholder="Name"
             ></field>
           </td>
 
@@ -83,13 +83,13 @@
             <div class="flex items-center justify-end gap-1">
               <button
                 :disabled="readOnly"
+                :title="$t('Move up')"
                 @click="sortTrackableField(field.id, 'up')"
                 class="button-icon"
-                title="Move up"
                 type="button"
                 v-if="!readOnly && i > 0"
               >
-                <span class="sr-only">Move up</span>
+                <span class="sr-only">{{ $t('Move up') }}</span>
                 <i
                   class="fa-sharp fa-regular fa-arrow-up"
                   role="presentation"
@@ -98,13 +98,13 @@
 
               <button
                 :disabled="readOnly"
+                :title="$t('Move down')"
                 @click="sortTrackableField(field.id, 'down')"
                 class="button-icon"
-                title="Move down"
                 type="button"
                 v-if="!readOnly && i < trackableFieldsAndNotes.length - 2"
               >
-                <span class="sr-only">Move down</span>
+                <span class="sr-only">{{ $t('Move down') }}</span>
                 <i
                   class="fa-sharp fa-regular fa-arrow-down"
                   role="presentation"
@@ -113,13 +113,13 @@
 
               <button
                 :disabled="readOnly"
+                :title="$t('Delete field')"
                 @click="deleteTrackableField(field.id)"
                 class="button-icon hover:border-red-600 hover:text-red-600"
-                title="Delete field"
                 type="button"
                 v-if="!readOnly"
               >
-                <span class="sr-only">Delete field</span>
+                <span class="sr-only">{{ $t('Delete field') }}</span>
                 <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
               </button>
             </div>
@@ -127,7 +127,7 @@
 
           <td v-if="field.isNote" colspan="4">
             <div class="flex items-center gap-2 pb-2">
-              <span class="small-label">Notes</span>
+              <span class="small-label">{{ $t('Notes') }}</span>
               <quill-editor
                 :initial-contents="field.notes"
                 :read-only="readOnly"
@@ -153,45 +153,48 @@
           <field
             :auto-size="false"
             :class="isMobile ? '' : 'text-sm!'"
+            :placeholder="$t('Name')"
             :read-only="readOnly"
             :value="field.name"
             @update-value="updateTrackableField(field.id, 'name', $event)"
             class="w-full grow font-bold"
-            placeholder="Name"
           ></field>
 
           <button
             :disabled="readOnly"
+            :title="$t('Move up')"
             @click="sortTrackableField(field.id, 'up')"
             class="button-icon"
             type="button"
             v-if="!readOnly && i > 0"
           >
-            <span class="sr-only">Move up</span>
+            <span class="sr-only">{{ $t('Move up') }}</span>
             <i class="fa-sharp fa-regular fa-arrow-up" role="presentation"></i>
           </button>
 
           <button
             :disabled="readOnly"
+            :title="$t('Move down')"
             @click="sortTrackableField(field.id, 'down')"
             class="button-icon"
             type="button"
             v-if="!readOnly && i < trackableFields.length - 1"
           >
-            <span class="sr-only">Move down</span>
+            <span class="sr-only">{{ $t('Move down') }}</span>
             <i
               class="fa-sharp fa-regular fa-arrow-down"
               role="presentation"
             ></i>
           </button>
           <button
-            v-if="!readOnly"
-            type="button"
-            class="button-icon hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger"
             :disabled="readOnly"
+            :title="$t('Delete field')"
             @click="deleteTrackableField(field.id)"
+            class="button-icon hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger"
+            type="button"
+            v-if="!readOnly"
           >
-            <span class="sr-only">Delete field</span>
+            <span class="sr-only">{{ $t('Delete field') }}</span>
             <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
           </button>
         </div>
@@ -199,10 +202,10 @@
         <div class="flex items-center gap-4">
           <div class="flex items-baseline gap-1">
             <label
-              class="small-label"
               :for="`trackable-field-used-${field.id}`"
+              class="small-label"
             >
-              Used
+              {{ $t('Used') }}
             </label>
             <field
               :class="isMobile ? '' : 'text-sm!'"
@@ -215,8 +218,11 @@
           </div>
 
           <div class="flex items-baseline gap-1">
-            <label class="small-label" :for="`trackable-field-max-${field.id}`">
-              Max
+            <label
+              :for="`trackable-field-max-${field.id}`"
+              class="small-label"
+            >
+              {{ $t('Max') }}
             </label>
             <field
               :class="isMobile ? '' : 'text-sm!'"
@@ -230,7 +236,7 @@
         </div>
 
         <div>
-          <label class="small-label">Notes</label>
+          <label class="small-label">{{ $t('Notes') }}</label>
           <quill-editor
             :initial-contents="field.notes"
             :read-only="readOnly"
@@ -243,26 +249,25 @@
     <p class="text-center" v-if="!readOnly">
       <button
         :disabled="readOnly"
+        :title="$t('Add a trackable field')"
         @click="$store.commit('addTrackableField')"
         class="button-icon"
-        title="Add a trackable field"
         type="button"
       >
-        <span class="sr-only">Add a trackable field</span>
+        <span class="sr-only">{{ $t('Add a trackable field') }}</span>
         <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
       </button>
     </p>
 
     <!-- Info Dialog -->
     <app-dialog
+      :title="$t('What are Trackable Fields?')"
       @close="showInfoDialog = false"
-      title="What are Trackable Fields?"
       v-if="showInfoDialog"
     >
       <template #content>
         <p>
-          Track limited-use resources like Superiority Dice, Focus Points,
-          attunement slots, and rechargeable class features.
+          {{ $t('Track limited-use resources like Superiority Dice, Focus Points, attunement slots, and rechargeable class features.') }}
         </p>
       </template>
     </app-dialog>

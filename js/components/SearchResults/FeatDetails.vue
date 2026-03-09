@@ -12,7 +12,7 @@
     </summary>
 
     <div class="my-4 text-sm" v-if="feat.has_prerequisite">
-      <strong>Prerequisite:</strong> {{ feat.prerequisite }}
+      <strong>{{ $t('Prerequisite') }}:</strong> {{ feat.prerequisite }}
     </div>
 
     <div class="text-sm" v-if="renderedDesc" v-html="renderedDesc"></div>
@@ -66,7 +66,7 @@ export default {
       let text = '';
 
       if (this.feat.has_prerequisite) {
-        text += `\nPrerequisite: ${this.feat.prerequisite}\n\n`;
+        text += `\n${this.$t('Prerequisite')}: ${this.feat.prerequisite}\n\n`;
       }
 
       if (this.feat.desc) {
@@ -114,7 +114,7 @@ export default {
         let html = `<h2>${self.feat.name}</h2>`;
 
         if (self.feat.has_prerequisite) {
-          html += `<p><strong>Prerequisite:</strong> ${self.feat.prerequisite}</p>`;
+          html += `<p><strong>${self.$t('Prerequisite')}:</strong> ${self.feat.prerequisite}</p>`;
         }
 
         if (self.feat.desc) {

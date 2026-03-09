@@ -11,16 +11,16 @@
             :checked="item.prepared"
             :disabled="readOnly"
             :id="`spell-prepared-${item.id}`"
+            :title="$t('Prepared')"
             @change="updateSpellPrepared(i, $event)"
-            title="Prepared"
             type="checkbox"
           />
           <label :for="`spell-prepared-${item.id}`" class="sr-only">
-            Prepared
+            {{ $t('Prepared') }}
           </label>
 
           <div class="size-full">
-            <label class="sr-only">Spell name and description</label>
+            <label class="sr-only">{{ $t('Spell name and description') }}</label>
             <quill-editor
               :collapsed="readOnly ? false : item.collapsed"
               :initial-contents="item.name"
@@ -40,25 +40,25 @@
 
           <button
             :disabled="readOnly"
+            :title="$t('Move up')"
             @click="sortSpells(item.id, 'up')"
             class="button-icon"
-            title="Move up"
             type="button"
             v-if="!readOnly && i > 0"
           >
-            <span class="sr-only">Move up</span>
+            <span class="sr-only">{{ $t('Move up') }}</span>
             <i class="fa-sharp fa-regular fa-arrow-up" role="presentation"></i>
           </button>
 
           <button
             :disabled="readOnly"
+            :title="$t('Move down')"
             @click="sortSpells(item.id, 'down')"
             class="button-icon"
-            title="Move down"
             type="button"
             v-if="!readOnly && i < spellItems.length - 1"
           >
-            <span class="sr-only">Move down</span>
+            <span class="sr-only">{{ $t('Move down') }}</span>
             <i
               class="fa-sharp fa-regular fa-arrow-down"
               role="presentation"
@@ -67,13 +67,13 @@
 
           <button
             :disabled="readOnly"
+            :title="$t('Delete spell')"
             @click="deleteSpell(i)"
             class="button-icon hover:border-light-danger hover:text-light-danger dark:hover:border-dark-danger dark:hover:text-dark-danger"
-            title="Delete spell"
             type="button"
             v-if="!readOnly"
           >
-            <span class="sr-only">Delete</span>
+            <span class="sr-only">{{ $t('Delete') }}</span>
             <i class="fa-sharp fa-regular fa-xmark" role="presentation"></i>
           </button>
         </div>
@@ -83,12 +83,12 @@
     <p class="text-center" v-if="!readOnly">
       <button
         :disabled="readOnly"
+        :title="$t('Add spell')"
         @click="addSpell"
         class="button-icon"
-        title="Add spell"
         type="button"
       >
-        <span class="sr-only">Add list item</span>
+        <span class="sr-only">{{ $t('Add spell') }}</span>
         <i class="fa-sharp fa-regular fa-plus" role="presentation"></i>
       </button>
     </p>

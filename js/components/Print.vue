@@ -4,35 +4,35 @@
 
     <!-- Character info -->
     <div class="mb-md flex flex-wrap">
-      <print-field :value="className" label="Class"></print-field>
+      <print-field :label="$t('Class')" :value="className"></print-field>
 
-      <print-field :value="level" label="Level"></print-field>
+      <print-field :label="$t('Level')" :value="level"></print-field>
 
-      <print-field :value="background" label="Background"></print-field>
+      <print-field :label="$t('Background')" :value="background"></print-field>
 
       <print-field
-        :label="is_2024 ? 'Species' : 'Race'"
+        :label="$t(is_2024 ? 'Species' : 'Race')"
         :value="race"
       ></print-field>
 
-      <print-field :value="xp" label="XP"></print-field>
+      <print-field :label="$t('XP')" :value="xp"></print-field>
 
-      <print-field :value="alignment" label="Alignment"></print-field>
+      <print-field :label="$t('Alignment')" :value="alignment"></print-field>
     </div>
 
     <!-- Vitals -->
     <div class="align-items-center gap-lg flex flex-wrap">
-      <print-field :value="ac" label="AC" box big center></print-field>
+      <print-field :label="$t('AC')" :value="ac" big box center></print-field>
 
-      <print-field :value="`_________/${maxHp}`" label="HP"></print-field>
+      <print-field :label="$t('HP')" :value="`_________/${maxHp}`"></print-field>
 
-      <print-field value="_________" label="Temp HP"></print-field>
+      <print-field :label="$t('Temp HP')" value="_________"></print-field>
 
-      <print-field :value="hitDieValue" label="Hit dice"></print-field>
+      <print-field :label="$t('Hit die')" :value="hitDieValue"></print-field>
 
-      <print-field :value="speed" label="Speed"></print-field>
+      <print-field :label="$t('Speed')" :value="speed"></print-field>
 
-      <print-field label="Death saves" center>
+      <print-field :label="$t('Death saves')" center>
         <div>
           <div class="align-items-center gap-sm mb-xs flex">
             <span class="mini-icon" style="position: relative; top: -2px">
@@ -62,32 +62,32 @@
     <!-- Conditions -->
     <div class="mt-md flex">
       <print-field
-        label="Conditions"
-        value="____________________________________"
+        :label="$t('Conditions')"
         center
+        value="____________________________________"
       ></print-field>
 
       <print-field
-        label="Concentration"
-        value="____________________________________"
+        :label="$t('Concentration')"
         center
+        value="____________________________________"
       ></print-field>
     </div>
 
     <!-- Initiative, Proficiency bonus, Inspiration, Short rests -->
     <div class="align-items-end mt-sm flex">
-      <print-field :value="initiative" label="Initiative"></print-field>
+      <print-field :label="$t('Initiative')" :value="initiative"></print-field>
 
       <print-field
+        :label="$t('Proficiency bonus')"
         :value="proficiencyBonus | signedNumString"
-        label="Proficiency bonus"
       ></print-field>
 
-      <print-field label="Inspiration">
+      <print-field :label="$t('Inspiration')">
         <input type="checkbox" v-model="inspiration" />
       </print-field>
 
-      <print-field value="_________" label="Short rests"></print-field>
+      <print-field :label="$t('Short rests')" value="_________"></print-field>
     </div>
 
     <!-- Ability scores -->
@@ -118,7 +118,7 @@
             >
               {{
                 (modifiers[i].val + proficiencyBonus) | signedNumString
-              }}&nbsp;Save
+              }}&nbsp;{{ $t('Save (throw)') }}
             </div>
           </div>
         </div>
@@ -131,7 +131,7 @@
 
     <!-- Skills -->
     <div class="skills mt-lg">
-      <p class="header">Skills</p>
+      <p class="header">{{ $t('Skills') }}</p>
       <ul class="mb-sm pl-none" style="columns: 3">
         <li class="align-items-center gap-sm flex" v-for="skill in skills">
           <div
@@ -177,21 +177,21 @@
 
       <div class="text-center">
         <strong class="text-right">{{ getPassivePerception() }}</strong>
-        Passive Perception
-        <small class="caps muted">(WIS)</small>
+        {{ $t('Passive Perception') }}
+        <small class="caps muted">({{ $t('WIS') }})</small>
       </div>
     </div>
 
     <!-- Attacks -->
     <div class="mt-md">
-      <p class="header">Attacks</p>
+      <p class="header">{{ $t('Attacks & Weapons') }}</p>
 
       <table class="attacks-table">
         <thead>
           <tr>
-            <th>Name</th>
-            <th class="text-right">Atk Bonus</th>
-            <th>Damage</th>
+            <th>{{ $t('Name') }}</th>
+            <th class="text-right">{{ $t('Atk Bonus') }}</th>
+            <th>{{ $t('Damage') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -216,14 +216,14 @@
 
     <!-- Trackable Fields -->
     <div class="mt-md" v-if="trackableFields.length > 0">
-      <p class="header">Trackable Fields</p>
+      <p class="header">{{ $t('Trackable Fields') }}</p>
 
       <table class="attacks-table" style="max-width: 5in">
         <thead>
           <tr>
-            <th>Name</th>
-            <th class="text-right">Used</th>
-            <th class="text-right">Max</th>
+            <th>{{ $t('Name') }}</th>
+            <th class="text-right">{{ $t('Used') }}</th>
+            <th class="text-right">{{ $t('Max') }}</th>
           </tr>
         </thead>
         <tbody>
@@ -248,7 +248,7 @@
 
     <!-- Features & Traits -->
     <div class="mt-md" v-if="featuresText">
-      <p class="header">Features & Traits</p>
+      <p class="header">{{ $t('Features & Traits') }}</p>
 
       <div
         class="quill-html mt-sm"
@@ -258,7 +258,7 @@
 
     <!-- Equipment -->
     <div class="mt-md">
-      <p class="header">Equipment</p>
+      <p class="header">{{ $t('Equipment') }}</p>
 
       <div class="flex">
         <print-field
@@ -278,7 +278,7 @@
 
     <!-- Proficiencies -->
     <div class="mt-md" v-if="proficienciesText">
-      <p class="header">Proficiencies</p>
+      <p class="header">{{ $t('Other Proficiencies & Languages') }}</p>
 
       <div
         class="quill-html mt-sm"
@@ -288,14 +288,14 @@
 
     <!-- Spellcasting -->
     <div class="mt-md" v-if="hasSpells">
-      <p class="header">Spellcasting</p>
+      <p class="header">{{ $t('Spellcasting') }}</p>
 
       <div class="align-items-center flex">
-        <print-field :value="spClass" label="Class"> </print-field>
+        <print-field :label="$t('Class')" :value="spClass"> </print-field>
 
         <print-field
+          :label="$t('Ability')"
           :value="`${spAbility} (${signedNumString(getAbilityModifier(spAbility))})`"
-          label="Ability"
         ></print-field>
 
         <print-field box center>
@@ -304,7 +304,7 @@
           </div>
 
           <template #label>
-            <p class="print-field-label">Save</p>
+            <p class="print-field-label">{{ $t('Save (throw)') }}</p>
           </template>
         </print-field>
 
@@ -314,13 +314,13 @@
           </div>
 
           <template #label>
-            <p class="print-field-label">Attack</p>
+            <p class="print-field-label">{{ $t('Attack') }}</p>
           </template>
         </print-field>
       </div>
 
       <div class="cantrips mt-md" v-if="cantripsList.length > 0">
-        <p class="header">Cantrips</p>
+        <p class="header">{{ $t('Cantrips') }}</p>
 
         <div
           class="quill-html card"
@@ -331,17 +331,17 @@
 
       <div v-for="(spellData, idx) in allSpellLevels">
         <div class="mt-lg" v-if="spellData.spells.length > 0">
-          <p class="header">Level {{ idx + 1 }} spells</p>
+          <p class="header">{{ $t('Level {level} spells', { level: idx + 1 }) }}</p>
 
           <div class="pt-md flex">
             <print-field
+              :label="$t('Slots')"
               :value="spellData.slots"
-              label="Slots"
               bold
             ></print-field>
 
             <print-field
-              label="Expended"
+              :label="$t('Expended')"
               value="_______________________"
             ></print-field>
           </div>
@@ -361,7 +361,7 @@
     <div v-for="section in textSections">
       <div
         class="mt-lg"
-        v-if="hasQuillContent(section.text) || section.title === 'Notes'"
+        v-if="hasQuillContent(section.text) || section.title === $t('Notes')"
       >
         <p class="header">{{ section.title }}</p>
         <div class="quill-html" v-html="getHtmlFromQuill(section.text)"></div>
@@ -538,23 +538,23 @@ export default {
     textSections() {
       return [
         {
-          title: 'Traits, Ideals, Bonds, & Flaws',
+          title: this.$t('Traits, Ideals, Bonds, & Flaws'),
           text: this.personalityText,
         },
         {
-          title: 'Appearance & Backstory',
+          title: this.$t('Appearance & Backstory'),
           text: this.backstoryText,
         },
         {
-          title: 'Treasure',
+          title: this.$t('Treasure'),
           text: this.treasureText,
         },
         {
-          title: 'Allies & Organizations',
+          title: this.$t('Allies & Organizations'),
           text: this.organizationsText,
         },
         {
-          title: 'Notes',
+          title: this.$t('Notes'),
           text: this.notesText,
         },
       ];
