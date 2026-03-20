@@ -95,13 +95,17 @@
               class="fa-sharp fa-regular fa-floppy-disk-circle-xmark"
               role="presentation"
             ></i>
-            <span class="sr-only">{{ $t('Save failed - click to retry') }}</span>
+            <span class="sr-only">{{
+              $t('Save failed - click to retry')
+            }}</span>
           </span>
         </button>
 
         <div class="retry-bubble" v-if="isRetrying">
           <div class="retry-arrow"></div>
-          <div class="retry-text">{{ $t('Retry') }} {{ retryCount }}/{{ retryMax }}</div>
+          <div class="retry-text">
+            {{ $t('Retry') }} {{ retryCount }}/{{ retryMax }}
+          </div>
         </div>
       </li>
       <!-- <li class="delete-character-button" v-if="!readOnly">
@@ -111,21 +115,7 @@
       </li> -->
     </ul>
 
-    <add-content-dialog
-      ref="addContentDialog"
-      @close="showSearchDialog = false"
-    >
-      <template #content>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Praesent elit
-          lorem, placerat non gravida eu, tincidunt a nibh. Vivamus bibendum
-          gravida est, sed mollis nulla feugiat a. Ut porttitor, elit in rhoncus
-          adipiscing, quam augue interdum dolor, et adipiscing elit nulla cursus
-          sem. Praesent turpis mi, egestas in interdum in, adipiscing ac tellus.
-          Ut sollicitudin elit ut nunc luctus sit amet venenatis turpis commodo.
-        </p>
-      </template>
-    </add-content-dialog>
+    <add-content-dialog ref="addContentDialog"></add-content-dialog>
   </nav>
 </template>
 
@@ -191,7 +181,8 @@ export default {
       if (this.saveStatus === 'unsaved') return this.$t('Unsaved changes');
       if (this.saveStatus === 'saving') return this.$t('Saving...');
       if (this.saveStatus === 'saved') return this.$t('All changes saved');
-      if (this.saveStatus === 'error') return this.$t('Save failed - click to retry');
+      if (this.saveStatus === 'error')
+        return this.$t('Save failed - click to retry');
     },
   },
 
