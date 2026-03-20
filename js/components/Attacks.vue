@@ -53,7 +53,7 @@
               :value="a.damage"
               @update-value="updateAttacks(a.id, 'damage', $event)"
               class="w-full text-left text-[13px]!"
-              placeholder="Ex: 1d6 slashing"
+              :placeholder="$t('Ex: 1d6 slashing')"
             ></field>
           </td>
 
