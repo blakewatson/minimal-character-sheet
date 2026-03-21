@@ -22,21 +22,24 @@ The app must continue to work identically after migration — same features, sam
 - ✓ Dark mode and client-side settings — existing
 - ✓ Rich text editing via Quill — existing
 
+### Validated in Phase 01: Build Tool Migration
+
+- ✓ Replace Laravel Mix (webpack) with Vite as build tool — Validated in Phase 01
+- ✓ Replace mix() PHP helper with vite() helper for manifest-based asset loading — Validated in Phase 01
+- ✓ Upgrade Vue 2.6 to Vue 3 with createApp bootstrap — Validated in Phase 01
+- ✓ Replace global event bus (Vue instance) with mitt — Validated in Phase 01
+- ✓ Update i18n plugin for Vue 3 plugin API — Validated in Phase 01
+- ✓ Remove Vue.filter() usage, replace with function calls — Validated in Phase 01
+- ✓ Upgrade Vuex 3 → 4 as intermediate step — Validated in Phase 01
+- ✓ Update lifecycle hooks (beforeDestroy → beforeUnmount) — Validated in Phase 01
+- ✓ Remove Vue.set() calls (Vue 3 proxy-based reactivity handles direct assignment) — Validated in Phase 01
+
 ### Active
 
-- [ ] Replace Laravel Mix (webpack) with Vite as build tool
-- [ ] Replace mix() PHP helper with vite() helper for manifest-based asset loading
-- [ ] Upgrade Vue 2.6 to Vue 3 with createApp bootstrap
-- [ ] Replace global event bus (Vue instance) with mitt
-- [ ] Update i18n plugin for Vue 3 plugin API
-- [ ] Remove Vue.filter() usage, replace with function calls
-- [ ] Upgrade Vuex 3 → 4 as intermediate step
 - [ ] Replace Vuex store with reactive() composable
 - [ ] Replace mapState/mapGetters/commit patterns across all 26+ components
 - [ ] Replace $store.subscribe autosave with watch(state, ..., { deep: true })
 - [ ] Remove Vuex dependency entirely
-- [ ] Update lifecycle hooks (beforeDestroy → beforeUnmount)
-- [ ] Remove Vue.set() calls (Vue 3 proxy-based reactivity handles direct assignment)
 
 ### Out of Scope
 
@@ -67,8 +70,9 @@ The app must continue to work identically after migration — same features, sam
 
 | Decision | Rationale | Outcome |
 |----------|-----------|---------|
-| Vite as build-only (no dev server) | PHP backend serves the app; HMR integration not worth the complexity | — Pending |
-| mitt for event bus | Lightweight, standard replacement for Vue 2 instance-as-event-bus pattern | — Pending |
+| Vite as build-only (no dev server) | PHP backend serves the app; HMR integration not worth the complexity | ✓ Confirmed in Phase 01 |
+| mitt for event bus | Lightweight, standard replacement for Vue 2 instance-as-event-bus pattern | ✓ Confirmed in Phase 01 |
+| .vue extensions required | Vite ESM resolver needs explicit extensions; extensionless imports don't work without resolve.extensions config | ✓ Confirmed in Phase 01 |
 | reactive() composable over Pinia | Store is a simple flat object; Pinia adds unnecessary abstraction for this use case | — Pending |
 | watch(state, ..., { deep: true }) for autosave | Direct replacement for $store.subscribe; state object is small enough that perf is fine | — Pending |
 | Keep Options API | Migration scope — convert store only, don't rewrite components to Composition API | — Pending |
@@ -91,4 +95,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-21 after initialization*
+*Last updated: 2026-03-21 after Phase 01 complete — Vite build tool + Vue 3 + Vuex 4 migration done; Vuex → reactive() composable migration is next*
