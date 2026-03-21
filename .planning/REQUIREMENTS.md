@@ -17,16 +17,16 @@
 
 ### Vue Framework
 
-- [ ] **VUE-01**: Upgrade Vue 2.6 to Vue 3.5 with createApp bootstrap
-- [ ] **VUE-02**: Upgrade Vuex 3 to Vuex 4 as intermediate bridge (createStore API)
-- [ ] **VUE-03**: Replace Vue instance event bus with mitt (emit/on/off pattern)
-- [ ] **VUE-04**: Update i18n plugin install signature for Vue 3 (app.config.globalProperties)
-- [ ] **VUE-05**: Replace all template filter syntax (| signedNumString) with function calls
+- [x] **VUE-01**: Upgrade Vue 2.6 to Vue 3.5 with createApp bootstrap
+- [x] **VUE-02**: Upgrade Vuex 3 to Vuex 4 as intermediate bridge (createStore API)
+- [x] **VUE-03**: Replace Vue instance event bus with mitt (emit/on/off pattern)
+- [x] **VUE-04**: Update i18n plugin install signature for Vue 3 (app.config.globalProperties)
+- [x] **VUE-05**: Replace all template filter syntax (| signedNumString) with function calls
 - [ ] **VUE-06**: Rename lifecycle hooks: beforeDestroy → beforeUnmount, destroyed → unmounted
 - [ ] **VUE-07**: Wrap Quill editor instance with markRaw() to prevent proxy interference
-- [ ] **VUE-08**: Remove all Vue.set() calls — Vue 3 proxy reactivity handles direct assignment
+- [x] **VUE-08**: Remove all Vue.set() calls — Vue 3 proxy reactivity handles direct assignment
 - [ ] **VUE-09**: Audit and update v-model usage on custom components (value/input → modelValue/update:modelValue)
-- [ ] **VUE-10**: Update entry points (app.js, print.js) to use createApp pattern
+- [x] **VUE-10**: Update entry points (app.js, print.js) to use createApp pattern
 
 ### Store Migration
 
@@ -82,16 +82,16 @@
 | BUILD-05 | Phase 1 | Complete |
 | BUILD-06 | Phase 1 | Complete |
 | BUILD-07 | Phase 1 | Complete |
-| VUE-01 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
-| VUE-02 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
-| VUE-03 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
-| VUE-04 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
-| VUE-05 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-01 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
+| VUE-02 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
+| VUE-03 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
+| VUE-04 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
+| VUE-05 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
 | VUE-06 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
 | VUE-07 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
-| VUE-08 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-08 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
 | VUE-09 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
-| VUE-10 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-10 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
 | STORE-01 | Phase 3 | Pending |
 | STORE-02 | Phase 3 | Pending |
 | STORE-03 | Phase 3 | Pending |
