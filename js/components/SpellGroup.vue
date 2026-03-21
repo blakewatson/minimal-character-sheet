@@ -44,9 +44,9 @@
 
 <script>
 import { mapState } from 'vuex';
-import ButtonCollapse from './ButtonCollapse';
-import Field from './Field';
-import SpellList from './SpellList';
+import ButtonCollapse from './ButtonCollapse.vue';
+import Field from './Field.vue';
+import SpellList from './SpellList.vue';
 
 export default {
   name: 'SpellGroup',

@@ -106,8 +106,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import Field from './Field';
-import Vitals from './Vitals';
+import Field from './Field.vue';
+import Vitals from './Vitals.vue';
 
 export default {
   name: 'Bio',

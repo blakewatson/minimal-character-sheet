@@ -15,7 +15,7 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import Ability from './Ability';
+import Ability from './Ability.vue';
 
 export default {
   name: 'Abilities',

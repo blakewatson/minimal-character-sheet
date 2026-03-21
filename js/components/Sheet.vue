@@ -83,16 +83,16 @@
 import { Notyf } from 'notyf';
 import { mapState } from 'vuex';
 import { throttle } from '../utils';
-import Abilities from './Abilities';
-import Attacks from './Attacks';
-import Bio from './Bio';
-import Equipment from './Equipment';
-import Proficiency from './Proficiency';
-import Skills from './Skills';
-import Spells from './Spells';
-import Tabs from './Tabs';
-import TextSection from './TextSection';
-import TrackableFields from './TrackableFields';
+import Abilities from './Abilities.vue';
+import Attacks from './Attacks.vue';
+import Bio from './Bio.vue';
+import Equipment from './Equipment.vue';
+import Proficiency from './Proficiency.vue';
+import Skills from './Skills.vue';
+import Spells from './Spells.vue';
+import Tabs from './Tabs.vue';
+import TextSection from './TextSection.vue';
+import TrackableFields from './TrackableFields.vue';
 
 export default {
   name: 'Sheet',
@@ -136,11 +136,11 @@ export default {
 
       // trigger a quick autosave upon every store mutation
       this.$store.subscribe((mutation, state) => {
-        window.sheetEvent.$emit('autosave');
+        window.sheetEvent.emit('autosave');
       });
 
       // when this event fires, schedule a save
-      window.sheetEvent.$on('autosave', () => {
+      window.sheetEvent.on('autosave', () => {
         this.resetRetryState();
         this.hasUnsavedChanges = true;
         this.throttledSave();
@@ -419,7 +419,7 @@ export default {
     });
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('hashchange', this.handleHashChange);
   },
 };

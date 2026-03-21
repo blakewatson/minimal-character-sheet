@@ -121,7 +121,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import AddContentDialog from './AddContentDialog';
+import AddContentDialog from './AddContentDialog.vue';
 
 export default {
   name: 'Tabs',

@@ -80,7 +80,7 @@
 
       <print-field
         :label="$t('Proficiency bonus')"
-        :value="proficiencyBonus | signedNumString"
+        :value="$signedNumString(proficiencyBonus)"
       ></print-field>
 
       <print-field :label="$t('Inspiration')">
@@ -101,7 +101,7 @@
       >
         <div>
           <div class="print-field-big">
-            {{ modifiers[i].val | signedNumString }}
+            {{ $signedNumString(modifiers[i].val) }}
           </div>
           <div>{{ ability.score }}</div>
 
@@ -117,7 +117,7 @@
               "
             >
               {{
-                (modifiers[i].val + proficiencyBonus) | signedNumString
+                $signedNumString(modifiers[i].val + proficiencyBonus)
               }}&nbsp;{{ $t('Save (throw)') }}
             </div>
           </div>
@@ -167,7 +167,7 @@
             <strong
               class="mr-xs text-right"
               style="width: 20px; display: inline-block"
-              >{{ getSkillModifier(skill) | signedNumString }}</strong
+              >{{ $signedNumString(getSkillModifier(skill)) }}</strong
             >
             {{ skill.name }}
             <small class="caps muted">({{ skill.ability }})</small>

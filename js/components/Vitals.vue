@@ -155,7 +155,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import Field from './Field';
+import Field from './Field.vue';
 
 export default {
   name: 'Vitals',

@@ -277,8 +277,8 @@
 <script>
 import { mapState } from 'vuex';
 import AppDialog from './AppDialog.vue';
-import Field from './Field';
-import QuillEditor from './QuillEditor';
+import Field from './Field.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'TrackableFields',
@@ -318,7 +318,7 @@ export default {
     this.setupMediaQuery();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.mediaQuery) {
       this.mediaQuery.removeListener(this.handleMediaQueryChange);
     }

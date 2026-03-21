@@ -9,6 +9,7 @@
 
 <script>
 import Quill from 'quill';
+import { markRaw } from 'vue';
 import { deltaToHtml } from '../quill-renderer.js';
 
 export default {
@@ -81,7 +82,7 @@ export default {
     initQuill() {
       this.isStatic = false;
 
-      this.editor = new Quill(this.$el, {
+      this.editor = markRaw(new Quill(this.$el, {
         theme: 'bubble',
         modules: {
           toolbar: this.toolbarOptions,
@@ -98,7 +99,7 @@ export default {
           'indent',
           'image',
         ],
-      });
+      }));
 
       if (this.initialContents) {
         this.editor.setContents(this.initialContents);
@@ -189,13 +190,13 @@ export default {
     // For read-only editors, listen for refresh events on the event bus and
     // update static DOM
     if (this.readOnly) {
-      window.sheetEvent.$on('quill-refresh', this.refreshListener);
+      window.sheetEvent.on('quill-refresh', this.refreshListener);
     }
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.refreshListener) {
-      window.sheetEvent.$off('quill-refresh', this.refreshListener);
+      window.sheetEvent.off('quill-refresh', this.refreshListener);
     }
   },
 };

@@ -36,8 +36,8 @@
 
 <script>
 import { mapState } from 'vuex';
-import Field from './Field';
-import QuillEditor from './QuillEditor';
+import Field from './Field.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'Equipment',

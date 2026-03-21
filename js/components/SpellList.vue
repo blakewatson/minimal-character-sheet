@@ -96,8 +96,8 @@
 </template>
 
 <script>
-import ButtonCollapse from './ButtonCollapse';
-import QuillEditor from './QuillEditor';
+import ButtonCollapse from './ButtonCollapse.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'SpellList',
@@ -129,7 +129,7 @@ export default {
         prepared: e.target.checked,
       });
 
-      window.sheetEvent.$emit('autosave', 1);
+      window.sheetEvent.emit('autosave', 1);
     },
 
     updateSpellCollapsed(i, collapsed) {
@@ -153,7 +153,7 @@ export default {
         i: i,
       });
 
-      window.sheetEvent.$emit('autosave', 1);
+      window.sheetEvent.emit('autosave', 1);
     },
 
     sortSpells(id, direction) {

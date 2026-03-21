@@ -233,8 +233,8 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import Field from './Field';
-import QuillEditor from './QuillEditor';
+import Field from './Field.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'Attacks',
@@ -274,7 +274,7 @@ export default {
     this.setupMediaQuery();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.mediaQuery) {
       this.mediaQuery.removeListener(this.handleMediaQueryChange);
     }

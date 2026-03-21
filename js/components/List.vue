@@ -83,8 +83,8 @@
 </template>
 
 <script>
-import ButtonCollapse from './ButtonCollapse';
-import QuillEditor from './QuillEditor';
+import ButtonCollapse from './ButtonCollapse.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'List',
@@ -120,7 +120,7 @@ export default {
         i: i,
       });
 
-      window.sheetEvent.$emit('autosave', 1);
+      window.sheetEvent.emit('autosave', 1);
     },
 
     sortItems(id, direction) {

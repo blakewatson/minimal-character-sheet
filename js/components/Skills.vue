@@ -40,7 +40,7 @@
           @click="openOverrideDialog(skill)"
           class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right dark:hover:border-neutral-400"
         >
-          {{ getSkillModifier(skill) | signedNumString }}
+          {{ $signedNumString(getSkillModifier(skill)) }}
         </button>
 
         <label

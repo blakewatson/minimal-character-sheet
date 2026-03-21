@@ -23,7 +23,7 @@
       <span
         class="min-[500px]:text-xl sm:text-2xl"
         :class="{ underline: Boolean(proficiencyOverride) }"
-        >{{ proficiencyBonus | signedNumString }}</span
+        >{{ $signedNumString(proficiencyBonus) }}</span
       >
     </button>
 
@@ -96,7 +96,7 @@
 <script>
 import { mapGetters, mapState } from 'vuex';
 import AppDialog from './AppDialog.vue';
-import Field from './Field';
+import Field from './Field.vue';
 
 export default {
   name: 'Proficiency',

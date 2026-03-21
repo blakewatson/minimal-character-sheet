@@ -1,7 +1,7 @@
 <template>
     <div class="saving-throw">
         <label :for="inputId" class="centered huge padded block">
-            {{ saveBonus | signedNumString }}
+            {{ $signedNumString(saveBonus) }}
             <input v-if="savingThrow" type="checkbox" :id="inputId" :checked="savingThrow.proficient" :disabled="readOnly" @change="toggleProficiency" />
         </label>
     </div>

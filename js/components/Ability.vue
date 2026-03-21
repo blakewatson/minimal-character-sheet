@@ -8,7 +8,7 @@
       {{ $t(ability.name) }}
     </div>
     <span class="block text-center text-xl">{{
-      modifier | signedNumString
+      $signedNumString(modifier)
     }}</span>
     <field
       class="text-center font-bold"
@@ -37,13 +37,13 @@
         @change="toggleProficiency"
       />
     </div>
-    <div class="text-center">{{ saveBonus | signedNumString }}</div>
+    <div class="text-center">{{ $signedNumString(saveBonus) }}</div>
   </div>
 </template>
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import Field from './Field';
+import Field from './Field.vue';
 
 export default {
   name: 'Ability',

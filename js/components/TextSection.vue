@@ -14,7 +14,7 @@
 
 <script>
 import { mapState } from 'vuex';
-import QuillEditor from './QuillEditor';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'TextSection',

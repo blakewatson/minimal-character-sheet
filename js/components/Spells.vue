@@ -33,7 +33,7 @@
             :selected="spAbility === a.name"
             :value="a.name"
           >
-            {{ $t(a.name) }}: {{ modifiers[idx].val | signedNumString }}
+            {{ $t(a.name) }}: {{ $signedNumString(modifiers[idx].val) }}
           </option>
         </select>
         <div class="block" style="padding: 0.25em" v-else>{{ $t(spAbility) }}</div>
@@ -112,10 +112,10 @@
 
 <script>
 import { mapGetters, mapState } from 'vuex';
-import ButtonCollapse from './ButtonCollapse';
-import Field from './Field';
-import List from './List';
-import SpellGroup from './SpellGroup';
+import ButtonCollapse from './ButtonCollapse.vue';
+import Field from './Field.vue';
+import List from './List.vue';
+import SpellGroup from './SpellGroup.vue';
 
 export default {
   name: 'Spells',
