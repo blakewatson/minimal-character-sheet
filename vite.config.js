@@ -7,6 +7,9 @@ export default defineConfig({
     vue(),
     tailwindcss(),
   ],
+  resolve: {
+    extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
+  },
   build: {
     outDir: 'dist',
     manifest: true,
