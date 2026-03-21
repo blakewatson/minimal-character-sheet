@@ -2,7 +2,7 @@
 
 ## Overview
 
-This migration moves the Minimal Character Sheet frontend from Vue 2 + Vuex + Laravel Mix to Vue 3 + reactive() composable + Vite, with zero feature changes. The phases follow strict dependency ordering: build tool first (so framework issues are isolated from build issues), then Vue 3 upgrade with Vuex 4 as a bridge, then store replacement, then cleanup and verification. Each phase produces a working, testable application.
+This migration moves the Minimal Character Sheet frontend from Vue 2 + Vuex + Laravel Mix to Vue 3 + reactive() composable + Vite, with zero feature changes. The phases follow strict dependency ordering: build tool first with Vue 3 upgrade (merged due to Vite 8 plugin incompatibility), then store replacement, then cleanup and verification. Each phase produces a working, testable application.
 
 ## Phases
 
@@ -12,47 +12,44 @@ This migration moves the Minimal Character Sheet frontend from Vue 2 + Vuex + La
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Build Tool Migration** - Replace Laravel Mix with Vite, update PHP asset helper, keep Vue 2 working
-- [ ] **Phase 2: Vue 3 Framework Upgrade** - Upgrade to Vue 3 with Vuex 4 bridge, fix all breaking API changes
+- [ ] **Phase 1: Build Tool Migration + Vue 3 Upgrade** - Replace Laravel Mix with Vite, upgrade to Vue 3 with Vuex 4, fix all breaking API changes
+- [x] ~~**Phase 2: Vue 3 Framework Upgrade**~~ - **ABSORBED into Phase 1** (D-01: @vitejs/plugin-vue2 incompatible with Vite 8, so Vue 3 upgrade must happen in same phase as build tool migration)
 - [ ] **Phase 3: Store Migration** - Replace Vuex with reactive() composable, update all 26 components
 - [ ] **Phase 4: Cleanup and Verification** - Remove dead artifacts, update docs, verify full feature parity
 
 ## Phase Details
 
-### Phase 1: Build Tool Migration
-**Goal**: The app builds and runs identically using Vite instead of Laravel Mix, with PHP templates loading assets via a new manifest helper
+### Phase 1: Build Tool Migration + Vue 3 Upgrade
+**Goal**: The app builds and runs identically using Vite instead of Laravel Mix, with Vue 3 + Vuex 4 and all breaking API changes resolved
 **Depends on**: Nothing (first phase)
-**Requirements**: BUILD-01, BUILD-02, BUILD-03, BUILD-04, BUILD-05, BUILD-06, BUILD-07
+**Requirements**: BUILD-01, BUILD-02, BUILD-03, BUILD-04, BUILD-05, BUILD-06, BUILD-07, VUE-01, VUE-02, VUE-03, VUE-04, VUE-05, VUE-06, VUE-07, VUE-08, VUE-09, VUE-10
 **Success Criteria** (what must be TRUE):
   1. Running `npm run dev` and `npm run prod` produces compiled assets in `dist/` via Vite
   2. PHP templates load JS and CSS assets through the vite() helper reading `dist/.vite/manifest.json`
-  3. The character sheet app loads and functions in the browser with no console errors (still Vue 2 at this point)
+  3. The character sheet app loads and functions in the browser with no console errors
   4. Laravel Mix, webpack.mix.js, and webpack-related npm dependencies are removed from the project
-**Plans**: 2 plans
+  5. All 26 Vue components compile and render under Vue 3 with no console errors or warnings
+  6. The Quill rich text editor loads, accepts input, and saves content without breaking (markRaw applied)
+  7. Event-driven features (autosave triggers, cross-component communication) work via mitt instead of Vue instance event bus
+  8. Template filters replaced with function calls -- ability modifiers display signed numbers correctly
+  9. All entry points (app.js, print.js) bootstrap via createApp and the app functions end-to-end
+**Plans**: 4 plans
 
 Plans:
 - [ ] 01-01-PLAN.md — Install Vite, create config, set up public/ dir, consolidate CSS, remove Mix deps
 - [ ] 01-02-PLAN.md — Replace PHP mix() helper with vite(), update templates, delete Mix artifacts
+- [ ] 01-03-PLAN.md — Migrate store, entry points, i18n, event bus, and mixins to Vue 3 API
+- [ ] 01-04-PLAN.md — Fix component lifecycle hooks, markRaw, filter syntax, verify full build
 
-### Phase 2: Vue 3 Framework Upgrade
-**Goal**: The app runs on Vue 3 with all breaking API changes resolved, using Vuex 4 as a temporary bridge so existing store patterns still work
-**Depends on**: Phase 1
-**Requirements**: VUE-01, VUE-02, VUE-03, VUE-04, VUE-05, VUE-06, VUE-07, VUE-08, VUE-09, VUE-10
-**Success Criteria** (what must be TRUE):
-  1. All 26 Vue components compile and render under Vue 3 with no console errors or warnings
-  2. The Quill rich text editor loads, accepts input, and saves content without breaking (markRaw applied)
-  3. Event-driven features (autosave triggers, cross-component communication) work via mitt instead of Vue instance event bus
-  4. Template filters replaced with function calls -- ability modifiers display signed numbers correctly (e.g., "+3", "-1")
-  5. All entry points (app.js, print.js) bootstrap via createApp and the app functions end-to-end
-**Plans**: TBD
+### ~~Phase 2: Vue 3 Framework Upgrade~~ (ABSORBED into Phase 1)
 
-Plans:
-- [ ] 02-01: TBD
-- [ ] 02-02: TBD
+> **Note:** This phase was merged into Phase 1 per decision D-01. The `@vitejs/plugin-vue2` package is incompatible with Vite 8 (supports only Vite 3-7) and requires Vue ^2.7.0-0 (project uses 2.6.7). Per user decision, the Vue 3 upgrade happens alongside the build tool migration rather than using an older Vite version or community plugins.
+>
+> All VUE-01 through VUE-10 requirements are covered by Phase 1 plans 01-03 and 01-04.
 
 ### Phase 3: Store Migration
 **Goal**: Vuex is fully removed and replaced with a reactive() composable; all components import state directly and autosave works via watch()
-**Depends on**: Phase 2
+**Depends on**: Phase 1
 **Requirements**: STORE-01, STORE-02, STORE-03, STORE-04, STORE-05, STORE-06, STORE-07, STORE-08, STORE-09, STORE-10
 **Success Criteria** (what must be TRUE):
   1. The store is a single reactive() object with computed refs for derived values -- no Vuex dependency in package.json
@@ -83,11 +80,11 @@ Plans:
 ## Progress
 
 **Execution Order:**
-Phases execute in numeric order: 1 -> 2 -> 3 -> 4
+Phases execute in numeric order: 1 -> 3 -> 4 (Phase 2 absorbed into Phase 1)
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Build Tool Migration | 0/2 | Planning complete | - |
-| 2. Vue 3 Framework Upgrade | 0/0 | Not started | - |
+| 1. Build Tool Migration + Vue 3 Upgrade | 0/4 | Planning complete | - |
+| ~~2. Vue 3 Framework Upgrade~~ | - | Absorbed into Phase 1 | - |
 | 3. Store Migration | 0/0 | Not started | - |
 | 4. Cleanup and Verification | 0/0 | Not started | - |

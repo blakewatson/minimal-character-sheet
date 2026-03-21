@@ -82,16 +82,16 @@
 | BUILD-05 | Phase 1 | Pending |
 | BUILD-06 | Phase 1 | Pending |
 | BUILD-07 | Phase 1 | Pending |
-| VUE-01 | Phase 2 | Pending |
-| VUE-02 | Phase 2 | Pending |
-| VUE-03 | Phase 2 | Pending |
-| VUE-04 | Phase 2 | Pending |
-| VUE-05 | Phase 2 | Pending |
-| VUE-06 | Phase 2 | Pending |
-| VUE-07 | Phase 2 | Pending |
-| VUE-08 | Phase 2 | Pending |
-| VUE-09 | Phase 2 | Pending |
-| VUE-10 | Phase 2 | Pending |
+| VUE-01 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-02 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-03 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-04 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-05 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-06 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-07 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-08 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-09 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
+| VUE-10 | Phase 1 (absorbed from Phase 2, per D-01) | Pending |
 | STORE-01 | Phase 3 | Pending |
 | STORE-02 | Phase 3 | Pending |
 | STORE-03 | Phase 3 | Pending |
@@ -111,8 +111,8 @@
 **Coverage:**
 - v1 requirements: 32 total
 - Mapped to phases: 32
-- Unmapped: 0 ✓
+- Unmapped: 0
 
 ---
 *Requirements defined: 2026-03-21*
-*Last updated: 2026-03-21 after initial definition*
+*Last updated: 2026-03-21 — VUE-01 through VUE-10 moved from Phase 2 to Phase 1 (D-01 triggered)*
