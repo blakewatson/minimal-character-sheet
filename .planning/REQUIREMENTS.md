@@ -8,8 +8,8 @@
 ### Build Tool
 
 - [x] **BUILD-01**: Replace Laravel Mix with Vite as build tool, outputting to `dist/`
-- [ ] **BUILD-02**: Create vite() PHP helper that reads `dist/.vite/manifest.json` for cache-busted asset paths
-- [ ] **BUILD-03**: Add `type="module"` to script tags in PHP templates
+- [x] **BUILD-02**: Create vite() PHP helper that reads `dist/.vite/manifest.json` for cache-busted asset paths
+- [x] **BUILD-03**: Add `type="module"` to script tags in PHP templates
 - [x] **BUILD-04**: Consolidate vendor CSS (Quill) via CSS @import instead of file copying
 - [x] **BUILD-05**: Switch from @tailwindcss/postcss to @tailwindcss/vite plugin
 - [x] **BUILD-06**: Remove Laravel Mix, webpack.mix.js, mix-manifest.json, and unused build dependencies
@@ -76,8 +76,8 @@
 | Requirement | Phase | Status |
 |-------------|-------|--------|
 | BUILD-01 | Phase 1 | Complete |
-| BUILD-02 | Phase 1 | Pending |
-| BUILD-03 | Phase 1 | Pending |
+| BUILD-02 | Phase 1 | Complete |
+| BUILD-03 | Phase 1 | Complete |
 | BUILD-04 | Phase 1 | Complete |
 | BUILD-05 | Phase 1 | Complete |
 | BUILD-06 | Phase 1 | Complete |
