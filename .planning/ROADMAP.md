@@ -28,11 +28,11 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. PHP templates load JS and CSS assets through the vite() helper reading `dist/.vite/manifest.json`
   3. The character sheet app loads and functions in the browser with no console errors (still Vue 2 at this point)
   4. Laravel Mix, webpack.mix.js, and webpack-related npm dependencies are removed from the project
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 01-01: TBD
-- [ ] 01-02: TBD
+- [ ] 01-01-PLAN.md — Install Vite, create config, set up public/ dir, consolidate CSS, remove Mix deps
+- [ ] 01-02-PLAN.md — Replace PHP mix() helper with vite(), update templates, delete Mix artifacts
 
 ### Phase 2: Vue 3 Framework Upgrade
 **Goal**: The app runs on Vue 3 with all breaking API changes resolved, using Vuex 4 as a temporary bridge so existing store patterns still work
@@ -87,7 +87,7 @@ Phases execute in numeric order: 1 -> 2 -> 3 -> 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Build Tool Migration | 0/0 | Not started | - |
+| 1. Build Tool Migration | 0/2 | Planning complete | - |
 | 2. Vue 3 Framework Upgrade | 0/0 | Not started | - |
 | 3. Store Migration | 0/0 | Not started | - |
 | 4. Cleanup and Verification | 0/0 | Not started | - |
