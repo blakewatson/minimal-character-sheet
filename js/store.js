@@ -1,10 +1,7 @@
-import Vue from 'vue';
-import Vuex from 'vuex';
+import { createStore } from 'vuex';
 import levelData from './level-data';
 
-Vue.use(Vuex);
-
-export default new Vuex.Store({
+export default createStore({
   state: {
     id: '',
     slug: '',
@@ -264,7 +261,7 @@ export default new Vuex.Store({
     updateAbilityScore(state, payload) {
       state.abilities.forEach((ability, i) => {
         if (ability.name === payload.name) {
-          Vue.set(state.abilities[i], 'score', payload.score);
+          state.abilities[i].score = payload.score;
         }
       });
     },
@@ -333,12 +330,8 @@ export default new Vuex.Store({
 
     updateSkillProficiency(state, payload) {
       if (payload.i >= state.skills.links) return;
-      Vue.set(state.skills[payload.i], 'proficient', payload.proficient);
-      Vue.set(
-        state.skills[payload.i],
-        'doubleProficient',
-        payload.doubleProficient,
-      );
+      state.skills[payload.i].proficient = payload.proficient;
+      state.skills[payload.i].doubleProficient = payload.doubleProficient;
     },
 
     updateSkillModifierOverride(state, payload) {
@@ -364,7 +357,7 @@ export default new Vuex.Store({
       var i = state.savingThrows.findIndex(
         (savingThrow) => payload.name === savingThrow.name,
       );
-      Vue.set(state.savingThrows[i], 'proficient', payload.proficient);
+      state.savingThrows[i].proficient = payload.proficient;
     },
 
     updateAttacks(state, payload) {
@@ -475,7 +468,7 @@ export default new Vuex.Store({
 
     updateCoins(state, payload) {
       if (payload.i >= state.coins.length) return;
-      Vue.set(state.coins[payload.i], 'amount', payload.amount);
+      state.coins[payload.i].amount = payload.amount;
     },
 
     updateEquipment(state, payload) {
@@ -497,8 +490,8 @@ export default new Vuex.Store({
 
     updateListField(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      Vue.set(state[payload.field][payload.i], 'val', payload.val);
-      Vue.set(state[payload.field][payload.i], 'collapsed', payload.collapsed);
+      state[payload.field][payload.i].val = payload.val;
+      state[payload.field][payload.i].collapsed = payload.collapsed;
     },
 
     deleteFromListField(state, payload) {
@@ -546,25 +539,17 @@ export default new Vuex.Store({
 
     updateSpellName(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      Vue.set(state[payload.field].spells[payload.i], 'name', payload.name);
+      state[payload.field].spells[payload.i].name = payload.name;
     },
 
     updateSpellPrepared(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      Vue.set(
-        state[payload.field].spells[payload.i],
-        'prepared',
-        payload.prepared,
-      );
+      state[payload.field].spells[payload.i].prepared = payload.prepared;
     },
 
     updateSpellCollapsed(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      Vue.set(
-        state[payload.field].spells[payload.i],
-        'collapsed',
-        payload.collapsed,
-      );
+      state[payload.field].spells[payload.i].collapsed = payload.collapsed;
     },
 
     deleteSpell(state, payload) {
@@ -574,12 +559,12 @@ export default new Vuex.Store({
 
     updateSpellSlots(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      Vue.set(state[payload.field], 'slots', payload.val);
+      state[payload.field].slots = payload.val;
     },
 
     updateExpendedSlots(state, payload) {
       if (!state.hasOwnProperty(payload.field)) return;
-      Vue.set(state[payload.field], 'expended', payload.val);
+      state[payload.field].expended = payload.val;
     },
 
     sortSpells(state, payload) {
@@ -733,7 +718,7 @@ export default new Vuex.Store({
       commit('replaceState', { state });
 
       // we need to let the quill editors know to update their contents
-      window.sheetEvent.$emit('quill-refresh');
+      window.sheetEvent.emit('quill-refresh');
     },
   },
 });
