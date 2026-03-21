@@ -1,13 +1,12 @@
-import Vue from 'vue';
-import Sheet from './components/Sheet';
+import { createApp } from 'vue';
+import mitt from 'mitt';
+import Sheet from './components/Sheet.vue';
 import store from './store';
 import { signedNumString } from './utils';
 import { i18nPlugin } from './i18n';
 
-Vue.use(i18nPlugin);
-
-/* -- Event bus -- */
-window.sheetEvent = new Vue();
+/* -- Event bus (replaces new Vue() instance) -- */
+window.sheetEvent = mitt();
 
 window.md = window.markdownit({
   html: true,
@@ -15,10 +14,12 @@ window.md = window.markdownit({
   typographer: true,
 });
 
-Vue.filter('signedNumString', signedNumString);
+const app = createApp(Sheet);
+app.use(store);
+app.use(i18nPlugin);
 
-new Vue({
-  el: '#sheet',
-  store,
-  render: (h) => h(Sheet),
-});
+// Register signedNumString as a global property (replaces Vue.filter)
+// Components access via this.$signedNumString() or template: $signedNumString()
+app.config.globalProperties.$signedNumString = signedNumString;
+
+app.mount('#sheet');

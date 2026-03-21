@@ -34,9 +34,9 @@ export function t(key) {
  * Adds $t, $getLocale, and $setLocale to all Vue components
  */
 export const i18nPlugin = {
-  install(Vue) {
-    Vue.prototype.$t = t;
-    Vue.prototype.$getLocale = getLocale;
-    Vue.prototype.$setLocale = setLocale;
+  install(app) {
+    app.config.globalProperties.$t = t;
+    app.config.globalProperties.$getLocale = getLocale;
+    app.config.globalProperties.$setLocale = setLocale;
   }
 };
