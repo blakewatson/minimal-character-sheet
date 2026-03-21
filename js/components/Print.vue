@@ -372,8 +372,7 @@
 
 <script>
 import Quill from 'quill';
-import { mapState } from 'vuex';
-import { mapGetters } from 'vuex/dist/vuex.common.js';
+import { mapGetters, mapState } from 'vuex';
 import { signedNumString } from '../utils';
 import PrintField from './PrintField.vue';
 
