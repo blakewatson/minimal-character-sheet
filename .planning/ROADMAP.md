@@ -39,7 +39,7 @@ Plans:
 - [x] 01-01-PLAN.md — Install Vite, create config, set up public/ dir, consolidate CSS, remove Mix deps
 - [x] 01-02-PLAN.md — Replace PHP mix() helper with vite(), update templates, delete Mix artifacts
 - [x] 01-03-PLAN.md — Migrate store, entry points, i18n, event bus, and mixins to Vue 3 API
-- [ ] 01-04-PLAN.md — Fix component lifecycle hooks, markRaw, filter syntax, verify full build
+- [x] 01-04-PLAN.md — Fix component lifecycle hooks, markRaw, filter syntax, verify full build
 
 ### ~~Phase 2: Vue 3 Framework Upgrade~~ (ABSORBED into Phase 1)
 
