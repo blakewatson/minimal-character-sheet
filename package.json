@@ -4,26 +4,22 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "@tailwindcss/postcss": "^4.1.18",
     "notyf": "^3.10.0",
     "quill": "^2.0.3",
-    "vue": "^2.6.7",
-    "vuex": "^3.1.0"
+    "vue": "^3.5.30",
+    "vuex": "^4.1.0"
   },
   "devDependencies": {
-    "laravel-mix": "^6",
+    "@tailwindcss/vite": "^4.2.2",
+    "@vitejs/plugin-vue": "^6.0.5",
     "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "resolve-url-loader": "^5.0.0",
-    "sass": "^1.66.1",
-    "sass-loader": "^12.6.0",
-    "vue-loader": "^15.10.2",
-    "vue-template-compiler": "^2.7.14"
+    "vite": "^8.0.1"
   },
   "scripts": {
-    "dev": "NODE_ENV=development mix",
-    "watch": "NODE_ENV=development mix watch",
-    "prod": "NODE_ENV=production mix --production"
+    "dev": "vite build --mode development",
+    "watch": "vite build --watch --mode development",
+    "prod": "vite build"
   },
   "keywords": [],
   "author": "",
