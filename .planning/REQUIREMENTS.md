@@ -43,9 +43,9 @@
 
 ### Cleanup
 
-- [ ] **CLEAN-01**: Delete webpack.mix.js, mix-manifest.json, and other Laravel Mix artifacts
-- [ ] **CLEAN-02**: Update CLAUDE.md with new build commands and architecture
-- [ ] **CLEAN-03**: Update .gitignore for Vite output (dist/.vite/)
+- [x] **CLEAN-01**: Delete webpack.mix.js, mix-manifest.json, and other Laravel Mix artifacts
+- [x] **CLEAN-02**: Update CLAUDE.md with new build commands and architecture
+- [x] **CLEAN-03**: Update .gitignore for Vite output (dist/.vite/)
 - [ ] **CLEAN-04**: Verify all views work: sheet editing, print view, dashboard, public read-only sheets
 - [ ] **CLEAN-05**: Verify autosave, Quill editors, skill/spell/attack list operations all function correctly
 
@@ -102,9 +102,9 @@
 | STORE-08 | Phase 3 | Complete |
 | STORE-09 | Phase 3 | Complete |
 | STORE-10 | Phase 3 | Complete |
-| CLEAN-01 | Phase 4 | Pending |
-| CLEAN-02 | Phase 4 | Pending |
-| CLEAN-03 | Phase 4 | Pending |
+| CLEAN-01 | Phase 4 | Complete |
+| CLEAN-02 | Phase 4 | Complete |
+| CLEAN-03 | Phase 4 | Complete |
 | CLEAN-04 | Phase 4 | Pending |
 | CLEAN-05 | Phase 4 | Pending |
 
