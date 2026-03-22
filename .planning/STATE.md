@@ -3,7 +3,7 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: "Completed quick task 260321-rda: Fix print view TypeError"
+stopped_at: "Completed quick task 260321-ry1: Fix print view spell level headings"
 last_updated: "2026-03-22T02:49:07.257Z"
 progress:
   total_phases: 3
@@ -80,6 +80,7 @@ None yet.
 |---|-------------|------|--------|-----------|
 | 260321-pi3 | Move CSS files out of dist into proper source locations | 2026-03-22 | 1774b8f | [260321-pi3-move-css-files-out-of-dist-into-proper-s](./quick/260321-pi3-move-css-files-out-of-dist-into-proper-s/) |
 | 260321-rda | Fix print view TypeError ($t is not a function) | 2026-03-22 | 87a20c1 | [260321-rda-i-m-getting-the-following-error-on-the-p](./quick/260321-rda-i-m-getting-the-following-error-on-the-p/) |
+| 260321-ry1 | Fix print view spell level heading interpolation | 2026-03-22 | 866ccb0 | [260321-ry1-on-the-print-view-i-m-seeing-the-followi](./quick/260321-ry1-on-the-print-view-i-m-seeing-the-followi/) |
 
 ### Blockers/Concerns
 
@@ -89,5 +90,5 @@ None yet.
 ## Session Continuity
 
 Last session: 2026-03-22T02:49:07.255Z
-Stopped at: Completed quick task 260321-rda: Fix print view TypeError
+Stopped at: Completed quick task 260321-ry1: Fix print view spell level headings
 Resume file: None
