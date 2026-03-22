@@ -82,7 +82,7 @@
 <script>
 import { Notyf } from 'notyf';
 import { watch } from 'vue';
-import { state, initializeState, updateState, getJSON } from '../store';
+import { getJSON, initializeState, state, updateState } from '../store';
 import { throttle } from '../utils';
 import Abilities from './Abilities.vue';
 import Attacks from './Attacks.vue';
@@ -95,6 +95,8 @@ import Tabs from './Tabs.vue';
 import TextSection from './TextSection.vue';
 import TrackableFields from './TrackableFields.vue';
 
+const notyf = new Notyf({ ripple: false, dismissible: true });
+
 export default {
   name: 'Sheet',
 
@@ -105,7 +107,6 @@ export default {
       isPublic: false,
       isRetrying: false,
       isSaving: false,
-      notyf: new Notyf({ ripple: false, dismissible: true }),
       retryCount: 0,
       retryMax: 3,
       retryTimer: null,
@@ -115,8 +116,12 @@ export default {
   },
 
   computed: {
-    is_2024() { return state.is_2024; },
-    readOnly() { return state.readOnly; },
+    is_2024() {
+      return state.is_2024;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
   },
 
   watch: {
@@ -136,8 +141,8 @@ export default {
       const result = await this.saveSheetState();
 
       if (result) {
-        this.notyf.success({
-          duration: 2000,
+        notyf.success({
+          duration: 3000,
           message: 'Character sheet saved.',
         });
       }
@@ -167,7 +172,7 @@ export default {
         this.isError = true;
         this.isSaving = false;
 
-        this.notyf.error({
+        notyf.error({
           duration: 0,
           message:
             'Character sheet data is not valid. Please reload the page and try again.',
@@ -224,7 +229,7 @@ export default {
 
         // Handle non-retryable errors (like invalid JSON)
         if (!this.isRetryableError(error)) {
-          this.notyf.error({
+          notyf.error({
             duration: 0, // Persistent until dismissed
             message:
               'Failed to save character sheet. The data may be invalid. Please try reloading the page.',
@@ -240,7 +245,7 @@ export default {
           // Give up after max retries and show user notification
           if (this.retryCount > this.retryMax) {
             this.resetRetryState();
-            this.notyf.error({
+            notyf.error({
               duration: 0, // Persistent notification until dismissed
               message:
                 'Failed to save character sheet. Try a manual save by clicking the save button.',
@@ -264,7 +269,7 @@ export default {
       // Step 5: Save was successful - clean up retry state
       this.resetRetryState();
       this.isError = false;
-      this.notyf.dismissAll();
+      notyf.dismissAll();
 
       // Check if more changes occurred while we were saving
       // If so, schedule another save to catch those changes
@@ -380,11 +385,15 @@ export default {
     }
 
     if (!this.isPublic) {
-      watch(state, () => {
-        this.resetRetryState();
-        this.hasUnsavedChanges = true;
-        this.throttledSave();
-      }, { deep: true });
+      watch(
+        state,
+        () => {
+          this.resetRetryState();
+          this.hasUnsavedChanges = true;
+          this.throttledSave();
+        },
+        { deep: true },
+      );
     }
 
     // Initialize view from URL hash

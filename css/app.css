@@ -1,5 +1,5 @@
-@import 'notyf/notyf.min.css';
 @import 'tailwindcss';
+@import 'notyf/notyf.min.css';
 
 :root {
   --fa-animation-duration: 1s;
