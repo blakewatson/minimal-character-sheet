@@ -20,7 +20,9 @@
           </label>
 
           <div class="size-full">
-            <label class="sr-only">{{ $t('Spell name and description') }}</label>
+            <label class="sr-only">{{
+              $t('Spell name and description')
+            }}</label>
             <quill-editor
               :collapsed="readOnly ? false : item.collapsed"
               :initial-contents="item.name"
@@ -96,7 +98,15 @@
 </template>
 
 <script>
-import { state, updateSpellName as storeUpdateSpellName, updateSpellPrepared as storeUpdateSpellPrepared, updateSpellCollapsed as storeUpdateSpellCollapsed, addSpell as storeAddSpell, deleteSpell as storeDeleteSpell, sortSpells as storeSortSpells } from '../store';
+import {
+  state,
+  updateSpellName as storeUpdateSpellName,
+  updateSpellPrepared as storeUpdateSpellPrepared,
+  updateSpellCollapsed as storeUpdateSpellCollapsed,
+  addSpell as storeAddSpell,
+  deleteSpell as storeDeleteSpell,
+  sortSpells as storeSortSpells,
+} from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import QuillEditor from './QuillEditor.vue';
 

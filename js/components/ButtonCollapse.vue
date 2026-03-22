@@ -5,7 +5,6 @@
         ? expandTitle || $t('Expand content')
         : collapseTitle || $t('Collapse content')
     "
-    @click="$emit('click')"
     class="button-icon"
     type="button"
   >

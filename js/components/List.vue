@@ -12,7 +12,7 @@
           :initial-contents="item.val"
           :read-only="readOnly"
           @update-collapsed="updateItem(i, item.val, $event)"
-          @quill-text-change="updateItem(i, $event)"
+          @quill-text-change="updateItem(i, $event, item.collapsed)"
         ></quill-editor>
 
         <div
@@ -83,7 +83,13 @@
 </template>
 
 <script>
-import { state, updateListField, addToListField, deleteFromListField, sortListField } from '../store';
+import {
+  state,
+  updateListField,
+  addToListField,
+  deleteFromListField,
+  sortListField,
+} from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import QuillEditor from './QuillEditor.vue';
 

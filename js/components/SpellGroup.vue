@@ -16,7 +16,9 @@
           type="number"
         ></field>
 
-        <span class="small-label min-[500px]:text-sm">{{ $t('Expended') }}:</span>
+        <span class="small-label min-[500px]:text-sm"
+          >{{ $t('Expended') }}:</span
+        >
         <field
           :max="totalSlots"
           :read-only="readOnly"
@@ -29,9 +31,13 @@
       </div>
 
       <button-collapse
-        :collapse-title="$t('Collapse all level {level} spells').replace('{level}', level)"
+        :collapse-title="
+          $t('Collapse all level {level} spells').replace('{level}', level)
+        "
         :collapsed="!shouldCollapseAll"
-        :expand-title="$t('Expand all level {level} spells').replace('{level}', level)"
+        :expand-title="
+          $t('Expand all level {level} spells').replace('{level}', level)
+        "
         @click="updateSpellsCollapsed()"
         class="mt-1"
         v-if="!readOnly"
@@ -43,7 +49,12 @@
 </template>
 
 <script>
-import { state, updateSpellSlots, updateExpendedSlots, updateSpellCollapsed } from '../store';
+import {
+  state,
+  updateSpellSlots,
+  updateExpendedSlots,
+  updateSpellCollapsed,
+} from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import Field from './Field.vue';
 import SpellList from './SpellList.vue';
@@ -54,7 +65,9 @@ export default {
   props: ['level'],
 
   computed: {
-    readOnly() { return state.readOnly; },
+    readOnly() {
+      return state.readOnly;
+    },
 
     totalSlots() {
       return state[this.listField].slots;
@@ -69,9 +82,7 @@ export default {
     },
 
     shouldCollapseAll() {
-      return state[this.listField].spells.some(
-        (spell) => !spell.collapsed,
-      );
+      return state[this.listField].spells.some((spell) => !spell.collapsed);
     },
   },
 

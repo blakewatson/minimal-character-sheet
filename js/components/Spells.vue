@@ -36,7 +36,9 @@
             {{ $t(a.name) }}: {{ $signedNumString(modifiers[idx].val) }}
           </option>
         </select>
-        <div class="block" style="padding: 0.25em" v-else>{{ $t(spAbility) }}</div>
+        <div class="block" style="padding: 0.25em" v-else>
+          {{ $t(spAbility) }}
+        </div>
       </div>
 
       <div
@@ -111,7 +113,12 @@
 </template>
 
 <script>
-import { state, modifiers as storeModifiers, updateSpellInfo as storeUpdateSpellInfo, updateListField } from '../store';
+import {
+  state,
+  modifiers as storeModifiers,
+  updateSpellInfo as storeUpdateSpellInfo,
+  updateListField,
+} from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import Field from './Field.vue';
 import List from './List.vue';
@@ -121,15 +128,33 @@ export default {
   name: 'Spells',
 
   computed: {
-    abilities() { return state.abilities; },
-    className() { return state.className; },
-    spClass() { return state.spClass; },
-    spAbility() { return state.spAbility; },
-    spSave() { return state.spSave; },
-    spAttack() { return state.spAttack; },
-    cantripsList() { return state.cantripsList; },
-    readOnly() { return state.readOnly; },
-    modifiers() { return storeModifiers.value; },
+    abilities() {
+      return state.abilities;
+    },
+    className() {
+      return state.className;
+    },
+    spClass() {
+      return state.spClass;
+    },
+    spAbility() {
+      return state.spAbility;
+    },
+    spSave() {
+      return state.spSave;
+    },
+    spAttack() {
+      return state.spAttack;
+    },
+    cantripsList() {
+      return state.cantripsList;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
+    modifiers() {
+      return storeModifiers.value;
+    },
 
     // button should collapse all cantrips if any are expanded
     shouldCollapseAll() {
