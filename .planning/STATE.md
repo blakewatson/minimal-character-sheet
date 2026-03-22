@@ -74,6 +74,12 @@ Recent decisions affecting current work:
 
 None yet.
 
+### Quick Tasks Completed
+
+| # | Description | Date | Commit | Directory |
+|---|-------------|------|--------|-----------|
+| 260321-pi3 | Move CSS files out of dist into proper source locations | 2026-03-22 | 1774b8f | [260321-pi3-move-css-files-out-of-dist-into-proper-s](./quick/260321-pi3-move-css-files-out-of-dist-into-proper-s/) |
+
 ### Blockers/Concerns
 
 - Phase 1: Verify @vitejs/plugin-vue2 works with Vite 8 (if not, may need to combine Phase 1 and 2)
@@ -81,6 +87,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-22T01:25:43.053Z
-Stopped at: Completed 260321-pi3-PLAN.md
+Last session: 2026-03-22T01:26:00.000Z
+Stopped at: Completed quick task 260321-pi3: Move CSS files out of dist into proper source locations
 Resume file: None
