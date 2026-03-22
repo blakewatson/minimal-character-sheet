@@ -9,7 +9,6 @@
 
 <script>
 import Quill from 'quill';
-import { markRaw } from 'vue';
 import { deltaToHtml } from '../quill-renderer.js';
 
 export default {
@@ -42,11 +41,9 @@ export default {
 
   data() {
     return {
-      editor: null,
       contents: null,
       isStatic: true,
       mouseDownEvent: null,
-      refreshListener: null,
       useSans: false,
       useSerif: false,
     };
@@ -82,7 +79,7 @@ export default {
     initQuill() {
       this.isStatic = false;
 
-      this.editor = markRaw(new Quill(this.$el, {
+      this.editor = new Quill(this.$el, {
         theme: 'bubble',
         modules: {
           toolbar: this.toolbarOptions,
@@ -99,7 +96,7 @@ export default {
           'indent',
           'image',
         ],
-      }));
+      });
 
       if (this.initialContents) {
         this.editor.setContents(this.initialContents);
