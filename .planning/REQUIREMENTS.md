@@ -46,8 +46,8 @@
 - [x] **CLEAN-01**: Delete webpack.mix.js, mix-manifest.json, and other Laravel Mix artifacts
 - [x] **CLEAN-02**: Update CLAUDE.md with new build commands and architecture
 - [x] **CLEAN-03**: Update .gitignore for Vite output (dist/.vite/)
-- [ ] **CLEAN-04**: Verify all views work: sheet editing, print view, dashboard, public read-only sheets
-- [ ] **CLEAN-05**: Verify autosave, Quill editors, skill/spell/attack list operations all function correctly
+- [x] **CLEAN-04**: Verify all views work: sheet editing, print view, dashboard, public read-only sheets
+- [x] **CLEAN-05**: Verify autosave, Quill editors, skill/spell/attack list operations all function correctly
 
 ## v2 Requirements
 
@@ -105,8 +105,8 @@
 | CLEAN-01 | Phase 4 | Complete |
 | CLEAN-02 | Phase 4 | Complete |
 | CLEAN-03 | Phase 4 | Complete |
-| CLEAN-04 | Phase 4 | Pending |
-| CLEAN-05 | Phase 4 | Pending |
+| CLEAN-04 | Phase 4 | Complete |
+| CLEAN-05 | Phase 4 | Complete |
 
 **Coverage:**
 - v1 requirements: 32 total
