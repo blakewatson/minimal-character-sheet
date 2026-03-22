@@ -86,6 +86,7 @@ None yet.
 | 260321-pi3 | Move CSS files out of dist into proper source locations | 2026-03-22 | 1774b8f | [260321-pi3-move-css-files-out-of-dist-into-proper-s](./quick/260321-pi3-move-css-files-out-of-dist-into-proper-s/) |
 | 260321-rda | Fix print view TypeError ($t is not a function) | 2026-03-22 | 87a20c1 | [260321-rda-i-m-getting-the-following-error-on-the-p](./quick/260321-rda-i-m-getting-the-following-error-on-the-p/) |
 | 260321-ry1 | Fix print view spell level heading interpolation | 2026-03-22 | 866ccb0 | [260321-ry1-on-the-print-view-i-m-seeing-the-followi](./quick/260321-ry1-on-the-print-view-i-m-seeing-the-followi/) |
+| 260322-88l | Fix infinite loop when running npm run watch | 2026-03-22 | 06bc575 | [260322-88l-fix-infinite-loop-when-running-npm-run-w](./quick/260322-88l-fix-infinite-loop-when-running-npm-run-w/) |
 
 ### Blockers/Concerns
 
