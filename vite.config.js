@@ -2,6 +2,8 @@ import { defineConfig } from 'vite';
 import vue from '@vitejs/plugin-vue';
 import tailwindcss from '@tailwindcss/vite';
 
+const isWatch = process.argv.includes('--watch');
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -13,10 +15,8 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     manifest: true,
-    emptyOutDir: true,
-    watch: {
-      exclude: 'dist/**',
-    },
+    emptyOutDir: !isWatch,
+    watch: isWatch ? { exclude: ['dist/**'] } : null,
     rollupOptions: {
       input: {
         app: 'js/app.js',
