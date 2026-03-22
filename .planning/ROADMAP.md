@@ -60,7 +60,7 @@ Plans:
 **Plans**: 2 plans
 
 Plans:
-- [ ] 03-01-PLAN.md — Rewrite store.js from Vuex to reactive() composable with named exports
+- [x] 03-01-PLAN.md — Rewrite store.js from Vuex to reactive() composable with named exports
 - [ ] 03-02-PLAN.md — Migrate all 18 components to direct store imports, rewire autosave, remove Vuex
 
 ### Phase 4: Cleanup and Verification
