@@ -331,7 +331,7 @@
 
       <div v-for="(spellData, idx) in allSpellLevels">
         <div class="mt-lg" v-if="spellData.spells.length > 0">
-          <p class="header">{{ $t('Level {level} spells', { level: idx + 1 }) }}</p>
+          <p class="header">{{ $t(`Level ${idx + 1} spells`) }}</p>
 
           <div class="pt-md flex">
             <print-field
