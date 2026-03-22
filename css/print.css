@@ -15,7 +15,7 @@ a::after {
 
 /* #region Layout ---------- */
 
-:empty:not(input, svg *) {
+:empty:not(input, svg *, .skill-icons) {
   display: none;
 }
 
