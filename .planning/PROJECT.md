@@ -34,12 +34,12 @@ The app must continue to work identically after migration — same features, sam
 - ✓ Update lifecycle hooks (beforeDestroy → beforeUnmount) — Validated in Phase 01
 - ✓ Remove Vue.set() calls (Vue 3 proxy-based reactivity handles direct assignment) — Validated in Phase 01
 
-### Active
+### Validated in Phase 03: Store Migration
 
-- [ ] Replace Vuex store with reactive() composable
-- [ ] Replace mapState/mapGetters/commit patterns across all 26+ components
-- [ ] Replace $store.subscribe autosave with watch(state, ..., { deep: true })
-- [ ] Remove Vuex dependency entirely
+- ✓ Replace Vuex store with reactive() composable — Validated in Phase 03
+- ✓ Replace mapState/mapGetters/commit patterns across all 26+ components — Validated in Phase 03
+- ✓ Replace $store.subscribe autosave with watch(state, ..., { deep: true }) — Validated in Phase 03
+- ✓ Remove Vuex dependency entirely — Validated in Phase 03
 
 ### Out of Scope
 
@@ -49,9 +49,13 @@ The app must continue to work identically after migration — same features, sam
 - Dashboard rewrite — dashboard.js is vanilla JS, not part of Vue migration
 - Composition API conversion — staying with Options API for now, just removing Vuex
 
+## Current State
+
+Phase 03 complete — Vuex fully replaced with Vue 3 `reactive()` composable. All 18 components migrated. Zero Vuex references remain. Production build clean.
+
 ## Context
 
-- Existing codebase with 29 SFCs in `js/components/`, a ~750-line Vuex store, and 3 JS entry points
+- Existing codebase with 29 SFCs in `js/components/`, store now a reactive() composable in `js/store.js`, and 3 JS entry points
 - Work happens on the `vue-3` branch
 - The PHP backend reads a build manifest for cache-busted asset paths — the manifest format changes from Mix to Vite
 - Quill editor does manual DOM manipulation that may need careful testing after Vue 3 upgrade
