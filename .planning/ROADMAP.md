@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [ ] **Phase 1: Build Tool Migration + Vue 3 Upgrade** - Replace Laravel Mix with Vite, upgrade to Vue 3 with Vuex 4, fix all breaking API changes
 - [x] ~~**Phase 2: Vue 3 Framework Upgrade**~~ - **ABSORBED into Phase 1** (D-01: @vitejs/plugin-vue2 incompatible with Vite 8, so Vue 3 upgrade must happen in same phase as build tool migration)
-- [ ] **Phase 3: Store Migration** - Replace Vuex with reactive() composable, update all 26 components
+- [ ] **Phase 3: Store Migration** - Replace Vuex with reactive() composable, update all 18 components
 - [ ] **Phase 4: Cleanup and Verification** - Remove dead artifacts, update docs, verify full feature parity
 
 ## Phase Details
@@ -53,15 +53,15 @@ Plans:
 **Requirements**: STORE-01, STORE-02, STORE-03, STORE-04, STORE-05, STORE-06, STORE-07, STORE-08, STORE-09, STORE-10
 **Success Criteria** (what must be TRUE):
   1. The store is a single reactive() object with computed refs for derived values -- no Vuex dependency in package.json
-  2. All 26 components read and write state via direct imports (no mapState, mapGetters, $store.commit, or $store.dispatch)
+  2. All 18 components that access the store read and write state via direct imports (no mapState, mapGetters, $store.commit, or $store.dispatch)
   3. Autosave fires correctly after edits -- exactly one save per change, no infinite loops
   4. List operations (add/remove spells, attacks, equipment) work correctly with stable IDs (no random ID generation in computed properties)
   5. Dynamic state access patterns in SpellGroup, SpellList, and List components work with the reactive store
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 03-01: TBD
-- [ ] 03-02: TBD
+- [ ] 03-01-PLAN.md — Rewrite store.js from Vuex to reactive() composable with named exports
+- [ ] 03-02-PLAN.md — Migrate all 18 components to direct store imports, rewire autosave, remove Vuex
 
 ### Phase 4: Cleanup and Verification
 **Goal**: The codebase is clean of migration artifacts and every user-facing feature works identically to the pre-migration version
@@ -86,5 +86,5 @@ Phases execute in numeric order: 1 -> 3 -> 4 (Phase 2 absorbed into Phase 1)
 |-------|----------------|--------|-----------|
 | 1. Build Tool Migration + Vue 3 Upgrade | 0/4 | Planning complete | - |
 | ~~2. Vue 3 Framework Upgrade~~ | - | Absorbed into Phase 1 | - |
-| 3. Store Migration | 0/0 | Not started | - |
+| 3. Store Migration | 0/2 | Planning complete | - |
 | 4. Cleanup and Verification | 0/0 | Not started | - |
