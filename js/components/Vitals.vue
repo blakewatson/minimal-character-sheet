@@ -154,26 +154,24 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { state, updateVitals as storeUpdateVitals, updateDeathSaves as storeUpdateDeathSaves } from '../store';
 import Field from './Field.vue';
 
 export default {
   name: 'Vitals',
 
   computed: {
-    ...mapState([
-      'hp',
-      'maxHp',
-      'tempHp',
-      'hitDie',
-      'totalHitDie',
-      'ac',
-      'speed',
-      'deathSaves',
-      'conditions',
-      'concentration',
-      'readOnly',
-    ]),
+    hp() { return state.hp; },
+    maxHp() { return state.maxHp; },
+    tempHp() { return state.tempHp; },
+    hitDie() { return state.hitDie; },
+    totalHitDie() { return state.totalHitDie; },
+    ac() { return state.ac; },
+    speed() { return state.speed; },
+    deathSaves() { return state.deathSaves; },
+    conditions() { return state.conditions; },
+    concentration() { return state.concentration; },
+    readOnly() { return state.readOnly; },
   },
 
   methods: {
@@ -183,11 +181,11 @@ export default {
     },
 
     updateVitals(field, val) {
-      this.$store.commit('updateVitals', { field, val });
+      storeUpdateVitals({ field, val });
     },
 
     updateDeathSaves(key, i, val) {
-      this.$store.commit('updateDeathSaves', { key, i, val });
+      storeUpdateDeathSaves({ key, i, val });
     },
   },
 

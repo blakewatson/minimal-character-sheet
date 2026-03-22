@@ -42,7 +42,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { state, proficiencyBonus as storeProficiencyBonus, updateAbilityScore, updateSavingThrow } from '../store';
 import Field from './Field.vue';
 
 export default {
@@ -51,8 +51,9 @@ export default {
   props: ['ability', 'modifier'],
 
   computed: {
-    ...mapState(['readOnly', 'savingThrows']),
-    ...mapGetters(['proficiencyBonus']),
+    readOnly() { return state.readOnly; },
+    savingThrows() { return state.savingThrows; },
+    proficiencyBonus() { return storeProficiencyBonus.value; },
 
     savingThrow() {
       return this.savingThrows.find((st) => st.name === this.ability.name);
@@ -73,7 +74,7 @@ export default {
   methods: {
     updateScore(val) {
       var score = parseInt(val);
-      this.$store.commit('updateAbilityScore', {
+      updateAbilityScore({
         name: this.ability.name,
         score: score,
       });
@@ -81,7 +82,7 @@ export default {
 
     toggleProficiency() {
       if (!this.savingThrow) return;
-      this.$store.commit('updateSavingThrow', {
+      updateSavingThrow({
         name: this.savingThrow.name,
         proficient: !this.savingThrow.proficient,
       });

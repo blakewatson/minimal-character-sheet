@@ -14,15 +14,15 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { state, modifiers as storeModifiers } from '../store';
 import Ability from './Ability.vue';
 
 export default {
   name: 'Abilities',
 
   computed: {
-    ...mapState(['abilities']),
-    ...mapGetters(['modifiers']),
+    abilities() { return state.abilities; },
+    modifiers() { return storeModifiers.value; },
   },
 
   components: {

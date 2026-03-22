@@ -250,7 +250,7 @@
       <button
         :disabled="readOnly"
         :title="$t('Add a trackable field')"
-        @click="$store.commit('addTrackableField')"
+        @click="addTrackableField()"
         class="button-icon"
         type="button"
       >
@@ -275,7 +275,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { state, updateTrackableField as storeUpdateTrackableField, deleteTrackableField as storeDeleteTrackableField, sortTrackableField as storeSortTrackableField, addTrackableField } from '../store';
 import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
 import QuillEditor from './QuillEditor.vue';
@@ -292,7 +292,8 @@ export default {
   },
 
   computed: {
-    ...mapState(['trackableFields', 'readOnly']),
+    trackableFields() { return state.trackableFields; },
+    readOnly() { return state.readOnly; },
 
     trackableFieldsAndNotes() {
       const rows = [];
@@ -339,15 +340,15 @@ export default {
       if (id.toString().endsWith('-note')) {
         id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for field ID
       }
-      this.$store.commit('updateTrackableField', { id, field, val });
+      storeUpdateTrackableField({ id, field, val });
     },
 
     deleteTrackableField(id) {
-      this.$store.commit('deleteTrackableField', { id });
+      storeDeleteTrackableField({ id });
     },
 
     sortTrackableField(id, direction) {
-      this.$store.commit('sortTrackableField', { id, direction });
+      storeSortTrackableField({ id, direction });
     },
   },
 

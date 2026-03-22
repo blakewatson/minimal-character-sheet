@@ -8,15 +8,15 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { state, proficiencyBonus as storeProficiencyBonus, updateSavingThrow } from '../store';
 
 export default {
     name: 'SavingThrow',
     props: ['savingThrow', 'modifier'],
 
     computed: {
-        ...mapGetters(['proficiencyBonus']),
-        ...mapState(['readOnly']),
+        proficiencyBonus() { return storeProficiencyBonus.value; },
+        readOnly() { return state.readOnly; },
 
         saveBonus() {
             if(!this.savingThrow) return 0;
@@ -32,7 +32,7 @@ export default {
     methods: {
         toggleProficiency() {
             if(!this.savingThrow) return;
-            this.$store.commit('updateSavingThrow', {
+            updateSavingThrow({
                 name: this.savingThrow.name,
                 proficient: !this.savingThrow.proficient
             });

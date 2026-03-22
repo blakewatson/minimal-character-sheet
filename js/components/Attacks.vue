@@ -220,7 +220,7 @@
       <button
         :disabled="readOnly"
         :title="$t('Add an attack')"
-        @click="$store.commit('addAttack')"
+        @click="addAttack()"
         class="button-icon cursor-pointer"
         type="button"
       >
@@ -232,7 +232,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { state, modifiers as storeModifiers, updateAttacks as storeUpdateAttacks, deleteAttack as storeDeleteAttack, sortAttacks as storeSortAttacks, addAttack } from '../store';
 import Field from './Field.vue';
 import QuillEditor from './QuillEditor.vue';
 
@@ -247,8 +247,9 @@ export default {
   },
 
   computed: {
-    ...mapState(['attacks', 'readOnly']),
-    ...mapGetters(['modifiers']),
+    attacks() { return state.attacks; },
+    readOnly() { return state.readOnly; },
+    modifiers() { return storeModifiers.value; },
 
     attacksAndNotes() {
       const rows = [];
@@ -295,15 +296,15 @@ export default {
       if (id.toString().endsWith('-note')) {
         id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for attack ID
       }
-      this.$store.commit('updateAttacks', { id, field, val });
+      storeUpdateAttacks({ id, field, val });
     },
 
     deleteAttack(id) {
-      this.$store.commit('deleteAttack', { id });
+      storeDeleteAttack({ id });
     },
 
     sortAttacks(id, direction) {
-      this.$store.commit('sortAttacks', { id, direction });
+      storeSortAttacks({ id, direction });
     },
   },
 
