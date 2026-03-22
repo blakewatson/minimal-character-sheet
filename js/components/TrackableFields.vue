@@ -218,10 +218,7 @@
           </div>
 
           <div class="flex items-baseline gap-1">
-            <label
-              :for="`trackable-field-max-${field.id}`"
-              class="small-label"
-            >
+            <label :for="`trackable-field-max-${field.id}`" class="small-label">
               {{ $t('Max') }}
             </label>
             <field
@@ -267,7 +264,11 @@
     >
       <template #content>
         <p>
-          {{ $t('Track limited-use resources like Superiority Dice, Focus Points, attunement slots, and rechargeable class features.') }}
+          {{
+            $t(
+              'Track limited-use resources like Superiority Dice, Focus Points, attunement slots, and rechargeable class features.',
+            )
+          }}
         </p>
       </template>
     </app-dialog>
@@ -275,7 +276,13 @@
 </template>
 
 <script>
-import { state, updateTrackableField as storeUpdateTrackableField, deleteTrackableField as storeDeleteTrackableField, sortTrackableField as storeSortTrackableField, addTrackableField } from '../store';
+import {
+  state,
+  updateTrackableField as storeUpdateTrackableField,
+  deleteTrackableField as storeDeleteTrackableField,
+  sortTrackableField as storeSortTrackableField,
+  addTrackableField,
+} from '../store';
 import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
 import QuillEditor from './QuillEditor.vue';
@@ -292,8 +299,12 @@ export default {
   },
 
   computed: {
-    trackableFields() { return state.trackableFields; },
-    readOnly() { return state.readOnly; },
+    trackableFields() {
+      return state.trackableFields;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
 
     trackableFieldsAndNotes() {
       const rows = [];
@@ -345,6 +356,10 @@ export default {
 
     deleteTrackableField(id) {
       storeDeleteTrackableField({ id });
+    },
+
+    addTrackableField() {
+      addTrackableField();
     },
 
     sortTrackableField(id, direction) {

@@ -232,7 +232,14 @@
 </template>
 
 <script>
-import { state, modifiers as storeModifiers, updateAttacks as storeUpdateAttacks, deleteAttack as storeDeleteAttack, sortAttacks as storeSortAttacks, addAttack } from '../store';
+import {
+  state,
+  modifiers as storeModifiers,
+  updateAttacks as storeUpdateAttacks,
+  deleteAttack as storeDeleteAttack,
+  sortAttacks as storeSortAttacks,
+  addAttack,
+} from '../store';
 import Field from './Field.vue';
 import QuillEditor from './QuillEditor.vue';
 
@@ -247,9 +254,15 @@ export default {
   },
 
   computed: {
-    attacks() { return state.attacks; },
-    readOnly() { return state.readOnly; },
-    modifiers() { return storeModifiers.value; },
+    attacks() {
+      return state.attacks;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
+    modifiers() {
+      return storeModifiers.value;
+    },
 
     attacksAndNotes() {
       const rows = [];
@@ -301,6 +314,10 @@ export default {
 
     deleteAttack(id) {
       storeDeleteAttack({ id });
+    },
+
+    addAttack() {
+      addAttack();
     },
 
     sortAttacks(id, direction) {
