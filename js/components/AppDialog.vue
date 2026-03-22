@@ -9,7 +9,7 @@
 
         <slot name="content"></slot>
 
-        <div class="mt-4">
+        <div class="mt-4 flex gap-3">
           <slot name="actions"></slot>
 
           <button type="button" @click="closeDialog" class="button">
