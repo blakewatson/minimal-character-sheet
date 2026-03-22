@@ -1,0 +1,39 @@
+{
+  "_store-C13MKE96.js": {
+    "file": "assets/store-C13MKE96.js",
+    "name": "store"
+  },
+  "css/app.css": {
+    "file": "assets/styles-D7xFGOip.css",
+    "name": "styles",
+    "names": [
+      "styles.css"
+    ],
+    "src": "css/app.css",
+    "isEntry": true
+  },
+  "js/app.js": {
+    "file": "assets/app-BfZpsK2K.js",
+    "name": "app",
+    "src": "js/app.js",
+    "isEntry": true,
+    "imports": [
+      "_store-C13MKE96.js"
+    ]
+  },
+  "js/dashboard.js": {
+    "file": "assets/dashboard-ooA9mbWH.js",
+    "name": "dashboard",
+    "src": "js/dashboard.js",
+    "isEntry": true
+  },
+  "js/print.js": {
+    "file": "assets/print-w4aRwlnc.js",
+    "name": "print",
+    "src": "js/print.js",
+    "isEntry": true,
+    "imports": [
+      "_store-C13MKE96.js"
+    ]
+  }
+}
