@@ -96,6 +96,7 @@
 </template>
 
 <script>
+import { state, updateSpellName as storeUpdateSpellName, updateSpellPrepared as storeUpdateSpellPrepared, updateSpellCollapsed as storeUpdateSpellCollapsed, addSpell as storeAddSpell, deleteSpell as storeDeleteSpell, sortSpells as storeSortSpells } from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import QuillEditor from './QuillEditor.vue';
 
@@ -106,16 +107,13 @@ export default {
 
   computed: {
     spellItems() {
-      return this.$store.state[this.listField].spells.map((spell) => {
-        spell.id = Math.random().toString();
-        return spell;
-      });
+      return state[this.listField].spells;
     },
   },
 
   methods: {
     updateSpellName(i, name) {
-      this.$store.commit('updateSpellName', {
+      storeUpdateSpellName({
         field: this.listField,
         i: i,
         name: name,
@@ -123,17 +121,15 @@ export default {
     },
 
     updateSpellPrepared(i, e) {
-      this.$store.commit('updateSpellPrepared', {
+      storeUpdateSpellPrepared({
         field: this.listField,
         i: i,
         prepared: e.target.checked,
       });
-
-      window.sheetEvent.emit('autosave', 1);
     },
 
     updateSpellCollapsed(i, collapsed) {
-      this.$store.commit('updateSpellCollapsed', {
+      storeUpdateSpellCollapsed({
         field: this.listField,
         i: i,
         collapsed: collapsed,
@@ -141,23 +137,21 @@ export default {
     },
 
     addSpell() {
-      this.$store.commit('addSpell', {
+      storeAddSpell({
         field: this.listField,
         item: { prepared: false, name: '', url: '', id: Date.now() },
       });
     },
 
     deleteSpell(i) {
-      this.$store.commit('deleteSpell', {
+      storeDeleteSpell({
         field: this.listField,
         i: i,
       });
-
-      window.sheetEvent.emit('autosave', 1);
     },
 
     sortSpells(id, direction) {
-      this.$store.commit('sortSpells', {
+      storeSortSpells({
         field: this.listField,
         id,
         direction,

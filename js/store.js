@@ -723,11 +723,3 @@ function objectIsEmpty(obj) {
   return true;
 }
 
-// Temporary default export for backward compatibility during migration.
-// app.js and print.js still do `import store from './store'; app.use(store);`
-// This shim satisfies app.use() (which calls install()) without Vuex.
-// Remove this default export when entry points are migrated (Plan 02).
-export default {
-  install() {},
-  state,
-};

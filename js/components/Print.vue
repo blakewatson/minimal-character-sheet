@@ -372,7 +372,7 @@
 
 <script>
 import Quill from 'quill';
-import { mapGetters, mapState } from 'vuex';
+import { state, modifiers as storeModifiers, proficiencyBonus as storeProficiencyBonus, initializeState } from '../store';
 import { signedNumString } from '../utils';
 import PrintField from './PrintField.vue';
 
@@ -384,56 +384,53 @@ export default {
   },
 
   computed: {
-    ...mapState([
-      'characterName',
-      'is_2024',
-      'race',
-      'background',
-      'className',
-      'level',
-      'xp',
-      'alignment',
-      'hp',
-      'maxHp',
-      'tempHp',
-      'hitDie',
-      'totalHitDie',
-      'ac',
-      'speed',
-      'initiative',
-      'inspiration',
-      'abilities',
-      'savingThrows',
-      'skills',
-      'attacks',
-      'coins',
-      'trackableFields',
-      'equipmentText',
-      'proficienciesText',
-      'featuresText',
-      'personalityText',
-      'backstoryText',
-      'treasureText',
-      'organizationsText',
-      'notesText',
-      'spClass',
-      'spAbility',
-      'spSave',
-      'spAttack',
-      'cantripsList',
-      'lvl1Spells',
-      'lvl2Spells',
-      'lvl3Spells',
-      'lvl4Spells',
-      'lvl5Spells',
-      'lvl6Spells',
-      'lvl7Spells',
-      'lvl8Spells',
-      'lvl9Spells',
-      'is_2024',
-    ]),
-
-    ...mapGetters(['modifiers', 'proficiencyBonus']),
+    characterName() { return state.characterName; },
+    is_2024() { return state.is_2024; },
+    race() { return state.race; },
+    background() { return state.background; },
+    className() { return state.className; },
+    level() { return state.level; },
+    xp() { return state.xp; },
+    alignment() { return state.alignment; },
+    hp() { return state.hp; },
+    maxHp() { return state.maxHp; },
+    tempHp() { return state.tempHp; },
+    hitDie() { return state.hitDie; },
+    totalHitDie() { return state.totalHitDie; },
+    ac() { return state.ac; },
+    speed() { return state.speed; },
+    initiative() { return state.initiative; },
+    inspiration() { return state.inspiration; },
+    abilities() { return state.abilities; },
+    savingThrows() { return state.savingThrows; },
+    skills() { return state.skills; },
+    attacks() { return state.attacks; },
+    coins() { return state.coins; },
+    trackableFields() { return state.trackableFields; },
+    equipmentText() { return state.equipmentText; },
+    proficienciesText() { return state.proficienciesText; },
+    featuresText() { return state.featuresText; },
+    personalityText() { return state.personalityText; },
+    backstoryText() { return state.backstoryText; },
+    treasureText() { return state.treasureText; },
+    organizationsText() { return state.organizationsText; },
+    notesText() { return state.notesText; },
+    spClass() { return state.spClass; },
+    spAbility() { return state.spAbility; },
+    spSave() { return state.spSave; },
+    spAttack() { return state.spAttack; },
+    cantripsList() { return state.cantripsList; },
+    lvl1Spells() { return state.lvl1Spells; },
+    lvl2Spells() { return state.lvl2Spells; },
+    lvl3Spells() { return state.lvl3Spells; },
+    lvl4Spells() { return state.lvl4Spells; },
+    lvl5Spells() { return state.lvl5Spells; },
+    lvl6Spells() { return state.lvl6Spells; },
+    lvl7Spells() { return state.lvl7Spells; },
+    lvl8Spells() { return state.lvl8Spells; },
+    lvl9Spells() { return state.lvl9Spells; },
+    modifiers() { return storeModifiers.value; },
+    proficiencyBonus() { return storeProficiencyBonus.value; },
 
     allSpellLevels() {
       return [
@@ -638,9 +635,9 @@ export default {
   },
 
   created() {
-    // Initialize the Vuex store with character data from the server
+    // Initialize the store with character data from the server
     if (typeof window.sheet !== 'undefined') {
-      this.$store.dispatch('initializeState', {
+      initializeState({
         sheet: window.sheet,
       });
     }

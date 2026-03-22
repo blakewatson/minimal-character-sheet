@@ -43,7 +43,7 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import { state, updateSpellSlots, updateExpendedSlots, updateSpellCollapsed } from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import Field from './Field.vue';
 import SpellList from './SpellList.vue';
@@ -54,14 +54,14 @@ export default {
   props: ['level'],
 
   computed: {
-    ...mapState(['readOnly']),
+    readOnly() { return state.readOnly; },
 
     totalSlots() {
-      return this.$store.state[this.listField].slots;
+      return state[this.listField].slots;
     },
 
     expendedSlots() {
-      return this.$store.state[this.listField].expended;
+      return state[this.listField].expended;
     },
 
     listField() {
@@ -69,7 +69,7 @@ export default {
     },
 
     shouldCollapseAll() {
-      return this.$store.state[this.listField].spells.some(
+      return state[this.listField].spells.some(
         (spell) => !spell.collapsed,
       );
     },
@@ -77,14 +77,14 @@ export default {
 
   methods: {
     updateSlots(val) {
-      this.$store.commit('updateSpellSlots', {
+      updateSpellSlots({
         field: this.listField,
         val: parseInt(val),
       });
     },
 
     updateExpended(val) {
-      this.$store.commit('updateExpendedSlots', {
+      updateExpendedSlots({
         field: this.listField,
         val: parseInt(val),
       });
@@ -93,9 +93,9 @@ export default {
     updateSpellsCollapsed() {
       const newState = this.shouldCollapseAll;
 
-      const spells = this.$store.state[this.listField].spells;
+      const spells = state[this.listField].spells;
       spells.forEach((_, i) => {
-        this.$store.commit('updateSpellCollapsed', {
+        updateSpellCollapsed({
           field: this.listField,
           i,
           collapsed: newState,

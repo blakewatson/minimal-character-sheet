@@ -81,7 +81,8 @@
 
 <script>
 import { Notyf } from 'notyf';
-import { mapState } from 'vuex';
+import { watch } from 'vue';
+import { state, initializeState, updateState, getJSON } from '../store';
 import { throttle } from '../utils';
 import Abilities from './Abilities.vue';
 import Attacks from './Attacks.vue';
@@ -114,7 +115,8 @@ export default {
   },
 
   computed: {
-    ...mapState(['is_2024', 'readOnly']),
+    is_2024() { return state.is_2024; },
+    readOnly() { return state.readOnly; },
   },
 
   watch: {
@@ -129,24 +131,6 @@ export default {
   },
 
   methods: {
-    autosaveLoop() {
-      if (this.isPublic) {
-        return;
-      }
-
-      // trigger a quick autosave upon every store mutation
-      this.$store.subscribe((mutation, state) => {
-        window.sheetEvent.emit('autosave');
-      });
-
-      // when this event fires, schedule a save
-      window.sheetEvent.on('autosave', () => {
-        this.resetRetryState();
-        this.hasUnsavedChanges = true;
-        this.throttledSave();
-      });
-    },
-
     async manualSave() {
       this.resetRetryState();
       const result = await this.saveSheetState();
@@ -174,9 +158,9 @@ export default {
       this.isSaving = true;
       this.hasUnsavedChanges = false;
 
-      // Step 1: Get the current sheet data as JSON from the Vuex store
+      // Step 1: Get the current sheet data as JSON from the store
       try {
-        var json = await this.$store.dispatch('getJSON');
+        var json = getJSON();
       } catch (error) {
         // If we can't serialize the data, mark as error and stop
         console.error('Caught error', error);
@@ -197,7 +181,7 @@ export default {
       const formBody = new URLSearchParams();
 
       // Encode the character name and sheet data for form submission
-      formBody.set('name', this.$store.state.characterName);
+      formBody.set('name', state.characterName);
       formBody.set('data', json);
       const formBodyString = formBody.toString();
 
@@ -346,9 +330,7 @@ export default {
         .then((r) => r.json())
         .then((data) => {
           if (data.success && data.sheet) {
-            this.$store
-              .dispatch('updateState', { sheet: data.sheet })
-              .catch((reason) => console.log(reason));
+            updateState({ sheet: data.sheet });
             // update the local updated_at to avoid repeated fetches
             this.updatedAt = data.sheet.updated_at;
           }
@@ -398,7 +380,11 @@ export default {
     }
 
     if (!this.isPublic) {
-      this.autosaveLoop();
+      watch(state, () => {
+        this.resetRetryState();
+        this.hasUnsavedChanges = true;
+        this.throttledSave();
+      }, { deep: true });
     }
 
     // Initialize view from URL hash
@@ -408,9 +394,7 @@ export default {
 
   created() {
     // initialize state with the "sheet" global
-    this.$store
-      .dispatch('initializeState', { sheet: window.sheet })
-      .catch((reason) => console.log(reason));
+    initializeState({ sheet: window.sheet });
 
     this.throttledSave = throttle(this.saveSheetState, 5000, {
       leading: false,

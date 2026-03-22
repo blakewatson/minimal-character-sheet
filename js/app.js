@@ -1,7 +1,6 @@
 import { createApp } from 'vue';
 import mitt from 'mitt';
 import Sheet from './components/Sheet.vue';
-import store from './store';
 import { signedNumString } from './utils';
 import { i18nPlugin } from './i18n';
 
@@ -15,7 +14,6 @@ window.md = window.markdownit({
 });
 
 const app = createApp(Sheet);
-app.use(store);
 app.use(i18nPlugin);
 
 // Register signedNumString as a global property (replaces Vue.filter)
