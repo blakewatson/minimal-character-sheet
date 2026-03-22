@@ -49,9 +49,16 @@ The app must continue to work identically after migration — same features, sam
 - Dashboard rewrite — dashboard.js is vanilla JS, not part of Vue migration
 - Composition API conversion — staying with Options API for now, just removing Vuex
 
+### Validated in Phase 04: Cleanup and Verification
+
+- ✓ All dead migration artifacts removed (mix-manifest.json, migration comments) — Validated in Phase 04
+- ✓ CLAUDE.md accurately reflects Vue 3 + Vite + reactive() stack — Validated in Phase 04
+- ✓ All views verified: sheet editing, print view, dashboard, public read-only sheets — Validated in Phase 04
+- ✓ Autosave, Quill editors, skill/spell/attack/equipment list operations all work — Validated in Phase 04
+
 ## Current State
 
-Phase 03 complete — Vuex fully replaced with Vue 3 `reactive()` composable. All 18 components migrated. Zero Vuex references remain. Production build clean.
+**Migration complete.** All 4 phases executed and verified. The app runs on Vue 3 + reactive() composable + Vite with zero feature regressions from the Vue 2 baseline. Human-verified feature parity confirmed.
 
 ## Context
 
@@ -77,9 +84,9 @@ Phase 03 complete — Vuex fully replaced with Vue 3 `reactive()` composable. Al
 | Vite as build-only (no dev server) | PHP backend serves the app; HMR integration not worth the complexity | ✓ Confirmed in Phase 01 |
 | mitt for event bus | Lightweight, standard replacement for Vue 2 instance-as-event-bus pattern | ✓ Confirmed in Phase 01 |
 | .vue extensions required | Vite ESM resolver needs explicit extensions; extensionless imports don't work without resolve.extensions config | ✓ Confirmed in Phase 01 |
-| reactive() composable over Pinia | Store is a simple flat object; Pinia adds unnecessary abstraction for this use case | — Pending |
-| watch(state, ..., { deep: true }) for autosave | Direct replacement for $store.subscribe; state object is small enough that perf is fine | — Pending |
-| Keep Options API | Migration scope — convert store only, don't rewrite components to Composition API | — Pending |
+| reactive() composable over Pinia | Store is a simple flat object; Pinia adds unnecessary abstraction for this use case | ✓ Confirmed in Phase 03 |
+| watch(state, ..., { deep: true }) for autosave | Direct replacement for $store.subscribe; state object is small enough that perf is fine | ✓ Confirmed in Phase 03 |
+| Keep Options API | Migration scope — convert store only, don't rewrite components to Composition API | ✓ Confirmed in Phase 03 |
 
 ## Evolution
 
@@ -99,4 +106,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-21 after Phase 01 complete — Vite build tool + Vue 3 + Vuex 4 migration done; Vuex → reactive() composable migration is next*
+*Last updated: 2026-03-22 after Phase 04 complete — Vue 3 migration milestone fully complete*
