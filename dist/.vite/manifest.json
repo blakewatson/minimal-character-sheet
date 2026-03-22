@@ -1,7 +1,7 @@
 {
-  "_store-C13MKE96.js": {
-    "file": "assets/store-C13MKE96.js",
-    "name": "store"
+  "_i18n-2qVbfbiA.js": {
+    "file": "assets/i18n-2qVbfbiA.js",
+    "name": "i18n"
   },
   "css/app.css": {
     "file": "assets/styles-D7xFGOip.css",
@@ -13,12 +13,12 @@
     "isEntry": true
   },
   "js/app.js": {
-    "file": "assets/app-BfZpsK2K.js",
+    "file": "assets/app-CRoW_KJy.js",
     "name": "app",
     "src": "js/app.js",
     "isEntry": true,
     "imports": [
-      "_store-C13MKE96.js"
+      "_i18n-2qVbfbiA.js"
     ]
   },
   "js/dashboard.js": {
@@ -28,12 +28,12 @@
     "isEntry": true
   },
   "js/print.js": {
-    "file": "assets/print-w4aRwlnc.js",
+    "file": "assets/print-ChMJ7o1l.js",
     "name": "print",
     "src": "js/print.js",
     "isEntry": true,
     "imports": [
-      "_store-C13MKE96.js"
+      "_i18n-2qVbfbiA.js"
     ]
   }
 }
