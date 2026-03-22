@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 01-04-PLAN.md
-last_updated: "2026-03-21T23:55:48.052Z"
+stopped_at: Completed 260321-pi3-PLAN.md
+last_updated: "2026-03-22T01:25:48.412Z"
 progress:
   total_phases: 3
   completed_phases: 1
@@ -68,6 +68,7 @@ Recent decisions affecting current work:
 - [Phase 01]: signedNumString filter registered as globalProperties.$signedNumString for Vue 3 template access
 - [Phase 01]: mitt event bus uses .emit/.on/.off without $ prefix -- consumers updated in Plan 04
 - [Phase 01]: Fixed Print.vue CJS vuex import to standard ESM import for Vite compatibility
+- [Phase quick]: Vendor CSS served from css/vendor/ not dist/ -- direct PHP serving without build pipeline
 
 ### Pending Todos
 
@@ -80,6 +81,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-03-21T23:52:25.434Z
-Stopped at: Completed 01-04-PLAN.md
+Last session: 2026-03-22T01:25:43.053Z
+Stopped at: Completed 260321-pi3-PLAN.md
 Resume file: None
