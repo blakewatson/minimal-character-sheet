@@ -16,7 +16,7 @@ window.md = window.markdownit({
 const app = createApp(Sheet);
 app.use(i18nPlugin);
 
-// Register signedNumString as a global property (replaces Vue.filter)
+// Register signedNumString as a global property
 // Components access via this.$signedNumString() or template: $signedNumString()
 app.config.globalProperties.$signedNumString = signedNumString;
 

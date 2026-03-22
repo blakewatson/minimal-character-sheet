@@ -6,7 +6,7 @@ import { i18nPlugin } from './i18n';
 const app = createApp(Print);
 app.use(i18nPlugin);
 
-// Register signedNumString as a global property (replaces Vue.filter)
+// Register signedNumString as a global property
 app.config.globalProperties.$signedNumString = signedNumString;
 
 app.mount('#print');

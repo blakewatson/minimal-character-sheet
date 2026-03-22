@@ -211,7 +211,7 @@ const defaultState = {
 
 export const state = reactive(JSON.parse(JSON.stringify(defaultState)));
 
-// Computed refs (replace Vuex getters)
+// Computed refs
 export const modifiers = computed(() => {
   return state.abilities.map((a) => {
     return {
@@ -234,7 +234,7 @@ export const proficiencyBonus = computed(() => {
   return row.proficiency;
 });
 
-// Mutation functions (replace Vuex mutations)
+// Mutation functions
 
 export function updateAbilityScore(payload) {
   state.abilities.forEach((ability, i) => {
@@ -313,9 +313,7 @@ export function updateSkillProficiency(payload) {
 }
 
 export function updateSkillModifierOverride(payload) {
-  var skill = state.skills.find(
-    (skill) => skill.name === payload.skillName,
-  );
+  var skill = state.skills.find((skill) => skill.name === payload.skillName);
   if (!skill) return;
 
   state.skills = state.skills.map((skill) => {
@@ -390,9 +388,7 @@ export function sortAttacks(payload) {
 }
 
 export function updateTrackableField(payload) {
-  var field = state.trackableFields.find(
-    (field) => field.id === payload.id,
-  );
+  var field = state.trackableFields.find((field) => field.id === payload.id);
   if (!field) return;
 
   state.trackableFields = state.trackableFields.map((f) => {
@@ -571,7 +567,7 @@ export function sortSpells(payload) {
   }
 }
 
-// Action functions (replace Vuex actions)
+// Action functions
 
 export function getJSON() {
   return JSON.stringify(state);
@@ -653,10 +649,7 @@ export function initializeState(payload) {
   newState.slug = sheet.slug;
 
   // Use window.characterName if newState.characterName is missing or empty
-  if (
-    !newState.characterName &&
-    typeof window.characterName !== 'undefined'
-  ) {
+  if (!newState.characterName && typeof window.characterName !== 'undefined') {
     newState.characterName = window.characterName;
   }
 
@@ -722,4 +715,3 @@ function objectIsEmpty(obj) {
   }
   return true;
 }
-
