@@ -31,15 +31,15 @@
 ### Store Migration
 
 - [x] **STORE-01**: Rewrite Vuex store as reactive() composable with exported state, computed refs, and plain functions
-- [ ] **STORE-02**: Replace mapState in all components with computed properties referencing imported state
-- [ ] **STORE-03**: Replace mapGetters with imported computed refs (modifiers, proficiencyBonus)
-- [ ] **STORE-04**: Replace $store.commit calls with direct state assignments across all components
-- [ ] **STORE-05**: Replace $store.dispatch calls with direct function imports (getJSON, initializeState)
-- [ ] **STORE-06**: Replace $store.subscribe autosave with watch(state, ..., { deep: true })
+- [x] **STORE-02**: Replace mapState in all components with computed properties referencing imported state
+- [x] **STORE-03**: Replace mapGetters with imported computed refs (modifiers, proficiencyBonus)
+- [x] **STORE-04**: Replace $store.commit calls with direct state assignments across all components
+- [x] **STORE-05**: Replace $store.dispatch calls with direct function imports (getJSON, initializeState)
+- [x] **STORE-06**: Replace $store.subscribe autosave with watch(state, ..., { deep: true })
 - [x] **STORE-07**: Fix SpellList.vue computed property that generates random IDs (move to creation time)
 - [x] **STORE-08**: Update listMixin to use direct array assignment instead of Vue.set
-- [ ] **STORE-09**: Handle dynamic state access patterns (state[this.listField]) in SpellGroup, SpellList, List components
-- [ ] **STORE-10**: Remove Vuex dependency entirely (npm uninstall, remove app.use(store))
+- [x] **STORE-09**: Handle dynamic state access patterns (state[this.listField]) in SpellGroup, SpellList, List components
+- [x] **STORE-10**: Remove Vuex dependency entirely (npm uninstall, remove app.use(store))
 
 ### Cleanup
 
@@ -93,15 +93,15 @@
 | VUE-09 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
 | VUE-10 | Phase 1 (absorbed from Phase 2, per D-01) | Complete |
 | STORE-01 | Phase 3 | Complete |
-| STORE-02 | Phase 3 | Pending |
-| STORE-03 | Phase 3 | Pending |
-| STORE-04 | Phase 3 | Pending |
-| STORE-05 | Phase 3 | Pending |
-| STORE-06 | Phase 3 | Pending |
+| STORE-02 | Phase 3 | Complete |
+| STORE-03 | Phase 3 | Complete |
+| STORE-04 | Phase 3 | Complete |
+| STORE-05 | Phase 3 | Complete |
+| STORE-06 | Phase 3 | Complete |
 | STORE-07 | Phase 3 | Complete |
 | STORE-08 | Phase 3 | Complete |
-| STORE-09 | Phase 3 | Pending |
-| STORE-10 | Phase 3 | Pending |
+| STORE-09 | Phase 3 | Complete |
+| STORE-10 | Phase 3 | Complete |
 | CLEAN-01 | Phase 4 | Pending |
 | CLEAN-02 | Phase 4 | Pending |
 | CLEAN-03 | Phase 4 | Pending |
