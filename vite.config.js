@@ -13,7 +13,7 @@ export default defineConfig({
   build: {
     outDir: 'dist',
     manifest: true,
-    emptyOutDir: true,
+    emptyOutDir: !process.env.ROLLUP_WATCH,
     rollupOptions: {
       input: {
         app: 'js/app.js',
