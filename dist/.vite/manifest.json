@@ -1,6 +1,6 @@
 {
-  "_i18n-2qVbfbiA.js": {
-    "file": "assets/i18n-2qVbfbiA.js",
+  "_i18n-CBWEHey4.js": {
+    "file": "assets/i18n-CBWEHey4.js",
     "name": "i18n"
   },
   "css/app.css": {
@@ -13,12 +13,12 @@
     "isEntry": true
   },
   "js/app.js": {
-    "file": "assets/app-CRoW_KJy.js",
+    "file": "assets/app-DP534hFn.js",
     "name": "app",
     "src": "js/app.js",
     "isEntry": true,
     "imports": [
-      "_i18n-2qVbfbiA.js"
+      "_i18n-CBWEHey4.js"
     ]
   },
   "js/dashboard.js": {
@@ -28,12 +28,12 @@
     "isEntry": true
   },
   "js/print.js": {
-    "file": "assets/print-ChMJ7o1l.js",
+    "file": "assets/print-DypNq8Y_.js",
     "name": "print",
     "src": "js/print.js",
     "isEntry": true,
     "imports": [
-      "_i18n-2qVbfbiA.js"
+      "_i18n-CBWEHey4.js"
     ]
   }
 }
