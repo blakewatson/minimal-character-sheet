@@ -72,10 +72,11 @@ Plans:
   2. CLAUDE.md accurately reflects the new build commands and architecture
   3. Character sheet editing, print view, public read-only sheets, and dashboard all function correctly
   4. Autosave, Quill editors, and all list operations (skills, spells, attacks, equipment) work without regressions
-**Plans**: TBD
+**Plans**: 2 plans
 
 Plans:
-- [ ] 04-01: TBD
+- [ ] 04-01-PLAN.md — Delete dead Mix artifacts, clean migration comments, update CLAUDE.md for Vue 3 stack
+- [ ] 04-02-PLAN.md — Build verification and human feature parity testing
 
 ## Progress
 
@@ -87,4 +88,4 @@ Phases execute in numeric order: 1 -> 3 -> 4 (Phase 2 absorbed into Phase 1)
 | 1. Build Tool Migration + Vue 3 Upgrade | 0/4 | Planning complete | - |
 | ~~2. Vue 3 Framework Upgrade~~ | - | Absorbed into Phase 1 | - |
 | 3. Store Migration | 0/2 | Planning complete | - |
-| 4. Cleanup and Verification | 0/0 | Not started | - |
+| 4. Cleanup and Verification | 0/2 | Planning complete | - |
