@@ -1,3 +1,5 @@
+import { exportSheet } from './export.js';
+
 initDashboard();
 
 export function initDashboard() {
@@ -15,6 +17,14 @@ export function initDashboard() {
 
   if (deleteButtons.length > 0) {
     bindDeleteButtons(deleteButtons);
+  }
+
+  const exportButtons = Array.from(
+    document.querySelectorAll('[data-export-sheet]'),
+  );
+
+  if (exportButtons.length > 0) {
+    bindExportButtons(exportButtons);
   }
 }
 
@@ -48,6 +58,17 @@ function bindCheckboxes(isPublicCheckboxes) {
             document.querySelector('#csrf').value = resp.csrf;
           }
         });
+    });
+  });
+}
+
+function bindExportButtons(exportButtons) {
+  exportButtons.forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+      event.preventDefault();
+      var slug = btn.getAttribute('data-sheet');
+      var name = btn.getAttribute('data-name');
+      exportSheet(slug, name);
     });
   });
 }

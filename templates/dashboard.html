@@ -77,6 +77,22 @@
           </p>
 
           <p style="margin-left: auto">
+            <a
+              href="#"
+              data-export-sheet
+              data-sheet="{{ @sheet.slug }}"
+              data-name="{{ @sheet.name }}"
+              title="Export"
+            >
+              <i
+                class="fa-sharp fa-regular fa-download"
+                role="presentation"
+              ></i>
+              <span class="sr-only">Export</span>
+            </a>
+          </p>
+
+          <p>
             <a href="/print/{{ @sheet.slug }}" title="Print">
               <i class="fa-sharp fa-regular fa-print" role="presentation"></i>
               <span class="sr-only">Print</span>
