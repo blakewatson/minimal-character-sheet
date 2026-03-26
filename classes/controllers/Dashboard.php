@@ -266,6 +266,71 @@ class Dashboard {
         echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'CSRF' ), 'status' => 200 ]);
     }
 
+    public function import_sheet( $f3 ) {
+        // 1. Verify CSRF (same pattern as delete_sheet, make_sheet_public)
+        if( ! $this->auth->verify_ajax_csrf() ) {
+            $this->auth->set_csrf();
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'csrf_failed', 'status' => 400 ]);
+            return;
+        }
+
+        $this->auth->set_csrf();
+
+        // 2. Get the posted JSON body
+        $body = file_get_contents( 'php://input' );
+        $payload = json_decode( $body, true );
+
+        if( ! $payload || ! isset( $payload['data'] ) ) {
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_payload', 'status' => 400 ]);
+            return;
+        }
+
+        $data = $payload['data'];
+
+        // 3. Server-side validation: check required keys exist (per D-08, D-10)
+        $required_keys = [ 'characterName', 'abilities', 'skills' ];
+        foreach( $required_keys as $key ) {
+            if( ! array_key_exists( $key, $data ) ) {
+                $f3->status( 400 );
+                echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'missing_field_' . $key, 'status' => 400 ]);
+                return;
+            }
+        }
+
+        // Validate abilities is array of 6
+        if( ! is_array( $data['abilities'] ) || count( $data['abilities'] ) !== 6 ) {
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_abilities', 'status' => 400 ]);
+            return;
+        }
+
+        // Validate skills is array
+        if( ! is_array( $data['skills'] ) ) {
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_skills', 'status' => 400 ]);
+            return;
+        }
+
+        // 4. Extract character name and is_2024 flag from data
+        $name = isset( $data['characterName'] ) && $data['characterName'] ? $data['characterName'] : 'Imported Character';
+        $email = $f3->get( 'SESSION.email' );
+
+        // Per RESEARCH.md Pitfall 4: extract is_2024 from data, don't default
+        $is_2024 = isset( $data['is_2024'] ) ? (bool) $data['is_2024'] : true;
+
+        // 5. Create the sheet (per D-07: always creates new, per D-10: delegates to create_sheet_with_data)
+        $sheet = new Sheet( $f3->get( 'DB' ) );
+        $sheet->create_sheet_with_data( $name, $email, $data, $is_2024 );
+
+        echo json_encode([
+            'success' => true,
+            'csrf' => $f3->get( 'CSRF' ),
+            'status' => 200
+        ]);
+    }
+
     public function print_sheet( $f3, $params ) {
         $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
