@@ -33,5 +33,5 @@
 **Plans:** 2 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Export: client-side JSON + Markdown download per sheet
+- [x] 01-01-PLAN.md — Export: client-side JSON + Markdown download per sheet
 - [ ] 01-02-PLAN.md — Import: file upload, validation, and new sheet creation
