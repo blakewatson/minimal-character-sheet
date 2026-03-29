@@ -84,7 +84,10 @@
               data-name="{{ @sheet.name }}"
               title="Export JSON"
             >
-              <i class="fa-sharp fa-regular fa-brackets-curly" role="presentation"></i>
+              <i
+                class="fa-sharp fa-regular fa-brackets-curly"
+                role="presentation"
+              ></i>
               <span class="sr-only">Export JSON</span>
             </a>
           </p>
@@ -131,14 +134,12 @@
 
   <check if="{{ !@viewing_as_admin }}">
     <p>
-      <a href="/add-sheet" class="button-primary">
+      <a href="/add-sheet" class="button-primary mb-4">
         <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
         Add a character sheet
       </a>
-    </p>
 
-    <p>
-      <a href="#" class="button-primary" data-import-sheet>
+      <a href="#" class="button" data-import-sheet>
         <i class="fa-sharp fa-regular fa-upload mr-2" role="presentation"></i>
         Import a character sheet
       </a>
