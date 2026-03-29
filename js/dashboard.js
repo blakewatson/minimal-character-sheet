@@ -133,14 +133,20 @@ function bindImportButton(btn) {
         try {
           data = JSON.parse(content);
         } catch (err) {
-          notyf.error('Invalid file: not valid JSON.');
+          notyf.error({
+            message: 'Not a valid character sheet file.',
+            duration: 6000,
+          });
           return;
         }
 
         // Client-side validation per D-08
         var validation = validateSheetJSON(data);
         if (!validation.valid) {
-          notyf.error('Invalid character sheet: ' + validation.reason);
+          notyf.error({
+            message: 'Not a valid character sheet file.',
+            duration: 6000,
+          });
           return;
         }
 
