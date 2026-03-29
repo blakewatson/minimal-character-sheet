@@ -79,6 +79,19 @@
           <p style="margin-left: auto">
             <a
               href="#"
+              data-duplicate
+              data-sheet="{{ @sheet.slug }}"
+              data-name="{{ @sheet.name }}"
+              title="Duplicate character sheet"
+            >
+              <i class="fa-sharp fa-regular fa-copy" role="presentation"></i>
+              <span class="sr-only">Duplicate character sheet</span>
+            </a>
+          </p>
+
+          <p>
+            <a
+              href="#"
               data-export-json
               data-sheet="{{ @sheet.slug }}"
               data-name="{{ @sheet.name }}"
@@ -141,7 +154,7 @@
 
       <a href="#" class="button" data-import-sheet>
         <i class="fa-sharp fa-regular fa-upload mr-2" role="presentation"></i>
-        Import a character sheet
+        Import a character sheet (JSON)
       </a>
     </p>
 

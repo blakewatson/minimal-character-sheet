@@ -1,5 +1,5 @@
-import { exportSheetJSON, exportSheetMarkdown } from './export.js';
 import { Notyf } from 'notyf';
+import { exportSheetJSON, exportSheetMarkdown } from './export.js';
 
 initDashboard();
 
@@ -18,6 +18,14 @@ export function initDashboard() {
 
   if (deleteButtons.length > 0) {
     bindDeleteButtons(deleteButtons);
+  }
+
+  const duplicateButtons = Array.from(
+    document.querySelectorAll('[data-duplicate]'),
+  );
+
+  if (duplicateButtons.length > 0) {
+    bindDuplicateButtons(duplicateButtons);
   }
 
   const exportJsonButtons = Array.from(
@@ -73,6 +81,30 @@ function bindCheckboxes(isPublicCheckboxes) {
             document.querySelector('#csrf').value = resp.csrf;
           }
         });
+    });
+  });
+}
+
+function bindDuplicateButtons(buttons) {
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      var slug = btn.getAttribute('data-sheet');
+
+      try {
+        var resp = await fetch(`/sheet-data/${slug}`);
+        var json = await resp.json();
+
+        if (!json.success || !json?.sheet?.data) {
+          console.error('Failed to fetch sheet data for export', json);
+          return;
+        }
+      } catch (err) {
+        console.error('Export failed', err);
+      }
+
+      // post to import endpoint
+      importSheetAndReload(json.sheet.data);
     });
   });
 }
@@ -151,31 +183,7 @@ function bindImportButton(btn) {
         }
 
         // POST to import endpoint per D-10
-        var csrf = document.querySelector('#csrf').value;
-        fetch('/import-sheet', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            'X-AJAX-CSRF': csrf,
-          },
-          body: JSON.stringify({ data: data }),
-        })
-          .then((r) => r.json())
-          .then((resp) => {
-            // Refresh CSRF per RESEARCH.md Pitfall 5
-            if ('csrf' in resp) {
-              document.querySelector('#csrf').value = resp.csrf;
-            }
-            if (resp.success) {
-              // Reload dashboard to show the new sheet per D-07
-              window.location = '/dashboard';
-            } else {
-              notyf.error('Import failed: ' + (resp.reason || 'Unknown error'));
-            }
-          })
-          .catch((err) => {
-            notyf.error('Import failed: network error.');
-          });
+        importSheetAndReload(data);
       };
       reader.readAsText(file);
     });
@@ -206,4 +214,32 @@ function bindDeleteButtons(deleteButtons) {
       }
     });
   });
+}
+
+function importSheetAndReload(sheetData) {
+  var csrf = document.querySelector('#csrf').value;
+  fetch('/import-sheet', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-AJAX-CSRF': csrf,
+    },
+    body: JSON.stringify({ data: sheetData }),
+  })
+    .then((r) => r.json())
+    .then((resp) => {
+      // Refresh CSRF per RESEARCH.md Pitfall 5
+      if ('csrf' in resp) {
+        document.querySelector('#csrf').value = resp.csrf;
+      }
+      if (resp.success) {
+        // Reload dashboard to show the new sheet per D-07
+        window.location = '/dashboard';
+      } else {
+        notyf.error('Import failed: ' + (resp.reason || 'Unknown error'));
+      }
+    })
+    .catch((err) => {
+      notyf.error('Import failed: network error.');
+    });
 }
