@@ -42,6 +42,40 @@
 
 ---
 
+## Milestone: v1.1 — Import/Export
+
+**Shipped:** 2026-03-29
+**Phases:** 1 | **Plans:** 2 | **Tasks:** 5
+
+### What Was Built
+- JSON + Markdown export per character sheet from dashboard (client-side Blob URLs)
+- JSON import with file picker, dual client/server validation, new sheet creation
+- Separate export buttons (JSON vs Markdown) instead of single combined download
+
+### What Worked
+- Wave-based execution with checkpoint for human verification caught UX feedback early
+- Client-side-only export (no backend changes needed) kept scope minimal
+- Reusing existing dashboard JS patterns (fetch + CSRF refresh) for import endpoint
+
+### What Was Inefficient
+- Export plan initially bundled both formats in one click; had to split into separate buttons mid-execution
+
+### Patterns Established
+- Notyf object config `{ message, duration }` for custom toast durations
+- Hidden file input pattern for browser file pickers
+- Generic user-facing error messages (don't expose validation internals)
+
+### Key Lessons
+1. User feedback during checkpoints is high-value — the generic error message preference wouldn't have been caught by automated verification
+2. Small features (2 plans) execute cleanly in a single session without context pressure
+
+### Cost Observations
+- Model mix: ~70% opus (executors), ~30% sonnet (verifier)
+- Sessions: 2
+- Notable: Single-phase milestone completed in one execution session
+
+---
+
 ## Cross-Milestone Trends
 
 ### Process Evolution
@@ -49,14 +83,18 @@
 | Milestone | Sessions | Phases | Key Change |
 |-----------|----------|--------|------------|
 | v1.0 | ~4 | 3 | Initial migration — established GSD workflow patterns |
+| v1.1 | 2 | 1 | Small feature addition — checkpoint-driven UX feedback |
 
 ### Cumulative Quality
 
 | Milestone | Tests | Coverage | Zero-Dep Additions |
 |-----------|-------|----------|-------------------|
 | v1.0 | N/A (manual verification) | N/A | 1 (mitt) |
+| v1.1 | N/A (manual verification) | N/A | 0 |
 
 ### Top Lessons (Verified Across Milestones)
 
 1. Absorb dependent phases when tooling forces coupling — don't fight version incompatibilities
 2. Flat reactive stores are simpler than state management libraries for small apps
+3. Human verification checkpoints catch UX preferences that automated tests miss
+4. Keep export/download features client-side when possible — avoids backend complexity
