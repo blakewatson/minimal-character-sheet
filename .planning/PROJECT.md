@@ -43,6 +43,11 @@ A lightweight, zero-friction character sheet that just works — fast to load, e
 
 (No active requirements — next milestone not yet planned)
 
+### Recently Validated
+
+- ✓ Export character sheets as JSON and Markdown from dashboard — Phase 01
+- ✓ Import character sheets from JSON file via dashboard — Phase 01
+
 ### Out of Scope
 
 - Composition API conversion — staying with Options API, just removed Vuex
@@ -97,4 +102,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-22 after v1.0 milestone*
+*Last updated: 2026-03-29 after Phase 01 (Import/Export Characters)*
