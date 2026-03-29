@@ -62,90 +62,43 @@ function extractQuillText(delta) {
 function generateMarkdown(data, is_2024) {
   var lines = [];
 
-  lines.push('# ' + (data.characterName || 'Untitled Character'));
+  var raceLabel = is_2024 ? 'Species' : 'Race';
+
+  lines.push(`# ${data.characterName || 'Untitled Character'}`);
   lines.push('');
   lines.push(
-    '**Race:** ' +
-      (data.race || '') +
-      ' | **Class:** ' +
-      (data.className || '') +
-      ' | **Level:** ' +
-      (data.level || ''),
+    `**${raceLabel}:** ${data.race || ''} | **Class:** ${data.className || ''} | **Level:** ${data.level || ''}`,
   );
   lines.push(
-    '**Background:** ' +
-      (data.background || '') +
-      ' | **Alignment:** ' +
-      (data.alignment || '') +
-      ' | **XP:** ' +
-      (data.xp || 0),
+    `**Background:** ${data.background || ''} | **Alignment:** ${data.alignment || ''} | **XP:** ${data.xp || 0}`,
   );
-  lines.push('**Rules:** ' + (is_2024 ? '2024' : '2014'));
+  lines.push(`**Rules:** ${is_2024 ? '2024' : '2014'}`);
   lines.push('');
 
   // Vitals
   lines.push('## Vitals');
   lines.push('');
   lines.push(
-    '- **HP:** ' +
-      (data.hp || 0) +
-      '/' +
-      (data.maxHp || 0) +
-      ' (Temp: ' +
-      (data.tempHp || 0) +
-      ')',
+    `- **HP:** ${data.hp || 0}/${data.maxHp || 0} (Temp: ${data.tempHp || 0})`,
   );
   lines.push(
-    '- **AC:** ' +
-      (data.ac || 0) +
-      ' | **Speed:** ' +
-      (data.speed || 0) +
-      ' | **Initiative:** ' +
-      (data.initiative || 0),
+    `- **AC:** ${data.ac || 0} | **Speed:** ${data.speed || 0} | **Initiative:** ${data.initiative || 0}`,
   );
   lines.push(
-    '- **Hit Die:** ' +
-      (data.hitDie || '') +
-      ' (Total: ' +
-      (data.totalHitDie || 0) +
-      ')',
+    `- **Hit Die:** ${data.hitDie || ''} (Total: ${data.totalHitDie || 0})`,
   );
-  lines.push('- **Inspiration:** ' + (data.inspiration ? 'Yes' : 'No'));
-  lines.push('- **Conditions:** ' + (data.conditions || 'None'));
-  lines.push('- **Concentration:** ' + (data.concentration || 'None'));
+  lines.push(`- **Inspiration:** ${data.inspiration ? 'Yes' : 'No'}`);
+  lines.push(`- **Conditions:** ${data.conditions || 'None'}`);
+  lines.push(`- **Concentration:** ${data.concentration || 'None'}`);
   lines.push('');
 
   // Ability Scores
   if (data.abilities && data.abilities.length > 0) {
     lines.push('## Ability Scores');
     lines.push('');
-    lines.push(
-      '| ' +
-        data.abilities
-          .map(function (a) {
-            return a.name;
-          })
-          .join(' | ') +
-        ' |',
-    );
-    lines.push(
-      '|' +
-        data.abilities
-          .map(function () {
-            return '-----';
-          })
-          .join('|') +
-        '|',
-    );
-    lines.push(
-      '| ' +
-        data.abilities
-          .map(function (a) {
-            return a.score;
-          })
-          .join(' | ') +
-        ' |',
-    );
+    lines.push(`| ${data.abilities.map((a) => a.name).join(' | ')} |`);
+    lines.push(`|${data.abilities.map(() => '-----').join('|')}|`);
+    lines.push(`| ${data.abilities.map((a) => a.score).join(' | ')} |`);
     lines.push('');
   }
 
@@ -154,7 +107,7 @@ function generateMarkdown(data, is_2024) {
     lines.push('## Saving Throws');
     lines.push('');
     data.savingThrows.forEach(function (st) {
-      lines.push('- [' + (st.proficient ? 'x' : ' ') + '] ' + st.name);
+      lines.push(`- [${st.proficient ? 'x' : ' '}] ${st.name}`);
     });
     lines.push('');
   }
@@ -164,15 +117,12 @@ function generateMarkdown(data, is_2024) {
     lines.push('## Skills');
     lines.push('');
     data.skills.forEach(function (skill) {
-      var label = skill.name + ' (' + skill.ability + ')';
+      var label = `${skill.name} (${skill.ability})`;
       if (skill.doubleProficient) {
         label += ' (expertise)';
       }
       lines.push(
-        '- [' +
-          (skill.proficient || skill.doubleProficient ? 'x' : ' ') +
-          '] ' +
-          label,
+        `- [${skill.proficient || skill.doubleProficient ? 'x' : ' '}] ${label}`,
       );
     });
     lines.push('');
@@ -186,15 +136,7 @@ function generateMarkdown(data, is_2024) {
     lines.push('|------|-------------|--------|-------|');
     data.attacks.forEach(function (atk) {
       lines.push(
-        '| ' +
-          (atk.name || '') +
-          ' | ' +
-          (atk.attackBonus || '') +
-          ' | ' +
-          (atk.damage || '') +
-          ' | ' +
-          (atk.weaponNotes || '') +
-          ' |',
+        `| ${atk.name || ''} | ${atk.attackBonus || ''} | ${atk.damage || ''} | ${extractQuillText(atk.weaponNotes)} |`,
       );
     });
     lines.push('');
@@ -208,15 +150,7 @@ function generateMarkdown(data, is_2024) {
     lines.push('|------|------|-----|-------|');
     data.trackableFields.forEach(function (tf) {
       lines.push(
-        '| ' +
-          (tf.name || '') +
-          ' | ' +
-          (tf.used || 0) +
-          ' | ' +
-          (tf.max || 0) +
-          ' | ' +
-          (tf.notes || '') +
-          ' |',
+        `| ${tf.name || ''} | ${tf.used || 0} | ${tf.max || 0} | ${extractQuillText(tf.notes)} |`,
       );
     });
     lines.push('');
@@ -237,7 +171,7 @@ function generateMarkdown(data, is_2024) {
   richTextSections.forEach(function (section) {
     var text = extractQuillText(data[section.key]);
     if (text) {
-      lines.push('## ' + section.title);
+      lines.push(`## ${section.title}`);
       lines.push('');
       lines.push(text);
       lines.push('');
@@ -249,32 +183,10 @@ function generateMarkdown(data, is_2024) {
     lines.push('## Coins');
     lines.push('');
     lines.push(
-      '| ' +
-        data.coins
-          .map(function (c) {
-            return c.name.toUpperCase();
-          })
-          .join(' | ') +
-        ' |',
+      `| ${data.coins.map((c) => c.name.toUpperCase()).join(' | ')} |`,
     );
-    lines.push(
-      '|' +
-        data.coins
-          .map(function () {
-            return '----';
-          })
-          .join('|') +
-        '|',
-    );
-    lines.push(
-      '| ' +
-        data.coins
-          .map(function (c) {
-            return c.amount;
-          })
-          .join(' | ') +
-        ' |',
-    );
+    lines.push(`|${data.coins.map(() => '----').join('|')}|`);
+    lines.push(`| ${data.coins.map((c) => c.amount).join(' | ')} |`);
     lines.push('');
   }
 
@@ -288,14 +200,7 @@ function generateMarkdown(data, is_2024) {
     lines.push('## Spells');
     lines.push('');
     lines.push(
-      '**Class:** ' +
-        (data.spClass || '') +
-        ' | **Ability:** ' +
-        (data.spAbility || '') +
-        ' | **Save DC:** ' +
-        (data.spSave || '') +
-        ' | **Attack Bonus:** ' +
-        (data.spAttack || ''),
+      `**Class:** ${data.spClass || ''} | **Ability:** ${data.spAbility || ''} | **Save DC:** ${data.spSave || ''} | **Attack Bonus:** ${data.spAttack || ''}`,
     );
     lines.push('');
 
@@ -304,8 +209,9 @@ function generateMarkdown(data, is_2024) {
       lines.push('### Cantrips');
       lines.push('');
       data.cantripsList.forEach(function (cantrip) {
-        if (cantrip.val) {
-          lines.push('- ' + cantrip.val);
+        var text = extractQuillText(cantrip.val);
+        if (text) {
+          lines.push(`- ${text}`);
         }
       });
       lines.push('');
@@ -313,7 +219,7 @@ function generateMarkdown(data, is_2024) {
 
     // Spell levels 1-9
     for (var i = 1; i <= 9; i++) {
-      var levelKey = 'lvl' + i + 'Spells';
+      var levelKey = `lvl${i}Spells`;
       var levelData = data[levelKey];
       if (
         levelData &&
@@ -321,21 +227,14 @@ function generateMarkdown(data, is_2024) {
           (levelData.spells && levelData.spells.length > 0))
       ) {
         lines.push(
-          '### Level ' +
-            i +
-            ' (Slots: ' +
-            (levelData.slots || 0) +
-            ', Expended: ' +
-            (levelData.expended || 0) +
-            ')',
+          `### Level ${i} (Slots: ${levelData.slots || 0}, Expended: ${levelData.expended || 0})`,
         );
         lines.push('');
         if (levelData.spells && levelData.spells.length > 0) {
           levelData.spells.forEach(function (spell) {
-            if (spell.name) {
-              lines.push(
-                '- [' + (spell.prepared ? 'x' : ' ') + '] ' + spell.name,
-              );
+            var text = extractQuillText(spell.name);
+            if (text) {
+              lines.push(`- [${spell.prepared ? 'x' : ' '}] ${text}`);
             }
           });
         } else {
@@ -356,7 +255,7 @@ function generateMarkdown(data, is_2024) {
  */
 function hasAnySpellLevel(data) {
   for (var i = 1; i <= 9; i++) {
-    var levelData = data['lvl' + i + 'Spells'];
+    var levelData = data[`lvl${i}Spells`];
     if (
       levelData &&
       (levelData.slots > 0 || (levelData.spells && levelData.spells.length > 0))
@@ -368,14 +267,13 @@ function hasAnySpellLevel(data) {
 }
 
 /**
- * Export a character sheet as JSON + Markdown files.
- * Fetches full sheet data from the server, then triggers two downloads.
+ * Export a character sheet as a JSON file.
  * @param {string} slug - The sheet slug
- * @param {string} name - The character name (for filenames)
+ * @param {string} name - The character name (for filename)
  */
-export async function exportSheet(slug, name) {
+export async function exportSheetJSON(slug, name) {
   try {
-    var resp = await fetch('/sheet-data/' + slug);
+    var resp = await fetch(`/sheet-data/${slug}`);
     var json = await resp.json();
 
     if (!json.success || !json.sheet) {
@@ -383,23 +281,38 @@ export async function exportSheet(slug, name) {
       return;
     }
 
-    var sheetData = json.sheet.data;
-    var is_2024 = json.sheet.is_2024;
     var fileBase = sanitizeFilename(name);
-
     downloadFile(
-      JSON.stringify(sheetData, null, 2),
-      fileBase + '.json',
+      JSON.stringify(json.sheet.data, null, 2),
+      `${fileBase}.json`,
       'application/json',
     );
+  } catch (err) {
+    console.error('Export failed', err);
+  }
+}
 
-    setTimeout(function () {
-      downloadFile(
-        generateMarkdown(sheetData, is_2024),
-        fileBase + '.md',
-        'text/markdown',
-      );
-    }, 100);
+/**
+ * Export a character sheet as a Markdown file.
+ * @param {string} slug - The sheet slug
+ * @param {string} name - The character name (for filename)
+ */
+export async function exportSheetMarkdown(slug, name) {
+  try {
+    var resp = await fetch(`/sheet-data/${slug}`);
+    var json = await resp.json();
+
+    if (!json.success || !json.sheet) {
+      console.error('Failed to fetch sheet data for export', json);
+      return;
+    }
+
+    var fileBase = sanitizeFilename(name);
+    downloadFile(
+      generateMarkdown(json.sheet.data, json.sheet.is_2024),
+      `${fileBase}.md`,
+      'text/markdown',
+    );
   } catch (err) {
     console.error('Export failed', err);
   }

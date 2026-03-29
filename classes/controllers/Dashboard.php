@@ -320,8 +320,18 @@ class Dashboard {
         // Per RESEARCH.md Pitfall 4: extract is_2024 from data, don't default
         $is_2024 = isset( $data['is_2024'] ) ? (bool) $data['is_2024'] : true;
 
-        // 5. Create the sheet (per D-07: always creates new, per D-10: delegates to create_sheet_with_data)
+        // Append "Copy" if a sheet with the same name already exists
         $sheet = new Sheet( $f3->get( 'DB' ) );
+        $existing_sheets = $sheet->get_all_sheets( $email );
+        if( $existing_sheets ) {
+            $existing_names = array_map( function( $s ) { return $s['name']; }, $existing_sheets );
+            if( in_array( $name, $existing_names ) ) {
+                $name = $name . ' Copy';
+                $data['characterName'] = $name;
+            }
+        }
+
+        // 5. Create the sheet (per D-07: always creates new, per D-10: delegates to create_sheet_with_data)
         $sheet->create_sheet_with_data( $name, $email, $data, $is_2024 );
 
         echo json_encode([

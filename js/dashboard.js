@@ -1,4 +1,4 @@
-import { exportSheet } from './export.js';
+import { exportSheetJSON, exportSheetMarkdown } from './export.js';
 import { Notyf } from 'notyf';
 
 initDashboard();
@@ -20,12 +20,20 @@ export function initDashboard() {
     bindDeleteButtons(deleteButtons);
   }
 
-  const exportButtons = Array.from(
-    document.querySelectorAll('[data-export-sheet]'),
+  const exportJsonButtons = Array.from(
+    document.querySelectorAll('[data-export-json]'),
   );
 
-  if (exportButtons.length > 0) {
-    bindExportButtons(exportButtons);
+  if (exportJsonButtons.length > 0) {
+    bindExportButtons(exportJsonButtons, exportSheetJSON);
+  }
+
+  const exportMdButtons = Array.from(
+    document.querySelectorAll('[data-export-markdown]'),
+  );
+
+  if (exportMdButtons.length > 0) {
+    bindExportButtons(exportMdButtons, exportSheetMarkdown);
   }
 
   const importButton = document.querySelector('[data-import-sheet]');
@@ -69,13 +77,13 @@ function bindCheckboxes(isPublicCheckboxes) {
   });
 }
 
-function bindExportButtons(exportButtons) {
-  exportButtons.forEach((btn) => {
+function bindExportButtons(buttons, exportFn) {
+  buttons.forEach((btn) => {
     btn.addEventListener('click', (event) => {
       event.preventDefault();
       var slug = btn.getAttribute('data-sheet');
       var name = btn.getAttribute('data-name');
-      exportSheet(slug, name);
+      exportFn(slug, name);
     });
   });
 }

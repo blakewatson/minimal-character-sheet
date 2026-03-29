@@ -79,16 +79,29 @@
           <p style="margin-left: auto">
             <a
               href="#"
-              data-export-sheet
+              data-export-json
               data-sheet="{{ @sheet.slug }}"
               data-name="{{ @sheet.name }}"
-              title="Export"
+              title="Export JSON"
+            >
+              <i class="fa-sharp fa-regular fa-brackets-curly" role="presentation"></i>
+              <span class="sr-only">Export JSON</span>
+            </a>
+          </p>
+
+          <p>
+            <a
+              href="#"
+              data-export-markdown
+              data-sheet="{{ @sheet.slug }}"
+              data-name="{{ @sheet.name }}"
+              title="Export Markdown"
             >
               <i
-                class="fa-sharp fa-regular fa-download"
+                class="fa-sharp fa-regular fa-file-lines"
                 role="presentation"
               ></i>
-              <span class="sr-only">Export</span>
+              <span class="sr-only">Export Markdown</span>
             </a>
           </p>
 
