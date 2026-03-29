@@ -38,15 +38,12 @@ A lightweight, zero-friction character sheet that just works — fast to load, e
 - ✓ CLAUDE.md accurately reflects Vue 3 + Vite + reactive() stack — v1.0
 - ✓ All views verified: sheet editing, print view, dashboard, public read-only sheets — v1.0
 - ✓ Autosave, Quill editors, list operations all work — v1.0
+- ✓ Export character sheets as JSON and Markdown from dashboard — v1.1
+- ✓ Import character sheets from JSON file via dashboard — v1.1
 
 ### Active
 
 (No active requirements — next milestone not yet planned)
-
-### Recently Validated
-
-- ✓ Export character sheets as JSON and Markdown from dashboard — Phase 01
-- ✓ Import character sheets from JSON file via dashboard — Phase 01
 
 ### Out of Scope
 
@@ -55,15 +52,14 @@ A lightweight, zero-friction character sheet that just works — fast to load, e
 - SSR / Server-side rendering — PHP backend serves HTML
 - Vue Router — app uses PHP routing
 - Vite dev server / HMR — PHP serves the app; build-only mode is simpler
-- New features — will be considered in future milestones
-- Backend changes — PHP models, controllers, routes stay as-is
 
 ## Context
 
-Shipped v1.0 with ~6,365 LOC JavaScript/Vue across 29 SFCs.
+Shipped v1.1 with ~7,100 LOC JavaScript/Vue across 29 SFCs + 1 utility module.
 Tech stack: PHP 8.4 (Fat-Free Framework), Vue 3.5, Vite 8, Tailwind CSS v4, SQLite.
 Store is a reactive() composable with 40 named exports in `js/store.js`.
-All work done on `vue-3` branch over 2 days (2026-03-21 → 2026-03-22), 73 commits.
+v1.0 Vue 3 migration: `vue-3` branch, 2 days (2026-03-21 → 2026-03-22), 73 commits.
+v1.1 Import/Export: 4 days (2026-03-26 → 2026-03-29), 10 commits. Added `js/export.js` module and `POST /import-sheet` endpoint.
 
 ## Constraints
 
@@ -83,6 +79,9 @@ All work done on `vue-3` branch over 2 days (2026-03-21 → 2026-03-22), 73 comm
 | watch(state, ..., { deep: true }) for autosave | Direct replacement for $store.subscribe; state object is small enough | ✓ Good |
 | Keep Options API | Migration scope — convert store only, don't rewrite components | ✓ Good |
 | Absorb Phase 2 into Phase 1 | @vitejs/plugin-vue2 incompatible with Vite 8 | ✓ Good — avoided version downgrade |
+| Client-side export via Blob URLs | No server-side file generation needed; pure browser APIs | ✓ Good |
+| Separate JSON/Markdown export buttons | Better UX than single button downloading two files | ✓ Good |
+| Generic import error message | User preference: don't expose validation details | ✓ Good |
 
 ## Evolution
 
@@ -102,4 +101,4 @@ This document evolves at phase transitions and milestone boundaries.
 4. Update Context with current state
 
 ---
-*Last updated: 2026-03-29 after Phase 01 (Import/Export Characters)*
+*Last updated: 2026-03-29 after v1.1 Import/Export milestone*

@@ -1,5 +1,16 @@
 # Milestones
 
+## v1.1 Import/Export (Shipped: 2026-03-29)
+
+**Phases completed:** 1 phases, 2 plans, 5 tasks
+
+**Key accomplishments:**
+
+- Dashboard export button downloads JSON (full store data) + Markdown (human-readable dump) via Blob URLs with sanitized filenames
+- Dashboard import button opens a .json file picker, validates client-side, POSTs to /import-sheet which creates a new sheet via create_sheet_with_data()
+
+---
+
 ## v1.0 Vue 3 Migration (Shipped: 2026-03-22)
 
 **Phases completed:** 3 phases, 8 plans, 15 tasks
