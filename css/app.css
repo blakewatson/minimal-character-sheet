@@ -122,7 +122,11 @@
   }
 
   .section-label {
-    @apply cursor-pointer py-3 text-center text-sm tracking-wider uppercase;
+    @apply py-3 text-center text-sm tracking-wider uppercase;
+  }
+
+  summary {
+    @apply cursor-pointer;
   }
 
   .small-label {
