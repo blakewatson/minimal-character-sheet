@@ -1,0 +1,13 @@
+.ddev/**
+.devcontainer/**
+.planning/**
+etl/**
+node_modules/**
+.gitignore
+CLAUDE.md
+composer.*
+LICENSE.txt
+package-lock.json
+package.json
+README.md
+vite.config.js
