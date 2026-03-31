@@ -109,7 +109,7 @@
     @apply enabled:hover:border-light-accent dark:text-light-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 enabled:hover:bg-blue-600 disabled:opacity-50 dark:border-neutral-100 dark:bg-neutral-100 dark:enabled:hover:border-blue-300 dark:enabled:hover:bg-blue-300;
 
     a& {
-      @apply no-underline;
+      @apply hover:border-light-accent no-underline hover:bg-blue-600 dark:hover:border-blue-300 dark:hover:bg-blue-300;
     }
   }
 

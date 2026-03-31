@@ -23,22 +23,25 @@
     </check>
   </h1>
 
-  <check if="{{ @sheets }}">
-    <p
-      class="text-light-muted-foreground dark:text-dark-muted-foreground mt-4 text-sm"
-    >
-      Making a character sheet public means that anyone with the link can view a
-      read-only version of the character sheet.
+  <check if="{{ !@sheets }}">
+    <p>Nothing to see here. Create a character by clicking the link below.</p>
+  </check>
+
+  <check if="{{ !@viewing_as_admin }}">
+    <p class="my-4 flex flex-wrap gap-4">
+      <a href="/add-sheet" class="button-primary text-sm">
+        <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
+        Add a character sheet
+      </a>
+
+      <button href="#" class="button text-sm" data-import-sheet>
+        <i class="fa-sharp fa-regular fa-upload mr-2" role="presentation"></i>
+        Import (JSON)
+      </button>
     </p>
   </check>
 
-  <check if="{{ @sheets }}">
-    <false>
-      <p>Nothing to see here. Create a character by clicking the link below.</p>
-    </false>
-  </check>
-
-  <ul id="sheet-list" class="my-6">
+  <ul id="sheet-list" class="mt-2">
     <repeat group="{{ @sheets }}" value="{{ @sheet }}">
       <li class="mb-4">
         <p class="mb-1.5">
@@ -95,13 +98,13 @@
               data-export-json
               data-sheet="{{ @sheet.slug }}"
               data-name="{{ @sheet.name }}"
-              title="Export JSON"
+              title="Export sheet JSON"
             >
               <i
-                class="fa-sharp fa-regular fa-brackets-curly"
+                class="fa-sharp fa-regular fa-download"
                 role="presentation"
               ></i>
-              <span class="sr-only">Export JSON</span>
+              <span class="sr-only">Export sheet JSON</span>
             </a>
           </p>
 
@@ -145,19 +148,14 @@
     </repeat>
   </ul>
 
+  <p
+    class="text-light-muted-foreground dark:text-dark-muted-foreground mt-8 text-sm"
+  >
+    Making a character sheet public means that anyone with the link can view a
+    read-only version of the character sheet.
+  </p>
+
   <check if="{{ !@viewing_as_admin }}">
-    <p class="mt-10">
-      <a href="/add-sheet" class="button-primary mb-4">
-        <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
-        Add a character sheet
-      </a>
-
-      <a href="#" class="button" data-import-sheet>
-        <i class="fa-sharp fa-regular fa-upload mr-2" role="presentation"></i>
-        Import a character sheet (JSON)
-      </a>
-    </p>
-
     <p class="my-8">
       Need help? <a href="mailto:blake@blakewatson.com">Email Blake</a>
     </p>
@@ -198,6 +196,17 @@
     <hr class="my-8" />
 
     <h2>Announcements</h2>
+
+    <div class="announcement">
+      <p>
+        <strong>2026-03-30:</strong> You can now import, export, and duplicate
+        character sheets right from the dashboard, making it easy to share
+        sheets between accounts or use an existing sheet as a starting point. I
+        also did some spring cleaning with the code behind the scenes. please
+        <a href="mailto:blake@blakewatson.com">get in touch</a> if you come
+        across any problems.
+      </p>
+    </div>
 
     <div class="announcement">
       <p>
