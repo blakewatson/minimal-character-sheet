@@ -105,34 +105,32 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import Field from './Field';
-import Vitals from './Vitals';
+import { state, updateLevel as storeUpdateLevel, updateBio as storeUpdateBio } from '../store';
+import Field from './Field.vue';
+import Vitals from './Vitals.vue';
 
 export default {
   name: 'Bio',
 
   computed: {
-    ...mapState([
-      'is_2024',
-      'level',
-      'characterName',
-      'className',
-      'race',
-      'background',
-      'alignment',
-      'xp',
-      'readOnly',
-    ]),
+    is_2024() { return state.is_2024; },
+    level() { return state.level; },
+    characterName() { return state.characterName; },
+    className() { return state.className; },
+    race() { return state.race; },
+    background() { return state.background; },
+    alignment() { return state.alignment; },
+    xp() { return state.xp; },
+    readOnly() { return state.readOnly; },
   },
 
   methods: {
     updateLevel(level) {
-      this.$store.commit('updateLevel', { level: parseInt(level) });
+      storeUpdateLevel({ level: parseInt(level) });
     },
 
     updateBio(field, val) {
-      this.$store.commit('updateBio', { field, val });
+      storeUpdateBio({ field, val });
     },
   },
 

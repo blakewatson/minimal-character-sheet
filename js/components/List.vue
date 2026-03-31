@@ -12,7 +12,7 @@
           :initial-contents="item.val"
           :read-only="readOnly"
           @update-collapsed="updateItem(i, item.val, $event)"
-          @quill-text-change="updateItem(i, $event)"
+          @quill-text-change="updateItem(i, $event, item.collapsed)"
         ></quill-editor>
 
         <div
@@ -83,8 +83,15 @@
 </template>
 
 <script>
-import ButtonCollapse from './ButtonCollapse';
-import QuillEditor from './QuillEditor';
+import {
+  state,
+  updateListField,
+  addToListField,
+  deleteFromListField,
+  sortListField,
+} from '../store';
+import ButtonCollapse from './ButtonCollapse.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'List',
@@ -93,13 +100,13 @@ export default {
 
   computed: {
     items() {
-      return this.$store.state[this.listField];
+      return state[this.listField];
     },
   },
 
   methods: {
     updateItem(i, val, collapsed) {
-      this.$store.commit('updateListField', {
+      updateListField({
         field: this.listField,
         i: i,
         val: val,
@@ -108,23 +115,21 @@ export default {
     },
 
     addToList() {
-      this.$store.commit('addToListField', {
+      addToListField({
         field: this.listField,
         val: '',
       });
     },
 
     deleteItem(i) {
-      this.$store.commit('deleteFromListField', {
+      deleteFromListField({
         field: this.listField,
         i: i,
       });
-
-      window.sheetEvent.$emit('autosave', 1);
     },
 
     sortItems(id, direction) {
-      this.$store.commit('sortListField', {
+      sortListField({
         field: this.listField,
         id,
         direction,

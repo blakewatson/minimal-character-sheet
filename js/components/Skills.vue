@@ -40,7 +40,7 @@
           @click="openOverrideDialog(skill)"
           class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right dark:hover:border-neutral-400"
         >
-          {{ getSkillModifier(skill) | signedNumString }}
+          {{ $signedNumString(getSkillModifier(skill)) }}
         </button>
 
         <label
@@ -105,7 +105,7 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import { state, modifiers as storeModifiers, proficiencyBonus as storeProficiencyBonus, updateSkillProficiency, updateSkillModifierOverride, updatePassivePerceptionOverride } from '../store';
 import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
 
@@ -121,8 +121,11 @@ export default {
   },
 
   computed: {
-    ...mapState(['skills', 'readOnly', 'passivePerceptionOverride']),
-    ...mapGetters(['modifiers', 'proficiencyBonus']),
+    skills() { return state.skills; },
+    readOnly() { return state.readOnly; },
+    passivePerceptionOverride() { return state.passivePerceptionOverride; },
+    modifiers() { return storeModifiers.value; },
+    proficiencyBonus() { return storeProficiencyBonus.value; },
   },
 
   methods: {
@@ -160,7 +163,7 @@ export default {
         doubleProficient = !doubleProficient;
       }
 
-      this.$store.commit('updateSkillProficiency', {
+      updateSkillProficiency({
         i,
         proficient,
         doubleProficient,
@@ -237,9 +240,9 @@ export default {
 
       // Check if this is passive perception or a regular skill
       if (this.selectedSkill.isPassivePerception) {
-        this.$store.commit('updatePassivePerceptionOverride', override);
+        updatePassivePerceptionOverride(override);
       } else {
-        this.$store.commit('updateSkillModifierOverride', {
+        updateSkillModifierOverride({
           skillName: this.selectedSkill.name,
           modifierOverride: override,
         });
@@ -253,9 +256,9 @@ export default {
     removeOverride() {
       // Check if this is passive perception or a regular skill
       if (this.selectedSkill.isPassivePerception) {
-        this.$store.commit('updatePassivePerceptionOverride', null);
+        updatePassivePerceptionOverride(null);
       } else {
-        this.$store.commit('updateSkillModifierOverride', {
+        updateSkillModifierOverride({
           skillName: this.selectedSkill.name,
           modifierOverride: null,
         });

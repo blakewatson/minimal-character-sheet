@@ -1,15 +1,12 @@
-import Vue from 'vue';
-import Print from './components/Print';
-import { i18nPlugin } from './i18n';
-import store from './store';
+import { createApp } from 'vue';
+import Print from './components/Print.vue';
 import { signedNumString } from './utils';
+import { i18nPlugin } from './i18n';
 
-Vue.use(i18nPlugin);
+const app = createApp(Print);
+app.use(i18nPlugin);
 
-Vue.filter('signedNumString', signedNumString);
+// Register signedNumString as a global property
+app.config.globalProperties.$signedNumString = signedNumString;
 
-new Vue({
-  el: '#print',
-  store,
-  render: (h) => h(Print),
-});
+app.mount('#print');

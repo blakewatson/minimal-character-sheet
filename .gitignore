@@ -13,6 +13,7 @@ Thumbs.db
 bower_components
 node_modules
 build
+dist
 vendor
 ._*
 tmp

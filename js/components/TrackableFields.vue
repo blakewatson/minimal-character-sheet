@@ -218,10 +218,7 @@
           </div>
 
           <div class="flex items-baseline gap-1">
-            <label
-              :for="`trackable-field-max-${field.id}`"
-              class="small-label"
-            >
+            <label :for="`trackable-field-max-${field.id}`" class="small-label">
               {{ $t('Max') }}
             </label>
             <field
@@ -250,7 +247,7 @@
       <button
         :disabled="readOnly"
         :title="$t('Add a trackable field')"
-        @click="$store.commit('addTrackableField')"
+        @click="addTrackableField()"
         class="button-icon"
         type="button"
       >
@@ -267,7 +264,11 @@
     >
       <template #content>
         <p>
-          {{ $t('Track limited-use resources like Superiority Dice, Focus Points, attunement slots, and rechargeable class features.') }}
+          {{
+            $t(
+              'Track limited-use resources like Superiority Dice, Focus Points, attunement slots, and rechargeable class features.',
+            )
+          }}
         </p>
       </template>
     </app-dialog>
@@ -275,10 +276,16 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
+import {
+  state,
+  updateTrackableField as storeUpdateTrackableField,
+  deleteTrackableField as storeDeleteTrackableField,
+  sortTrackableField as storeSortTrackableField,
+  addTrackableField,
+} from '../store';
 import AppDialog from './AppDialog.vue';
-import Field from './Field';
-import QuillEditor from './QuillEditor';
+import Field from './Field.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'TrackableFields',
@@ -292,7 +299,12 @@ export default {
   },
 
   computed: {
-    ...mapState(['trackableFields', 'readOnly']),
+    trackableFields() {
+      return state.trackableFields;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
 
     trackableFieldsAndNotes() {
       const rows = [];
@@ -318,7 +330,7 @@ export default {
     this.setupMediaQuery();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.mediaQuery) {
       this.mediaQuery.removeListener(this.handleMediaQueryChange);
     }
@@ -339,15 +351,19 @@ export default {
       if (id.toString().endsWith('-note')) {
         id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for field ID
       }
-      this.$store.commit('updateTrackableField', { id, field, val });
+      storeUpdateTrackableField({ id, field, val });
     },
 
     deleteTrackableField(id) {
-      this.$store.commit('deleteTrackableField', { id });
+      storeDeleteTrackableField({ id });
+    },
+
+    addTrackableField() {
+      addTrackableField();
     },
 
     sortTrackableField(id, direction) {
-      this.$store.commit('sortTrackableField', { id, direction });
+      storeSortTrackableField({ id, direction });
     },
   },
 

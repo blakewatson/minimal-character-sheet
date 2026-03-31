@@ -16,12 +16,12 @@
 
     <link
       rel="stylesheet"
-      href="{{ @BASE }}/dist/gutenberg.min.css"
+      href="{{ @BASE }}/css/vendor/gutenberg.min.css"
       media="all"
     />
 
-    <link rel="stylesheet" href="{{ @BASE }}/dist/spacing.css" />
-    <link rel="stylesheet" href="{{ @BASE }}/dist/print.css" />
+    <link rel="stylesheet" href="{{ @BASE }}/css/spacing.css" />
+    <link rel="stylesheet" href="{{ @BASE }}/css/print.css" />
 
     <script src="{{ @BASE }}/js/home.js"></script>
   </head>
@@ -44,7 +44,7 @@
         window.is_2024 = {{ @is_2024 | raw }};
         document.title = `${window.characterName} - Minimal character sheet`;
       </script>
-      <script src="{{ @BASE }}{{ mix('/print.js') }}"></script>
+      <script type="module" src="{{ @BASE }}{{ vite('js/print.js') }}"></script>
     </check>
   </body>
 </html>

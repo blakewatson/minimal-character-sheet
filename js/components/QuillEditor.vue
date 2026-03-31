@@ -41,11 +41,9 @@ export default {
 
   data() {
     return {
-      editor: null,
       contents: null,
       isStatic: true,
       mouseDownEvent: null,
-      refreshListener: null,
       useSans: false,
       useSerif: false,
     };
@@ -189,13 +187,13 @@ export default {
     // For read-only editors, listen for refresh events on the event bus and
     // update static DOM
     if (this.readOnly) {
-      window.sheetEvent.$on('quill-refresh', this.refreshListener);
+      window.sheetEvent.on('quill-refresh', this.refreshListener);
     }
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.refreshListener) {
-      window.sheetEvent.$off('quill-refresh', this.refreshListener);
+      window.sheetEvent.off('quill-refresh', this.refreshListener);
     }
   },
 };

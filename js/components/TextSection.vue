@@ -13,8 +13,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import QuillEditor from './QuillEditor';
+import { state, updateTextField as storeUpdateTextField } from '../store';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'TextSection',
@@ -22,26 +22,14 @@ export default {
   props: ['title', 'field', 'readOnly'],
 
   computed: {
-    ...mapState([
-      'equipmentText',
-      'proficienciesText',
-      'featuresText',
-      'personalityText',
-      'backstoryText',
-      'treasureText',
-      'notesText',
-      'organizationsText',
-    ]),
-
     textField() {
-      if (!this[this.field]) return '';
-      return this[this.field];
+      return state[this.field] || '';
     },
   },
 
   methods: {
     updateTextField(val) {
-      this.$store.commit('updateTextField', {
+      storeUpdateTextField({
         field: this.field,
         val: val,
       });

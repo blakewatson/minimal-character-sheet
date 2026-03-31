@@ -120,8 +120,8 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import AddContentDialog from './AddContentDialog';
+import { state } from '../store';
+import AddContentDialog from './AddContentDialog.vue';
 
 export default {
   name: 'Tabs',
@@ -141,10 +141,10 @@ export default {
   },
 
   computed: {
-    ...mapState(['readOnly']),
+    readOnly() { return state.readOnly; },
 
     sheetSlug() {
-      return this.$store.state.slug;
+      return state.slug;
     },
 
     saveStatus() {

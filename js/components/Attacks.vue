@@ -220,7 +220,7 @@
       <button
         :disabled="readOnly"
         :title="$t('Add an attack')"
-        @click="$store.commit('addAttack')"
+        @click="addAttack()"
         class="button-icon cursor-pointer"
         type="button"
       >
@@ -232,9 +232,16 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-import Field from './Field';
-import QuillEditor from './QuillEditor';
+import {
+  state,
+  modifiers as storeModifiers,
+  updateAttacks as storeUpdateAttacks,
+  deleteAttack as storeDeleteAttack,
+  sortAttacks as storeSortAttacks,
+  addAttack,
+} from '../store';
+import Field from './Field.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'Attacks',
@@ -247,8 +254,15 @@ export default {
   },
 
   computed: {
-    ...mapState(['attacks', 'readOnly']),
-    ...mapGetters(['modifiers']),
+    attacks() {
+      return state.attacks;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
+    modifiers() {
+      return storeModifiers.value;
+    },
 
     attacksAndNotes() {
       const rows = [];
@@ -274,7 +288,7 @@ export default {
     this.setupMediaQuery();
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.mediaQuery) {
       this.mediaQuery.removeListener(this.handleMediaQueryChange);
     }
@@ -295,15 +309,19 @@ export default {
       if (id.toString().endsWith('-note')) {
         id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for attack ID
       }
-      this.$store.commit('updateAttacks', { id, field, val });
+      storeUpdateAttacks({ id, field, val });
     },
 
     deleteAttack(id) {
-      this.$store.commit('deleteAttack', { id });
+      storeDeleteAttack({ id });
+    },
+
+    addAttack() {
+      addAttack();
     },
 
     sortAttacks(id, direction) {
-      this.$store.commit('sortAttacks', { id, direction });
+      storeSortAttacks({ id, direction });
     },
   },
 

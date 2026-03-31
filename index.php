@@ -39,6 +39,7 @@ $f3->route( 'GET /', function( $f3 ) {
 $f3->route( 'GET /dashboard', 'Dashboard->sheet_list' );
 $f3->route( 'GET|POST /add-sheet', 'Dashboard->add_sheet' );
 $f3->route( 'POST /make-public/@sheet_slug', 'Dashboard->make_sheet_public' );
+$f3->route( 'POST /import-sheet', 'Dashboard->import_sheet' );
 
 // sheet view
 $f3->route( 'GET /sheet/@sheet_slug', 'Dashboard->sheet_single' );
@@ -84,21 +85,24 @@ $f3->set( 'ONERROR', function( $f3, $params ) {
  */
 
 /**
- * Returns a versioned asset path using Laravel Mix's manifest file.
- * Used in templates for cache busting: {{ mix('/app.js') }}
+ * Returns a versioned asset path using Vite's manifest file.
+ * Used in templates for cache busting: {{ vite('js/app.js') }}
  */
-function mix($path) {
+function vite($entry) {
     static $manifest;
     if (!$manifest) {
-        $manifestPath = __DIR__ . '/dist/mix-manifest.json';
+        $manifestPath = __DIR__ . '/dist/.vite/manifest.json';
         if (file_exists($manifestPath)) {
             $manifest = json_decode(file_get_contents($manifestPath), true);
         } else {
             $manifest = [];
         }
     }
-    $path = '/' . ltrim($path, '/');
-    return '/dist' . ($manifest[$path] ?? $path);
+    if (isset($manifest[$entry])) {
+        return '/dist/' . $manifest[$entry]['file'];
+    }
+    // Fallback: return the path as-is (for non-manifest assets)
+    return '/dist/' . $entry;
 }
 
 $f3->run();

@@ -81,18 +81,21 @@
 
 <script>
 import { Notyf } from 'notyf';
-import { mapState } from 'vuex';
+import { watch } from 'vue';
+import { getJSON, initializeState, state, updateState } from '../store';
 import { throttle } from '../utils';
-import Abilities from './Abilities';
-import Attacks from './Attacks';
-import Bio from './Bio';
-import Equipment from './Equipment';
-import Proficiency from './Proficiency';
-import Skills from './Skills';
-import Spells from './Spells';
-import Tabs from './Tabs';
-import TextSection from './TextSection';
-import TrackableFields from './TrackableFields';
+import Abilities from './Abilities.vue';
+import Attacks from './Attacks.vue';
+import Bio from './Bio.vue';
+import Equipment from './Equipment.vue';
+import Proficiency from './Proficiency.vue';
+import Skills from './Skills.vue';
+import Spells from './Spells.vue';
+import Tabs from './Tabs.vue';
+import TextSection from './TextSection.vue';
+import TrackableFields from './TrackableFields.vue';
+
+const notyf = new Notyf({ ripple: false, dismissible: true });
 
 export default {
   name: 'Sheet',
@@ -104,7 +107,6 @@ export default {
       isPublic: false,
       isRetrying: false,
       isSaving: false,
-      notyf: new Notyf({ ripple: false, dismissible: true }),
       retryCount: 0,
       retryMax: 3,
       retryTimer: null,
@@ -114,7 +116,12 @@ export default {
   },
 
   computed: {
-    ...mapState(['is_2024', 'readOnly']),
+    is_2024() {
+      return state.is_2024;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
   },
 
   watch: {
@@ -129,31 +136,13 @@ export default {
   },
 
   methods: {
-    autosaveLoop() {
-      if (this.isPublic) {
-        return;
-      }
-
-      // trigger a quick autosave upon every store mutation
-      this.$store.subscribe((mutation, state) => {
-        window.sheetEvent.$emit('autosave');
-      });
-
-      // when this event fires, schedule a save
-      window.sheetEvent.$on('autosave', () => {
-        this.resetRetryState();
-        this.hasUnsavedChanges = true;
-        this.throttledSave();
-      });
-    },
-
     async manualSave() {
       this.resetRetryState();
       const result = await this.saveSheetState();
 
       if (result) {
-        this.notyf.success({
-          duration: 2000,
+        notyf.success({
+          duration: 3000,
           message: 'Character sheet saved.',
         });
       }
@@ -174,16 +163,16 @@ export default {
       this.isSaving = true;
       this.hasUnsavedChanges = false;
 
-      // Step 1: Get the current sheet data as JSON from the Vuex store
+      // Step 1: Get the current sheet data as JSON from the store
       try {
-        var json = await this.$store.dispatch('getJSON');
+        var json = getJSON();
       } catch (error) {
         // If we can't serialize the data, mark as error and stop
         console.error('Caught error', error);
         this.isError = true;
         this.isSaving = false;
 
-        this.notyf.error({
+        notyf.error({
           duration: 0,
           message:
             'Character sheet data is not valid. Please reload the page and try again.',
@@ -197,7 +186,7 @@ export default {
       const formBody = new URLSearchParams();
 
       // Encode the character name and sheet data for form submission
-      formBody.set('name', this.$store.state.characterName);
+      formBody.set('name', state.characterName);
       formBody.set('data', json);
       const formBodyString = formBody.toString();
 
@@ -240,7 +229,7 @@ export default {
 
         // Handle non-retryable errors (like invalid JSON)
         if (!this.isRetryableError(error)) {
-          this.notyf.error({
+          notyf.error({
             duration: 0, // Persistent until dismissed
             message:
               'Failed to save character sheet. The data may be invalid. Please try reloading the page.',
@@ -256,7 +245,7 @@ export default {
           // Give up after max retries and show user notification
           if (this.retryCount > this.retryMax) {
             this.resetRetryState();
-            this.notyf.error({
+            notyf.error({
               duration: 0, // Persistent notification until dismissed
               message:
                 'Failed to save character sheet. Try a manual save by clicking the save button.',
@@ -280,7 +269,7 @@ export default {
       // Step 5: Save was successful - clean up retry state
       this.resetRetryState();
       this.isError = false;
-      this.notyf.dismissAll();
+      notyf.dismissAll();
 
       // Check if more changes occurred while we were saving
       // If so, schedule another save to catch those changes
@@ -346,9 +335,7 @@ export default {
         .then((r) => r.json())
         .then((data) => {
           if (data.success && data.sheet) {
-            this.$store
-              .dispatch('updateState', { sheet: data.sheet })
-              .catch((reason) => console.log(reason));
+            updateState({ sheet: data.sheet });
             // update the local updated_at to avoid repeated fetches
             this.updatedAt = data.sheet.updated_at;
           }
@@ -398,7 +385,15 @@ export default {
     }
 
     if (!this.isPublic) {
-      this.autosaveLoop();
+      watch(
+        state,
+        () => {
+          this.resetRetryState();
+          this.hasUnsavedChanges = true;
+          this.throttledSave();
+        },
+        { deep: true },
+      );
     }
 
     // Initialize view from URL hash
@@ -408,9 +403,7 @@ export default {
 
   created() {
     // initialize state with the "sheet" global
-    this.$store
-      .dispatch('initializeState', { sheet: window.sheet })
-      .catch((reason) => console.log(reason));
+    initializeState({ sheet: window.sheet });
 
     this.throttledSave = throttle(this.saveSheetState, 5000, {
       leading: false,
@@ -419,7 +412,7 @@ export default {
     });
   },
 
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('hashchange', this.handleHashChange);
   },
 };

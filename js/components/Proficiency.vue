@@ -23,12 +23,14 @@
       <span
         class="min-[500px]:text-xl sm:text-2xl"
         :class="{ underline: Boolean(proficiencyOverride) }"
-        >{{ proficiencyBonus | signedNumString }}</span
+        >{{ $signedNumString(proficiencyBonus) }}</span
       >
     </button>
 
     <div class="flex items-center gap-2">
-      <label class="small-label" for="inspiration">{{ $t('Inspiration') }}</label>
+      <label class="small-label" for="inspiration">{{
+        $t('Inspiration')
+      }}</label>
       <input
         :checked="inspiration"
         :disabled="readOnly"
@@ -39,7 +41,9 @@
     </div>
 
     <div class="flex items-center gap-2">
-      <label class="small-label" for="shortRests">{{ $t('Short rests') }}</label>
+      <label class="small-label" for="shortRests">{{
+        $t('Short rests')
+      }}</label>
       <field
         :read-only="readOnly"
         :value="shortRests"
@@ -77,15 +81,11 @@
       </template>
 
       <template #actions>
-        <button class="button-primary mb-2" type="submit">
+        <button class="button-primary" type="submit">
           {{ $t('Save') }}
         </button>
 
-        <button
-          @click="removeProficiencyOverride"
-          class="button mb-2"
-          type="button"
-        >
+        <button @click="removeProficiencyOverride" class="button" type="button">
           {{ $t('Remove override') }}
         </button>
       </template>
@@ -94,9 +94,16 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
+import {
+  state,
+  proficiencyBonus as storeProficiencyBonus,
+  updateInitiative as storeUpdateInitiative,
+  updateInspiration as storeUpdateInspiration,
+  updateShortRests as storeUpdateShortRests,
+  updateProficiencyOverride,
+} from '../store';
 import AppDialog from './AppDialog.vue';
-import Field from './Field';
+import Field from './Field.vue';
 
 export default {
   name: 'Proficiency',
@@ -109,28 +116,38 @@ export default {
   },
 
   computed: {
-    ...mapGetters(['proficiencyBonus']),
-    ...mapState([
-      'inspiration',
-      'readOnly',
-      'initiative',
-      'shortRests',
-      'proficiencyOverride',
-    ]),
+    proficiencyBonus() {
+      return storeProficiencyBonus.value;
+    },
+    inspiration() {
+      return state.inspiration;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
+    initiative() {
+      return state.initiative;
+    },
+    shortRests() {
+      return state.shortRests;
+    },
+    proficiencyOverride() {
+      return state.proficiencyOverride;
+    },
   },
 
   methods: {
     updateInitiative(val) {
-      this.$store.commit('updateInitiative', val);
+      storeUpdateInitiative(val);
     },
 
     updateInspiration(val) {
-      this.$store.commit('updateInspiration', val.target.checked);
+      storeUpdateInspiration(val.target.checked);
     },
 
     updateShortRests(val) {
       val = val ? parseInt(val) : 0;
-      this.$store.commit('updateShortRests', val);
+      storeUpdateShortRests(val);
     },
 
     openProficiencyDialog() {
@@ -162,13 +179,13 @@ export default {
         }
       }
 
-      this.$store.commit('updateProficiencyOverride', override);
+      updateProficiencyOverride(override);
       this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },
 
     removeProficiencyOverride() {
-      this.$store.commit('updateProficiencyOverride', null);
+      updateProficiencyOverride(null);
       this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },

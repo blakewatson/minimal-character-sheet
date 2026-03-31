@@ -35,24 +35,26 @@
 </template>
 
 <script>
-import { mapState } from 'vuex';
-import Field from './Field';
-import QuillEditor from './QuillEditor';
+import { state, updateCoins, updateEquipment as storeUpdateEquipment } from '../store';
+import Field from './Field.vue';
+import QuillEditor from './QuillEditor.vue';
 
 export default {
   name: 'Equipment',
 
   computed: {
-    ...mapState(['coins', 'equipmentText', 'readOnly']),
+    coins() { return state.coins; },
+    equipmentText() { return state.equipmentText; },
+    readOnly() { return state.readOnly; },
   },
 
   methods: {
     updateAmount(i, val) {
-      this.$store.commit('updateCoins', { i, amount: val });
+      updateCoins({ i, amount: val });
     },
 
     updateEquipment(val) {
-      this.$store.commit('updateEquipment', { val });
+      storeUpdateEquipment({ val });
     },
   },
 

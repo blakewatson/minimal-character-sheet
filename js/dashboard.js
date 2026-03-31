@@ -1,3 +1,6 @@
+import { Notyf } from 'notyf';
+import { exportSheetJSON } from './export.js';
+
 initDashboard();
 
 export function initDashboard() {
@@ -16,6 +19,43 @@ export function initDashboard() {
   if (deleteButtons.length > 0) {
     bindDeleteButtons(deleteButtons);
   }
+
+  const duplicateButtons = Array.from(
+    document.querySelectorAll('[data-duplicate]'),
+  );
+
+  if (duplicateButtons.length > 0) {
+    bindDuplicateButtons(duplicateButtons);
+  }
+
+  const exportJsonButtons = Array.from(
+    document.querySelectorAll('[data-export-json]'),
+  );
+
+  if (exportJsonButtons.length > 0) {
+    bindExportButtons(exportJsonButtons, exportSheetJSON);
+  }
+
+  // const exportMdButtons = Array.from(
+  //   document.querySelectorAll('[data-export-markdown]'),
+  // );
+
+  // if (exportMdButtons.length > 0) {
+  //   bindExportButtons(exportMdButtons, exportSheetMarkdown);
+  // }
+
+  const importButton = document.querySelector('[data-import-sheet]');
+
+  if (importButton) {
+    bindImportButton(importButton);
+  }
+
+  // dismiss announcement banner
+  document
+    .querySelector('[data-dismiss-banner]')
+    ?.addEventListener('click', () =>
+      document.getElementById('announcement-banner').remove(),
+    );
 }
 
 function bindCheckboxes(isPublicCheckboxes) {
@@ -52,6 +92,113 @@ function bindCheckboxes(isPublicCheckboxes) {
   });
 }
 
+function bindDuplicateButtons(buttons) {
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', async (event) => {
+      event.preventDefault();
+      var slug = btn.getAttribute('data-sheet');
+
+      try {
+        var resp = await fetch(`/sheet-data/${slug}`);
+        var json = await resp.json();
+
+        if (!json.success || !json?.sheet?.data) {
+          console.error('Failed to fetch sheet data for export', json);
+          return;
+        }
+      } catch (err) {
+        console.error('Export failed', err);
+      }
+
+      // post to import endpoint
+      importSheetAndReload(json.sheet.data);
+    });
+  });
+}
+
+function bindExportButtons(buttons, exportFn) {
+  buttons.forEach((btn) => {
+    btn.addEventListener('click', (event) => {
+      event.preventDefault();
+      var slug = btn.getAttribute('data-sheet');
+      var name = btn.getAttribute('data-name');
+      exportFn(slug, name);
+    });
+  });
+}
+
+function validateSheetJSON(data) {
+  if (!data || typeof data !== 'object') {
+    return { valid: false, reason: 'File does not contain valid JSON data.' };
+  }
+  const requiredKeys = ['characterName', 'abilities', 'skills'];
+  for (const key of requiredKeys) {
+    if (!(key in data)) {
+      return { valid: false, reason: 'Missing required field: ' + key };
+    }
+  }
+  if (!Array.isArray(data.abilities) || data.abilities.length !== 6) {
+    return {
+      valid: false,
+      reason: 'Invalid abilities data — expected 6 ability scores.',
+    };
+  }
+  if (!Array.isArray(data.skills)) {
+    return { valid: false, reason: 'Invalid skills data.' };
+  }
+  return { valid: true };
+}
+
+function bindImportButton(btn) {
+  btn.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    // Create hidden file input per D-05 (file upload only)
+    var input = document.createElement('input');
+    input.type = 'file';
+    input.accept = '.json'; // per D-06, only .json files
+
+    input.addEventListener('change', (e) => {
+      var file = e.target.files[0];
+      if (!file) return;
+
+      var reader = new FileReader();
+      reader.onload = (loadEvent) => {
+        var content = loadEvent.target.result;
+        var data;
+        var notyf = new Notyf();
+
+        // Parse JSON
+        try {
+          data = JSON.parse(content);
+        } catch (err) {
+          notyf.error({
+            message: 'Not a valid character sheet file.',
+            duration: 6000,
+          });
+          return;
+        }
+
+        // Client-side validation per D-08
+        var validation = validateSheetJSON(data);
+        if (!validation.valid) {
+          notyf.error({
+            message: 'Not a valid character sheet file.',
+            duration: 6000,
+          });
+          return;
+        }
+
+        // POST to import endpoint per D-10
+        importSheetAndReload(data);
+      };
+      reader.readAsText(file);
+    });
+
+    input.click();
+  });
+}
+
 function bindDeleteButtons(deleteButtons) {
   deleteButtons.forEach((deleteBtn) => {
     deleteBtn.addEventListener('click', (event) => {
@@ -74,4 +221,32 @@ function bindDeleteButtons(deleteButtons) {
       }
     });
   });
+}
+
+function importSheetAndReload(sheetData) {
+  var csrf = document.querySelector('#csrf').value;
+  fetch('/import-sheet', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'X-AJAX-CSRF': csrf,
+    },
+    body: JSON.stringify({ data: sheetData }),
+  })
+    .then((r) => r.json())
+    .then((resp) => {
+      // Refresh CSRF per RESEARCH.md Pitfall 5
+      if ('csrf' in resp) {
+        document.querySelector('#csrf').value = resp.csrf;
+      }
+      if (resp.success) {
+        // Reload dashboard to show the new sheet per D-07
+        window.location = '/dashboard';
+      } else {
+        notyf.error('Import failed: ' + (resp.reason || 'Unknown error'));
+      }
+    })
+    .catch((err) => {
+      notyf.error('Import failed: network error.');
+    });
 }

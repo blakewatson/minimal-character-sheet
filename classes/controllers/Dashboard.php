@@ -65,6 +65,21 @@ class Dashboard {
         $f3->set( 'sheets', $sheets );
         $f3->set( 'dashboard', true );
         $f3->set( 'email', $current_user_email );
+
+        // Show announcement banner if user hasn't seen the latest version
+        // Skip if the announcement is older than 3 months to avoid stale notifications
+        $latest_announcement = '2026-03-30';
+        $announcement_age = ( new \DateTime() )->diff( new \DateTime( $latest_announcement ) )->days;
+        $f3->set( 'show_announcement_banner', false );
+        
+        if( $announcement_age <= 90 ) {
+            $seen = isset( $_COOKIE['announcements_seen'] ) ? $_COOKIE['announcements_seen'] : '';
+            if( $seen !== $latest_announcement ) {
+                $f3->set( 'show_announcement_banner', true );
+                setcookie( 'announcements_seen', $latest_announcement, time() + 60 * 60 * 24 * 365, '/' );
+            }
+        }
+
         $this->auth->set_csrf();
         echo \Template::instance()->render( 'templates/dashboard.html' );
     }
@@ -264,6 +279,81 @@ class Dashboard {
         $sheetObj->save();
         
         echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'CSRF' ), 'status' => 200 ]);
+    }
+
+    public function import_sheet( $f3 ) {
+        // 1. Verify CSRF (same pattern as delete_sheet, make_sheet_public)
+        if( ! $this->auth->verify_ajax_csrf() ) {
+            $this->auth->set_csrf();
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'csrf_failed', 'status' => 400 ]);
+            return;
+        }
+
+        $this->auth->set_csrf();
+
+        // 2. Get the posted JSON body
+        $body = file_get_contents( 'php://input' );
+        $payload = json_decode( $body, true );
+
+        if( ! $payload || ! isset( $payload['data'] ) ) {
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_payload', 'status' => 400 ]);
+            return;
+        }
+
+        $data = $payload['data'];
+
+        // 3. Server-side validation: check required keys exist (per D-08, D-10)
+        $required_keys = [ 'characterName', 'abilities', 'skills' ];
+        foreach( $required_keys as $key ) {
+            if( ! array_key_exists( $key, $data ) ) {
+                $f3->status( 400 );
+                echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'missing_field_' . $key, 'status' => 400 ]);
+                return;
+            }
+        }
+
+        // Validate abilities is array of 6
+        if( ! is_array( $data['abilities'] ) || count( $data['abilities'] ) !== 6 ) {
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_abilities', 'status' => 400 ]);
+            return;
+        }
+
+        // Validate skills is array
+        if( ! is_array( $data['skills'] ) ) {
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_skills', 'status' => 400 ]);
+            return;
+        }
+
+        // 4. Extract character name and is_2024 flag from data
+        $name = isset( $data['characterName'] ) && $data['characterName'] ? $data['characterName'] : 'Imported Character';
+        $email = $f3->get( 'SESSION.email' );
+
+        // Per RESEARCH.md Pitfall 4: extract is_2024 from data, don't default
+        $is_2024 = isset( $data['is_2024'] ) ? (bool) $data['is_2024'] : true;
+
+        // Append "Copy" if a sheet with the same name already exists
+        $sheet = new Sheet( $f3->get( 'DB' ) );
+        $existing_sheets = $sheet->get_all_sheets( $email );
+        if( $existing_sheets ) {
+            $existing_names = array_map( function( $s ) { return $s['name']; }, $existing_sheets );
+            if( in_array( $name, $existing_names ) ) {
+                $name = $name . ' Copy';
+                $data['characterName'] = $name;
+            }
+        }
+
+        // 5. Create the sheet (per D-07: always creates new, per D-10: delegates to create_sheet_with_data)
+        $sheet->create_sheet_with_data( $name, $email, $data, $is_2024 );
+
+        echo json_encode([
+            'success' => true,
+            'csrf' => $f3->get( 'CSRF' ),
+            'status' => 200
+        ]);
     }
 
     public function print_sheet( $f3, $params ) {

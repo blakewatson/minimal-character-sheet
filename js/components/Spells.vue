@@ -33,10 +33,12 @@
             :selected="spAbility === a.name"
             :value="a.name"
           >
-            {{ $t(a.name) }}: {{ modifiers[idx].val | signedNumString }}
+            {{ $t(a.name) }}: {{ $signedNumString(modifiers[idx].val) }}
           </option>
         </select>
-        <div class="block" style="padding: 0.25em" v-else>{{ $t(spAbility) }}</div>
+        <div class="block" style="padding: 0.25em" v-else>
+          {{ $t(spAbility) }}
+        </div>
       </div>
 
       <div
@@ -111,27 +113,48 @@
 </template>
 
 <script>
-import { mapGetters, mapState } from 'vuex';
-import ButtonCollapse from './ButtonCollapse';
-import Field from './Field';
-import List from './List';
-import SpellGroup from './SpellGroup';
+import {
+  state,
+  modifiers as storeModifiers,
+  updateSpellInfo as storeUpdateSpellInfo,
+  updateListField,
+} from '../store';
+import ButtonCollapse from './ButtonCollapse.vue';
+import Field from './Field.vue';
+import List from './List.vue';
+import SpellGroup from './SpellGroup.vue';
 
 export default {
   name: 'Spells',
 
   computed: {
-    ...mapState([
-      'abilities',
-      'className',
-      'spClass',
-      'spAbility',
-      'spSave',
-      'spAttack',
-      'cantripsList',
-      'readOnly',
-    ]),
-    ...mapGetters(['modifiers']),
+    abilities() {
+      return state.abilities;
+    },
+    className() {
+      return state.className;
+    },
+    spClass() {
+      return state.spClass;
+    },
+    spAbility() {
+      return state.spAbility;
+    },
+    spSave() {
+      return state.spSave;
+    },
+    spAttack() {
+      return state.spAttack;
+    },
+    cantripsList() {
+      return state.cantripsList;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
+    modifiers() {
+      return storeModifiers.value;
+    },
 
     // button should collapse all cantrips if any are expanded
     shouldCollapseAll() {
@@ -141,14 +164,14 @@ export default {
 
   methods: {
     updateSpellInfo(field, val) {
-      this.$store.commit('updateSpellInfo', { field, val });
+      storeUpdateSpellInfo({ field, val });
     },
 
     updateCantripsCollapsed() {
       const newState = this.shouldCollapseAll;
 
       this.cantripsList.forEach((item, i) => {
-        this.$store.commit('updateListField', {
+        updateListField({
           field: 'cantripsList',
           i,
           val: item.val,
