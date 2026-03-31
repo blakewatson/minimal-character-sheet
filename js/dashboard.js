@@ -1,5 +1,5 @@
 import { Notyf } from 'notyf';
-import { exportSheetJSON, exportSheetMarkdown } from './export.js';
+import { exportSheetJSON } from './export.js';
 
 initDashboard();
 
@@ -36,13 +36,13 @@ export function initDashboard() {
     bindExportButtons(exportJsonButtons, exportSheetJSON);
   }
 
-  const exportMdButtons = Array.from(
-    document.querySelectorAll('[data-export-markdown]'),
-  );
+  // const exportMdButtons = Array.from(
+  //   document.querySelectorAll('[data-export-markdown]'),
+  // );
 
-  if (exportMdButtons.length > 0) {
-    bindExportButtons(exportMdButtons, exportSheetMarkdown);
-  }
+  // if (exportMdButtons.length > 0) {
+  //   bindExportButtons(exportMdButtons, exportSheetMarkdown);
+  // }
 
   const importButton = document.querySelector('[data-import-sheet]');
 
