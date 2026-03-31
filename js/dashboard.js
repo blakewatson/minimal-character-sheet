@@ -49,6 +49,13 @@ export function initDashboard() {
   if (importButton) {
     bindImportButton(importButton);
   }
+
+  // dismiss announcement banner
+  document
+    .querySelector('[data-dismiss-banner]')
+    ?.addEventListener('click', () =>
+      document.getElementById('announcement-banner').remove(),
+    );
 }
 
 function bindCheckboxes(isPublicCheckboxes) {

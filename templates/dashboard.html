@@ -16,6 +16,26 @@
     </div>
   </check>
 
+  <check if="{{ @show_announcement_banner }}">
+    <div
+      id="announcement-banner"
+      class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+    >
+      <span>
+        New features available.
+        <a href="#announcements">Read more</a>
+      </span>
+
+      <button
+        data-dismiss-banner
+        class="button ml-4 cursor-pointer border p-1 text-xs leading-none"
+        aria-label="Dismiss"
+      >
+        <i class="fa-sharp fa-times"></i>
+      </button>
+    </div>
+  </check>
+
   <h1 class="mt-8 mb-4">
     <check if="{{ @viewing_as_admin }}">
       <true>{{ @viewing_user_email }}'s Characters</true>
@@ -28,7 +48,7 @@
   </check>
 
   <check if="{{ !@viewing_as_admin }}">
-    <p class="my-4 flex flex-wrap gap-4">
+    <p class="mt-4 mb-6 flex flex-wrap gap-4">
       <a href="/add-sheet" class="button-primary text-sm">
         <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
         Add a character sheet
@@ -195,14 +215,14 @@
 
     <hr class="my-8" />
 
-    <h2>Announcements</h2>
+    <h2 id="announcements">Announcements</h2>
 
     <div class="announcement">
       <p>
         <strong>2026-03-30:</strong> You can now import, export, and duplicate
         character sheets right from the dashboard, making it easy to share
         sheets between accounts or use an existing sheet as a starting point. I
-        also did some spring cleaning with the code behind the scenes. please
+        also did some spring cleaning with the code behind the scenes. Please
         <a href="mailto:blake@blakewatson.com">get in touch</a> if you come
         across any problems.
       </p>

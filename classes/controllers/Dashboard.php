@@ -65,6 +65,21 @@ class Dashboard {
         $f3->set( 'sheets', $sheets );
         $f3->set( 'dashboard', true );
         $f3->set( 'email', $current_user_email );
+
+        // Show announcement banner if user hasn't seen the latest version
+        // Skip if the announcement is older than 3 months to avoid stale notifications
+        $latest_announcement = '2026-03-30';
+        $announcement_age = ( new \DateTime() )->diff( new \DateTime( $latest_announcement ) )->days;
+        $f3->set( 'show_announcement_banner', false );
+        
+        if( $announcement_age <= 90 ) {
+            $seen = isset( $_COOKIE['announcements_seen'] ) ? $_COOKIE['announcements_seen'] : '';
+            if( $seen !== $latest_announcement ) {
+                $f3->set( 'show_announcement_banner', true );
+                setcookie( 'announcements_seen', $latest_announcement, time() + 60 * 60 * 24 * 365, '/' );
+            }
+        }
+
         $this->auth->set_csrf();
         echo \Template::instance()->render( 'templates/dashboard.html' );
     }
