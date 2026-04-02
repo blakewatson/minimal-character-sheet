@@ -1,11 +1,13 @@
 .ddev/**
 .devcontainer/**
 .planning/**
-etl/**
-node_modules/**
+.deployignore
 .gitignore
+.prettierrc
+etl/**
+node_modules/\*_
 CLAUDE.md
-composer.*
+composer._
 LICENSE.txt
 package-lock.json
 package.json
