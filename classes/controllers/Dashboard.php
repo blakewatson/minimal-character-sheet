@@ -68,7 +68,7 @@ class Dashboard {
 
         // Show announcement banner if user hasn't seen the latest version
         // Skip if the announcement is older than 3 months to avoid stale notifications
-        $latest_announcement = '2026-03-30';
+        $latest_announcement = '2026-04-01';
         $announcement_age = ( new \DateTime() )->diff( new \DateTime( $latest_announcement ) )->days;
         $f3->set( 'show_announcement_banner', false );
         
