@@ -5,9 +5,9 @@
 .gitignore
 .prettierrc
 etl/**
-node*modules
+node_modules/**
 CLAUDE.md
-composer.*
+composer.**
 LICENSE.txt
 package-lock.json
 package.json
