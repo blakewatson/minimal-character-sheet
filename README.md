@@ -21,13 +21,13 @@ A digital character sheet for D&D 5e. Create, edit, and manage your characters o
 
    ```dotenv
    POSTMARK_SECRET="your_postmark_api_key_here"
-   POSTMAR_FROM="fromemail@example.com" # new user emails will come from this address
+   POSTMARK_FROM="fromemail@example.com" # new user emails will come from this address
    ENV="DEVELOPMENT" # emails are sent to the Postmark test address instead of the user's email address
    ALLOW_SIGNUPS=1 # optional, if you want to let people register accounts
    ADMIN_ONLY=1 # optional, restrict logging in to only admin users
    ```
 
-4. **Secure the data folder** - ensure your web server blocks access to the `/data` directory as it contains the SQLite database.
+4. **Secure the private directories** - ensure your web server blocks access to the `/data` directory as it contains the SQLite database. You will also want to block access to the `.env` file, the `migrations` directory and the `etl` directory. I've already included `.htaccess` files to this end.
 
 ## Requirements
 
@@ -44,6 +44,10 @@ A digital character sheet for D&D 5e. Create, edit, and manage your characters o
 - [Vite](https://vite.dev/) for asset compilation
 
 ## Developer roadmap
+
+The project structure is really old and needs to be refactored to keep private files and directories out of the document root. I will look into this if there is sufficient interest in self-hosting the app.
+
+As far as user-facing features, here is what is on my word map.
 
 - Export character sheets in plain text (Markdown)
 - A nicer way for groups to share their character sheets with each other
