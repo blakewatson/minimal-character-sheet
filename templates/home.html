@@ -27,7 +27,10 @@
   </p>
 
   <p class="my-8">
-    <a href="/register" class="button-primary mb-2">Get a free account</a>
+    <check if="{{ @allow_signups }}">
+      <a href="/register" class="button-primary mb-2">Get a free account</a>
+    </check>
+
     <a href="/dashboard" class="button">Go to dashboard</a>
   </p>
 
@@ -138,7 +141,10 @@
   </p>
 
   <p class="my-8">
-    <a href="/register" class="button-primary mb-2">Get a free account</a>
+    <check if="{{ @allow_signups }}">
+      <a href="/register" class="button-primary mb-2">Get a free account</a>
+    </check>
+
     <a href="/dashboard" class="button">Go to dashboard</a>
   </p>
 

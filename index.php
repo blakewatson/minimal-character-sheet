@@ -29,6 +29,12 @@ $f3->set( 'DEBUG', $debug_level );
 $f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/' );
 $f3->set( 'DB', new \DB\SQL( 'sqlite:data/db.sqlite3' ) );
 
+// Allow only admins to access the site?
+$f3->set( 'admin_only', ($_ENV['ADMIN_ONLY'] ?? null) === '1' );
+
+// allow signups only if ALLOW_SIGNUPS and not ADMIN_ONLY
+$f3->set( 'allow_signups', ($_ENV['ALLOW_SIGNUPS'] ?? null) === '1' && !$f3->get( 'admin_only' ));
+
 // homepage
 $f3->route( 'GET /', function( $f3 ) {
     $f3->set( 'lightbox', true );
@@ -57,11 +63,13 @@ $f3->route( 'POST /login', 'Authentication->login' );
 $f3->route( 'GET /logout', 'Authentication->logout' );
 
 // registration
-$f3->route( 'GET /register/confirm/@email/@clear_token', 'Authentication->confirm' );
-$f3->route( 'GET /register/confirm/send', 'Authentication->resend_confirmation_form' );
-$f3->route( 'POST /register/confirm/send', 'Authentication->resend_confirmation' );
-$f3->route( 'GET /register', 'Authentication->registration_form' );
-$f3->route( 'POST /register', 'Authentication->register' );
+if ($f3->get('allow_signups')) {
+    $f3->route( 'GET /register/confirm/@email/@clear_token', 'Authentication->confirm' );
+    $f3->route( 'GET /register/confirm/send', 'Authentication->resend_confirmation_form' );
+    $f3->route( 'POST /register/confirm/send', 'Authentication->resend_confirmation' );
+    $f3->route( 'GET /register', 'Authentication->registration_form' );
+    $f3->route( 'POST /register', 'Authentication->register' );
+}
 
 // password reset
 $f3->route( 'GET /request-password-reset', 'Authentication->request_password_reset_form' );

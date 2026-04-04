@@ -169,6 +169,14 @@ class Authentication {
             return;
         }
 
+        // if ADMIN_ONLY, disallow regular users
+        if ($f3->get( 'admin_only' ) && !$user->is_admin) {
+            $f3->set( 'error_message', 'Log in is currently restricted to admins only.' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/login.html' );
+            return;
+        }
+
         // check if user has confirmed
         if( ! $user->get( 'confirmed' ) ) {
             $f3->set( 'failed_confirmation', true );
@@ -404,13 +412,19 @@ class Authentication {
 
     public function email_token( $user, $url_path, $subject, $message ) {
         $env = $_ENV['ENV'] ?? null;
-        $postmark_secret = $_ENV['POSTMARK_SECRET'];
+        $postmark_secret = $_ENV['POSTMARK_SECRET'] ?? null;
+        $postmark_from = $_ENV['POSTMARK_FROM'] ?? null;
+
+        if (!$postmark_secret || !$postmark_from) {
+            return;
+        }
+
         $client = new PostmarkClient( $postmark_secret );
         
         // construct email
         $email = $user->get( 'email' );
         $to = $email;
-        $from = 'minimalcharactersheet@blakewatson.com';
+        $from = $postmark_from;
         $subject = $subject;
         
         // if in development, use test email
