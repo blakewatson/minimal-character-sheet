@@ -76,6 +76,8 @@
         :read-only="readOnly"
       ></text-section>
     </div>
+
+    <dice-panel></dice-panel>
   </div>
 </template>
 
@@ -87,6 +89,7 @@ import { throttle } from '../utils';
 import Abilities from './Abilities.vue';
 import Attacks from './Attacks.vue';
 import Bio from './Bio.vue';
+import DicePanel from './DicePanel/DicePanel.vue';
 import Equipment from './Equipment.vue';
 import Proficiency from './Proficiency.vue';
 import Skills from './Skills.vue';
@@ -370,6 +373,7 @@ export default {
     equipment: Equipment,
     spells: Spells,
     'text-section': TextSection,
+    'dice-panel': DicePanel,
   },
 
   mounted() {
