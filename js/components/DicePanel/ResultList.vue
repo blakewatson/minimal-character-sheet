@@ -17,11 +17,11 @@
             `d${sides}${hasMultipleDiceTypes(result) ? ':' : ''}`
           }}</span>
 
-          <strong v-if="hasMultipleDiceTypes(result)">{{
+          <strong class="mr-2" v-if="hasMultipleDiceTypes(result)">{{
             getTotal(result, sides)
           }}</strong>
 
-          <span class="ml-2" v-if="result[`d${sides}`].length > 1"
+          <span class="" v-if="result[`d${sides}`].length > 1"
             >(<template v-for="(die, i) in result[`d${sides}`]" :key="i"
               ><span
                 :class="{
