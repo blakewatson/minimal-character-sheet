@@ -1,6 +1,9 @@
     <script src="{{ @BASE }}/js/settings.js"></script>
 
     <check if="{{ isset(@app) }}">
+        <repeat group="{{ viteCssFromJs('js/app.js') }}" value="{{ @cssFile }}">
+            <link rel="stylesheet" href="{{ @BASE }}{{ @cssFile }}" />
+        </repeat>
         <script src="{{ @BASE }}/js/lib/markdown-it.min.js"></script>
         <script>window.sheet = "{{ @sheet | raw }}";</script>
         <script>window.characterName = "{{ @character_name | raw }}";</script>

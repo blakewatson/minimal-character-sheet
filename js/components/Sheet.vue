@@ -1,80 +1,89 @@
 <template>
-  <div id="sheet" class="mx-auto mt-10 max-w-162.5 px-4 sm:mt-12 sm:px-0">
-    <tabs
-      :has-unsaved-changes="hasUnsavedChanges"
-      :is-error="isError"
-      :is-retrying="isRetrying"
-      :is-saving="isSaving"
-      :retry-count="retryCount"
-      :retry-max="retryMax"
-      :view="view"
-      @manual-save="manualSave"
-      @update-view="view = $event"
-    ></tabs>
+  <div
+    :class="{
+      ['flex max-w-275.5 gap-8 px-4 max-[1000px]:max-w-162.5']:
+        maximizedDicePanel,
+      ['max-w-162.5']: !maximizedDicePanel,
+    }"
+    class="mx-auto w-full"
+  >
+    <div id="sheet" class="mt-10 max-w-162.5 px-4 sm:mt-12 sm:px-0">
+      <tabs
+        :has-unsaved-changes="hasUnsavedChanges"
+        :is-error="isError"
+        :is-retrying="isRetrying"
+        :is-saving="isSaving"
+        :retry-count="retryCount"
+        :retry-max="retryMax"
+        :view="view"
+        @manual-save="manualSave"
+        @update-view="view = $event"
+      ></tabs>
 
-    <bio class=""></bio>
+      <bio class=""></bio>
 
-    <div class="" v-show="view === 'main'">
-      <proficiency></proficiency>
+      <div class="" v-show="view === 'main'">
+        <proficiency></proficiency>
 
-      <abilities></abilities>
+        <abilities></abilities>
 
-      <skills></skills>
+        <skills></skills>
 
-      <attacks></attacks>
+        <attacks></attacks>
 
-      <trackable-fields></trackable-fields>
+        <trackable-fields></trackable-fields>
 
-      <text-section
-        title="Features & Traits"
-        field="featuresText"
-        :read-only="readOnly"
-      ></text-section>
+        <text-section
+          title="Features & Traits"
+          field="featuresText"
+          :read-only="readOnly"
+        ></text-section>
 
-      <equipment></equipment>
+        <equipment></equipment>
 
-      <text-section
-        title="Other Proficiencies & Languages"
-        field="proficienciesText"
-        :read-only="readOnly"
-      ></text-section>
-    </div>
+        <text-section
+          title="Other Proficiencies & Languages"
+          field="proficienciesText"
+          :read-only="readOnly"
+        ></text-section>
+      </div>
 
-    <div class="" v-show="view === 'spells'">
-      <spells></spells>
-    </div>
+      <div class="" v-show="view === 'spells'">
+        <spells></spells>
+      </div>
 
-    <div class="" v-show="view === 'details'">
-      <text-section
-        title="Traits, Ideals, Bonds, & Flaws"
-        field="personalityText"
-        :read-only="readOnly"
-        v-if="!is_2024"
-      ></text-section>
+      <div class="" v-show="view === 'details'">
+        <text-section
+          title="Traits, Ideals, Bonds, & Flaws"
+          field="personalityText"
+          :read-only="readOnly"
+          v-if="!is_2024"
+        ></text-section>
 
-      <text-section
-        title="Appearance & Backstory"
-        field="backstoryText"
-        :read-only="readOnly"
-      ></text-section>
+        <text-section
+          title="Appearance & Backstory"
+          field="backstoryText"
+          :read-only="readOnly"
+        ></text-section>
 
-      <text-section
-        title="Treasure"
-        field="treasureText"
-        :read-only="readOnly"
-      ></text-section>
+        <text-section
+          title="Treasure"
+          field="treasureText"
+          :read-only="readOnly"
+        ></text-section>
 
-      <text-section
-        title="Notes"
-        field="notesText"
-        :read-only="readOnly"
-      ></text-section>
+        <text-section
+          title="Notes"
+          field="notesText"
+          :read-only="readOnly"
+        ></text-section>
 
-      <text-section
-        title="Allies & Organizations"
-        field="organizationsText"
-        :read-only="readOnly"
-      ></text-section>
+        <text-section
+          title="Allies & Organizations"
+          field="organizationsText"
+          :read-only="readOnly"
+        ></text-section>
+      </div>
     </div>
 
     <dice-panel></dice-panel>
@@ -84,7 +93,7 @@
 <script>
 import { Notyf } from 'notyf';
 import { watch } from 'vue';
-import { getJSON, initializeState, state, updateState } from '../store';
+import { getSheetJSON, initializeState, state, updateState } from '../store';
 import { throttle } from '../utils';
 import Abilities from './Abilities.vue';
 import Attacks from './Attacks.vue';
@@ -121,6 +130,9 @@ export default {
   computed: {
     is_2024() {
       return state.is_2024;
+    },
+    maximizedDicePanel() {
+      return state.diceMaximized;
     },
     readOnly() {
       return state.readOnly;
@@ -168,7 +180,7 @@ export default {
 
       // Step 1: Get the current sheet data as JSON from the store
       try {
-        var json = getJSON();
+        var json = getSheetJSON();
       } catch (error) {
         // If we can't serialize the data, mark as error and stop
         console.error('Caught error', error);

@@ -113,4 +113,23 @@ function vite($entry) {
     return '/dist/' . $entry;
 }
 
+/**
+ * Returns companion CSS paths for a JS entry from the Vite manifest.
+ */
+function viteCssFromJs($entry) {
+    static $manifest;
+    if (!$manifest) {
+        $manifestPath = __DIR__ . '/dist/.vite/manifest.json';
+        if (file_exists($manifestPath)) {
+            $manifest = json_decode(file_get_contents($manifestPath), true);
+        } else {
+            $manifest = [];
+        }
+    }
+    if (isset($manifest[$entry]['css'])) {
+        return array_map(fn($path) => '/dist/' . $path, $manifest[$entry]['css']);
+    }
+    return [];
+}
+
 $f3->run();

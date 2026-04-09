@@ -192,6 +192,7 @@ const defaultState = {
   treasureText: {},
   organizationsText: {},
   notesText: {},
+  diceMaximized: false,
   passivePerceptionOverride: null,
   spClass: '',
   spAbility: 'WIS',
@@ -210,6 +211,9 @@ const defaultState = {
 };
 
 export const state = reactive(JSON.parse(JSON.stringify(defaultState)));
+
+// UI-only keys are excluded from database serialization
+const uiOnlyKeys = new Set(['diceMaximized']);
 
 // Computed refs
 export const modifiers = computed(() => {
@@ -573,6 +577,19 @@ export function getJSON() {
   return JSON.stringify(state);
 }
 
+export function getSheetJSON() {
+  const raw = JSON.parse(getJSON());
+  for (const key of uiOnlyKeys) {
+    delete raw[key];
+  }
+  return JSON.stringify(raw);
+}
+
+export function setDiceMaximized(val) {
+  state.diceMaximized = val;
+  localStorage.setItem('dicePanelMaximized', val);
+}
+
 export function initializeState(payload) {
   var sheet = JSON.parse(payload.sheet);
   // Start with a deep copy of the default state
@@ -663,6 +680,9 @@ export function initializeState(payload) {
   newState.readOnly = sheet.is_public && sheet.email === null;
 
   Object.assign(state, newState);
+
+  // Restore UI-only state from localStorage
+  state.diceMaximized = localStorage.getItem('dicePanelMaximized') === 'true';
 }
 
 export function updateState(payload) {
