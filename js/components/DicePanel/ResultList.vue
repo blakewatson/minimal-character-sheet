@@ -2,7 +2,7 @@
   <div class="flex flex-col p-[1.5cqi] [&>*+*]:mt-4" ref="resultList">
     <p
       :key="result.id"
-      class="mt-auto mb-0 leading-tight"
+      class="mt-auto mb-0 leading-tight wrap-break-word"
       v-for="result in results"
     >
       <span
@@ -17,7 +17,7 @@
 
       <template v-for="sides in [100, 20, 12, 10, 8, 6, 4]" :key="sides">
         <span class="mr-4" v-if="result[`d${sides}`].length > 0">
-          <span class="mr-2">{{
+          <span class="mr-2 wrap-normal">{{
             `d${sides}${hasMultipleDiceTypes(result) ? ':' : ''}`
           }}</span>
 
