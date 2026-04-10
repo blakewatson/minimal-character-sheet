@@ -682,7 +682,10 @@ export function initializeState(payload) {
   Object.assign(state, newState);
 
   // Restore UI-only state from localStorage
-  state.diceMaximized = localStorage.getItem('dicePanelMaximized') === 'true';
+  var hideDiceRoller =
+    localStorage.getItem('setting-hide-dice-roller') === 'true';
+  state.diceMaximized =
+    !hideDiceRoller && localStorage.getItem('dicePanelMaximized') === 'true';
 }
 
 export function updateState(payload) {

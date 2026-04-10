@@ -1,6 +1,10 @@
 <template>
-  <div class="p-[1.5cqi] [&>*+*]:mt-4" ref="resultList">
-    <p :key="result.id" class="my-0 leading-tight" v-for="result in results">
+  <div class="flex flex-col p-[1.5cqi] [&>*+*]:mt-4" ref="resultList">
+    <p
+      :key="result.id"
+      class="mt-auto mb-0 leading-tight"
+      v-for="result in results"
+    >
       <span
         :class="{
           'text-light-accent dark:text-dark-accent': isCriticalTotal(result),
@@ -37,7 +41,7 @@
       </template>
     </p>
 
-    <p class="my-0 leading-tight" v-if="results.length === 0">
+    <p class="mt-auto mb-0 leading-tight" v-if="results.length === 0">
       Results will be displayed here.
     </p>
   </div>

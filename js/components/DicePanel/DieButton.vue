@@ -1,6 +1,6 @@
 <template>
   <button
-    class="dark:hover:text-dark-accent hover:text-light-accent dark:hover:bg-blackw relative flex aspect-square appearance-none flex-col items-center justify-center gap-2 rounded-xs border p-2 hover:bg-neutral-100 max-[350px]:p-1"
+    class="dark:hover:text-dark-accent hover:text-light-accent relative flex aspect-square appearance-none flex-col items-center justify-center gap-2 rounded-xs border p-2 hover:bg-neutral-100 max-[350px]:p-1 dark:hover:bg-black"
   >
     <slot name="icon">
       <i

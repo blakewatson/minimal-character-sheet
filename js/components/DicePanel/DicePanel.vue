@@ -3,7 +3,7 @@
     :class="{
       ['fixed right-0 bottom-0 max-h-3/4 w-full max-w-[100vw] min-[600px]:right-4 min-[600px]:max-w-97']:
         !maximized,
-      ['dice-panel-maximized fixed right-0 bottom-0 max-h-3/4 w-full max-w-[100vw] min-[600px]:right-4 min-[600px]:max-w-97 min-[1000px]:sticky min-[1000px]:top-10 min-[1000px]:right-auto min-[1000px]:bottom-auto min-[1000px]:max-w-97']:
+      ['dice-panel-maximized fixed right-0 bottom-0 max-h-3/4 w-full max-w-[100vw] min-[600px]:right-4 min-[600px]:max-w-97 min-[1000px]:sticky min-[1000px]:top-10 min-[1000px]:right-auto min-[1000px]:bottom-auto min-[1000px]:mt-10 min-[1000px]:max-h-none min-[1000px]:max-w-97']:
         maximized,
     }"
     class="@container flex flex-col overflow-hidden"
@@ -12,11 +12,12 @@
       class="bg-light-background dark:bg-dark-background flex min-h-0 flex-1 flex-col rounded-xs border dark:shadow dark:shadow-black"
     >
       <button
-        type="button"
-        @click="toggle"
         :aria-expanded="isOpen || maximized"
+        :disabled="maximized"
+        @click="toggle"
         aria-controls="dice-panel-content"
-        class="text-reverse bg-reverse p-[2cqi] text-left leading-none"
+        class="text-reverse bg-reverse p-[2cqi] text-left leading-none disabled:cursor-default"
+        type="button"
       >
         Dice
       </button>
@@ -34,8 +35,21 @@
         <div class="shrink-0 p-[1.5cqi]">
           <!-- Buttons for resetting and rolling the dice -->
           <div class="flex gap-[1.5cqi]">
-            <button @click="reset" class="button w-1/2">Reset</button>
-            <button @click="roll" class="button-primary w-1/2">Roll</button>
+            <button
+              :disabled="!hasAnySelectedDice"
+              @click="reset"
+              class="button w-1/2"
+            >
+              Reset
+            </button>
+
+            <button
+              :disabled="!hasAnySelectedDice"
+              @click="roll"
+              class="button-primary w-1/2"
+            >
+              Roll
+            </button>
           </div>
 
           <!-- Dice tray -->
@@ -177,6 +191,10 @@ export default {
   },
 
   computed: {
+    hasAnySelectedDice() {
+      return Object.values(this.selected).some((count) => count > 0);
+    },
+
     maximized: {
       get() {
         return state.diceMaximized;
@@ -200,6 +218,7 @@ export default {
         this.isOpen = true;
       }
     },
+
     isOpen(val) {
       localStorage.setItem('dicePanelOpen', val);
     },
@@ -234,7 +253,9 @@ export default {
         d100: [],
       };
 
-      let hasAnyDice = false;
+      if (!this.hasAnySelectedDice) {
+        return;
+      }
 
       for (const key in this.selected) {
         const sides = parseInt(key.slice(1));
@@ -244,17 +265,11 @@ export default {
           continue;
         }
 
-        hasAnyDice = true;
-
         for (let i = 0; i < count; i++) {
           const num = diceStore.get(sides);
           result[key].push(num);
           result.total += num;
         }
-      }
-
-      if (!hasAnyDice) {
-        return;
       }
 
       this.results.push(result);

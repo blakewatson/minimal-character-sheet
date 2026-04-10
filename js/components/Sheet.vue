@@ -2,8 +2,8 @@
   <div
     :class="{
       ['flex max-w-275.5 gap-8 px-4 max-[1000px]:max-w-162.5']:
-        maximizedDicePanel,
-      ['max-w-162.5']: !maximizedDicePanel,
+        maximizedDicePanel && !hideDiceRoller,
+      ['max-w-162.5']: !maximizedDicePanel || hideDiceRoller,
     }"
     class="mx-auto w-full"
   >
@@ -86,7 +86,7 @@
       </div>
     </div>
 
-    <dice-panel></dice-panel>
+    <dice-panel v-if="!hideDiceRoller"></dice-panel>
   </div>
 </template>
 
@@ -130,6 +130,9 @@ export default {
   computed: {
     is_2024() {
       return state.is_2024;
+    },
+    hideDiceRoller() {
+      return localStorage.getItem('setting-hide-dice-roller') === 'true';
     },
     maximizedDicePanel() {
       return state.diceMaximized;

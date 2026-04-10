@@ -19,6 +19,14 @@
       setDarkMode(event.target.checked);
     });
 
+    // hide dice roller
+    var inputHideDiceRoller = document.getElementById('settingHideDiceRoller');
+    inputHideDiceRoller.checked =
+      localStorage.getItem('setting-hide-dice-roller') === 'true';
+    inputHideDiceRoller.addEventListener('input', (event) => {
+      localStorage.setItem('setting-hide-dice-roller', event.target.checked);
+    });
+
     // textarea font
     var inputTextareaFont = document.getElementById('settingTextareaFont');
     inputTextareaFont.value =
