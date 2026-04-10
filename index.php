@@ -28,6 +28,7 @@ $f3->set( 'DEBUG', $debug_level );
 
 $f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/' );
 $f3->set( 'DB', new \DB\SQL( 'sqlite:data/db.sqlite3' ) );
+$f3->set( 'CACHE', 'folder=tmp/cache/' );
 
 // Allow only admins to access the site?
 $f3->set( 'admin_only', ($_ENV['ADMIN_ONLY'] ?? null) === '1' );
@@ -56,6 +57,123 @@ $f3->route( 'DELETE /sheet/@sheet_slug', 'Dashboard->delete_sheet' );
 // only if the sheet has been updated.
 $f3->route( 'GET /sheet-data/@sheet_slug', 'Dashboard->get_sheet_data' );
 $f3->route( 'GET /print/@sheet_slug', 'Dashboard->print_sheet' );
+
+// random.org proxy (keeps API key server-side)
+$f3->route( 'POST /api/random', function( $f3 ) {
+    header( 'Content-Type: application/json' );
+
+    // initialize DB-backed session so we can check auth
+    new \DB\SQL\Session( $f3->get( 'DB' ), 'sessions', true, function( $sess ) { return true; } );
+
+    // auth check
+    if ( ! $f3->get( 'SESSION.email' ) ) {
+        $f3->status( 401 );
+        echo json_encode([ 'success' => false, 'reason' => 'unauthorized' ]);
+        return;
+    }
+
+    // rate limit: 10 requests per 60 seconds per IP
+    $cache = \Cache::instance();
+    $ip = $f3->get( 'IP' );
+    $cacheKey = 'ratelimit_random_' . md5( $ip );
+    $limit = 10;
+    $window = 60;
+
+    if ( $cache->exists( $cacheKey, $count ) ) {
+        if ( $count >= $limit ) {
+            $f3->status( 429 );
+            echo json_encode([ 'success' => false, 'reason' => 'rate_limited' ]);
+            return;
+        }
+        $cache->set( $cacheKey, $count + 1, $window );
+    } else {
+        $cache->set( $cacheKey, 1, $window );
+    }
+
+    // check API key is configured
+    $apiKey = $_ENV['RANDOM_ORG_API_KEY'] ?? '';
+    if ( ! $apiKey ) {
+        $f3->status( 503 );
+        echo json_encode([ 'success' => false, 'reason' => 'not_configured' ]);
+        return;
+    }
+
+    // parse and validate request body
+    $body = json_decode( file_get_contents( 'php://input' ), true );
+    if ( ! $body ) {
+        $f3->status( 400 );
+        echo json_encode([ 'success' => false, 'reason' => 'invalid_json' ]);
+        return;
+    }
+
+    $n = $body['n'] ?? null;
+    $min = $body['min'] ?? null;
+    $max = $body['max'] ?? null;
+    $allowedMax = [ 4, 6, 8, 10, 12, 20, 100 ];
+
+    if ( ! is_int( $n ) || $n < 1 || $n > 100 ) {
+        $f3->status( 400 );
+        echo json_encode([ 'success' => false, 'reason' => 'invalid_n' ]);
+        return;
+    }
+
+    if ( ! is_int( $min ) || $min !== 1 ) {
+        $f3->status( 400 );
+        echo json_encode([ 'success' => false, 'reason' => 'invalid_min' ]);
+        return;
+    }
+
+    if ( ! is_int( $max ) || ! in_array( $max, $allowedMax, true ) ) {
+        $f3->status( 400 );
+        echo json_encode([ 'success' => false, 'reason' => 'invalid_max' ]);
+        return;
+    }
+
+    // proxy to RANDOM.ORG v4 API
+    $payload = json_encode([
+        'jsonrpc' => '2.0',
+        'method' => 'generateIntegers',
+        'params' => [
+            'apiKey' => $apiKey,
+            'n' => $n,
+            'min' => $min,
+            'max' => $max,
+            'replacement' => true,
+            'base' => 10,
+        ],
+        'id' => 1,
+    ]);
+
+    $ch = curl_init( 'https://api.random.org/json-rpc/4/invoke' );
+    curl_setopt_array( $ch, [
+        CURLOPT_POST => true,
+        CURLOPT_POSTFIELDS => $payload,
+        CURLOPT_HTTPHEADER => [ 'Content-Type: application/json' ],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT => 10,
+    ]);
+    $response = curl_exec( $ch );
+    $httpCode = curl_getinfo( $ch, CURLINFO_HTTP_CODE );
+    curl_close( $ch );
+
+    if ( $httpCode !== 200 || ! $response ) {
+        $f3->status( 502 );
+        echo json_encode([ 'success' => false, 'reason' => 'upstream_error' ]);
+        return;
+    }
+
+    $result = json_decode( $response, true );
+    if ( ! isset( $result['result']['random']['data'] ) ) {
+        $f3->status( 502 );
+        echo json_encode([ 'success' => false, 'reason' => 'unexpected_response' ]);
+        return;
+    }
+
+    echo json_encode([
+        'success' => true,
+        'data' => $result['result']['random']['data'],
+    ]);
+});
 
 // login/logout
 $f3->route( 'GET /login', 'Authentication->login_form' );

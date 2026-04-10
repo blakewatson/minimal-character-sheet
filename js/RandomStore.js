@@ -6,7 +6,6 @@ class RandomStore {
     this.siloThreshold = 50;
     this.siloCapacity = 100;
     this.makingRequest = false;
-    this.apiKey = import.meta.env.VITE_RANDOM_ORG_API_KEY;
   }
 
   loadJSON(key) {
@@ -26,7 +25,12 @@ class RandomStore {
   get(sides) {
     const silo = this.getSilo(sides);
 
-    if (!silo || silo.length < 1) {
+    if (!silo) {
+      return Math.floor(Math.random() * sides) + 1;
+    }
+
+    if (silo.length === 0) {
+      this.fillSilo(silo, sides);
       return Math.floor(Math.random() * sides) + 1;
     }
 
@@ -53,7 +57,7 @@ class RandomStore {
 
   // top off silo to 100 if it has under 50
   fillSilo(silo, sides) {
-    if (silo.length > this.siloThreshold || !this.apiKey) {
+    if (silo.length > this.siloThreshold) {
       return;
     }
 
@@ -65,28 +69,25 @@ class RandomStore {
 
     this.makingRequest = true;
 
-    fetch('https://api.random.org/json-rpc/2/invoke', {
+    fetch('/api/random', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        jsonrpc: '2.0',
-        method: 'generateIntegers',
-        params: {
-          apiKey: this.apiKey,
-          n: amount,
-          min: 1,
-          max: sides,
-          replacement: true,
-          base: 10,
-        },
-        id: 1,
+        n: amount,
+        min: 1,
+        max: sides,
       }),
     })
       .then((response) => response.json())
       .then((data) => {
-        this.store[sides] = this.store[sides].concat(data.result.random.data);
+        if (data.success && data.data) {
+          this.store[sides] = this.store[sides].concat(data.data);
+        }
         this.makingRequest = false;
         this.saveJSON('randomstore', this.store);
+      })
+      .catch(() => {
+        this.makingRequest = false;
       });
   }
 }
