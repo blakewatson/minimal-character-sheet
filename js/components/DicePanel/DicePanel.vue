@@ -76,7 +76,7 @@
               :count="selected['d20']"
               :sides="20"
               @click="addToSelection(20)"
-              class="col-span-2 row-span-2 gap-4"
+              class="col-span-2 row-span-2 aspect-auto! gap-4"
             >
               <template #icon>
                 <i
@@ -276,6 +276,14 @@ export default {
 
       this.reset();
     },
+  },
+
+  mounted() {
+    window.addEventListener('resize', () => {
+      if (window.innerWidth < 1000) {
+        this.maximized = false;
+      }
+    });
   },
 
   components: {

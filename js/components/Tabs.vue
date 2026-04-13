@@ -1,7 +1,7 @@
 <template>
   <nav
     :class="{
-      'sm:max-w-267.5': dicePanelMaximized,
+      'min-[1000px]:max-w-267.5': dicePanelMaximized,
       'sm:max-w-162.5': !dicePanelMaximized,
     }"
     class="dark:bg-dark-background dark:text-dark-foreground bg-light-foreground fixed top-0 left-1/2 z-10 w-full -translate-x-1/2 rounded-b-xs text-neutral-50 dark:border-b dark:border-neutral-300"
