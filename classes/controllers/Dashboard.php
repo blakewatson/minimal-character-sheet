@@ -2,6 +2,7 @@
 
 class Dashboard {
 
+    public $latest_announcement = '2026-04-13';
     private $auth;
 
     public function __construct( $f3, $params ) {
@@ -68,15 +69,14 @@ class Dashboard {
 
         // Show announcement banner if user hasn't seen the latest version
         // Skip if the announcement is older than 3 months to avoid stale notifications
-        $latest_announcement = '2026-04-01';
-        $announcement_age = ( new \DateTime() )->diff( new \DateTime( $latest_announcement ) )->days;
+        $announcement_age = ( new \DateTime() )->diff( new \DateTime( $this->latest_announcement ) )->days;
         $f3->set( 'show_announcement_banner', false );
         
         if( $announcement_age <= 90 ) {
             $seen = isset( $_COOKIE['announcements_seen'] ) ? $_COOKIE['announcements_seen'] : '';
-            if( $seen !== $latest_announcement ) {
+            if( $seen !== $this->latest_announcement ) {
                 $f3->set( 'show_announcement_banner', true );
-                setcookie( 'announcements_seen', $latest_announcement, time() + 60 * 60 * 24 * 365, '/' );
+                setcookie( 'announcements_seen', $this->latest_announcement, time() + 60 * 60 * 24 * 365, '/' );
             }
         }
 
