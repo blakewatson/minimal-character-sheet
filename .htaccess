@@ -1,3 +1,7 @@
+<Files ".env">  
+  Require all denied
+</Files>
+
 # Enable rewrite engine and route requests to framework
 RewriteEngine On
 
