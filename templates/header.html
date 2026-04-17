@@ -29,10 +29,9 @@
       <script src="{{ @BASE }}/js/lib/baguetteBox.min.js"></script>
     </check>
 
-    <script
-      src="https://kit.fontawesome.com/194df485cf.js"
-      crossorigin="anonymous"
-    ></script>
+    <check if="{{ @font_awesome_kit_url }}">
+      <script src="{{ @font_awesome_kit_url }}" crossorigin="anonymous"></script>
+    </check>
 
     <script src="{{ @BASE }}/js/home.js"></script>
 

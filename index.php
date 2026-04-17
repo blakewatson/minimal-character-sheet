@@ -36,6 +36,9 @@ $f3->set( 'admin_only', ($_ENV['ADMIN_ONLY'] ?? null) === '1' );
 // allow signups only if ALLOW_SIGNUPS and not ADMIN_ONLY
 $f3->set( 'allow_signups', ($_ENV['ALLOW_SIGNUPS'] ?? null) === '1' && !$f3->get( 'admin_only' ));
 
+// set the font awesome kit URL from env for icon loading
+$f3->set( 'font_awesome_kit_url', $_ENV['FONT_AWESOME_KIT_URL'] ?? '' );
+
 // homepage
 $f3->route( 'GET /', function( $f3 ) {
     $f3->set( 'lightbox', true );
