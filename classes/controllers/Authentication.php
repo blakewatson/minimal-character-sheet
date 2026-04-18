@@ -442,12 +442,18 @@ class Authentication {
 
         $message = "$message\n\n$url";
 
-        $result = $client->sendEmail(
-            $from,
-            $to,
-            $subject,
-            $message
-        );
+        try {
+            $client->sendEmail(
+                $from,
+                $to,
+                $subject,
+                $message
+            );
+        } catch ( \Exception $e ) {
+            error_log( 'Postmark email error: ' . $e->getMessage() );
+            echo \Template::instance()->render( 'templates/email-error.html' );
+            exit;
+        }
     }
 
 }
