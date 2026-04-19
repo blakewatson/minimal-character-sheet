@@ -51,3 +51,7 @@ As far as user-facing features, here is what is on my roadmap.
 
 - Export character sheets in plain text (Markdown)
 - A nicer way for groups to share their character sheets with each other
+
+## A note about AI
+
+Like many developers, I am experimenting with LLMs in aiding me in my work. Mostly this is localized AI autocomplete (essential for me as a mobility-impaired developer), although I’ve had AI help with larger changes. But this app is _not_ vibe-coded. I’m reviewing all the code and I take responsibility for it.
