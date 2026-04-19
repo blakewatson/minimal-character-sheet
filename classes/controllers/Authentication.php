@@ -440,7 +440,9 @@ class Authentication {
             urlencode($user->token_cleartext)
         );
 
-        $message = "$message\n\n$url";
+        $link = "<a href=\"$url\">$url</a>";
+
+        $message = "$message<br><br>$link";
 
         try {
             $client->sendEmail(
