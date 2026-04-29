@@ -272,8 +272,9 @@ class Dashboard {
         if( $f3->get( 'SESSION.email' ) !== $sheet['email']) {
             $f3->status( 403 );
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'status' => 403 ]);
+            return;
         }
-        
+
         $value = $f3->get( 'REQUEST.is_public' );
         $sheetObj->set( 'is_public', $value === 'true' ? true : false );
         $sheetObj->save();

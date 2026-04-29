@@ -124,6 +124,12 @@ class Sheet extends \DB\SQL\Mapper {
     public function save_sheet( $id, $name, $data ) {
         $this->load( [ 'id=?', $id ] );
         if( $this->dry() ) return false;
+
+        if( !$data || !is_string( $data ) ) {
+            error_log( 'save_sheet: null or non-string data rejected for sheet ID: ' . $id );
+            return false;
+        }
+
         $this->set( 'name', $name );
 
         // Handle both JSON strings and already-decoded data to prevent double-encoding
@@ -132,18 +138,28 @@ class Sheet extends \DB\SQL\Mapper {
             // Data is already a JSON string - decode it first to get the actual object/array
             $decoded_data = json_decode( $data, true );
 
-            // If decoding fails, try using it as-is (shouldn't happen due to validation)
+            // If decoding fails, reject the save to prevent overwriting good data with garbage
             if( $decoded_data === null ) {
                 error_log( 'Failed to decode JSON in save_sheet for sheet ID: ' . $id );
-                $this->set( 'data', $data );
-            } else {
-                // Successfully decoded - re-encode it once for storage
-                // This automatically fixes any legacy double-encoded data
-                $this->set( 'data', json_encode( $decoded_data ) );
+                return false;
             }
+
+            // Successfully decoded - re-encode it once for storage
+            // This automatically fixes any legacy double-encoded data
+            $encoded = json_encode( $decoded_data );
+            if( !$encoded ) {
+                error_log( 'Failed to encode JSON in save_sheet for sheet ID: ' . $id );
+                return false;
+            }
+            $this->set( 'data', $encoded );
         } else {
             // Data is already decoded (array/object) - encode it once
-            $this->set( 'data', json_encode( $data ) );
+            $encoded = json_encode( $data );
+            if( !$encoded ) {
+                error_log( 'Failed to encode JSON in save_sheet for sheet ID: ' . $id );
+                return false;
+            }
+            $this->set( 'data', $encoded );
         }
 
         $this->set('updated_at', date('Y-m-d H:i:s'));

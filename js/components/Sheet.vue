@@ -198,6 +198,16 @@ export default {
         return false;
       }
 
+      if (!json || json === 'null') {
+        notyf.error({
+          duration: 0,
+          message:
+            'There was a problem saving. Try clicking save manually or refresh the page.',
+        });
+        this.isSaving = false;
+        return false;
+      }
+
       // Step 2: Prepare the POST request data
       const sheetSlug = document.querySelector('#sheet-slug').value; // Unique sheet identifier from hidden form field
       const csrf = document.querySelector('#csrf').value; // CSRF token for security
