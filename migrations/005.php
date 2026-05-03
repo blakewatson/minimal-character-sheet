@@ -8,6 +8,9 @@ $db = new DB\SQL('sqlite:'.ROOT_DIR.'/data/db.sqlite3');
 
 $db->exec('PRAGMA foreign_keys = ON;');
 
+// One-time setting to enable WAL mode for better concurrency and performance
+$db->exec('PRAGMA journal_mode = WAL;');
+
 // Get existing columns to check what needs to be added
 $columns = $db->exec('PRAGMA table_info(user);');
 $columnNames = array_column($columns, 'name');
