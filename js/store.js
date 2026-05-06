@@ -1,4 +1,4 @@
-import { reactive, computed } from 'vue';
+import { computed, reactive } from 'vue';
 import levelData from './level-data';
 
 const defaultState = {

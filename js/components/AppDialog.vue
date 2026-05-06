@@ -25,6 +25,8 @@
 export default {
   name: 'AppDialog',
 
+  emits: ['close', 'submit'],
+
   props: {
     closeLabel: {
       type: String,
