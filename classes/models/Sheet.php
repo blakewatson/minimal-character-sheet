@@ -122,7 +122,11 @@ class Sheet extends \DB\SQL\Mapper {
     }
 
     public function save_sheet( $id, $name, $data ) {
-        $this->load( [ 'id=?', $id ] );
+        // Reuse existing mapper state when already loaded with this record.
+        if( $this->dry() || (int) $this->id !== (int) $id ) {
+            $this->load( [ 'id=?', $id ] );
+        }
+
         if( $this->dry() ) return false;
 
         if( !$data || !is_string( $data ) ) {
@@ -167,8 +171,10 @@ class Sheet extends \DB\SQL\Mapper {
     }
 
     public function delete_sheet( $id ) {
-        error_log('Deleting sheet ' . $id);
-        $this->load( [ 'id=?', $id ] );
+        if( $this->dry() || (int) $this->id !== (int) $id ) {
+            $this->load( [ 'id=?', $id ] );
+        }
+
         if( $this->dry() ) return false;
         return $this->erase();
     }

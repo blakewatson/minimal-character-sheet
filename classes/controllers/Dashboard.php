@@ -61,6 +61,12 @@ class Dashboard {
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheets = $sheet->get_all_sheets( $email );
 
+        // If this is a normal user, then save the updated_at timestamp
+        if ( ! $viewing_as_admin ) {
+            $current_user->set( 'updated_at', date( 'Y-m-d H:i:s' ) );
+            $current_user->save();
+        }
+
         $f3->set( 'is_admin', $is_admin );
         $f3->set( 'viewing_as_admin', $viewing_as_admin );
         $f3->set( 'sheets', $sheets );
@@ -104,15 +110,21 @@ class Dashboard {
             return;
         }
         
+        // if it’s not public, enforce auth
+        if( ! $sheet_data['is_public'] ) {
+            $this->auth->bounce();
+        }
+        
         // if this is a public sheet and the current user does not own it…
         if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
             // …redact the email address
             $sheet_data['email'] = null;
         }
-        
-        // if it’s not public, enforce auth
-        if( ! $sheet_data['is_public'] ) {
-            $this->auth->bounce();
+
+        // if this is a logged-in user accessing their own sheet, update the updated_at timestamp
+        if ( strtolower( $sheet_data['email'] ) === strtolower( $email ) ) {
+            $sheet->set( 'updated_at', date( 'Y-m-d H:i:s' ) );
+            $sheet->save();
         }
         
         $character_name = $sheet_data['name'];
@@ -222,6 +234,19 @@ class Dashboard {
             $f3->status( 500 );
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'save_failed', 'status' => 500 ]);
             return;
+        }
+
+        // Update user activity at most once per minute to keep write pressure low.
+        try {
+            $f3->get( 'DB' )->exec(
+                "UPDATE user
+                 SET updated_at = CURRENT_TIMESTAMP
+                 WHERE email = ?
+                   AND (updated_at IS NULL OR updated_at < datetime('now', '-1 minute'))",
+                [ $email ]
+            );
+        } catch( \Exception $e ) {
+            error_log( 'Failed to update user updated_at in save_sheet for email: ' . $email );
         }
 
         echo json_encode([

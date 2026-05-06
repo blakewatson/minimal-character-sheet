@@ -1,0 +1,13 @@
+<include href="templates/header.html" />
+
+<div class="page mx-auto max-w-180 px-4 py-8">
+  <h1>Stats</h1>
+
+  <p><a href="/admin">Back to Admin Dashboard</a></p>
+
+  <repeat group="{{ @stats }}" value="{{ @stat }}">
+    <p><strong>{{ @stat.label }}:</strong> {{ @stat.value }}</p>
+  </repeat>
+</div>
+
+<include href="templates/footer.html" />

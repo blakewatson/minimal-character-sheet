@@ -201,6 +201,7 @@ $f3->route( 'POST /password-reset', 'Authentication->password_reset' );
 // admin dashboard
 $f3->route( 'GET /admin', 'Admin->admin_dashboard' );
 $f3->route( 'GET /admin/users', 'Admin->admin_users' );
+$f3->route( 'GET /admin/stats', 'Admin->stats' );
 $f3->route( 'GET|POST /admin/restore-sheet', 'Admin->restore_sheet' );
 
 // set up custom error page
