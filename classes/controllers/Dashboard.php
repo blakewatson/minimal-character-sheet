@@ -122,7 +122,7 @@ class Dashboard {
         }
 
         // if this is a logged-in user accessing their own sheet, update the updated_at timestamp
-        if ( strtolower( $sheet_data['email'] ) === strtolower( $email ) ) {
+        if ( $email && strtolower( $sheet_data['email'] ?? '' ) === strtolower( $email ) ) {
             $sheet->set( 'updated_at', date( 'Y-m-d H:i:s' ) );
             $sheet->save();
         }
@@ -222,7 +222,7 @@ class Dashboard {
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
+        if( ! $sheet_data['email'] || strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
             $f3->status( 403 );
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'unauthorized', 'status' => 403 ]);
             return;
@@ -271,7 +271,7 @@ class Dashboard {
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         $email = $f3->get( 'SESSION.email' );
         
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
+        if( ! $sheet_data['email'] || strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
             $f3->status( 403 );
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'status' => 403 ]);
             return;
