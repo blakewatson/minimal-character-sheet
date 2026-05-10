@@ -22,7 +22,17 @@ class Sheet extends \DB\SQL\Mapper {
         $this->is_2024 = $is_2024;
         $this->created_at = date('Y-m-d H:i:s');
         $this->updated_at = date('Y-m-d H:i:s');
-        $this->save();
+
+        $save_ok = $this->save();
+
+        // If save didn't work for some reason, then we're going to clear the
+        // reserved slug and return false.
+        if( !$save_ok || !(int) $this->id ) {
+            $this->slug = null;
+            return false;
+        }
+
+        return (int) $this->id;
     }
 
     public function create_sheet_with_data( $name, $email, $data, $is_2024 = true ) {
@@ -62,9 +72,16 @@ class Sheet extends \DB\SQL\Mapper {
         $sheet_data['characterName'] = $name;
 
         // Encode once for storage in the database
-        $this->data = json_encode( $sheet_data );
+        $str_data = json_encode( $sheet_data );
 
+        if( !$str_data ) {
+            error_log( 'Failed to encode JSON in create_sheet_with_data for sheet slug: ' . $slug );
+            return;
+        }
+
+        $this->data = $str_data;
         $this->save();
+        return (int) $this->id;
     }
 
     public function get_sheet( $id ) {

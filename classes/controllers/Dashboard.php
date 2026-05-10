@@ -186,8 +186,13 @@ class Dashboard {
             $email = $f3->get( 'SESSION.email' );
             $is_2024 = $f3->get( 'POST.is_2024' ) === '1';
             $sheet = new Sheet( $f3->get( 'DB' ) );
-            $sheet->create_sheet( $name, $email, $is_2024 );
-            $f3->reroute( '/dashboard' );
+            $id_or_false = $sheet->create_sheet( $name, $email, $is_2024 );
+
+            if ( $id_or_false && $sheet->slug ) {
+                $f3->reroute( '/sheet/' . $sheet->slug );
+            } else {
+                $f3->reroute( '/dashboard' );
+            }
         } else {
             $this->auth->set_csrf();
             echo \Template::instance()->render( 'templates/add-sheet.html' );
