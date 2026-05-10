@@ -7,7 +7,10 @@
     }"
     class="mx-auto w-full"
   >
-    <div id="sheet" class="mt-10 max-w-162.5 px-4 sm:mt-12 sm:px-0">
+    <div
+      id="sheet"
+      class="mt-10 w-full max-w-162.5 px-4 pb-12 sm:mt-12 sm:px-0"
+    >
       <tabs
         :has-unsaved-changes="hasUnsavedChanges"
         :is-error="isError"
