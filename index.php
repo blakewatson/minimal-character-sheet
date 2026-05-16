@@ -26,7 +26,7 @@ $debug_level = $debug_level ? $debug_level : 0;
 
 $f3->set( 'DEBUG', $debug_level );
 
-$f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/' );
+$f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/; classes/utils/' );
 $f3->set( 'DB', new \DB\SQL( 'sqlite:data/db.sqlite3' ) );
 $f3->set( 'CACHE', 'folder=tmp/cache/' );
 
