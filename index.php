@@ -186,6 +186,7 @@ $f3->route( 'GET /logout', 'Authentication->logout' );
 // registration
 if ($f3->get('allow_signups')) {
     $f3->route( 'GET /register/confirm/@email/@clear_token', 'Authentication->confirm' );
+    $f3->route( 'POST /register/confirm/@email/@clear_token', 'Authentication->confirm' );
     $f3->route( 'GET /register/confirm/send', 'Authentication->resend_confirmation_form' );
     $f3->route( 'POST /register/confirm/send', 'Authentication->resend_confirmation' );
     $f3->route( 'GET /register', 'Authentication->registration_form' );

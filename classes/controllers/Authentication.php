@@ -89,6 +89,14 @@ class Authentication {
             echo \Template::instance()->render( 'templates/confirm.html' );
             return;
         }
+
+        if( $f3->get( 'SERVER.REQUEST_METHOD' ) !== 'POST' ) {
+            $f3->set( 'email', $user->get( 'email' ) );
+            $f3->set( 'clear_token', $params['clear_token'] );
+            $f3->set( 'show_form', true );
+            echo \Template::instance()->render( 'templates/confirm.html' );
+            return;
+        }
         
         // verify the token
         $error_message = $this->verify_user_token( $user, $params['clear_token'] );
@@ -421,11 +429,6 @@ class Authentication {
         // get the user's token
         $token = $user->get_token( $token_key );
         
-        // delete this if it's a one time use token
-        if( $token->one_time ) {
-            $user->delete_reset_token();
-        }
-        
         // add the clear-text token
         $token->clear = $clear_token;
 
@@ -437,6 +440,11 @@ class Authentication {
         // check if token is invalid
         if( ! $token->verify() ) {
             return 'Token is invalid.';
+        }
+
+        // delete this if it's a one time use token
+        if( $token->one_time ) {
+            $user->delete_token( $token_key );
         }
     }
 
