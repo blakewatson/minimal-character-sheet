@@ -53,11 +53,18 @@ class Authentication {
             return;
         }
 
+        $normalized_email = strtolower( trim( (string) $email ) );
+
         // create user
         $user = new User( $f3->get( 'DB' ) );
         $user = $user->create( [
             'email' => $email,
             'pw' => password_hash( $f3->get( 'POST.pw1' ), PASSWORD_DEFAULT )
+        ] );
+
+        $this->log_auth_event( 'register_attempt', [
+            'email' => $normalized_email,
+            'result' => $user === false ? 'rejected' : 'created'
         ] );
         
         // all good! send confirmation email
@@ -66,7 +73,6 @@ class Authentication {
             $user->save();
             $this->email_confirmation_token( $user );
 
-            $normalized_email = strtolower( trim( (string) $email ) );
             $this->record_rate_limit_hit( 'confirmation_email', $normalized_email, 60 );
         }
 
@@ -96,6 +102,10 @@ class Authentication {
         // confirm user
         $user->set( 'confirmed', true );
         $user->save();
+
+        $this->log_auth_event( 'account_confirmed', [
+            'email' => strtolower( trim( (string) $user->get( 'email' ) ) )
+        ] );
 
         // save the username to the session
         $f3->set( 'SESSION.email', $user->get( 'email' ) );
@@ -273,6 +283,10 @@ class Authentication {
         $user->set( 'reset_token', json_encode( $user->make_token( '1 hour' ) ) );
         $user->save();
         $this->email_password_reset_token( $user );
+
+        $this->log_auth_event( 'password_reset_requested', [
+            'email' => strtolower( trim( (string) $user->get( 'email' ) ) )
+        ] );
         
         $this->set_csrf();
         echo \Template::instance()->render( 'templates/request-password-reset.html' );
@@ -355,6 +369,10 @@ class Authentication {
         // success! change the password
         $user->set( 'pw', password_hash( $pw1, PASSWORD_DEFAULT ) );
         $user->save();
+
+        $this->log_auth_event( 'password_reset_completed', [
+            'email' => strtolower( trim( (string) $user->get( 'email' ) ) )
+        ] );
         
         // show success message
         $f3->set( 'success', true );
@@ -420,6 +438,72 @@ class Authentication {
         if( ! $token->verify() ) {
             return 'Token is invalid.';
         }
+    }
+
+    public function log_auth_event( $event, $context = [] ) {
+        $request_context = $this->get_request_context();
+        $pairs = array_merge(
+            [ 'event' => $event ],
+            $context,
+            $request_context
+        );
+
+        $parts = [
+            'auth_event',
+            'event=' . $this->format_auth_log_value( $pairs['event'] ?? null ),
+            'email=' . $this->format_auth_log_value( $pairs['email'] ?? null ),
+            'result=' . $this->format_auth_log_value( $pairs['result'] ?? null ),
+            'ip=' . $this->format_auth_log_value( $pairs['ip'] ?? null ),
+            'remote_addr=' . $this->format_auth_log_value( $pairs['remote_addr'] ?? null ),
+            'forwarded_for=' . $this->format_auth_log_value( $pairs['forwarded_for'] ?? null ),
+            'real_ip=' . $this->format_auth_log_value( $pairs['real_ip'] ?? null ),
+            'cf_connecting_ip=' . $this->format_auth_log_value( $pairs['cf_connecting_ip'] ?? null )
+        ];
+
+        error_log( implode( ' | ', $parts ) );
+    }
+
+    public function format_auth_log_value( $value ) {
+        $value = trim( (string) $value );
+
+        if( $value === '' ) {
+            return '-';
+        }
+
+        return sprintf( '"%s"', str_replace( '"', '\"', $value ) );
+    }
+
+    public function get_request_context() {
+        $remote_addr = trim( (string) ( $_SERVER['REMOTE_ADDR'] ?? '' ) );
+        $forwarded_for = trim( (string) ( $_SERVER['HTTP_X_FORWARDED_FOR'] ?? '' ) );
+        $real_ip = trim( (string) ( $_SERVER['HTTP_X_REAL_IP'] ?? '' ) );
+        $cf_connecting_ip = trim( (string) ( $_SERVER['HTTP_CF_CONNECTING_IP'] ?? '' ) );
+
+        return [
+            'ip' => $this->get_client_ip( $cf_connecting_ip, $forwarded_for, $real_ip, $remote_addr ),
+            'remote_addr' => $remote_addr,
+            'forwarded_for' => $forwarded_for,
+            'real_ip' => $real_ip,
+            'cf_connecting_ip' => $cf_connecting_ip
+        ];
+    }
+
+    public function get_client_ip( ...$candidates ) {
+        foreach( $candidates as $candidate ) {
+            if( ! $candidate ) {
+                continue;
+            }
+
+            foreach( explode( ',', $candidate ) as $possible_ip ) {
+                $possible_ip = trim( $possible_ip );
+
+                if( filter_var( $possible_ip, FILTER_VALIDATE_IP ) ) {
+                    return $possible_ip;
+                }
+            }
+        }
+
+        return 'unknown';
     }
 
     public function rate_limit_key( $scope, $value ) {
