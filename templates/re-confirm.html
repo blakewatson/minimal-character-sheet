@@ -2,13 +2,33 @@
 
 <div class="page mx-auto flex h-screen items-center justify-center p-4">
   <div class="w-full max-w-120">
+    <check if="isset( @error_message )">
+      <true>
+        <p class="text-light-danger dark:text-dark-danger">
+          {{ @error_message }}
+        </p>
+      </true>
+    </check>
+
     <check if="isset( @success_message )">
       <true>
         <p>{{ @success_message }}</p>
+
+        <p>
+          <small>
+            Don't see the email? Check your spam folder, or wait 60 seconds then
+            <a href="/register/confirm/send">resend the confirmation email</a>.
+          </small>
+        </p>
       </true>
 
       <false>
         <h1>Send confirmation email</h1>
+
+        <p>
+          If you have not received a confirmation email, you can enter your
+          email address below to have it resent.
+        </p>
 
         <form action="/register/confirm/send" method="post">
           <p>
@@ -19,7 +39,7 @@
           <input type="hidden" name="username" />
           <input type="hidden" name="csrf" value="{{ @CSRF }}" />
 
-          <p><button type="submit" class="button-primary">Log In</button></p>
+          <p><button type="submit" class="button-primary">Submit</button></p>
         </form>
       </false>
     </check>

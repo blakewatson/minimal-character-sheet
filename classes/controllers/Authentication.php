@@ -44,10 +44,19 @@ class Authentication {
             return;
         }
 
+        $email = $f3->get( 'POST.email' );
+
+        if ( ! $email || ! str_contains( $email ?? '', '@' )) {
+            $f3->set( 'error_message', 'Please enter a valid email address.' );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/register.html' );
+            return;
+        }
+
         // create user
         $user = new User( $f3->get( 'DB' ) );
         $user = $user->create( [
-            'email' => $f3->get( 'POST.email' ),
+            'email' => $email,
             'pw' => password_hash( $f3->get( 'POST.pw1' ), PASSWORD_DEFAULT )
         ] );
         
@@ -56,6 +65,9 @@ class Authentication {
             $user->set( 'token', json_encode( $user->make_token( '1 day' ) ) );
             $user->save();
             $this->email_confirmation_token( $user );
+
+            $normalized_email = strtolower( trim( (string) $email ) );
+            $this->record_rate_limit_hit( 'confirmation_email', $normalized_email, 60 );
         }
 
         $f3->set( 'success_message', 'An email has been sent to the email address provided.' );
@@ -113,13 +125,20 @@ class Authentication {
             echo \Template::instance()->render( 'templates/re-confirm.html' );
             return;
         }
-        
+
         // get user by email
         $user = new User( $f3->get( 'DB' ) );
         $user->get_by_email( $f3->get( 'POST.email' ) );
 
         if( $user->dry() || $user->get( 'confirmed' ) ) {
             $f3->set( 'error_message', 'Something went wrong.' );
+            echo \Template::instance()->render( 'templates/re-confirm.html' );
+            return;
+        }
+
+        if( $this->check_confirmation_resend_rate_limit( $user->get( 'email' ) ) ) {
+            $f3->set( 'error_message', 'Too many email requests. Please wait 60 seconds and try again.' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/re-confirm.html' );
             return;
         }
@@ -238,13 +257,15 @@ class Authentication {
         }
 
         // get form data
-        $email = $f3->get( 'POST.email' );
+        $email = trim( (string) $f3->get( 'POST.email' ) );
 
         // get user
         $user = new User( $f3->get( 'DB' ) );
         $user->get_by_email( $email );
         
-        if( $user->dry() ) {
+        if( $user->dry() || ! $user->get( 'confirmed' ) ) {
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/request-password-reset.html' );
             return;
         }
         
@@ -263,7 +284,7 @@ class Authentication {
         $user->get_by_email( $params['email'] );
         
         // check user exists
-        if( $user->dry() ) {
+        if( $user->dry() || ! $user->get( 'confirmed' ) ) {
             $f3->set( 'error_message', 'Something went wrong.' );
             echo \Template::instance()->render( 'templates/password-reset.html' );
             return;
@@ -302,7 +323,7 @@ class Authentication {
         $user = new User( $f3->get( 'DB' ) );
         $user->get_by_email( $f3->get( 'POST.email' ) );
         
-        if( $user->dry() ) {
+        if( $user->dry() || ! $user->get( 'confirmed' ) ) {
             $f3->set( 'error_message', 'Something went wrong.' );
             echo \Template::instance()->render( 'templates/password-reset.html' );
             return;
@@ -400,17 +421,72 @@ class Authentication {
             return 'Token is invalid.';
         }
     }
+
+    public function rate_limit_key( $scope, $value ) {
+        return 'ratelimit_auth_' . $scope . '_' . hash( 'sha256', (string) $value );
+    }
+
+    public function is_rate_limited( $scope, $value, $limit, $window_seconds ) {
+        $cache = \Cache::instance();
+        $cache_key = $this->rate_limit_key( $scope, $value );
+
+        if( $cache->exists( $cache_key, $count ) ) {
+            return $count >= $limit;
+        }
+
+        return false;
+    }
+
+    public function record_rate_limit_hit( $scope, $value, $window_seconds ) {
+        $cache = \Cache::instance();
+        $cache_key = $this->rate_limit_key( $scope, $value );
+
+        if( $cache->exists( $cache_key, $count ) ) {
+            $cache->set( $cache_key, $count + 1, $window_seconds );
+            return;
+        }
+
+        $cache->set( $cache_key, 1, $window_seconds );
+    }
+
+    public function check_confirmation_resend_rate_limit( $email ) {
+        $scope = 'confirmation_email';
+        $normalized_email = strtolower( trim( (string) $email ) );
+
+        if( $normalized_email === '' ) {
+            return false;
+        }
+
+        if( $this->is_rate_limited( $scope, $normalized_email, 1, 60 ) ) {
+            return true;
+        }
+
+        $this->record_rate_limit_hit( $scope, $normalized_email, 60 );
+
+        return false;
+    }
     
     public function email_confirmation_token( $user ) {
-        $this->email_token( $user, 'register/confirm', 'Confirm your account', 'Click here to confirm your account:' );
+        $this->email_token( $user, 'register/confirm', [
+            'subject' => 'Confirm your Minimal Character Sheet account',
+            'intro_text' => 'Someone used this email address to create a Minimal Character Sheet account.',
+            'link_text' => 'Confirm your account',
+            'detail_text' => 'If you did not create this account, you can ignore this email. No account will be usable until the email address is confirmed.',
+            'tag' => 'account-confirmation'
+        ] );
     }
     
     public function email_password_reset_token( $user ) {
-        $message = "You recently requested a password reset. If this wasn't you, ignore this message. If you do wish to reset your password, click the following link:";
-        $this->email_token( $user, 'password-reset', 'Reset your password', $message );
+        $this->email_token( $user, 'password-reset', [
+            'subject' => 'Reset your Minimal Character Sheet password',
+            'intro_text' => 'A password reset was requested for your Minimal Character Sheet account.',
+            'link_text' => 'Reset your password',
+            'detail_text' => 'This link expires in 1 hour. If you did not request a password reset, you can ignore this email and your password will not change.',
+            'tag' => 'password-reset'
+        ] );
     }
 
-    public function email_token( $user, $url_path, $subject, $message ) {
+    public function email_token( $user, $url_path, $email_config ) {
         $env = $_ENV['ENV'] ?? null;
         $postmark_secret = $_ENV['POSTMARK_SECRET'] ?? null;
         $postmark_from = $_ENV['POSTMARK_FROM'] ?? null;
@@ -425,7 +501,7 @@ class Authentication {
         $email = $user->get( 'email' );
         $to = $email;
         $from = $postmark_from;
-        $subject = $subject;
+        $subject = $email_config['subject'];
         
         // if in development, use test email
         if( $env === 'DEVELOPMENT' ) {
@@ -440,16 +516,32 @@ class Authentication {
             urlencode($user->token_cleartext)
         );
 
-        $link = "<a href=\"$url\">$url</a>";
-
-        $message = "$message<br><br>$link";
+        $escaped_url = htmlspecialchars( $url, ENT_QUOTES, 'UTF-8' );
+        $html_body = sprintf(
+            '<p>%s</p><p><a href="%s">%s</a></p><p>%s</p><p>Need help? Contact Blake at <a href="mailto:blake@minimalcharactersheet.com">blake@minimalcharactersheet.com</a>.</p>',
+            htmlspecialchars( $email_config['intro_text'], ENT_QUOTES, 'UTF-8' ),
+            $escaped_url,
+            htmlspecialchars( $email_config['link_text'], ENT_QUOTES, 'UTF-8' ),
+            htmlspecialchars( $email_config['detail_text'], ENT_QUOTES, 'UTF-8' )
+        );
+        $text_body = sprintf(
+            "%s\n\n%s:\n%s\n\n%s\n\nNeed help? Contact Blake at blake@minimalcharactersheet.com.",
+            $email_config['intro_text'],
+            $email_config['link_text'],
+            $url,
+            $email_config['detail_text']
+        );
 
         try {
             $client->sendEmail(
                 $from,
                 $to,
                 $subject,
-                $message
+                $html_body,
+                $text_body,
+                $email_config['tag'],
+                null,
+                'blake@minimalcharactersheet.com'
             );
         } catch ( \Exception $e ) {
             error_log( 'Postmark email error: ' . $e->getMessage() );

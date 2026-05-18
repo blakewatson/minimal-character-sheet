@@ -8,12 +8,23 @@
       <true>
         <p>{{ @success_message }}</p>
 
-        <p><a href="/">Go Home</a></p>
+        <p>
+          <small>
+            Don't see the email? Check your spam folder, or wait 60 seconds then
+            <a href="/register/confirm/send">resend the confirmation email</a>.
+          </small>
+        </p>
+
+        <p>
+          <small><a href="/">Go Home</a></small>
+        </p>
       </true>
 
       <false>
         <check if="isset( @error_message )">
-          <p class="text-red-600 dark:text-red-400">{{ @error_message }}</p>
+          <p class="text-light-danger dark:text-dark-danger">
+            {{ @error_message }}
+          </p>
         </check>
 
         <form action="/register" method="post">
