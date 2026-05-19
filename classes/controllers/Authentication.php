@@ -21,7 +21,7 @@ class Authentication {
 
     public function register( $f3 ) {
         // check honeypot
-        if( $f3->get( 'POST.phone' ) !== '' ) {
+        if( trim( (string) $f3->get( 'POST.phone' ) ) !== '' || trim( (string) $f3->get( 'POST.username' ) ) !== '' ) {
             $f3->set( 'error_message', 'Something went wrong. User was not created. 1' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/register.html' );
@@ -129,7 +129,7 @@ class Authentication {
 
     public function resend_confirmation( $f3 ) {
         // check honeypot
-        if( $f3->get( 'POST.username' ) ) {
+        if( trim( (string) $f3->get( 'POST.phone' ) ) !== '' || trim( (string) $f3->get( 'POST.username' ) ) !== '' ) {
             $f3->set( 'error_message', 'Confirmation error. 1' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/re-confirm.html' );
@@ -177,7 +177,7 @@ class Authentication {
 
     public function login( $f3 ) {
         // check honeypot
-        if( $f3->get( 'POST.username' ) ) {
+        if( trim( (string) $f3->get( 'POST.username' ) ) !== '' ) {
             $f3->set( 'error_message', 'Invalid login. 1' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/login.html' );
@@ -259,7 +259,7 @@ class Authentication {
         $f3->set( 'submitted', true );
         
         // check honeypot
-        if( $f3->get( 'POST.username' ) ) {
+        if( trim( (string) $f3->get( 'POST.phone' ) ) !== '' || trim( (string) $f3->get( 'POST.username' ) ) !== '' ) {
             $f3->set( 'error_message', 'Invalid login. 1' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/request-password-reset.html' );
@@ -327,7 +327,7 @@ class Authentication {
     
     public function password_reset( $f3, $params ) {
         // check honeypot
-        if( $f3->get( 'POST.phone' ) ) {
+        if( trim( (string) $f3->get( 'POST.phone' ) ) !== '' ) {
             $f3->set( 'error_message', 'Invalid login. 1' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/password-reset.html' );
