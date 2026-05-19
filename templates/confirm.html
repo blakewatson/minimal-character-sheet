@@ -12,6 +12,8 @@
       action="/register/confirm/{{ urlencode(@email) }}/{{ urlencode(@clear_token) }}"
       method="post"
     >
+      <input type="hidden" name="csrf" value="{{ @CSRF }}" />
+
       <p>
         <button type="submit" class="button-primary">Confirm account</button>
         <a href="/" class="button">Cancel</a>

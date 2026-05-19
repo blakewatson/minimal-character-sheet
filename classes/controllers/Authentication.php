@@ -29,7 +29,7 @@ class Authentication {
         }
 
         // check csrf
-        if( $this->verify_csrf() ) {
+        if( $this->has_invalid_csrf() ) {
             $f3->set( 'error_message', 'Something went wrong. User was not created. 2' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/register.html' );
@@ -94,6 +94,18 @@ class Authentication {
             $f3->set( 'email', $user->get( 'email' ) );
             $f3->set( 'clear_token', $params['clear_token'] );
             $f3->set( 'show_form', true );
+            $this->set_csrf();
+            echo \Template::instance()->render( 'templates/confirm.html' );
+            return;
+        }
+
+        // check csrf
+        if( $this->has_invalid_csrf() ) {
+            $f3->set( 'email', $user->get( 'email' ) );
+            $f3->set( 'clear_token', $params['clear_token'] );
+            $f3->set( 'show_form', true );
+            $f3->set( 'error_message', 'Something went wrong.' );
+            $this->set_csrf();
             echo \Template::instance()->render( 'templates/confirm.html' );
             return;
         }
@@ -137,7 +149,7 @@ class Authentication {
         }
 
         // check csrf
-        if( $this->verify_csrf() ) {
+        if( $this->has_invalid_csrf() ) {
             $f3->set( 'error_message', 'Confirmation error. 2' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/re-confirm.html' );
@@ -185,7 +197,7 @@ class Authentication {
         }
 
         // check csrf
-        if( $this->verify_csrf() ) {
+        if( $this->has_invalid_csrf() ) {
             $f3->set( 'error_message', 'Invalid login. 2' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/login.html' );
@@ -267,7 +279,7 @@ class Authentication {
         }
 
         // check csrf
-        if( $this->verify_csrf() ) {
+        if( $this->has_invalid_csrf() ) {
             $f3->set( 'error_message', 'Invalid login. 2' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/request-password-reset.html' );
@@ -335,7 +347,7 @@ class Authentication {
         }
 
         // check csrf
-        if( $this->verify_csrf() ) {
+        if( $this->has_invalid_csrf() ) {
             $f3->set( 'error_message', 'Invalid login. 2' );
             $this->set_csrf();
             echo \Template::instance()->render( 'templates/password-reset.html' );
@@ -414,7 +426,7 @@ class Authentication {
         }
     }
 
-    public function verify_csrf() {
+    public function has_invalid_csrf() {
         return $this->f3->get( 'SESSION.csrf' ) !== $this->f3->get( 'POST.csrf' );
     }
 
