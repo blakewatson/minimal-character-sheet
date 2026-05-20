@@ -69,15 +69,14 @@ $f3->route( 'POST /api/random', function( $f3 ) {
     new \DB\SQL\Session( $f3->get( 'DB' ), 'sessions', true, function( $sess ) { return true; } );
 
     // auth check
-    $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+    $auth = new Authentication( $f3 );
+    $email = $auth->get_logged_in_email();
 
-    if ( ! $email ) {
+    if ( $email === '' ) {
         $f3->status( 401 );
         echo json_encode([ 'success' => false, 'reason' => 'unauthorized' ]);
         return;
     }
-
-    $f3->set( 'SESSION.email', $email );
 
     // rate limit: 10 requests per 60 seconds per IP
     $cache = \Cache::instance();

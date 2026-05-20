@@ -7,6 +7,7 @@ class Authentication {
     public $f3;
     public $db;
     public $session;
+    private $logged_in_email = null;
 
     public function __construct( $f3 ) {
         $this->f3 = $f3;
@@ -432,14 +433,34 @@ class Authentication {
     }
 
     public function is_logged_in() {
+        return $this->get_logged_in_email() !== '';
+    }
+
+    public function get_logged_in_email() {
+        if( $this->logged_in_email !== null ) {
+            return $this->logged_in_email;
+        }
+
         $email = EmailUtils::normalize_email( $this->f3->get( 'SESSION.email' ) );
 
         if( $email === '' ) {
-            return false;
+            $this->logged_in_email = '';
+            return '';
         }
 
-        $this->f3->set( 'SESSION.email', $email );
-        return true;
+        $user = new User( $this->db );
+        $user->get_by_email( $email );
+
+        if( $user->dry() ) {
+            $this->f3->set( 'SESSION', [] );
+            $this->logged_in_email = '';
+            return '';
+        }
+
+        $canonical_email = EmailUtils::normalize_email( $user->get( 'email' ) );
+        $this->f3->set( 'SESSION.email', $canonical_email );
+        $this->logged_in_email = $canonical_email;
+        return $canonical_email;
     }
 
     public function bounce( $dest = '/login' ) {

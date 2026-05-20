@@ -19,6 +19,8 @@ try {
     $user_columns = array_column($db->exec('PRAGMA table_info("user");'), 'name');
 
     foreach ($plan['groups'] as $group) {
+        delete_sessions_for_duplicate_users($db, $group);
+
         // Move every sheet variant to the final canonical lowercase email.
         foreach ($group['email_variants'] as $email_variant) {
             $db->exec(
@@ -109,6 +111,31 @@ function update_canonical_user($db, $user_columns, $group) {
     $db->exec(
         'UPDATE "user" SET ' . implode(', ', $sets) . ' WHERE id = ?;',
         $params
+    );
+}
+
+function delete_sessions_for_duplicate_users($db, $group) {
+    foreach ($group['users'] as $user) {
+        if ((int) $user['id'] === (int) $group['canonical_user_id']) {
+            continue;
+        }
+
+        $db->exec(
+            "DELETE FROM sessions WHERE data LIKE ? ESCAPE '\\';",
+            ['%' . escape_like(session_email_marker($user['email'])) . '%']
+        );
+    }
+}
+
+function session_email_marker($email) {
+    return 'email|s:' . strlen($email) . ':"' . $email . '";';
+}
+
+function escape_like($value) {
+    return str_replace(
+        ['\\', '%', '_'],
+        ['\\\\', '\\%', '\\_'],
+        $value
     );
 }
 

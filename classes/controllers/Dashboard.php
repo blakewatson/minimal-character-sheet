@@ -29,8 +29,7 @@ class Dashboard {
     }
 
     public function sheet_list( $f3 ) {
-        $current_user_email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
-        $f3->set( 'SESSION.email', $current_user_email );
+        $current_user_email = $this->auth->get_logged_in_email();
 
         // get the current user to check admin status
         $current_user = new User( $f3->get( 'DB' ) );
@@ -101,7 +100,7 @@ class Dashboard {
         $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $slug );
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
 
         // if the sheet is not found, return a 404
         if( ! $sheet_data ) {
@@ -150,7 +149,7 @@ class Dashboard {
     }
     
     public function get_sheet_data( $f3, $params ) {
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
 
@@ -194,7 +193,7 @@ class Dashboard {
     public function add_sheet( $f3 ) {
         if( $f3->get( 'SERVER.REQUEST_METHOD' ) === 'POST' ) {
             $name = $f3->get( 'POST.sheet_name' );
-            $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+            $email = $this->auth->get_logged_in_email();
             $is_2024 = $f3->get( 'POST.is_2024' ) === '1';
             $sheet = new Sheet( $f3->get( 'DB' ) );
             $id_or_false = $sheet->create_sheet( $name, $email, $is_2024 );
@@ -220,7 +219,7 @@ class Dashboard {
         
         $this->auth->set_csrf();
 
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
         $name = $f3->get( 'REQUEST.name' );
         $data = $f3->get( 'REQUEST.data' );
 
@@ -285,7 +284,7 @@ class Dashboard {
         
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
         
         if( ! $sheet_data['email'] || ! EmailUtils::emails_match( $sheet_data['email'], $email ) ) {
             $f3->status( 403 );
@@ -316,7 +315,7 @@ class Dashboard {
             return;
         }   
                 
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
 
         if( ! EmailUtils::emails_match( $sheet['email'], $email ) ) {
             $f3->status( 403 );
@@ -380,7 +379,7 @@ class Dashboard {
 
         // 4. Extract character name and is_2024 flag from data
         $name = isset( $data['characterName'] ) && $data['characterName'] ? $data['characterName'] : 'Imported Character';
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
 
         // Per RESEARCH.md Pitfall 4: extract is_2024 from data, don't default
         $is_2024 = isset( $data['is_2024'] ) ? (bool) $data['is_2024'] : true;
@@ -410,7 +409,7 @@ class Dashboard {
         $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $slug );
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
 
         // if the sheet is not found, return a 404
         if( ! $sheet_data ) {

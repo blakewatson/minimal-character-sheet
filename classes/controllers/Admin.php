@@ -11,7 +11,7 @@ class Admin {
         $this->auth->bounce();
 
         // bounce if not admin
-        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $email = $this->auth->get_logged_in_email();
 
         // shouldn't be possible but
         if ( empty( $email ) ) {
@@ -19,7 +19,6 @@ class Admin {
             return;
         }
 
-        $f3->set( 'SESSION.email', $email );
         $user = new User( $f3->get( 'DB' ) );
         $user_data = $user->get_by_email( $email );
         

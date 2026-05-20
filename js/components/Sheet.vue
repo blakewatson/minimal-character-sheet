@@ -253,9 +253,10 @@ export default {
         this.isSaving = false;
         this.isError = true;
 
-        // If user is not authenticated, redirect to login
-        if (error.status === 403) {
+        // If user is not authenticated or no longer owns the sheet, redirect to login.
+        if (error.status === 401 || error.status === 403) {
           window.location.href = '/login';
+          return false;
         }
 
         // Handle non-retryable errors (like invalid JSON)
