@@ -16,6 +16,15 @@ class Authentication {
 
     public function registration_form( $f3 ) {
         $this->set_csrf();
+
+        $turnstile_site_key = $_ENV['CLOUDFLARE_TURNSTILE_SITE_KEY'] ?? null;
+        $turnstile_secret_key = $_ENV['CLOUDFLARE_TURNSTILE_SECRET_KEY'] ?? null;
+
+        if ( $turnstile_site_key && $turnstile_secret_key ) {
+            $f3->set( 'use_turnstile', true );
+            $f3->set( 'cloudflare_turnstile_site_key', $turnstile_site_key );
+        }
+
         echo \Template::instance()->render( 'templates/register.html' );
     }
 
@@ -54,6 +63,27 @@ class Authentication {
         }
 
         $normalized_email = strtolower( trim( (string) $email ) );
+
+        // validate turnstile if enabled
+        $turnstile_site_key = $_ENV['CLOUDFLARE_TURNSTILE_SITE_KEY'] ?? null;
+        $turnstile_secret_key = $_ENV['CLOUDFLARE_TURNSTILE_SECRET_KEY'] ?? null;
+
+        if ($turnstile_site_key && $turnstile_secret_key) {
+            $token = $_POST['cf-turnstile-response'] ?? '';
+
+            $validation = $this->validateTurnstile($token, $turnstile_secret_key);
+
+            if ( ! $validation['success'] ) {
+                $this->log_auth_event( 'turnstile_validation_failed', [
+                    'email' => $normalized_email,
+                ] );
+                error_log('Turnstile validation failed: ' . implode(', ', $validation['error-codes']));
+                $this->set_csrf();
+                $f3->set( 'error_message', 'Something went wrong. User was not created.' );
+                echo \Template::instance()->render( 'templates/register.html' );
+                return;
+            }
+        }
 
         // create user
         $user = new User( $f3->get( 'DB' ) );
@@ -652,6 +682,37 @@ class Authentication {
             echo \Template::instance()->render( 'templates/email-error.html' );
             exit;
         }
+    }
+
+    public function validateTurnstile($token, $secret, $remoteip = null) {
+        $url = 'https://challenges.cloudflare.com/turnstile/v0/siteverify';
+
+        $data = [
+            'secret' => $secret,
+            'response' => $token
+        ];
+
+        if ($remoteip) {
+            $data['remoteip'] = $remoteip;
+        }
+
+        $options = [
+            'http' => [
+                'header' => "Content-type: application/x-www-form-urlencoded\r\n",
+                'method' => 'POST',
+                'content' => http_build_query($data)
+            ]
+        ];
+
+        $context = stream_context_create($options);
+        $response = file_get_contents($url, false, $context);
+
+        if ($response === FALSE) {
+            return ['success' => false, 'error-codes' => ['internal-error']];
+        }
+
+        return json_decode($response, true);
+
     }
 
 }

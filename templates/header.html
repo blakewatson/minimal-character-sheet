@@ -33,6 +33,15 @@
       <script src="{{ @font_awesome_kit_url }}" crossorigin="anonymous"></script>
     </check>
 
+    <check if="{{ !empty(@use_turnstile) }}">
+      <link rel="preconnect" href="https://challenges.cloudflare.com" />
+      <script
+        src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+        async
+        defer
+      ></script>
+    </check>
+
     <script src="{{ @BASE }}/js/home.js"></script>
 
     <!-- Fathom - beautiful, simple website analytics -->
