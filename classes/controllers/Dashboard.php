@@ -34,6 +34,12 @@ class Dashboard {
         // get the current user to check admin status
         $current_user = new User( $f3->get( 'DB' ) );
         $current_user_data = $current_user->get_by_email( $current_user_email );
+
+        if ( ! $current_user_data ) {
+            $f3->error( 404 );
+            return;
+        }
+
         $is_admin = $current_user_data['is_admin'];
 
         // check if user_id query parameter is present
