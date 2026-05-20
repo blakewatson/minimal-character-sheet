@@ -1,13 +1,37 @@
 <include href="templates/header.html" />
 
 <div class="page mx-auto max-w-175 px-4 py-6">
-  <check if="{{ @success }}">
+  <check if="{{ isset(@show_form) && @show_form }}">
+    <h1>Confirm account</h1>
+    <p>
+      Confirm that you want to create a Minimal Character Sheet account for {{
+      @email }}.
+    </p>
+
+    <form
+      action="/register/confirm/{{ urlencode(@email) }}/{{ urlencode(@clear_token) }}"
+      method="post"
+    >
+      <input type="hidden" name="csrf" value="{{ @CSRF }}" />
+
+      <p>
+        <button type="submit" class="button-primary">Confirm account</button>
+        <a href="/" class="button">Cancel</a>
+      </p>
+    </form>
+  </check>
+
+  <check if="{{ isset(@success) && @success }}">
     <h1>Account confirmed</h1>
     <p>You can now <a href="/login">log in to your account</a>.</p>
   </check>
 
   <check if="{{ isset(@error_message) }}">
     <h1>{{ @error_message }}</h1>
+  </check>
+
+  <check if="{{ ! isset(@show_form) || ! @show_form }}">
+    <p><a href="/">Go home</a></p>
   </check>
 </div>
 

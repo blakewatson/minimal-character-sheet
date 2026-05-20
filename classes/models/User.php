@@ -52,8 +52,8 @@ class User extends \DB\SQL\Mapper {
         return $token_obj;
     }
 
-    public function delete_token() {
-        $this->set( 'token', NULL );
+    public function delete_token( $key = 'token' ) {
+        $this->set( $key, NULL );
         $this->save();
     }
     
