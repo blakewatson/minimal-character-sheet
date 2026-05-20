@@ -10,25 +10,41 @@ class User extends \DB\SQL\Mapper {
     }
 
     public function create( $new_user_data ) {
+        $email = EmailUtils::normalize_email( $new_user_data['email'] ?? '' );
+
+        if( $email === '' ) return false;
+
         // check for unique email
-        $this->load( [ 'email = ?', $new_user_data['email'] ] );
+        $this->load( [ 'lower(trim(email)) = ?', $email ] );
         if( ! $this->dry() ) return false;
 
-        $this->set( 'email', $new_user_data['email'] );
+        $this->set( 'email', $email );
         $this->set( 'pw', $new_user_data['pw'] );
         $this->set( 'confirmed', false );
         $this->set( 'token', json_encode( $this->make_token( '1 day' ) ) );
         $this->set( 'reset_token', null );
         $this->set( 'created_at', date('Y-m-d H:i:s') );
         $this->set( 'updated_at', date('Y-m-d H:i:s') );
-        $this->save();
+        try {
+            $save_ok = $this->save();
+        } catch( \Exception $e ) {
+            error_log( 'Failed to create user for email: ' . $email );
+            return false;
+        }
+
+        if( ! $save_ok ) return false;
+
         // for some reason we have to reload this user
-        $this->load( [ 'email = ?', $new_user_data['email'] ] );
+        $this->load( [ 'lower(trim(email)) = ?', $email ] );
         return $this;
     }
 
     public function get_by_email( $email ) {
-        $this->load( [ 'email=?', $email ] );
+        $email = EmailUtils::normalize_email( $email );
+
+        if( $email === '' ) return false;
+
+        $this->load( [ 'lower(trim(email)) = ?', $email ] );
 
         if( $this->dry() ) return false;
         return $this;

@@ -29,7 +29,8 @@ class Dashboard {
     }
 
     public function sheet_list( $f3 ) {
-        $current_user_email = $f3->get( 'SESSION.email' );
+        $current_user_email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+        $f3->set( 'SESSION.email', $current_user_email );
 
         // get the current user to check admin status
         $current_user = new User( $f3->get( 'DB' ) );
@@ -100,16 +101,18 @@ class Dashboard {
         $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $slug );
-        $email = $f3->get( 'SESSION.email' ) ? $f3->get( 'SESSION.email' ) : '';
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
 
         // if the sheet is not found, return a 404
         if( ! $sheet_data ) {
             $f3->error( 404 );
             return;
         }
+
+        $is_this_the_users_sheet = EmailUtils::emails_match( $sheet_data['email'] ?? '', $email );
         
         // sheet not allowed to be accessed by current user
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
+        if( ! $is_this_the_users_sheet && ! $sheet_data['is_public'] ) {
             // save the requested url to the session
             $f3->set( 'SESSION.requested_url', $f3->get( 'SERVER.REQUEST_URI' ) );
             $this->auth->bounce();
@@ -122,13 +125,13 @@ class Dashboard {
         }
         
         // if this is a public sheet and the current user does not own it…
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
+        if( ! $is_this_the_users_sheet && $sheet_data['is_public'] ) {
             // …redact the email address
             $sheet_data['email'] = null;
         }
 
         // if this is a logged-in user accessing their own sheet, update the updated_at timestamp
-        if ( $email && strtolower( $sheet_data['email'] ?? '' ) === strtolower( $email ) ) {
+        if ( $email && $is_this_the_users_sheet ) {
             $sheet->set( 'updated_at', date( 'Y-m-d H:i:s' ) );
             $sheet->save();
         }
@@ -147,23 +150,25 @@ class Dashboard {
     }
     
     public function get_sheet_data( $f3, $params ) {
-        $email = $f3->get( 'SESSION.email' );
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
 
-        if ( ! $email && ! $sheet_data['is_public'] ) {
+        if ( ! $sheet_data || ! $email && ! $sheet_data['is_public'] ) {
             $f3->error( 404 );
             return;
         }
+
+        $is_this_the_users_sheet = EmailUtils::emails_match( $sheet_data['email'] ?? '', $email );
         
         // sheet not allowed to be accessed by current user
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ?? '' ) && ! $sheet_data['is_public'] ) {
+        if( ! $is_this_the_users_sheet && ! $sheet_data['is_public'] ) {
             $f3->error( 404 );
             return;
         }
         
         // read-only access allowed
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ?? '' ) && $sheet_data['is_public'] ) {
+        if( ! $is_this_the_users_sheet && $sheet_data['is_public'] ) {
             // redact the email address
             $sheet_data['email'] = null;
         }
@@ -189,7 +194,7 @@ class Dashboard {
     public function add_sheet( $f3 ) {
         if( $f3->get( 'SERVER.REQUEST_METHOD' ) === 'POST' ) {
             $name = $f3->get( 'POST.sheet_name' );
-            $email = $f3->get( 'SESSION.email' );
+            $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
             $is_2024 = $f3->get( 'POST.is_2024' ) === '1';
             $sheet = new Sheet( $f3->get( 'DB' ) );
             $id_or_false = $sheet->create_sheet( $name, $email, $is_2024 );
@@ -215,7 +220,7 @@ class Dashboard {
         
         $this->auth->set_csrf();
 
-        $email = $f3->get( 'SESSION.email' );
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
         $name = $f3->get( 'REQUEST.name' );
         $data = $f3->get( 'REQUEST.data' );
 
@@ -233,7 +238,7 @@ class Dashboard {
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
         
-        if( ! $sheet_data['email'] || strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
+        if( ! $sheet_data['email'] || ! EmailUtils::emails_match( $sheet_data['email'], $email ) ) {
             $f3->status( 403 );
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'unauthorized', 'status' => 403 ]);
             return;
@@ -252,7 +257,7 @@ class Dashboard {
             $f3->get( 'DB' )->exec(
                 "UPDATE user
                  SET updated_at = CURRENT_TIMESTAMP
-                 WHERE email = ?
+                 WHERE lower(trim(email)) = ?
                    AND (updated_at IS NULL OR updated_at < datetime('now', '-1 minute'))",
                 [ $email ]
             );
@@ -280,9 +285,9 @@ class Dashboard {
         
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
-        $email = $f3->get( 'SESSION.email' );
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
         
-        if( ! $sheet_data['email'] || strtolower( $sheet_data['email'] ) !== strtolower( $email ) ) {
+        if( ! $sheet_data['email'] || ! EmailUtils::emails_match( $sheet_data['email'], $email ) ) {
             $f3->status( 403 );
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'status' => 403 ]);
             return;
@@ -304,8 +309,16 @@ class Dashboard {
         
         $sheetObj = new Sheet( $f3->get( 'DB' ) );
         $sheet = $sheetObj->get_sheet_by_slug( $params['sheet_slug'] );
+
+        if ( ! $sheet ) {
+            $f3->status( 404 );
+            echo json_encode([ 'success' => false, 'reason' => 'not_found', 'csrf' => $f3->get( 'CSRF' ), 'status' => 404 ]);
+            return;
+        }   
                 
-        if( $f3->get( 'SESSION.email' ) !== $sheet['email']) {
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+
+        if( ! EmailUtils::emails_match( $sheet['email'], $email ) ) {
             $f3->status( 403 );
             echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'status' => 403 ]);
             return;
@@ -367,7 +380,7 @@ class Dashboard {
 
         // 4. Extract character name and is_2024 flag from data
         $name = isset( $data['characterName'] ) && $data['characterName'] ? $data['characterName'] : 'Imported Character';
-        $email = $f3->get( 'SESSION.email' );
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
 
         // Per RESEARCH.md Pitfall 4: extract is_2024 from data, don't default
         $is_2024 = isset( $data['is_2024'] ) ? (bool) $data['is_2024'] : true;
@@ -397,16 +410,18 @@ class Dashboard {
         $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $slug );
-        $email = $f3->get( 'SESSION.email' ) ? $f3->get( 'SESSION.email' ) : '';
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
 
         // if the sheet is not found, return a 404
         if( ! $sheet_data ) {
             $f3->error( 404 );
             return;
         }
+
+        $is_this_the_users_sheet = EmailUtils::emails_match( $sheet_data['email'] ?? '', $email );
         
         // sheet not allowed to be accessed by current user
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && ! $sheet_data['is_public'] ) {
+        if( ! $is_this_the_users_sheet && ! $sheet_data['is_public'] ) {
             // save the requested url to the session
             $f3->set( 'SESSION.requested_url', $f3->get( 'SERVER.REQUEST_URI' ) );
             $this->auth->bounce();
@@ -414,7 +429,7 @@ class Dashboard {
         }
         
         // if this is a public sheet and the current user does not own it…
-        if( strtolower( $sheet_data['email'] ) !== strtolower( $email ) && $sheet_data['is_public'] ) {
+        if( ! $is_this_the_users_sheet && $sheet_data['is_public'] ) {
             // …redact the email address
             $sheet_data['email'] = null;
         }

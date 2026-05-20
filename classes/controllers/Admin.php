@@ -11,10 +11,19 @@ class Admin {
         $this->auth->bounce();
 
         // bounce if not admin
-        $email = $f3->get( 'SESSION.email' );
+        $email = EmailUtils::normalize_email( $f3->get( 'SESSION.email' ) );
+
+        // shouldn't be possible but
+        if ( empty( $email ) ) {
+            $f3->error( 403 );
+            return;
+        }
+
+        $f3->set( 'SESSION.email', $email );
         $user = new User( $f3->get( 'DB' ) );
         $user_data = $user->get_by_email( $email );
-        if( ! $user_data['is_admin'] ) {
+        
+        if( ! $user_data || ! $user_data['is_admin'] ) {
             $f3->error( 403 );
             return;
         }

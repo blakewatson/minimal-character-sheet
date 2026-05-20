@@ -54,6 +54,7 @@ class Authentication {
         }
 
         $email = $f3->get( 'POST.email' );
+        $normalized_email = EmailUtils::normalize_email( $email );
 
         if ( ! $email || ! str_contains( $email ?? '', '@' )) {
             $f3->set( 'error_message', 'Please enter a valid email address.' );
@@ -61,8 +62,6 @@ class Authentication {
             echo \Template::instance()->render( 'templates/register.html' );
             return;
         }
-
-        $normalized_email = strtolower( trim( (string) $email ) );
 
         // validate turnstile if enabled
         $turnstile_site_key = $_ENV['CLOUDFLARE_TURNSTILE_SITE_KEY'] ?? null;
@@ -88,7 +87,7 @@ class Authentication {
         // create user
         $user = new User( $f3->get( 'DB' ) );
         $user = $user->create( [
-            'email' => $email,
+            'email' => $normalized_email,
             'pw' => password_hash( $f3->get( 'POST.pw1' ), PASSWORD_DEFAULT )
         ] );
 
@@ -153,12 +152,14 @@ class Authentication {
         $user->set( 'confirmed', true );
         $user->save();
 
+        $normalized_email = EmailUtils::normalize_email( $user->get( 'email' ) );
+
         $this->log_auth_event( 'account_confirmed', [
-            'email' => strtolower( trim( (string) $user->get( 'email' ) ) )
+            'email' => $normalized_email
         ] );
 
         // save the username to the session
-        $f3->set( 'SESSION.email', $user->get( 'email' ) );
+        $f3->set( 'SESSION.email', $normalized_email );
 
         $f3->set( 'success', true );
         echo \Template::instance()->render( 'templates/confirm.html' );
@@ -212,7 +213,7 @@ class Authentication {
     }
 
     public function login_form( $f3 ) {
-        if( $f3->get( 'SESSION.email' ) ) return $f3->reroute( '/dashboard' );
+        if( $this->is_logged_in() ) return $f3->reroute( '/dashboard' );
         $this->set_csrf();
         echo \Template::instance()->render( 'templates/login.html' );
     }
@@ -235,7 +236,7 @@ class Authentication {
         }
 
         // get form data
-        $email = $f3->get( 'POST.email' );
+        $email = EmailUtils::normalize_email( $f3->get( 'POST.email' ) );
         $pw = $f3->get( 'POST.pw' );
 
         // get user
@@ -273,7 +274,7 @@ class Authentication {
         }
 
         // save the email to the session
-        $f3->set( 'SESSION.email', $user->get( 'email' ) );
+        $f3->set( 'SESSION.email', EmailUtils::normalize_email( $user->get( 'email' ) ) );
 
         // check if there's a requested URL to redirect to
         $requested_url = $f3->get( 'SESSION.requested_url' );
@@ -317,7 +318,7 @@ class Authentication {
         }
 
         // get form data
-        $email = trim( (string) $f3->get( 'POST.email' ) );
+        $email = EmailUtils::normalize_email( $f3->get( 'POST.email' ) );
 
         // get user
         $user = new User( $f3->get( 'DB' ) );
@@ -335,7 +336,7 @@ class Authentication {
         $this->email_password_reset_token( $user );
 
         $this->log_auth_event( 'password_reset_requested', [
-            'email' => strtolower( trim( (string) $user->get( 'email' ) ) )
+            'email' => EmailUtils::normalize_email( $user->get( 'email' ) )
         ] );
         
         $this->set_csrf();
@@ -421,7 +422,7 @@ class Authentication {
         $user->save();
 
         $this->log_auth_event( 'password_reset_completed', [
-            'email' => strtolower( trim( (string) $user->get( 'email' ) ) )
+            'email' => EmailUtils::normalize_email( $user->get( 'email' ) )
         ] );
         
         // show success message
@@ -431,8 +432,14 @@ class Authentication {
     }
 
     public function is_logged_in() {
-        $email = $this->f3->get( 'SESSION.email' );
-        return isset( $email );
+        $email = EmailUtils::normalize_email( $this->f3->get( 'SESSION.email' ) );
+
+        if( $email === '' ) {
+            return false;
+        }
+
+        $this->f3->set( 'SESSION.email', $email );
+        return true;
     }
 
     public function bounce( $dest = '/login' ) {
@@ -585,7 +592,7 @@ class Authentication {
 
     public function check_confirmation_resend_rate_limit( $email ) {
         $scope = 'confirmation_email';
-        $normalized_email = strtolower( trim( (string) $email ) );
+        $normalized_email = EmailUtils::normalize_email( $email );
 
         if( $normalized_email === '' ) {
             return false;

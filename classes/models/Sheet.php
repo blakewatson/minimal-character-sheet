@@ -10,6 +10,8 @@ class Sheet extends \DB\SQL\Mapper {
     }
 
     public function create_sheet( $name, $email, $is_2024 = true ) {
+        $email = EmailUtils::normalize_email( $email );
+
         do {
             $slug = $this->random_slug();
         } while ( $this->get_sheet_by_slug( $slug ) );
@@ -36,6 +38,8 @@ class Sheet extends \DB\SQL\Mapper {
     }
 
     public function create_sheet_with_data( $name, $email, $data, $is_2024 = true ) {
+        $email = EmailUtils::normalize_email( $email );
+
         do {
             $slug = $this->random_slug();
         } while ( $this->get_sheet_by_slug( $slug ) );
@@ -117,7 +121,8 @@ class Sheet extends \DB\SQL\Mapper {
     }
 
     public function get_all_sheets( $email ) {
-        $this->load( [ 'email=?', $email ] );
+        $email = EmailUtils::normalize_email( $email );
+        $this->load( [ 'lower(trim(email)) = ?', $email ] );
         if( $this->dry() ) return false;
 
         $sheets = [];
