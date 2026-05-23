@@ -22,7 +22,7 @@
       class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
     >
       <span>
-        Dice rolling now available.
+        I performed some site maintenance. Most accounts shouldn't be affected.
         <a href="#announcements">Read more</a>
       </span>
 
@@ -36,22 +36,24 @@
     </div>
   </check>
 
-  <div
-    id="announcement-banner"
-    class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
-  >
-    <span>
-      On
-      <a
-        href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=Minimal+Character+Sheet+-+website+maintenance&iso=20260523T15&p1=515"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Saturday, May 23, 2026 at 3pm CDT</a
-      >
-      the site will be <strong>offline for maintenance</strong>. It should be
-      back up within an hour (hopefully much sooner).
-    </span>
-  </div>
+  <exclude>
+    <div
+      id="announcement-banner"
+      class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+    >
+      <span>
+        On
+        <a
+          href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=Minimal+Character+Sheet+-+website+maintenance&iso=20260523T15&p1=515"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Saturday, May 23, 2026 at 3pm CDT</a
+        >
+        the site will be <strong>offline for maintenance</strong>. It should be
+        back up within an hour (hopefully much sooner).
+      </span>
+    </div>
+  </exclude>
 
   <h1 class="mt-8 mb-4">
     <check if="{{ @viewing_as_admin }}">
@@ -238,6 +240,31 @@
     <hr class="my-8" />
 
     <h2 id="announcements">Announcements</h2>
+
+    <div class="announcement">
+      <p>
+        <strong>2026-05-23:</strong> I fixed an issue where email addresses were
+        case-sensitive when registering and logging in. That's clearly not how
+        they should be and I feel quite silly that it went on this long. I've
+        fixed that issue and am treating email addresses as case-insensitive
+        now.
+      </p>
+      <p>
+        The side effect of this is that if for some reason you had two
+        accounts—for example one where you capitalized your email and one where
+        you didn't—then only one of those accounts exists now. Only a small
+        number of accounts had these duplicate accounts. If yours happens to be
+        one of them, your character sheets in all the accounts with the same
+        email are now together in your one account. If you ended up needing to
+        reset your password this is probably why.
+      </p>
+      <p>
+        No one else should notice much of anything as this was all
+        behind-the-scenes. This was a critical thing to fix but now that it’s
+        done I can get back to adding features! If you notice anything wonky, as
+        always, please don’t hesitate to contact me.
+      </p>
+    </div>
 
     <div class="announcement">
       <p>

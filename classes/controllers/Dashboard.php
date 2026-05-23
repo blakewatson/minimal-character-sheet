@@ -2,7 +2,7 @@
 
 class Dashboard {
 
-    public $latest_announcement = '2026-04-13';
+    public $latest_announcement = '2026-05-23';
     private $auth;
 
     public function __construct( $f3, $params ) {
