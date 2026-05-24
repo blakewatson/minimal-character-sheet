@@ -153,14 +153,18 @@ export default {
         return '';
       }
 
-      let text = '';
+      let text = `${this.feat.name}\n`;
+
+      if (this.feat.document) {
+        text += `${this.feat.document.name}\n`;
+      }
 
       if (this.feat.has_prerequisite) {
-        text += `\n${this.$t('Prerequisite')}: ${this.feat.prerequisite}\n\n`;
+        text += `\n${this.$t('Prerequisite')}: ${this.feat.prerequisite}\n`;
       }
 
       if (this.feat.desc) {
-        text += `${this.feat.desc}\n`;
+        text += `\n${this.feat.desc}\n`;
       }
 
       if (this.feat.benefits && this.feat.benefits.length) {

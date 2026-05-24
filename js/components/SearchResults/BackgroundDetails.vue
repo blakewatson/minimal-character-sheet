@@ -32,6 +32,13 @@
 </template>
 
 <script>
+import { Delta } from 'quill';
+import {
+  deltaAddBoldedLine,
+  deltaAddHeader,
+  deltaAddItalicizedLine,
+  deltaAddMarkdown,
+} from '../../utils.js';
 import CopyContentButton from '../CopyContentButton.vue';
 
 export default {
@@ -77,13 +84,38 @@ export default {
 
   methods: {
     buildCopyableDelta() {
-      let ops = [];
+      let delta = new Delta();
 
-      return ops;
+      delta = deltaAddHeader(delta, this.background.name);
+
+      if (this.background.document) {
+        delta = deltaAddItalicizedLine(delta, this.background.document.name);
+      }
+
+      delta.insert('\n');
+
+      if (this.background.desc) {
+        delta = deltaAddMarkdown(delta, this.background.desc);
+        delta.insert('\n');
+      }
+
+      if (this.background.benefits && this.background.benefits.length) {
+        this.background.benefits.forEach((benefit) => {
+          delta = deltaAddBoldedLine(delta, benefit.name);
+          delta = deltaAddMarkdown(delta, benefit.desc);
+          delta.insert('\n');
+        });
+      }
+
+      return delta;
     },
 
     buildCopyableHtml() {
-      let html = `<h2>${this.background.name}</h2><br>`;
+      let html = `<h2>${this.background.name}</h2>`;
+
+      if (this.background.document) {
+        html += `<p><em>${this.background.document.name}</em></p>`;
+      }
 
       if (this.background.desc) {
         html += `${window.md.render(this.background.desc)}`;
@@ -105,10 +137,14 @@ export default {
         return '';
       }
 
-      let text = `${this.background.name}\n\n`;
+      let text = `${this.background.name}\n`;
+
+      if (this.background.document) {
+        text += `${this.background.document.name}\n`;
+      }
 
       if (this.background.desc) {
-        text += `${this.background.desc}\n`;
+        text += `\n${this.background.desc}\n`;
       }
 
       if (this.background.benefits && this.background.benefits.length) {
