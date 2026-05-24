@@ -1,5 +1,7 @@
 <template>
-  <div class="flex items-center gap-2">
+  <div
+    class="flex items-center gap-2 max-[430px]:flex-col max-[430px]:items-stretch"
+  >
     <button @click="copyAndClose" class="button-primary text-xs">
       {{ $t('Copy and close') }}
     </button>
@@ -8,7 +10,10 @@
       {{ $t('Copy') }}
     </button>
 
-    <button @click="copyForOtherApps" class="button ml-auto text-xs">
+    <button
+      @click="copyForOtherApps"
+      class="button text-xs min-[431px]:ml-auto"
+    >
       {{ $t('Copy for other apps') }}
     </button>
   </div>
