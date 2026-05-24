@@ -11,11 +11,11 @@
       >
     </summary>
 
-    <div class="my-4 text-sm" v-if="feat.has_prerequisite">
+    <div class="mt-4 text-sm" v-if="feat.has_prerequisite">
       <strong>{{ $t('Prerequisite') }}:</strong> {{ feat.prerequisite }}
     </div>
 
-    <div class="text-sm" v-if="renderedDesc" v-html="renderedDesc"></div>
+    <div class="mt-4 text-sm" v-if="renderedDesc" v-html="renderedDesc"></div>
 
     <ul class="mt-2" v-if="renderedBenefits.length">
       <li
@@ -38,6 +38,13 @@
 </template>
 
 <script>
+import { Delta } from 'quill';
+import {
+  deltaAddHeader,
+  deltaAddItalicizedLine,
+  deltaAddMarkdown,
+  deltaAddProperty,
+} from '../../utils.js';
 import CopyContentButton from '../CopyContentButton.vue';
 
 export default {
@@ -83,37 +90,46 @@ export default {
 
   methods: {
     buildCopyableDelta() {
-      let ops = [];
+      let delta = new Delta();
 
-      // feat header
-      ops = deltaInsertHeader(ops, this.feat.name, 2);
+      delta = deltaAddHeader(delta, this.feat.name, 2);
 
-      // prerequisite
+      if (this.feat.document) {
+        delta = deltaAddItalicizedLine(delta, this.feat.document.name);
+      }
+
+      delta.insert('\n');
+
       if (this.feat.has_prerequisite) {
-        ops = deltaInsertProperty(
-          ops,
+        delta = deltaAddProperty(
+          delta,
           this.$t('Prerequisite'),
           this.feat.prerequisite,
         );
+        delta.insert('\n');
       }
 
-      // description
       if (this.feat.desc) {
-        //TODO - support multiple paragraphs in delta
+        delta = deltaAddMarkdown(delta, this.feat.desc);
+        delta.insert('\n');
       }
 
-      // benefits
       if (this.feat.benefits && this.feat.benefits.length) {
         this.feat.benefits.forEach((benefit) => {
-          ops = deltaInsertProperty(ops, this.$t('Benefit'), benefit.desc);
+          delta = deltaAddMarkdown(delta, benefit.desc);
+          delta.insert('\n');
         });
       }
 
-      return ops;
+      return delta;
     },
 
     buildCopyableHtml() {
       let html = `<h2>${this.feat.name}</h2>`;
+
+      if (this.feat.document) {
+        html += `<p><em>${this.feat.document.name}</em></p>`;
+      }
 
       if (this.feat.has_prerequisite) {
         html += `<p><strong>${this.$t('Prerequisite')}:</strong> ${this.feat.prerequisite}</p>`;
@@ -127,14 +143,6 @@ export default {
         this.feat.benefits.forEach((benefit) => {
           html += `${window.md.render(benefit.desc)}`;
         });
-
-        // add line breaks before each paragraph so that quill will put them in
-        // the copied html
-        html = html
-          .replaceAll('<p>', '<br><p>')
-          .replaceAll('<ul>', '<br><ul>')
-          .replaceAll('<ol>', '<br><ol>')
-          .replaceAll('<br><br>', '<br>');
       }
 
       return html;
