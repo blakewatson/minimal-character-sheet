@@ -22,8 +22,9 @@
     </ul>
 
     <copy-content-button
-      :get-copyable-html="getCopyableHtml"
-      :copyable-text="copyableText"
+      :build-copyable-delta="buildCopyableDelta"
+      :build-copyable-html="buildCopyableHtml"
+      :build-copyable-text="buildCopyableText"
       @close="$emit('close')"
       class="mt-4"
     ></copy-content-button>
@@ -51,28 +52,6 @@ export default {
     };
   },
 
-  computed: {
-    copyableText() {
-      if (!this.background) {
-        return '';
-      }
-
-      let text = `${this.background.name}\n\n`;
-
-      if (this.background.desc) {
-        text += `${this.background.desc}\n`;
-      }
-
-      if (this.background.benefits && this.background.benefits.length) {
-        this.background.benefits.forEach((benefit) => {
-          text += `\n${benefit.name}\n${benefit.desc}\n`;
-        });
-      }
-
-      return text + '\n';
-    },
-  },
-
   watch: {
     isOpen(newVal) {
       if (!newVal) {
@@ -97,24 +76,48 @@ export default {
   },
 
   methods: {
-    getCopyableHtml() {
-      return () => {
-        let html = `<h2>${this.background.name}</h2><br>`;
+    buildCopyableDelta() {
+      let ops = [];
 
-        if (this.background.desc) {
-          html += `${window.md.render(this.background.desc)}`;
-        }
+      return ops;
+    },
 
-        if (this.background.benefits && this.background.benefits.length) {
-          this.background.benefits.forEach((benefit) => {
-            html += `<p><strong>${benefit.name}</strong><br/>${window.md.render(
-              benefit.desc,
-            )}</p>`;
-          });
-        }
+    buildCopyableHtml() {
+      let html = `<h2>${this.background.name}</h2><br>`;
 
-        return html;
-      };
+      if (this.background.desc) {
+        html += `${window.md.render(this.background.desc)}`;
+      }
+
+      if (this.background.benefits && this.background.benefits.length) {
+        this.background.benefits.forEach((benefit) => {
+          html += `<p><strong>${benefit.name}</strong><br/>${window.md.render(
+            benefit.desc,
+          )}</p>`;
+        });
+      }
+
+      return html;
+    },
+
+    buildCopyableText() {
+      if (!this.background) {
+        return '';
+      }
+
+      let text = `${this.background.name}\n\n`;
+
+      if (this.background.desc) {
+        text += `${this.background.desc}\n`;
+      }
+
+      if (this.background.benefits && this.background.benefits.length) {
+        this.background.benefits.forEach((benefit) => {
+          text += `\n${benefit.name}\n${benefit.desc}\n`;
+        });
+      }
+
+      return text + '\n';
     },
   },
 

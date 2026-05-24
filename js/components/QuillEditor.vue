@@ -10,6 +10,9 @@
 <script>
 import Quill from 'quill';
 import { deltaToHtml } from '../quill-renderer.js';
+import { MCS_QUILL_DELTA_PREFIX } from '../utils.js';
+
+const Delta = Quill.import('delta');
 
 export default {
   name: 'QuillEditor',
@@ -107,6 +110,8 @@ export default {
       }
 
       if (!this.readOnly) {
+        this.editor.root.addEventListener('paste', this.onEditorPaste, true);
+
         this.editor.on('text-change', () => {
           this.contents = this.editor.getContents();
           this.$emit('quill-text-change', this.contents);
@@ -125,6 +130,40 @@ export default {
           window.open(event.target.href, '_blank');
         }
       });
+    },
+
+    onEditorPaste(event) {
+      const pastedText = event.clipboardData?.getData('text/plain') || '';
+
+      if (!pastedText.startsWith(MCS_QUILL_DELTA_PREFIX)) {
+        return;
+      }
+
+      event.preventDefault();
+      event.stopImmediatePropagation();
+
+      try {
+        const pastedDelta = JSON.parse(
+          pastedText.slice(MCS_QUILL_DELTA_PREFIX.length),
+        );
+
+        if (!Array.isArray(pastedDelta.ops)) {
+          throw new Error('Invalid MCS Quill delta payload.');
+        }
+
+        const range = this.editor.getSelection(true);
+        const insertDelta = new Delta(pastedDelta.ops);
+        const pasteChange = new Delta()
+          .retain(range.index)
+          .delete(range.length)
+          .concat(insertDelta);
+
+        this.editor.updateContents(pasteChange, 'user');
+        this.editor.setSelection(range.index + insertDelta.length(), 0);
+        this.$emit('mcs-quill-delta-paste', pastedDelta);
+      } catch (err) {
+        console.error('Failed to parse pasted MCS Quill delta:', err);
+      }
     },
 
     onEditorClick() {
@@ -192,6 +231,10 @@ export default {
   },
 
   beforeUnmount() {
+    if (this.editor) {
+      this.editor.root.removeEventListener('paste', this.onEditorPaste, true);
+    }
+
     if (this.refreshListener) {
       window.sheetEvent.off('quill-refresh', this.refreshListener);
     }

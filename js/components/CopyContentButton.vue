@@ -1,36 +1,48 @@
 <template>
-  <div class="flex items-center gap-4">
-    <button @click="copyToClipboardAndClose" class="button-primary">
+  <div class="flex items-center gap-2">
+    <button @click="copyAndClose" class="button-primary text-xs">
       {{ $t('Copy and close') }}
     </button>
 
-    <button @click="copyToClipboard" class="button">{{ $t('Copy') }}</button>
-    <span v-if="showCopySuccess" class="text-green-700 dark:text-green-300">
-      {{ $t('Copied to clipboard!') }}
-    </span>
-    <span v-if="showCopyError" class="text-red-700 dark:text-red-300">
-      {{ $t('Failed to copy.') }}
-    </span>
+    <button @click="copyOnly" class="button text-xs">
+      {{ $t('Copy') }}
+    </button>
+
+    <button @click="copyForOtherApps" class="button ml-auto text-xs">
+      {{ $t('Copy for other apps') }}
+    </button>
+  </div>
+
+  <div v-if="showCopySuccess" class="mt-2 text-green-700 dark:text-green-300">
+    {{ $t('Copied to clipboard!') }}
+  </div>
+
+  <div v-if="showCopyError" class="mt-2 text-red-700 dark:text-red-300">
+    {{ $t('Failed to copy.') }}
   </div>
 </template>
 
 <script>
 import { Notyf } from 'notyf';
-import { copyHtmlToClipboard } from '../utils.js';
+import { copyHtmlToClipboard, MCS_QUILL_DELTA_PREFIX } from '../utils.js';
 
 export default {
   name: 'CopyContentButton',
 
   props: {
-    copyableText: {
-      type: String,
-      required: true,
-    },
-    copyAndClose: Boolean,
-    getCopyableHtml: {
+    buildCopyableDelta: {
       type: Function,
       required: true,
     },
+    buildCopyableHtml: {
+      type: Function,
+      required: true,
+    },
+    buildCopyableText: {
+      type: Function,
+      required: true,
+    },
+    copyAndClose: Boolean,
   },
 
   data() {
@@ -41,10 +53,11 @@ export default {
   },
 
   methods: {
-    async copyToClipboard() {
+    async copyForOtherApps() {
       try {
-        const html = this.getCopyableHtml()();
-        await copyHtmlToClipboard(html, this.copyableText);
+        const html = this.buildCopyableHtml();
+        const text = this.buildCopyableText();
+        await copyHtmlToClipboard(html, text);
         this.showCopySuccess = true;
         this.showCopyError = false;
       } catch (err) {
@@ -60,15 +73,44 @@ export default {
       }, 2000);
     },
 
-    async copyToClipboardAndClose() {
+    async copyToClipboard() {
+      const delta = this.buildCopyableDelta();
+      console.log('Built delta ops for copying:', delta);
+
+      const jsonDelta = JSON.stringify(delta);
+
+      const textBlob = new Blob([MCS_QUILL_DELTA_PREFIX + jsonDelta], {
+        type: 'text/plain',
+      });
+
+      const item = new ClipboardItem({
+        'text/plain': textBlob,
+      });
+
+      await navigator.clipboard.write([item]);
+    },
+
+    async copyAndClose() {
       try {
-        const html = this.getCopyableHtml()();
-        await copyHtmlToClipboard(html, this.copyableText);
+        await this.copyToClipboard();
 
         const notyf = new Notyf({ duration: 2000 });
         notyf.success(this.$t('Copied to clipboard!'));
 
         this.$emit('close');
+      } catch (err) {
+        console.error('Failed to copy spell to clipboard:', err);
+        this.showCopyError = true;
+        return;
+      }
+    },
+
+    async copyOnly() {
+      try {
+        await this.copyToClipboard();
+
+        const notyf = new Notyf({ duration: 2000 });
+        notyf.success(this.$t('Copied to clipboard!'));
       } catch (err) {
         console.error('Failed to copy spell to clipboard:', err);
         this.showCopyError = true;

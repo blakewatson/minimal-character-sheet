@@ -28,8 +28,9 @@
     </ul>
 
     <copy-content-button
-      :get-copyable-html="getCopyableHtml"
-      :copyable-text="copyableText"
+      :build-copyable-delta="buildCopyableDelta"
+      :build-copyable-html="buildCopyableHtml"
+      :build-copyable-text="buildCopyableText"
       @close="$emit('close')"
       class="mt-4"
     ></copy-content-button>
@@ -57,32 +58,6 @@ export default {
     };
   },
 
-  computed: {
-    copyableText() {
-      if (!this.feat) {
-        return '';
-      }
-
-      let text = '';
-
-      if (this.feat.has_prerequisite) {
-        text += `\n${this.$t('Prerequisite')}: ${this.feat.prerequisite}\n\n`;
-      }
-
-      if (this.feat.desc) {
-        text += `${this.feat.desc}\n`;
-      }
-
-      if (this.feat.benefits && this.feat.benefits.length) {
-        this.feat.benefits.forEach((benefit) => {
-          text += `\n${benefit.desc}\n`;
-        });
-      }
-
-      return text + '\n';
-    },
-  },
-
   watch: {
     isOpen(newVal) {
       if (!newVal) {
@@ -107,36 +82,86 @@ export default {
   },
 
   methods: {
-    getCopyableHtml() {
-      const self = this;
+    buildCopyableDelta() {
+      let ops = [];
 
-      return () => {
-        let html = `<h2>${self.feat.name}</h2>`;
+      // feat header
+      ops = deltaInsertHeader(ops, this.feat.name, 2);
 
-        if (self.feat.has_prerequisite) {
-          html += `<p><strong>${self.$t('Prerequisite')}:</strong> ${self.feat.prerequisite}</p>`;
-        }
+      // prerequisite
+      if (this.feat.has_prerequisite) {
+        ops = deltaInsertProperty(
+          ops,
+          this.$t('Prerequisite'),
+          this.feat.prerequisite,
+        );
+      }
 
-        if (self.feat.desc) {
-          html += `${window.md.render(self.feat.desc)}`;
-        }
+      // description
+      if (this.feat.desc) {
+        //TODO - support multiple paragraphs in delta
+      }
 
-        if (self.feat.benefits && self.feat.benefits.length) {
-          self.feat.benefits.forEach((benefit) => {
-            html += `${window.md.render(benefit.desc)}`;
-          });
+      // benefits
+      if (this.feat.benefits && this.feat.benefits.length) {
+        this.feat.benefits.forEach((benefit) => {
+          ops = deltaInsertProperty(ops, this.$t('Benefit'), benefit.desc);
+        });
+      }
 
-          // add line breaks before each paragraph so that quill will put them in
-          // the copied html
-          html = html
-            .replaceAll('<p>', '<br><p>')
-            .replaceAll('<ul>', '<br><ul>')
-            .replaceAll('<ol>', '<br><ol>')
-            .replaceAll('<br><br>', '<br>');
-        }
+      return ops;
+    },
 
-        return html;
-      };
+    buildCopyableHtml() {
+      let html = `<h2>${this.feat.name}</h2>`;
+
+      if (this.feat.has_prerequisite) {
+        html += `<p><strong>${this.$t('Prerequisite')}:</strong> ${this.feat.prerequisite}</p>`;
+      }
+
+      if (this.feat.desc) {
+        html += `${window.md.render(this.feat.desc)}`;
+      }
+
+      if (this.feat.benefits && this.feat.benefits.length) {
+        this.feat.benefits.forEach((benefit) => {
+          html += `${window.md.render(benefit.desc)}`;
+        });
+
+        // add line breaks before each paragraph so that quill will put them in
+        // the copied html
+        html = html
+          .replaceAll('<p>', '<br><p>')
+          .replaceAll('<ul>', '<br><ul>')
+          .replaceAll('<ol>', '<br><ol>')
+          .replaceAll('<br><br>', '<br>');
+      }
+
+      return html;
+    },
+
+    buildCopyableText() {
+      if (!this.feat) {
+        return '';
+      }
+
+      let text = '';
+
+      if (this.feat.has_prerequisite) {
+        text += `\n${this.$t('Prerequisite')}: ${this.feat.prerequisite}\n\n`;
+      }
+
+      if (this.feat.desc) {
+        text += `${this.feat.desc}\n`;
+      }
+
+      if (this.feat.benefits && this.feat.benefits.length) {
+        this.feat.benefits.forEach((benefit) => {
+          text += `\n${benefit.desc}\n`;
+        });
+      }
+
+      return text + '\n';
     },
   },
 
