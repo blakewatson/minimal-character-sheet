@@ -73,14 +73,14 @@ export default {
 
       this.$nextTick(() => {
         if (this.feat.desc) {
-          this.renderedDesc = window.md.render(this.feat.desc || '');
+          this.renderedDesc = renderMarkdown(this.feat.desc || '');
         }
 
         if (this.feat.benefits) {
           this.renderedBenefits = this.feat.benefits.map((benefit) => {
             return {
               ...benefit,
-              desc: window.md.render(benefit.desc || ''),
+              desc: renderMarkdown(benefit.desc || ''),
             };
           });
         }
@@ -136,12 +136,12 @@ export default {
       }
 
       if (this.feat.desc) {
-        html += `${window.md.render(this.feat.desc)}`;
+        html += `${renderMarkdown(this.feat.desc)}`;
       }
 
       if (this.feat.benefits && this.feat.benefits.length) {
         this.feat.benefits.forEach((benefit) => {
-          html += `${window.md.render(benefit.desc)}`;
+          html += `${renderMarkdown(benefit.desc)}`;
         });
       }
 

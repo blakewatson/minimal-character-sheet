@@ -14,7 +14,8 @@
     "@vitejs/plugin-vue": "^6.0.5",
     "prettier": "3.6.2",
     "prettier-plugin-tailwindcss": "^0.7.2",
-    "vite": "^8.0.1"
+    "vite": "^8.0.1",
+    "vite-plugin-vue-devtools": "^8.1.2"
   },
   "scripts": {
     "dev": "vite build --mode development",

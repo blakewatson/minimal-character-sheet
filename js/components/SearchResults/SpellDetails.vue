@@ -102,6 +102,7 @@ import {
   deltaAddItalicizedLine,
   deltaAddMarkdown,
   deltaAddProperty,
+  renderMarkdown,
   replaceUnderscores,
 } from '../../utils.js';
 import CopyContentButton from '../CopyContentButton.vue';
@@ -127,11 +128,11 @@ export default {
       if (newVal) {
         this.$nextTick(() => {
           if (this.spell.desc) {
-            this.renderedDesc = window.md.render(this.spell.desc || '');
+            this.renderedDesc = renderMarkdown(this.spell.desc || '');
           }
 
           if (this.spell.higher_level) {
-            this.renderedHigherLevel = window.md.render(
+            this.renderedHigherLevel = renderMarkdown(
               this.spell.higher_level || '',
             );
           }
