@@ -3,6 +3,10 @@
 <div class="page mx-auto max-w-180 px-4 py-8">
   <h1>Admin - Restore Sheet</h1>
 
+  <check if="{{ @error }}">
+    <p class="text-red-600">{{ @error }}</p>
+  </check>
+
   <form action="/admin/restore-sheet" method="POST">
     <label class="mb-8 block">
       User Email:

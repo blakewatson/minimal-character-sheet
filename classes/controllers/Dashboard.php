@@ -396,7 +396,13 @@ class Dashboard {
         }
 
         // 5. Create the sheet (per D-07: always creates new, per D-10: delegates to create_sheet_with_data)
-        $sheet->create_sheet_with_data( $name, $email, $data, $is_2024 );
+        $id_or_false = $sheet->create_sheet_with_data( $name, $email, $data, $is_2024 );
+
+        if( !$id_or_false ) {
+            $f3->status( 500 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'create_failed', 'status' => 500 ]);
+            return;
+        }
 
         echo json_encode([
             'success' => true,

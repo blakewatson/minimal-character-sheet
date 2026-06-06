@@ -16,9 +16,15 @@ class Sheet extends \DB\SQL\Mapper {
             $slug = $this->random_slug();
         } while ( $this->get_sheet_by_slug( $slug ) );
 
+        $str_data = $this->encode_sheet_data( $this->default_sheet_data( $name, null, $slug, $is_2024 ), 'create_sheet' );
+
+        if( !$str_data ) {
+            return false;
+        }
+
         $this->slug = $slug;
         $this->name = $name;
-        $this->data = '';
+        $this->data = $str_data;
         $this->email = $email;
         $this->is_public = false;
         $this->is_2024 = $is_2024;
@@ -34,6 +40,22 @@ class Sheet extends \DB\SQL\Mapper {
             return false;
         }
 
+        $str_data = $this->encode_sheet_data(
+            $this->default_sheet_data( $name, (int) $this->id, $slug, $is_2024 ),
+            'create_sheet for sheet ID: ' . $this->id
+        );
+
+        if( !$str_data ) {
+            return false;
+        }
+
+        $this->data = $str_data;
+        $save_ok = $this->save();
+
+        if( !$save_ok ) {
+            return false;
+        }
+
         return (int) $this->id;
     }
 
@@ -44,16 +66,6 @@ class Sheet extends \DB\SQL\Mapper {
             $slug = $this->random_slug();
         } while ( $this->get_sheet_by_slug( $slug ) );
 
-        $this->slug = $slug;
-        $this->name = $name;
-        $this->email = $email;
-        $this->data = '';
-        $this->is_public = false;
-        $this->is_2024 = $is_2024;
-        $this->created_at = date('Y-m-d H:i:s');
-        $this->updated_at = date('Y-m-d H:i:s');
-        $this->save();
-
         // Handle both JSON strings and already-decoded data to prevent double-encoding
         // Data should be a JSON string from the frontend, but we handle both cases gracefully
         if( is_string( $data ) ) {
@@ -63,28 +75,58 @@ class Sheet extends \DB\SQL\Mapper {
             // If decoding fails, log the error and skip the update
             if( $sheet_data === null ) {
                 error_log( 'Failed to decode JSON in create_sheet_with_data for sheet slug: ' . $slug );
-                return;
+                return false;
             }
-        } else {
+        } elseif( is_array( $data ) ) {
             // Data is already decoded (array/object) - use it directly
             $sheet_data = $data;
+        } else {
+            error_log( 'Non-string, non-array data received in create_sheet_with_data for sheet slug: ' . $slug );
+            return false;
         }
 
         // Update the sheet data with the new sheet's details
-        $sheet_data['id'] = $this->id;
-        $sheet_data['slug'] = $this->slug;
+        $sheet_data['id'] = null;
+        $sheet_data['slug'] = $slug;
         $sheet_data['characterName'] = $name;
 
         // Encode once for storage in the database
-        $str_data = json_encode( $sheet_data );
+        $str_data = $this->encode_sheet_data( $sheet_data, 'create_sheet_with_data for sheet slug: ' . $slug );
 
         if( !$str_data ) {
-            error_log( 'Failed to encode JSON in create_sheet_with_data for sheet slug: ' . $slug );
-            return;
+            return false;
+        }
+
+        $this->slug = $slug;
+        $this->name = $name;
+        $this->email = $email;
+        $this->data = $str_data;
+        $this->is_public = false;
+        $this->is_2024 = $is_2024;
+        $this->created_at = date('Y-m-d H:i:s');
+        $this->updated_at = date('Y-m-d H:i:s');
+
+        $save_ok = $this->save();
+
+        if( !$save_ok || !(int) $this->id ) {
+            $this->slug = null;
+            return false;
+        }
+
+        $sheet_data['id'] = (int) $this->id;
+        $str_data = $this->encode_sheet_data( $sheet_data, 'create_sheet_with_data for sheet ID: ' . $this->id );
+
+        if( !$str_data ) {
+            return false;
         }
 
         $this->data = $str_data;
-        $this->save();
+        $save_ok = $this->save();
+
+        if( !$save_ok ) {
+            return false;
+        }
+
         return (int) $this->id;
     }
 
@@ -222,6 +264,35 @@ class Sheet extends \DB\SQL\Mapper {
         }
 
         return $decoded;
+    }
+
+    private function default_sheet_data( $name, $id, $slug, $is_2024 ) {
+        return [
+            'id' => $id,
+            'slug' => $slug,
+            'is_2024' => (bool) $is_2024,
+            'characterName' => $name,
+            'abilities' => [
+                [ 'name' => 'STR', 'score' => 10 ],
+                [ 'name' => 'DEX', 'score' => 10 ],
+                [ 'name' => 'CON', 'score' => 10 ],
+                [ 'name' => 'INT', 'score' => 10 ],
+                [ 'name' => 'WIS', 'score' => 10 ],
+                [ 'name' => 'CHA', 'score' => 10 ]
+            ],
+            'skills' => []
+        ];
+    }
+
+    private function encode_sheet_data( $sheet_data, $context ) {
+        $str_data = json_encode( $sheet_data );
+
+        if( !$str_data ) {
+            error_log( 'Failed to encode JSON in ' . $context );
+            return false;
+        }
+
+        return $str_data;
     }
 
     public function random_slug() {

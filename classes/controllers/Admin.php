@@ -55,7 +55,11 @@ class Admin {
             $sheet_data = $f3->get( 'POST.sheet_data' );
 
             $sheet = new Sheet( $f3->get( 'DB' ) );
-            $sheet->create_sheet_with_data( $name, $email, $sheet_data, $is_2024 );
+            $id_or_false = $sheet->create_sheet_with_data( $name, $email, $sheet_data, $is_2024 );
+
+            if( !$id_or_false ) {
+                $f3->set( 'error', 'Unable to restore sheet.' );
+            }
 
             echo \Template::instance()->render( 'templates/admin_restore_sheet.html' );
             return;
