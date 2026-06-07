@@ -600,6 +600,10 @@ export function initializeState(payload) {
     newState = Object.assign({}, newState, sheet.data);
   }
 
+  if (newState.skills.length === 0) {
+    newState.skills = defaultState.skills.map((skill) => ({ ...skill }));
+  }
+
   // default initiative to dex modifier
   if (!newState.initiative) {
     const dex = newState.abilities.find((ability) => ability.name === 'DEX');
