@@ -38,6 +38,7 @@ import {
   deltaAddHeader,
   deltaAddItalicizedLine,
   deltaAddMarkdown,
+  renderMarkdown,
 } from '../../utils.js';
 import CopyContentButton from '../CopyContentButton.vue';
 
@@ -67,14 +68,14 @@ export default {
 
       this.$nextTick(() => {
         if (this.background.desc) {
-          this.renderedDesc = window.md.render(this.background.desc || '');
+          this.renderedDesc = renderMarkdown(this.background.desc || '');
         }
 
         if (this.background.benefits) {
           this.renderedBenefits = this.background.benefits.map((benefit) => {
             return {
               ...benefit,
-              desc: window.md.render(benefit.desc || ''),
+              desc: renderMarkdown(benefit.desc || ''),
             };
           });
         }
@@ -118,12 +119,12 @@ export default {
       }
 
       if (this.background.desc) {
-        html += `${window.md.render(this.background.desc)}`;
+        html += `${renderMarkdown(this.background.desc)}`;
       }
 
       if (this.background.benefits && this.background.benefits.length) {
         this.background.benefits.forEach((benefit) => {
-          html += `<p><strong>${benefit.name}</strong><br/>${window.md.render(
+          html += `<p><strong>${benefit.name}</strong><br/>${renderMarkdown(
             benefit.desc,
           )}</p>`;
         });

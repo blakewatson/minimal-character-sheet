@@ -1,17 +1,23 @@
 <template>
   <div
     class="flex items-center gap-2 max-[430px]:flex-col max-[430px]:items-stretch"
+    v-bind="$attrs"
   >
-    <button @click="copyAndClose" class="button-primary text-xs">
+    <button
+      :disabled="disabled"
+      @click="copyAndClose"
+      class="button-primary text-xs"
+    >
       {{ $t('Copy and close') }}
     </button>
 
-    <button @click="copyOnly" class="button text-xs">
+    <button :disabled="disabled" @click="copyOnly" class="button text-xs">
       {{ $t('Copy') }}
     </button>
 
     <button
       @click="copyForOtherApps"
+      :disabled="disabled"
       class="button text-xs min-[431px]:ml-auto"
     >
       {{ $t('Copy for other apps') }}
@@ -48,6 +54,10 @@ export default {
       required: true,
     },
     copyAndClose: Boolean,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
@@ -80,7 +90,6 @@ export default {
 
     async copyToClipboard() {
       const delta = this.buildCopyableDelta();
-      console.log('Built delta ops for copying:', delta);
 
       const jsonDelta = JSON.stringify(delta);
 
@@ -93,6 +102,9 @@ export default {
       });
 
       await navigator.clipboard.write([item]);
+
+      this.showCopySuccess = true;
+      this.showCopyError = false;
     },
 
     async copyAndClose() {

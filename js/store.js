@@ -210,6 +210,7 @@ const defaultState = {
   lvl9Spells: { slots: 0, expended: 0, spells: [] },
 };
 
+/** @type {typeof defaultState} */
 export const state = reactive(JSON.parse(JSON.stringify(defaultState)));
 
 // UI-only keys are excluded from database serialization
