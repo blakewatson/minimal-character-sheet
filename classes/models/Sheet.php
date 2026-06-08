@@ -272,15 +272,6 @@ class Sheet extends \DB\SQL\Mapper {
             'slug' => $slug,
             'is_2024' => (bool) $is_2024,
             'characterName' => $name,
-            'abilities' => [
-                [ 'name' => 'STR', 'score' => 10 ],
-                [ 'name' => 'DEX', 'score' => 10 ],
-                [ 'name' => 'CON', 'score' => 10 ],
-                [ 'name' => 'INT', 'score' => 10 ],
-                [ 'name' => 'WIS', 'score' => 10 ],
-                [ 'name' => 'CHA', 'score' => 10 ]
-            ],
-            'skills' => []
         ];
     }
 
