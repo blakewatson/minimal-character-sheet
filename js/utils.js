@@ -258,6 +258,7 @@ export function deltaAddListBullet(delta, lineText) {
  */
 export function deltaAddMarkdown(delta, markdownText) {
   const lines = markdownText.replace(/\r\n?/g, '\n').split('\n');
+  const unsupportedHeadings = ['###', '####', '#####', '######'];
   let markdownDelta = new Delta();
 
   for (let index = 0; index < lines.length; index += 1) {
@@ -269,6 +270,23 @@ export function deltaAddMarkdown(delta, markdownText) {
         parseMarkdownTable(tableBlock.markdown),
       );
       index = tableBlock.endIndex;
+      continue;
+    }
+
+    const unsupportedHeading = unsupportedHeadings.find((heading) =>
+      lines[index].startsWith(heading),
+    );
+
+    // we only support H1 and H2 markdown headings, so render unsupported headings as bolded lines
+    if (unsupportedHeading) {
+      const headerText = lines[index].slice(unsupportedHeading.length).trim();
+      markdownDelta = deltaAddBoldedLine(markdownDelta, headerText);
+      continue;
+    }
+
+    if (lines[index].startsWith('- ') || lines[index].startsWith('* ')) {
+      const listItemText = lines[index].slice(2).trim();
+      markdownDelta = deltaAddListBullet(markdownDelta, listItemText);
       continue;
     }
 
@@ -559,7 +577,10 @@ function addMarkdownInline(markdownDelta, text, attributes = {}) {
 
     flushBuffer();
 
-    if (delimiter.length >= 2) inlineAttributes.bold = true;
+    if (delimiter.length >= 2) {
+      inlineAttributes.bold = true;
+    }
+
     if (delimiter.length === 1 || delimiter.length === 3) {
       inlineAttributes.italic = true;
     }
