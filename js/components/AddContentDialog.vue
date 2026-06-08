@@ -467,3 +467,22 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.content-results:deep(ul) {
+  margin-bottom: 1rem;
+  padding-left: 1rem;
+  list-style-type: disc;
+}
+
+.content-results:deep(ol) {
+  margin-bottom: 1rem;
+  padding-left: 1.25rem;
+  list-style-type: decimal;
+}
+
+.content-results:deep(ul > * + *),
+.content-results:deep(ol > * + *) {
+  margin-top: 0.25rem;
+}
+</style>

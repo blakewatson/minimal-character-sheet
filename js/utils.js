@@ -559,7 +559,10 @@ function addMarkdownInline(markdownDelta, text, attributes = {}) {
 
     flushBuffer();
 
-    if (delimiter.length >= 2) inlineAttributes.bold = true;
+    if (delimiter.length >= 2) {
+      inlineAttributes.bold = true;
+    }
+
     if (delimiter.length === 1 || delimiter.length === 3) {
       inlineAttributes.italic = true;
     }
