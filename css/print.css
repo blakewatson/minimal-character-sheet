@@ -19,6 +19,32 @@ a::after {
   display: none;
 }
 
+@media print {
+  @page {
+    margin: 0.7in 0.6in 0.8in;
+  }
+
+  body {
+    padding: 0;
+  }
+
+  .print-field,
+  .card,
+  tr {
+    break-inside: avoid-page;
+  }
+
+  .header {
+    break-after: avoid-page;
+  }
+
+  .quill-html {
+    break-inside: auto;
+    orphans: 3;
+    widows: 3;
+  }
+}
+
 /* #endregion */
 
 /* #region Typography ---------- */
@@ -196,6 +222,10 @@ td {
 .cantrips .header + .card {
   border-top: none;
   padding-top: 0;
+}
+
+.card :first-child {
+  margin-top: 0;
 }
 
 /* #endregion */

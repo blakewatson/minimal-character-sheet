@@ -4,20 +4,37 @@
 
     <!-- Character info -->
     <div class="mb-md flex flex-wrap">
-      <print-field :label="$t('Class')" :value="className"></print-field>
+      <print-field
+        :label="$t('Class')"
+        :value="className"
+        v-if="className"
+      ></print-field>
 
-      <print-field :label="$t('Level')" :value="level"></print-field>
+      <print-field
+        :label="$t('Level')"
+        :value="level"
+        v-if="level"
+      ></print-field>
 
-      <print-field :label="$t('Background')" :value="background"></print-field>
+      <print-field
+        :label="$t('Background')"
+        :value="background"
+        v-if="background"
+      ></print-field>
 
       <print-field
         :label="$t(is_2024 ? 'Species' : 'Race')"
         :value="race"
+        v-if="race"
       ></print-field>
 
-      <print-field :label="$t('XP')" :value="xp"></print-field>
+      <print-field :label="$t('XP')" :value="xp" v-if="xp"></print-field>
 
-      <print-field :label="$t('Alignment')" :value="alignment"></print-field>
+      <print-field
+        :label="$t('Alignment')"
+        :value="alignment"
+        v-if="alignment"
+      ></print-field>
     </div>
 
     <!-- Vitals -->
@@ -103,10 +120,20 @@
         style="position: relative"
       >
         <div>
-          <div class="print-field-big">
+          <div
+            class="print-field-big"
+            style="
+              border: 1px solid #999;
+              border-radius: 4px;
+              line-height: 1;
+              padding: 0.125em 0.25em;
+            "
+          >
             {{ $signedNumString(modifiers[i].val) }}
           </div>
-          <div>{{ ability.score }}</div>
+          <div>
+            {{ ability.score }}
+          </div>
 
           <div v-if="savingThrows[i].proficient">
             <div
@@ -376,10 +403,10 @@
 <script>
 import Quill from 'quill';
 import {
+  initializeState,
   state,
   modifiers as storeModifiers,
   proficiencyBonus as storeProficiencyBonus,
-  initializeState,
 } from '../store';
 import { signedNumString } from '../utils';
 import PrintField from './PrintField.vue';
