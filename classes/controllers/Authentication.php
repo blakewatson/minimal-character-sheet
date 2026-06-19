@@ -402,7 +402,13 @@ class Authentication {
         $pw1 = $f3->get( 'POST.pw1' );
         $pw2 = $f3->get( 'POST.pw2' );
         
-        if( $pw1 !== $pw2 ) {
+        if(
+            ! is_string( $pw1 ) ||
+            ! is_string( $pw2 ) ||
+            trim( $pw1 ) === '' ||
+            trim( $pw2 ) === '' ||
+            $pw1 !== $pw2
+        ) {
             $f3->set( 'error_message', 'Passwords do not match. Please try again.' );
             $f3->set( 'show_form', true );
             $this->set_csrf();
@@ -498,6 +504,9 @@ class Authentication {
     public function verify_user_token( $user, $clear_token, $token_key = 'token' ) {
         // get the user's token
         $token = $user->get_token( $token_key );
+        if( ! $token ) {
+            return 'Token is invalid.';
+        }
         
         // add the clear-text token
         $token->clear = $clear_token;
