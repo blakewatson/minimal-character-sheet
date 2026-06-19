@@ -61,7 +61,18 @@ class User extends \DB\SQL\Mapper {
     public function get_token( $key = 'token' ) {
         $token_obj = new Token();
         $token = $this->get( $key );
+        if( ! is_string( $token ) || trim( $token ) === '' ) {
+            return false;
+        }
         $token = json_decode( $token, true );
+        if(
+            ! is_array( $token ) ||
+            empty( $token['hash'] ) ||
+            empty( $token['expiry'] ) ||
+            ! array_key_exists( 'one_time', $token )
+        ) {
+            return false;
+        }
         $token_obj->hash = $token['hash'];
         $token_obj->expiry = $token['expiry'];
         $token_obj->one_time = $token['one_time'];
