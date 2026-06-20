@@ -134,9 +134,25 @@
       </div>
 
       <!-- 5e 2024 - core traits table -->
-      <div v-if="coreTraitsTable">
-        <h2>{{ $t('Core traits') }}</h2>
-        <table class="w-full border-collapse text-sm">
+      <div
+        :class="{
+          'border-light-accent dark:border-dark-accent': isSelectedCoreTraits,
+          'border-light-muted-foreground dark:border-dark-muted-foreground':
+            !isSelectedCoreTraits,
+        }"
+        class="relative mb-4 rounded-sm border px-2 pt-8 pb-2 text-sm"
+        v-if="coreTraitsTable"
+      >
+        <h2 class="mb-1">
+          {{ $t('Core traits') }}
+        </h2>
+
+        <label class="absolute top-2 left-2 flex items-center gap-2 text-sm">
+          <input type="checkbox" v-model="isSelectedCoreTraits" />
+          {{ $t('Include in copy') }}
+        </label>
+
+        <table class="mb-0 w-full border-collapse text-sm">
           <tbody>
             <tr
               v-for="(row, index) in coreTraitsTable"
@@ -307,6 +323,7 @@ export default {
       includeTitleInCopy: false,
       isFetchingDetails: false,
       isOpen: false,
+      isSelectedCoreTraits: false,
       isSelectedHitPoints: false,
       isSelectedProficiencies: false,
       isSelectedStartingEquipment: false,
@@ -435,12 +452,13 @@ export default {
 
     shouldDisableCopyButton() {
       return (
-        this.selectedClassFeatures.length === 0 &&
         !this.includeTitleInCopy &&
-        !this.selectedClassFeatureOptions.length &&
+        !this.isSelectedCoreTraits &&
         !this.isSelectedHitPoints &&
         !this.isSelectedProficiencies &&
-        !this.isSelectedStartingEquipment
+        !this.isSelectedStartingEquipment &&
+        !this.selectedClassFeatureOptions.length &&
+        this.selectedClassFeatures.length === 0
       );
     },
 
@@ -492,6 +510,11 @@ export default {
           );
         }
 
+        delta.insert('\n');
+      }
+
+      if (this.isSelectedCoreTraits) {
+        delta = this.buildCoreTraitsTableDelta(delta);
         delta.insert('\n');
       }
 
@@ -636,6 +659,20 @@ export default {
           delta,
         );
       });
+
+      return delta;
+    },
+
+    buildCoreTraitsTableDelta(existingDelta = null) {
+      let delta = existingDelta || new Delta();
+
+      delta = deltaAddHeader(delta, 'Core Traits', 1);
+
+      if (this.coreTraitsTable) {
+        this.coreTraitsTable.forEach((trait) => {
+          delta = deltaAddProperty(delta, trait[0], trait[1]);
+        });
+      }
 
       return delta;
     },

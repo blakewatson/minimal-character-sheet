@@ -54,13 +54,14 @@
             ></field>
           </div>
 
-          <button
+          <app-button
             :disabled="
               isSearching ||
               !isSupportedEndpoint ||
               !includeGameSystemKeys.length
             "
-            class="button-primary gap-1"
+            class="gap-1"
+            primary
             style="flex-shrink: 0"
             type="submit"
           >
@@ -70,7 +71,7 @@
               v-show="isSearching"
             ></i>
             {{ $t('Search') }}
-          </button>
+          </app-button>
         </div>
 
         <p class="my-2" v-if="!isSupportedEndpoint">
@@ -97,17 +98,17 @@
         </div>
       </form>
 
-      <button
+      <app-button
         :disabled="isSearching || !includeGameSystemKeys.length"
         @click="listAllClasses"
-        class="button mt-2 gap-1 text-sm"
+        class="mt-2 gap-1 text-sm"
         type="button"
         v-if="selectedEndpoint === 'classes'"
       >
         <i class="fa-sharp fa-axe-battle" v-show="!isSearching"></i>
         <i class="fa-sharp fa-spinner-third fa-spin" v-show="isSearching"></i>
         {{ $t('List all base classes') }}
-      </button>
+      </app-button>
 
       <div
         class="content-results mt-2"
@@ -191,6 +192,7 @@
 
 <script>
 import { state } from '../store.js';
+import Button from './Button.vue';
 import Field from './Field.vue';
 import BackgroundDetails from './SearchResults/BackgroundDetails.vue';
 import ClassDetails from './SearchResults/ClassDetails.vue';
@@ -459,6 +461,7 @@ export default {
   },
 
   components: {
+    'app-button': Button,
     'background-details': BackgroundDetails,
     'class-details': ClassDetails,
     'feat-details': FeatDetails,
@@ -467,22 +470,3 @@ export default {
   },
 };
 </script>
-
-<style scoped>
-.content-results:deep(ul) {
-  margin-bottom: 1rem;
-  padding-left: 1rem;
-  list-style-type: disc;
-}
-
-.content-results:deep(ol) {
-  margin-bottom: 1rem;
-  padding-left: 1.25rem;
-  list-style-type: decimal;
-}
-
-.content-results:deep(ul > * + *),
-.content-results:deep(ol > * + *) {
-  margin-top: 0.25rem;
-}
-</style>
