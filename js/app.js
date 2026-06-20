@@ -1,5 +1,6 @@
 import mitt from 'mitt';
 import { createApp } from 'vue';
+import Button from './components/Button.vue';
 import Sheet from './components/Sheet.vue';
 import { i18nPlugin } from './i18n';
 import { signedNumString } from './utils';
@@ -16,6 +17,7 @@ window.md = window.markdownit({
 
 const app = createApp(Sheet);
 app.use(i18nPlugin);
+app.component('app-button', Button);
 
 // Register signedNumString as a global property
 // Components access via this.$signedNumString() or template: $signedNumString()

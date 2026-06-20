@@ -81,7 +81,19 @@
       @apply mb-4 font-bold;
     }
 
-    table {
+    ul {
+      @apply list-disc pl-4;
+    }
+
+    ol {
+      @apply list-decimal pl-4;
+    }
+
+    li + li {
+      @apply mt-1;
+    }
+
+    table:not(:last-child) {
       @apply mb-4 w-full border-collapse;
     }
 
@@ -98,7 +110,7 @@
   }
 
   .button {
-    @apply text-light-foreground enabled:hover:border-light-accent dark:text-dark-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border px-3 py-2 text-base leading-[1em] enabled:hover:text-blue-600 disabled:cursor-auto disabled:opacity-50 dark:border-neutral-100 dark:enabled:hover:border-blue-300 dark:enabled:hover:text-blue-300;
+    @apply text-light-foreground enabled:hover:border-light-accent dark:text-dark-foreground border-light-foreground disabled:border-light-foreground/50 disabled:text-light-foreground/50 dark:disabled:text-dark-foreground/50 inline-flex cursor-pointer items-center justify-center rounded-xs border px-3 py-2 text-base leading-[1em] enabled:hover:text-blue-600 disabled:cursor-auto dark:border-neutral-100 dark:enabled:hover:border-blue-300 dark:enabled:hover:text-blue-300 dark:disabled:border-neutral-100/50;
 
     a& {
       @apply no-underline;
@@ -106,7 +118,7 @@
   }
 
   .button-primary {
-    @apply enabled:hover:border-light-accent dark:text-light-foreground border-light-foreground inline-flex cursor-pointer items-center justify-center rounded-xs border bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 enabled:hover:bg-blue-600 disabled:cursor-auto disabled:opacity-50 dark:border-neutral-100 dark:bg-neutral-100 dark:enabled:hover:border-blue-300 dark:enabled:hover:bg-blue-300;
+    @apply enabled:hover:border-light-accent dark:text-light-foreground border-light-foreground dark:bg-dark-foreground dark:border-dark-foreground disabled:border-light-foreground/0 dark:disabled:border-dark-foreground/0 dark:disabled:bg-dark-foreground/50 dark:disabled:text-light-foreground/50 inline-flex cursor-pointer items-center justify-center rounded-xs border bg-neutral-950 px-3 py-2 text-base leading-[1em] text-neutral-50 enabled:hover:bg-blue-600 disabled:cursor-auto disabled:bg-neutral-950/50 dark:enabled:hover:border-blue-300 dark:enabled:hover:bg-blue-300;
 
     a& {
       @apply hover:border-light-accent no-underline hover:bg-blue-600 dark:hover:border-blue-300 dark:hover:bg-blue-300;
