@@ -36,23 +36,25 @@
     </div>
   </check>
 
-  <div
-    id="announcement-banner"
-    class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
-  >
-    <span>
-      On
-      <a
-        href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20260703T10&p1=515&ah=1"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Friday, July 3, 2026 at 10am CDT</a
-      >
-      the site will be <strong>offline for maintenance</strong> as I migrate it
-      to a new server. It should be back up within an hour (hopefully much
-      sooner).
-    </span>
-  </div>
+  <exclude>
+    <div
+      id="announcement-banner"
+      class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+    >
+      <span>
+        On
+        <a
+          href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20260703T10&p1=515&ah=1"
+          target="_blank"
+          rel="noopener noreferrer"
+          >Friday, July 3, 2026 at 10am CDT</a
+        >
+        the site will be <strong>offline for maintenance</strong> as I migrate
+        it to a new server. It should be back up within an hour (hopefully much
+        sooner).
+      </span>
+    </div>
+  </exclude>
 
   <h1 class="mt-8 mb-4">
     <check if="{{ @viewing_as_admin }}">
