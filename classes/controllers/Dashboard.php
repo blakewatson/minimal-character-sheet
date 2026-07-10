@@ -65,7 +65,7 @@ class Dashboard {
         }
 
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $sheets = $sheet->get_all_sheets( $email );
+        $sheets = $sheet->get_all_sheet_summaries( $email );
 
         // If this is a normal user, then save the updated_at timestamp
         if ( ! $viewing_as_admin ) {
@@ -386,7 +386,7 @@ class Dashboard {
 
         // Append "Copy" if a sheet with the same name already exists
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $existing_sheets = $sheet->get_all_sheets( $email );
+        $existing_sheets = $sheet->get_all_sheet_summaries( $email );
         if( $existing_sheets ) {
             $existing_names = array_map( function( $s ) { return $s['name']; }, $existing_sheets );
             if( in_array( $name, $existing_names ) ) {
