@@ -18,6 +18,7 @@ vendor
 ._*
 tmp
 .env
+b2-cache.json
 .nova
 /.nova/Configuration.json
 .claude
