@@ -1,4 +1,5 @@
 import Quill from 'quill';
+import { removeDisallowedEmbedsFromDelta } from './utils.js';
 
 // One helper instance, off-screen or in a detached element
 const helperContainer = document.createElement('div');
@@ -9,7 +10,7 @@ const helperQuill = new Quill(helperContainer, {
 });
 
 export function deltaToHtml(delta) {
-  helperQuill.setContents(delta);
+  helperQuill.setContents(removeDisallowedEmbedsFromDelta(delta));
   return helperContainer.querySelector('.ql-editor').innerHTML;
 }
 

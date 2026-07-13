@@ -10,7 +10,10 @@
 <script>
 import Quill from 'quill';
 import { deltaToHtml } from '../quill-renderer.js';
-import { MCS_QUILL_DELTA_PREFIX } from '../utils.js';
+import {
+  MCS_QUILL_DELTA_PREFIX,
+  removeDisallowedEmbedsFromDelta,
+} from '../utils.js';
 
 const Delta = Quill.import('delta');
 
@@ -86,6 +89,9 @@ export default {
         theme: 'bubble',
         modules: {
           toolbar: this.toolbarOptions,
+          clipboard: {
+            matchers: [['IMG', () => new Delta()]],
+          },
         },
         formats: [
           'bold',
@@ -97,12 +103,23 @@ export default {
           'list',
           'align',
           'indent',
-          'image',
         ],
       });
 
       if (this.initialContents) {
-        this.editor.setContents(this.initialContents);
+        const sanitizedContents = removeDisallowedEmbedsFromDelta(
+          this.initialContents,
+        );
+        this.editor.setContents(sanitizedContents);
+
+        if (
+          !this.readOnly &&
+          JSON.stringify(sanitizedContents) !==
+            JSON.stringify(this.initialContents)
+        ) {
+          this.contents = sanitizedContents;
+          this.$emit('quill-text-change', sanitizedContents);
+        }
       }
 
       if (this.readOnly) {
@@ -152,7 +169,8 @@ export default {
         }
 
         const range = this.editor.getSelection(true);
-        const insertDelta = new Delta(pastedDelta.ops);
+        const sanitizedDelta = removeDisallowedEmbedsFromDelta(pastedDelta);
+        const insertDelta = new Delta(sanitizedDelta.ops);
         const pasteChange = new Delta()
           .retain(range.index)
           .delete(range.length)
@@ -187,7 +205,9 @@ export default {
         return;
       }
 
-      const html = deltaToHtml(this.initialContents);
+      const html = deltaToHtml(
+        removeDisallowedEmbedsFromDelta(this.initialContents),
+      );
 
       this.$el.innerHTML = `<div class="ql-editor">${html}</div>`;
 
@@ -218,7 +238,9 @@ export default {
       } else {
         this.$nextTick(() => {
           // Editor has been activated, use Quill's API
-          this.editor.setContents(this.initialContents);
+          this.editor.setContents(
+            removeDisallowedEmbedsFromDelta(this.initialContents),
+          );
         });
       }
     };

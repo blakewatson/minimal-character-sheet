@@ -187,6 +187,7 @@
 
   & ul,
   & ol {
+    margin-top: 0.5em;
     padding-left: 0;
   }
 

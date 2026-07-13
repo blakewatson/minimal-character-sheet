@@ -31,7 +31,7 @@ A digital character sheet for D&D 5e. Create, edit, and manage your characters o
 
 ## Requirements
 
-- PHP (v8 recommended but older versions may work)
+- PHP (v8.1+)
 - Node.js (for building frontend assets)
 - [Postmark](https://postmarkapp.com/) account (for signup confirmation emails). If you want to opt out of using Postmark, you can omit the environmental variables listed above. It just means you will need to manually confirm new signups. You can rework the code to either not use this or use the provider of your choice. Perhaps I can make this easier to customize in a future update.
 

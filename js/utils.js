@@ -8,6 +8,29 @@ const now =
 
 export const MCS_QUILL_DELTA_PREFIX = 'MCS_QUILL_DELTA:v1:';
 
+export const DISALLOWED_QUILL_EMBEDS = ['image'];
+
+export function removeDisallowedEmbedsFromDelta(delta) {
+  if (!delta || !Array.isArray(delta.ops)) {
+    return delta;
+  }
+
+  return {
+    ...delta,
+    ops: delta.ops
+      .filter((op) => {
+        if (!op || typeof op.insert !== 'object' || op.insert === null) {
+          return true;
+        }
+
+        return !DISALLOWED_QUILL_EMBEDS.some((embed) =>
+          Object.prototype.hasOwnProperty.call(op.insert, embed),
+        );
+      })
+      .map((op) => ({ ...op })),
+  };
+}
+
 // from underscore.js, modified to use optional trailingWait
 export function throttle(func, wait, options = {}) {
   let timeout = null;

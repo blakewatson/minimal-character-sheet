@@ -89,6 +89,7 @@ class Sheet extends \DB\SQL\Mapper {
         $sheet_data['id'] = null;
         $sheet_data['slug'] = $slug;
         $sheet_data['characterName'] = $name;
+        $sheet_data = QuillSanitizer::sanitize_sheet_data( $sheet_data );
 
         // Encode once for storage in the database
         $str_data = $this->encode_sheet_data( $sheet_data, 'create_sheet_with_data for sheet slug: ' . $slug );
@@ -232,6 +233,8 @@ class Sheet extends \DB\SQL\Mapper {
                 error_log( 'Failed to decode JSON in save_sheet for sheet ID: ' . $id );
                 return false;
             }
+
+            $decoded_data = QuillSanitizer::sanitize_sheet_data( $decoded_data );
 
             // Successfully decoded - re-encode it once for storage
             // This automatically fixes any legacy double-encoded data
