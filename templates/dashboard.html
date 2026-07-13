@@ -16,45 +16,43 @@
     </div>
   </check>
 
-  <check if="{{ @show_announcement_banner }}">
-    <div
-      id="announcement-banner"
-      class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
-    >
-      <span>
-        I performed some site maintenance. Most accounts shouldn't be affected.
-        <a href="#announcements">Read more</a>
-      </span>
-
-      <button
-        data-dismiss-banner
-        class="button ml-4 cursor-pointer border p-1 text-xs leading-none"
-        aria-label="Dismiss"
-      >
-        <i class="fa-sharp fa-times"></i>
-      </button>
-    </div>
-  </check>
-
   <exclude>
-    <div
-      id="announcement-banner"
-      class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
-    >
-      <span>
-        On
-        <a
-          href="https://www.timeanddate.com/worldclock/fixedtime.html?iso=20260703T10&p1=515&ah=1"
-          target="_blank"
-          rel="noopener noreferrer"
-          >Friday, July 3, 2026 at 10am CDT</a
+    <check if="{{ @show_announcement_banner }}">
+      <div
+        id="announcement-banner"
+        class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+      >
+        <span>
+          Images inside text boxes are no longer supported.
+          <a href="#announcements">Read more</a>
+        </span>
+        <button
+          data-dismiss-banner
+          class="button ml-4 cursor-pointer border p-1 text-xs leading-none"
+          aria-label="Dismiss"
         >
-        the site will be <strong>offline for maintenance</strong> as I migrate
-        it to a new server. It should be back up within an hour (hopefully much
-        sooner).
-      </span>
-    </div>
+          <i class="fa-sharp fa-times"></i>
+        </button>
+      </div>
+    </check>
   </exclude>
+
+  <div
+    id="announcement-banner"
+    class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+  >
+    <span>
+      <strong>Images will be removed.</strong> On
+      <a
+        href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=Minimal+Character+Sheet+dropping+image+support&iso=20260816T14&p1=515"
+        target="_blank"
+        rel="noopener noreferrer"
+        >Sunday, August 16, 2026 at 2pm CDT</a
+      >
+      the site will be dropping support for images in text boxes.
+      <a href="#announcements">Read more</a>
+    </span>
+  </div>
 
   <h1 class="mt-8 mb-4">
     <check if="{{ @viewing_as_admin }}">
@@ -241,6 +239,30 @@
     <hr class="my-8" />
 
     <h2 id="announcements">Announcements</h2>
+
+    <div class="announcement">
+      <p>
+        <strong>2026-07-13:</strong> The app has supported pasting images into
+        its text boxes for some time now, but that support was not intentional.
+        It was a happy accident that I never got around to fixing. However, it
+        has caused some issues with the way the app handles character sheet data
+        and I will be removing that functionality on August 16, 2026. This won't
+        affect most users but if you were using inline images, I apologize for
+        removing the feature.
+      </p>
+
+      <p>
+        I may be able to support images in the future, and if I do that they
+        will be handled in a much smarter manner. If having images in your
+        character sheet is something you are interested in,
+        <a href="mailto:blake@blakewatson.com">email me</a> and let me know!
+      </p>
+
+      <p>
+        But in the meantime, for the stability of the app, I need to remove
+        support for pasting images.
+      </p>
+    </div>
 
     <div class="announcement">
       <p>
