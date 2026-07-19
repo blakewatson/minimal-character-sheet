@@ -263,6 +263,17 @@
               {{ $t('Include in copy') }}
             </label>
 
+            <copy-now-button
+              :build-copyable-delta="
+                buildClassFeatureOptionDelta.bind(
+                  this,
+                  option._featureKey,
+                  option.name,
+                )
+              "
+              class="absolute top-1 right-1"
+            ></copy-now-button>
+
             <div class="*:last:mb-0" v-html="option.rendered_desc"></div>
           </div>
         </details>
@@ -737,10 +748,13 @@ export default {
     //!SECTION
 
     deselectAllForCopy() {
+      this.includeTitleInCopy = false;
+      this.isSelectedCoreTraits = false;
       this.isSelectedHitPoints = false;
       this.isSelectedProficiencies = false;
       this.isSelectedStartingEquipment = false;
       this.selectedClassFeatures = [];
+      this.selectedClassFeatureOptions = [];
     },
 
     async fetchClassDetails() {

@@ -313,6 +313,13 @@ export default {
       }
       this.lastScrollPosition = this.scrollPosition;
     },
+
+    selectedEndpoint(newVal, oldVal) {
+      if (newVal !== oldVal) {
+        this.searchResults = null;
+        this.noResultsFound = false;
+      }
+    },
   },
 
   methods: {
