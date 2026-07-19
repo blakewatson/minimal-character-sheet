@@ -44,6 +44,7 @@ import {
   deltaAddItalicizedLine,
   deltaAddMarkdown,
   deltaAddProperty,
+  renderMarkdown,
 } from '../../utils.js';
 import CopyContentButton from '../CopyContentButton.vue';
 

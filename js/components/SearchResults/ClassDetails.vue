@@ -19,8 +19,6 @@
     <div class="mt-2" v-else-if="classDetails">
       <copy-content-button
         :build-copyable-delta="buildCopyableDelta"
-        :build-copyable-html="buildCopyableHtml"
-        :build-copyable-text="buildCopyableText"
         :disabled="shouldDisableCopyButton"
         @close="$emit('close')"
         class="my-2"
@@ -296,8 +294,6 @@
 
     <copy-content-button
       :build-copyable-delta="buildCopyableDelta"
-      :build-copyable-html="buildCopyableHtml"
-      :build-copyable-text="buildCopyableText"
       :disabled="shouldDisableCopyButton"
       @close="$emit('close')"
       class="mt-4"
@@ -579,25 +575,26 @@ export default {
       return delta;
     },
 
-    buildCopyableHtml() {
-      let html = `<h1>${this.characterClass.name}</h1>`;
+    // Not implementing HTML and plain text copy for class features at this time.
+    // buildCopyableHtml() {
+    //   let html = `<h1>${this.characterClass.name}</h1>`;
 
-      if (this.characterClass.document) {
-        html += `<p><em class="text-light-muted-foreground dark:text-dark-muted-foreground">${this.characterClass.document.name}</em></p>`;
-      }
+    //   if (this.characterClass.document) {
+    //     html += `<p><em class="text-light-muted-foreground dark:text-dark-muted-foreground">${this.characterClass.document.name}</em></p>`;
+    //   }
 
-      return html;
-    },
+    //   return html;
+    // },
 
-    buildCopyableText() {
-      let text = `${this.characterClass.name}\n`;
+    // buildCopyableText() {
+    //   let text = `${this.characterClass.name}\n`;
 
-      if (this.characterClass.document) {
-        text += `${this.characterClass.document.name}\n`;
-      }
+    //   if (this.characterClass.document) {
+    //     text += `${this.characterClass.document.name}\n`;
+    //   }
 
-      return text;
-    },
+    //   return text;
+    // },
 
     //SECTION Block-level deltas
     buildClassFeatureDelta(featureKey, existingDelta = null) {
@@ -819,11 +816,17 @@ export default {
     renderMarkdown,
 
     selectAllForCopy() {
+      this.includeTitleInCopy = true;
+      this.isSelectedCoreTraits = true;
       this.isSelectedHitPoints = true;
       this.isSelectedProficiencies = true;
       this.isSelectedStartingEquipment = true;
       this.selectedClassFeatures = this.classFeatures.map(
         (feature) => feature.key,
+      );
+      this.selectedClassFeatureOptions = this.classFeatureOptions.flatMap(
+        (list) =>
+          list.options.map((option) => option._featureKey + '|' + option.name),
       );
     },
   },

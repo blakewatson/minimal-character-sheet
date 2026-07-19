@@ -82,6 +82,10 @@
           }}
         </p>
 
+        <p class="my-1 text-xs" v-if="selectedEndpoint === 'classes'">
+          {{ $t('Class search is experimental. Please report any issues.') }}
+        </p>
+
         <div class="mt-2 flex items-center gap-4 text-sm">
           <label>
             <input type="checkbox" v-model="include2014" />
@@ -205,21 +209,21 @@ export default {
   data() {
     return {
       endpoints: {
-        items: 'https://api.open5e.com/v2/items',
-        magicitems: 'https://api.open5e.com/v2/magicitems',
-        weapons: 'https://api.open5e.com/v2/weapons',
-        armor: 'https://api.open5e.com/v2/armor',
-        backgrounds: 'https://api.open5e.com/v2/backgrounds',
-        feats: 'https://api.open5e.com/v2/feats',
-        species: 'https://api.open5e.com/v2/species',
-        creatures: 'https://api.open5e.com/v2/creatures',
-        conditions: 'https://api.open5e.com/v2/conditions',
-        spells: 'https://api.open5e.com/v2/spells',
-        classes: 'https://api.open5e.com/v2/classes',
-        environments: 'https://api.open5e.com/v2/environments',
-        abilities: 'https://api.open5e.com/v2/abilities',
-        skills: 'https://api.open5e.com/v2/skills',
-        services: 'https://api.open5e.com/v2/services',
+        items: 'https://api.open5e.com/v2/items/',
+        magicitems: 'https://api.open5e.com/v2/magicitems/',
+        weapons: 'https://api.open5e.com/v2/weapons/',
+        armor: 'https://api.open5e.com/v2/armor/',
+        backgrounds: 'https://api.open5e.com/v2/backgrounds/',
+        feats: 'https://api.open5e.com/v2/feats/',
+        species: 'https://api.open5e.com/v2/species/',
+        creatures: 'https://api.open5e.com/v2/creatures/',
+        conditions: 'https://api.open5e.com/v2/conditions/',
+        spells: 'https://api.open5e.com/v2/spells/',
+        classes: 'https://api.open5e.com/v2/classes/',
+        environments: 'https://api.open5e.com/v2/environments/',
+        abilities: 'https://api.open5e.com/v2/abilities/',
+        skills: 'https://api.open5e.com/v2/skills/',
+        services: 'https://api.open5e.com/v2/services/',
       },
       gameSystemKeys: ['5e-2014', '5e-2024', 'a5e'],
       include2014: false,

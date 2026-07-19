@@ -34,6 +34,7 @@
       :tooltip-type="showCopyForOtherAppsError ? 'danger' : 'default'"
       class="button text-xs min-[431px]:ml-auto"
       tooltip-align="end"
+      v-if="buildCopyableHtml && buildCopyableText"
     >
       {{ $t('Copy for other apps') }}
     </app-button>
