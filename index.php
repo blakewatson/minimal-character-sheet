@@ -27,7 +27,15 @@ $debug_level = $debug_level ? $debug_level : 0;
 $f3->set( 'DEBUG', $debug_level );
 
 $f3->set( 'AUTOLOAD', 'classes/models/; classes/controllers/; classes/utils/' );
-$f3->set( 'DB', new \DB\SQL( 'sqlite:data/db.sqlite3' ) );
+
+$db = new \DB\SQL( 'sqlite:data/db.sqlite3', null, null, [
+    \PDO::ATTR_TIMEOUT => 5,
+] );
+$db->exec( 'PRAGMA busy_timeout=5000' );
+$db->exec( 'PRAGMA synchronous=NORMAL' );
+$db->exec( 'PRAGMA wal_autocheckpoint=1000' );
+$f3->set( 'DB', $db );
+
 $f3->set( 'CACHE', 'folder=tmp/cache/' );
 
 // Allow only admins to access the site?

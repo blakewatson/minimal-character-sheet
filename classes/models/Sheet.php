@@ -185,6 +185,27 @@ class Sheet extends \DB\SQL\Mapper {
         return $sheets;
     }
 
+    public function get_all_sheet_summaries( $email ) {
+        $email = EmailUtils::normalize_email( $email );
+        $rows = $this->db->exec(
+            'SELECT id, slug, name, is_public, is_2024, email FROM sheet WHERE lower(trim(email)) = ?',
+            [ $email ]
+        );
+
+        if( ! $rows ) return false;
+
+        return array_map( function( $row ) {
+            return [
+                'id' => $row['id'],
+                'slug' => $row['slug'],
+                'name' => $row['name'],
+                'is_public' => (bool) $row['is_public'],
+                'is_2024' => (bool) $row['is_2024'],
+                'email' => $row['email']
+            ];
+        }, $rows );
+    }
+
     public function save_sheet( $id, $name, $data ) {
         // Reuse existing mapper state when already loaded with this record.
         if( $this->dry() || (int) $this->id !== (int) $id ) {
