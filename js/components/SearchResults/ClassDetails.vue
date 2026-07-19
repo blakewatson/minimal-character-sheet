@@ -152,6 +152,11 @@
           {{ $t('Include in copy') }}
         </label>
 
+        <copy-now-button
+          :build-copyable-delta="buildCoreTraitsTableDelta.bind(this)"
+          class="absolute top-1 right-1"
+        ></copy-now-button>
+
         <table class="mb-0 w-full border-collapse text-sm">
           <tbody>
             <tr
