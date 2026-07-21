@@ -58,20 +58,21 @@
     @apply accent-light-accent dark:accent-dark-accent;
   }
 
-  .page {
+  .page,
+  .input-styles {
     input,
     textarea {
-      @apply text-light-foreground dark:text-dark-foreground rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 dark:border-zinc-600 dark:bg-zinc-800;
+      @apply text-light-foreground dark:text-dark-foreground rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 leading-6 dark:border-zinc-600 dark:bg-zinc-800;
     }
 
     input[type='text'],
     input[type='email'],
     input[type='password'] {
-      @apply w-full;
+      @apply w-full leading-6;
     }
 
     select {
-      @apply text-light-foreground dark:text-dark-foreground rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 dark:border-zinc-600 dark:bg-zinc-800;
+      @apply text-light-foreground dark:text-dark-foreground rounded-xs border border-neutral-600 bg-neutral-100 px-2 py-1 leading-6 dark:border-zinc-600 dark:bg-zinc-800;
     }
   }
 

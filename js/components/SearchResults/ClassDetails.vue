@@ -283,7 +283,72 @@
       </div>
     </div>
 
-    <div class="my-3 flex gap-2">
+    <div class="my-4" v-if="isFetchingSubclasses">
+      <i class="fa-sharp fa-spinner-third fa-spin mr-2"></i>
+      Fetching subclass details...
+    </div>
+
+    <label
+      for="subclass"
+      class="mb-2 block text-sm font-bold"
+      v-if="subClasses.length"
+      >{{ $t('Subclass') }}</label
+    >
+    <select
+      class="mb-4"
+      id="subclass"
+      name="subclass"
+      v-if="subClasses.length"
+      v-model="selectedSubclassKey"
+    >
+      <option :value="null">{{ $t('Select a subclass') }}</option>
+      <option
+        v-for="subClass in subClasses"
+        :key="subClass.key"
+        :value="subClass.key"
+      >
+        {{ subClass.name }}
+      </option>
+    </select>
+
+    <div
+      :class="{
+        'border-light-accent dark:border-dark-accent':
+          selectedSubclassFeatures.includes(feature.key),
+        'border-light-muted-foreground dark:border-dark-muted-foreground':
+          !selectedSubclassFeatures.includes(feature.key),
+      }"
+      :key="feature.key"
+      class="relative mb-4 rounded-sm border px-2 pt-8 pb-2 text-sm"
+      v-for="feature in subclassFeatures"
+    >
+      <label class="absolute top-2 left-2 flex items-center gap-2 text-sm">
+        <input
+          :value="feature.key"
+          type="checkbox"
+          v-model="selectedSubclassFeatures"
+        />
+        {{ $t('Include in copy') }}
+      </label>
+
+      <copy-now-button
+        :build-copyable-delta="buildClassFeatureDelta.bind(this, feature.key)"
+        class="absolute top-1 right-1"
+      ></copy-now-button>
+
+      <details>
+        <summary class="text-base font-bold">
+          <template v-if="feature.gained_at.length > 0"
+            >Level {{ feature.gained_at[0].level }}:
+          </template>
+          {{ feature.name }}
+        </summary>
+
+        <div class="mt-3 *:last:mb-0" v-html="feature.rendered_desc"></div>
+      </details>
+    </div>
+
+    <div class="my-3 flex gap-2" v-if="classDetails">
       <button @click="selectAllForCopy" class="button text-sm">
         {{ $t('Select all') }}
       </button>
@@ -334,6 +399,7 @@ export default {
       classDetails: null,
       includeTitleInCopy: false,
       isFetchingDetails: false,
+      isFetchingSubclasses: false,
       isOpen: false,
       isSelectedCoreTraits: false,
       isSelectedHitPoints: false,
@@ -341,6 +407,8 @@ export default {
       isSelectedStartingEquipment: false,
       selectedClassFeatures: [],
       selectedClassFeatureOptions: [],
+      selectedSubclassKey: null,
+      selectedSubclassFeatures: [],
       subClasses: [],
     };
   },
@@ -462,6 +530,12 @@ export default {
       return proficiencies.desc;
     },
 
+    selectedSubclass() {
+      return this.subClasses.find(
+        (subclass) => subclass.key === this.selectedSubclassKey,
+      );
+    },
+
     shouldDisableCopyButton() {
       return (
         !this.includeTitleInCopy &&
@@ -470,7 +544,8 @@ export default {
         !this.isSelectedProficiencies &&
         !this.isSelectedStartingEquipment &&
         !this.selectedClassFeatureOptions.length &&
-        this.selectedClassFeatures.length === 0
+        this.selectedClassFeatures.length === 0 &&
+        this.selectedSubclassFeatures.length === 0
       );
     },
 
@@ -484,6 +559,32 @@ export default {
       }
 
       return startingEquipment.desc;
+    },
+
+    subclassFeatures() {
+      return (
+        this.selectedSubclass?.features
+          .filter(
+            (feature) =>
+              feature.feature_type === 'CLASS_LEVEL_FEATURE' &&
+              feature.desc !== '[Column data]' &&
+              !feature.name.endsWith('Spell List'),
+          )
+          .map((feature) => {
+            const featureCopy = { ...feature };
+            featureCopy.rendered_desc = renderMarkdown(
+              featureCopy.desc.replaceAll('###', '### '), //TODO - fix markdown rendering so that this hack isn't necessary
+            );
+            featureCopy.gained_at = featureCopy.gained_at.toSorted(
+              (a, b) => a.level - b.level,
+            );
+            return featureCopy;
+          })
+          .toSorted(
+            (a, b) =>
+              (a.gained_at[0]?.level || 0) - (b.gained_at[0]?.level || 0),
+          ) || []
+      );
     },
   },
 
@@ -505,6 +606,14 @@ export default {
         this.fetchSubClasses();
         return;
       }
+    },
+
+    selectedSubclassKey(newKey, oldKey) {
+      if (newKey === oldKey) {
+        return;
+      }
+
+      this.selectedSubclassFeatures = [];
     },
   },
 
@@ -572,6 +681,25 @@ export default {
         }
       }
 
+      if (this.selectedSubclass) {
+        delta = deltaAddHeader(
+          delta,
+          `Subclass: ${this.selectedSubclass.name}`,
+          1,
+        );
+
+        delta.insert('\n');
+
+        this.selectedSubclassFeatures.forEach((key) => {
+          if (!this.selectedSubclassFeatures.includes(key)) {
+            return;
+          }
+
+          delta = this.buildSubclassFeatureDelta(key, delta);
+          delta.insert('\n');
+        });
+      }
+
       return delta;
     },
 
@@ -604,7 +732,13 @@ export default {
         (f) => f.key === featureKey,
       );
 
-      delta = deltaAddHeader(delta, feature.name, 1);
+      const featureLevel = feature.gained_at[0]?.level || null;
+
+      const featureName = featureLevel
+        ? `Level ${featureLevel}: ${feature.name}`
+        : feature.name;
+
+      delta = deltaAddHeader(delta, featureName, 1);
       delta = deltaAddMarkdown(delta, feature.desc);
 
       return delta;
@@ -747,6 +881,25 @@ export default {
 
       return delta;
     },
+
+    buildSubclassFeatureDelta(featureKey, existingDelta = null) {
+      let delta = existingDelta || new Delta();
+
+      const feature = this.selectedSubclass.features.find(
+        (f) => f.key === featureKey,
+      );
+
+      const featureLevel = feature.gained_at[0]?.level || null;
+
+      const featureName = featureLevel
+        ? `Level ${featureLevel}: ${feature.name}`
+        : feature.name;
+
+      delta = deltaAddHeader(delta, featureName, 2);
+      delta = deltaAddMarkdown(delta, feature.desc);
+
+      return delta;
+    },
     //!SECTION
 
     deselectAllForCopy() {
@@ -757,6 +910,7 @@ export default {
       this.isSelectedStartingEquipment = false;
       this.selectedClassFeatures = [];
       this.selectedClassFeatureOptions = [];
+      this.selectedSubclassFeatures = [];
     },
 
     async fetchClassDetails() {
@@ -797,7 +951,7 @@ export default {
 
     async fetchSubClasses() {
       try {
-        this.isFetchingDetails = true;
+        this.isFetchingSubclasses = true;
 
         const url = new URL(this.endpoint);
         url.searchParams.set('subclass_of', this.characterClass.key);
@@ -806,10 +960,14 @@ export default {
         const resp = await fetch(url);
         const data = await resp.json();
         this.subClasses = data.results;
+
+        if (this.subClasses.length === 1) {
+          this.selectedSubclassKey = this.subClasses[0].key;
+        }
       } catch (error) {
         console.error('Error fetching subclasses:', error);
       } finally {
-        this.isFetchingDetails = false;
+        this.isFetchingSubclasses = false;
       }
     },
 
@@ -828,6 +986,12 @@ export default {
         (list) =>
           list.options.map((option) => option._featureKey + '|' + option.name),
       );
+
+      if (this.selectedSubclass) {
+        this.selectedSubclassFeatures = this.subclassFeatures.map(
+          (feature) => feature.key,
+        );
+      }
     },
   },
 

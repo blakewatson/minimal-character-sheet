@@ -1,7 +1,7 @@
 <template>
   <dialog
     @toggle="isOpen = $event.target.open"
-    class="bg-light-background dark:bg-dark-background fixed top-1/2 left-1/2 h-[calc(100%-0.5rem)] max-h-none w-160 max-w-[calc(100%-0.5rem)] -translate-1/2 rounded border border-neutral-300 shadow-lg sm:h-[calc(100%-2rem)] sm:w-162.5 sm:max-w-none dark:border-neutral-600 dark:backdrop:bg-[rgba(0,0,0,0.5)]"
+    class="input-styles bg-light-background dark:bg-dark-background fixed top-1/2 left-1/2 h-[calc(100%-0.5rem)] max-h-none w-160 max-w-[calc(100%-0.5rem)] -translate-1/2 rounded border border-neutral-300 shadow-lg sm:h-[calc(100%-2rem)] sm:w-162.5 sm:max-w-none dark:border-neutral-600 dark:backdrop:bg-[rgba(0,0,0,0.5)]"
     ref="addContentDialog"
   >
     <div class="absolute top-2 right-2 z-10">
@@ -33,7 +33,7 @@
             <select
               id="endpoints"
               v-model="selectedEndpoint"
-              class="text-light-foreground hover:text-light-accent focus:text-light-accent dark:text-dark-foreground dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent border-light-muted-foreground dark:border-dark-muted-foreground h-[32.5px] w-full max-w-full rounded-xs border px-2 py-1 text-[16px] hover:bg-neutral-100 focus:bg-neutral-100 focus:outline-2 sm:text-[15px] dark:bg-black dark:hover:bg-black dark:focus:bg-black"
+              class="w-full max-w-full"
             >
               <option :value="endpoint" v-for="endpoint in supportedEndpoints">
                 {{ endpointLabels[endpoint] }}
@@ -43,15 +43,13 @@
 
           <div class="grow">
             <label class="block" for="spell-search">{{ $t('Search') }}</label>
-            <field
+            <input
               :auto-size="false"
-              :value="searchQuery"
-              @update-value="searchQuery = $event"
               autofocus
-              class="border-light-muted-foreground! dark:border-dark-muted-foreground! w-full border! bg-neutral-100 px-2! py-1! dark:bg-black"
               id="spell-search"
               type="text"
-            ></field>
+              v-model="searchQuery"
+            />
           </div>
 
           <app-button
@@ -234,7 +232,7 @@ export default {
       lastScrollPosition: 0,
       noResultsFound: false,
       scrollPosition: 0,
-      searchQuery: 'warlock',
+      searchQuery: 'ranger',
       searchResults: null,
       selectedEndpoint: 'classes',
       supportedEndpoints: ['backgrounds', 'classes', 'feats', 'spells'],
