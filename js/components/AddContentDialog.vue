@@ -232,7 +232,7 @@ export default {
       lastScrollPosition: 0,
       noResultsFound: false,
       scrollPosition: 0,
-      searchQuery: 'ranger',
+      searchQuery: '',
       searchResults: null,
       selectedEndpoint: 'classes',
       supportedEndpoints: ['backgrounds', 'classes', 'feats', 'spells'],

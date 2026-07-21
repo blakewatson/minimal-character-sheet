@@ -283,70 +283,72 @@
       </div>
     </div>
 
-    <div class="my-4" v-if="isFetchingSubclasses">
+    <div class="my-4" v-if="isFetchingSubclasses && !isFetchingDetails">
       <i class="fa-sharp fa-spinner-third fa-spin mr-2"></i>
       Fetching subclass details...
     </div>
 
-    <label
-      for="subclass"
-      class="mb-2 block text-sm font-bold"
-      v-if="subClasses.length"
-      >{{ $t('Subclass') }}</label
+    <template
+      v-if="subClasses.length && !isFetchingSubclasses && !isFetchingDetails"
     >
-    <select
-      class="mb-4"
-      id="subclass"
-      name="subclass"
-      v-if="subClasses.length"
-      v-model="selectedSubclassKey"
-    >
-      <option :value="null">{{ $t('Select a subclass') }}</option>
-      <option
-        v-for="subClass in subClasses"
-        :key="subClass.key"
-        :value="subClass.key"
+      <label for="subclass" class="mb-2 block text-sm font-bold">{{
+        $t('Subclass')
+      }}</label>
+
+      <select
+        class="mb-4"
+        id="subclass"
+        name="subclass"
+        v-if="subClasses.length"
+        v-model="selectedSubclassKey"
       >
-        {{ subClass.name }}
-      </option>
-    </select>
+        <option :value="null">{{ $t('Select a subclass') }}</option>
+        <option
+          v-for="subClass in subClasses"
+          :key="subClass.key"
+          :value="subClass.key"
+        >
+          {{ subClass.name }}
+        </option>
+      </select>
 
-    <div
-      :class="{
-        'border-light-accent dark:border-dark-accent':
-          selectedSubclassFeatures.includes(feature.key),
-        'border-light-muted-foreground dark:border-dark-muted-foreground':
-          !selectedSubclassFeatures.includes(feature.key),
-      }"
-      :key="feature.key"
-      class="relative mb-4 rounded-sm border px-2 pt-8 pb-2 text-sm"
-      v-for="feature in subclassFeatures"
-    >
-      <label class="absolute top-2 left-2 flex items-center gap-2 text-sm">
-        <input
-          :value="feature.key"
-          type="checkbox"
-          v-model="selectedSubclassFeatures"
-        />
-        {{ $t('Include in copy') }}
-      </label>
+      <div
+        :class="{
+          'border-light-accent dark:border-dark-accent':
+            selectedSubclassFeatures.includes(feature.key),
+          'border-light-muted-foreground dark:border-dark-muted-foreground':
+            !selectedSubclassFeatures.includes(feature.key),
+        }"
+        :key="feature.key"
+        class="relative mb-4 rounded-sm border px-2 pt-8 pb-2 text-sm"
+        v-for="feature in subclassFeatures"
+      >
+        <label class="absolute top-2 left-2 flex items-center gap-2 text-sm">
+          <input
+            :value="feature.key"
+            type="checkbox"
+            v-model="selectedSubclassFeatures"
+          />
+          {{ $t('Include in copy') }}
+        </label>
 
-      <copy-now-button
-        :build-copyable-delta="buildClassFeatureDelta.bind(this, feature.key)"
-        class="absolute top-1 right-1"
-      ></copy-now-button>
+        <copy-now-button
+          :build-copyable-delta="buildClassFeatureDelta.bind(this, feature.key)"
+          class="absolute top-1 right-1"
+        ></copy-now-button>
 
-      <details>
-        <summary class="text-base font-bold">
-          <template v-if="feature.gained_at.length > 0"
-            >Level {{ feature.gained_at[0].level }}:
-          </template>
-          {{ feature.name }}
-        </summary>
+        <details>
+          <summary class="text-base font-bold">
+            <template v-if="feature.gained_at.length > 0"
+              >Level {{ feature.gained_at[0].level }}:
+            </template>
+            {{ feature.name }}
+          </summary>
 
-        <div class="mt-3 *:last:mb-0" v-html="feature.rendered_desc"></div>
-      </details>
-    </div>
+          <div class="mt-3 *:last:mb-0" v-html="feature.rendered_desc"></div>
+        </details>
+      </div>
+    </template>
 
     <div class="my-3 flex gap-2" v-if="classDetails">
       <button @click="selectAllForCopy" class="button text-sm">
@@ -920,13 +922,10 @@ export default {
         const url = new URL(this.endpoint);
         url.searchParams.set('key', this.characterClass.key);
 
-        const subclassUrl = new URL(this.endpoint);
-        subclassUrl.searchParams.set('subclass_of', this.characterClass.key);
-        subclassUrl.searchParams.set('is_subclass', 'true');
+        // go ahead and initiate the fetch for subclasses while we wait for the class details to come back
+        this.fetchSubClasses();
 
-        const promises = [fetch(url), fetch(subclassUrl)];
-
-        const classResp = await promises[0];
+        const classResp = await fetch(url);
         const classDetails = await classResp.json();
 
         if (classDetails.results.length === 0) {
@@ -938,10 +937,6 @@ export default {
         }
 
         this.classDetails = classDetails.results[0];
-
-        await promises[1];
-        const subclassDetails = await (await promises[1]).json();
-        this.subClasses = subclassDetails.results;
       } catch (error) {
         console.error('Error fetching class details:', error);
       } finally {
