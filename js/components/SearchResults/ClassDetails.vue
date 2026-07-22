@@ -13,7 +13,7 @@
 
     <div class="mt-4" v-if="isFetchingDetails">
       <i class="fa-sharp fa-spinner-third fa-spin mr-2"></i>
-      Fetching class details...
+      {{ $t('Fetching class details...') }}
     </div>
 
     <div class="mt-2" v-else-if="classDetails">
@@ -203,7 +203,7 @@
         <details>
           <summary class="text-base font-bold">
             <template v-if="feature.gained_at.length > 0"
-              >Level {{ feature.gained_at[0].level }}:
+              >{{ $t('Level') }} {{ feature.gained_at[0].level }}:
             </template>
             {{ feature.name }}
           </summary>
@@ -285,7 +285,7 @@
 
     <div class="my-4" v-if="isFetchingSubclasses && !isFetchingDetails">
       <i class="fa-sharp fa-spinner-third fa-spin mr-2"></i>
-      Fetching subclass details...
+      {{ $t('Fetching subclass details...') }}
     </div>
 
     <template
@@ -340,7 +340,7 @@
         <details>
           <summary class="text-base font-bold">
             <template v-if="feature.gained_at.length > 0"
-              >Level {{ feature.gained_at[0].level }}:
+              >{{ $t('Level') }} {{ feature.gained_at[0].level }}:
             </template>
             {{ feature.name }}
           </summary>
