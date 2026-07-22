@@ -16,27 +16,6 @@
     </div>
   </check>
 
-  <exclude>
-    <check if="{{ @show_announcement_banner }}">
-      <div
-        id="announcement-banner"
-        class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
-      >
-        <span>
-          Images inside text boxes are no longer supported.
-          <a href="#announcements">Read more</a>
-        </span>
-        <button
-          data-dismiss-banner
-          class="button ml-4 cursor-pointer border p-1 text-xs leading-none"
-          aria-label="Dismiss"
-        >
-          <i class="fa-sharp fa-times"></i>
-        </button>
-      </div>
-    </check>
-  </exclude>
-
   <div
     id="announcement-banner"
     class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
@@ -54,9 +33,28 @@
     </span>
   </div>
 
+  <check if="{{ @show_announcement_banner }}">
+    <div
+      id="announcement-banner"
+      class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+    >
+      <span>
+        <strong>New Feature:</strong> Search class features from Open5e.
+        <a href="#announcements">Read more</a>
+      </span>
+      <button
+        data-dismiss-banner
+        class="button ml-4 cursor-pointer border p-1 text-xs leading-none"
+        aria-label="Dismiss"
+      >
+        <i class="fa-sharp fa-times"></i>
+      </button>
+    </div>
+  </check>
+
   <h1 class="mt-8 mb-4">
     <check if="{{ @viewing_as_admin }}">
-      <true>{{ @viewing_user_email }}'s Characters</true>
+      <true>{{ @viewing_user_email }}&rsquo;s Characters</true>
       <false>My Characters</false>
     </check>
   </h1>
@@ -242,13 +240,51 @@
 
     <div class="announcement">
       <p>
+        <strong>2026-07-21:</strong> In the content search panel (the spellbook
+        <i class="fa-sharp fa-regular fa-book-sparkles" role="presentation"></i>
+        icon) you can now search for class features from multiple editions of
+        D&D. The search results are structured as an à la carte menu of
+        information about your chosen class. Click the checkboxes for any of the
+        features you&rsquo;d like to copy, then click one button to copy
+        everything at once. Paste beautifully formatted content directly into
+        your character sheet.
+      </p>
+
+      <p>
+        This level of integration was quite an undertaking and there may be
+        bugs. I&rsquo;m calling this feature experimental for now. Please let me
+        know if you run into any issues or have any feedback. Please note that I
+        don&rsquo;t control the content that comes from the Open5e API. I
+        can&rsquo;t necessarily do anything about missing or inaccurate content.
+      </p>
+
+      <p>
+        The Open5e API can only serve content that is under an open license. It
+        releases some official D&D content under the
+        <a href="https://www.dndbeyond.com/srd">System Reference Document</a>,
+        which includes a lot—but not all—of the content covered in the
+        Player&rsquo;s Handbook. In particular, each class only includes one
+        subclass. That means if your subclass isn&rsquo;t covered in the System
+        Reference Document, it won&rsquo;t be included in these such results
+        from Open5e. You will have to copy that content from official sources to
+        paste it into your character sheet.
+      </p>
+
+      <p>
+        I still have more integrations planned for that panel so let me know if
+        there is something you&rsquo;d like me to work on first.
+      </p>
+    </div>
+
+    <div class="announcement">
+      <p>
         <strong>2026-07-13:</strong> The app has supported pasting images into
         its text boxes for some time now, but that support was not intentional.
         It was a happy accident that I never got around to fixing. However, it
         has caused some issues with the way the app handles character sheet data
-        and I will be removing that functionality on August 16, 2026. This won't
-        affect most users but if you were using inline images, I apologize for
-        removing the feature.
+        and I will be removing that functionality on August 16, 2026. This
+        won&rsquo;t affect most users but if you were using inline images, I
+        apologize for removing the feature.
       </p>
 
       <p>
@@ -267,33 +303,33 @@
     <div class="announcement">
       <p>
         <strong>2026-05-23:</strong> I fixed an issue where email addresses were
-        case-sensitive when registering and logging in. That's clearly not how
-        they should be and I feel quite silly that it went on this long. I've
-        fixed that issue and am treating email addresses as case-insensitive
-        now.
+        case-sensitive when registering and logging in. That&rsquo;s clearly not
+        how they should be and I feel quite silly that it went on this long.
+        I&rsquo;ve fixed that issue and am treating email addresses as
+        case-insensitive now.
       </p>
       <p>
         The side effect of this is that if for some reason you had two
         accounts—for example one where you capitalized your email and one where
-        you didn't—then only one of those accounts exists now. Only a small
-        number of accounts had these duplicate accounts. If yours happens to be
-        one of them, your character sheets in all the accounts with the same
-        email are now together in your one account. If you ended up needing to
-        reset your password this is probably why.
+        you didn&rsquo;t—then only one of those accounts exists now. Only a
+        small number of accounts had these duplicate accounts. If yours happens
+        to be one of them, your character sheets in all the accounts with the
+        same email are now together in your one account. If you ended up needing
+        to reset your password this is probably why.
       </p>
       <p>
         No one else should notice much of anything as this was all
-        behind-the-scenes. This was a critical thing to fix but now that it’s
-        done I can get back to adding features! If you notice anything wonky, as
-        always, please don’t hesitate to contact me.
+        behind-the-scenes. This was a critical thing to fix but now that
+        it&rsquo;s done I can get back to adding features! If you notice
+        anything wonky, as always, please don&rsquo;t hesitate to contact me.
       </p>
     </div>
 
     <div class="announcement">
       <p>
         <strong>2026-04-13:</strong> You can now roll dice directly from the
-        character sheet! You’ll see a <em>Dice</em> panel at the bottom of the
-        page. Click it to open. Select any combination of dice then click
+        character sheet! You&rsquo;ll see a <em>Dice</em> panel at the bottom of
+        the page. Click it to open. Select any combination of dice then click
         <em>Roll</em>.
       </p>
       <p>
@@ -306,8 +342,8 @@
         based on atmospheric noise.
       </p>
       <p>
-        If you don’t want to see the dice roller at all, there is a new setting
-        to hide it.
+        If you don&rsquo;t want to see the dice roller at all, there is a new
+        setting to hide it.
       </p>
     </div>
 
@@ -355,7 +391,7 @@
         <strong>2025-12-23:</strong> I restyled the UI from scratch. The general
         look and feel is the same but there are many subtle improvements. In
         particular you should notice an improved mobile experience. You may need
-        to hard refresh your browser if you aren't seeing the new design.
+        to hard refresh your browser if you aren&rsquo;t seeing the new design.
       </p>
 
       <p>
