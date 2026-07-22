@@ -683,7 +683,7 @@ export default {
         }
       }
 
-      if (this.selectedSubclass) {
+      if (this.selectedSubclass && this.selectedSubclassFeatures.length) {
         delta = deltaAddHeader(
           delta,
           `Subclass: ${this.selectedSubclass.name}`,
