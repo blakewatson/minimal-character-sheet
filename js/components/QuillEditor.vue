@@ -30,12 +30,12 @@ export default {
     toolbarOptions: {
       type: Array,
       default: () => [
+        { header: 1 },
+        { header: 2 },
         'bold',
         'italic',
         'strike',
         'link',
-        { header: 1 },
-        { header: 2 },
         'blockquote',
         { list: 'bullet' },
       ],
