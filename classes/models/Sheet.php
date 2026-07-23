@@ -185,10 +185,34 @@ class Sheet extends \DB\SQL\Mapper {
         return $sheets;
     }
 
-    public function get_all_sheet_summaries( $email ) {
+    public function get_all_sheet_summaries( $email, $sort = 'id-asc' ) {
         $email = EmailUtils::normalize_email( $email );
+
+        $order_by = 'id ASC'; // default sorting
+
+        switch( $sort ) {
+            case 'created-desc':
+                $order_by = 'created_at DESC NULLS LAST, id DESC';
+                break;
+            case 'created-asc':
+                $order_by = 'created_at ASC NULLS FIRST, id ASC';
+                break;
+            case 'name-asc':
+                $order_by = 'name COLLATE NOCASE ASC NULLS LAST, id ASC';
+                break;
+            case 'name-desc':
+                $order_by = 'name COLLATE NOCASE DESC NULLS LAST, id DESC';
+                break;
+            case 'updated-desc':
+                $order_by = 'updated_at DESC NULLS LAST, id DESC';
+                break;
+            default:
+                // If an unknown sort option is provided, default to created-asc
+                $order_by = 'id ASC';
+        }
+
         $rows = $this->db->exec(
-            'SELECT id, slug, name, is_public, is_2024, email FROM sheet WHERE lower(trim(email)) = ?',
+            'SELECT id, slug, name, is_public, is_2024, email, created_at, updated_at FROM sheet WHERE lower(trim(email)) = ? ORDER BY ' . $order_by,
             [ $email ]
         );
 
@@ -201,7 +225,9 @@ class Sheet extends \DB\SQL\Mapper {
                 'name' => $row['name'],
                 'is_public' => (bool) $row['is_public'],
                 'is_2024' => (bool) $row['is_2024'],
-                'email' => $row['email']
+                'email' => $row['email'],
+                'created_at' => $row['created_at'],
+                'updated_at' => $row['updated_at']
             ];
         }, $rows );
     }

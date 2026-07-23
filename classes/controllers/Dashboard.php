@@ -64,20 +64,18 @@ class Dashboard {
             $email = $current_user_email;
         }
 
+        // determine sorting
+        $sort = $f3->get('GET')['sort_characters'] ?? $_COOKIE['sort_characters'] ?? 'id-asc';
+        setcookie( 'sort_characters', $sort, time() + 60 * 60 * 24 * 365, '/' );
+
         $sheet = new Sheet( $f3->get( 'DB' ) );
-        $sheets = $sheet->get_all_sheet_summaries( $email );
+        $sheets = $sheet->get_all_sheet_summaries( $email, $sort );
 
         // If this is a normal user, then save the updated_at timestamp
         if ( ! $viewing_as_admin ) {
             $current_user->set( 'updated_at', date( 'Y-m-d H:i:s' ) );
             $current_user->save();
         }
-
-        $f3->set( 'is_admin', $is_admin );
-        $f3->set( 'viewing_as_admin', $viewing_as_admin );
-        $f3->set( 'sheets', $sheets );
-        $f3->set( 'dashboard', true );
-        $f3->set( 'email', $current_user_email );
 
         // Show announcement banner if user hasn't seen the latest version
         // Skip if the announcement is older than 3 months to avoid stale notifications
@@ -91,6 +89,13 @@ class Dashboard {
                 setcookie( 'announcements_seen', $this->latest_announcement, time() + 60 * 60 * 24 * 365, '/' );
             }
         }
+
+        $f3->set( 'is_admin', $is_admin );
+        $f3->set( 'viewing_as_admin', $viewing_as_admin );
+        $f3->set( 'sheets', $sheets );
+        $f3->set( 'dashboard', true );
+        $f3->set( 'sort_characters_value', $sort ?? 'created-asc' );
+        $f3->set( 'email', $current_user_email );
 
         $this->auth->set_csrf();
         echo \Template::instance()->render( 'templates/dashboard.html' );

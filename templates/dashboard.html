@@ -64,17 +64,19 @@
   </check>
 
   <check if="{{ !@viewing_as_admin }}">
-    <p class="mt-4 mb-6 flex flex-wrap gap-4">
+    <div class="mt-4 mb-6 flex flex-wrap gap-4">
       <a href="/add-sheet" class="button-primary text-sm">
         <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
-        Add a character sheet
+        Add character
       </a>
 
       <button href="#" class="button text-sm" data-import-sheet>
         <i class="fa-sharp fa-regular fa-upload mr-2" role="presentation"></i>
-        Import (JSON)
+        Import
       </button>
-    </p>
+
+      <include href="templates/dashboard-sort-form.html" />
+    </div>
   </check>
 
   <ul id="sheet-list" class="mt-2">

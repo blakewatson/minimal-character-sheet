@@ -12,6 +12,14 @@
     document.querySelector('.dashboard') ||
     document.querySelector('[data-dashboard]')
   ) {
+    // character sort
+    var sortForm = document.querySelector('[data-sort-characters]');
+    var sortSelect = sortForm.querySelector('[data-sort-select]');
+
+    sortSelect.addEventListener('change', (event) => {
+      sortForm.submit();
+    });
+
     // dark mode
     var inputDarkMode = document.getElementById('settingDarkMode');
     inputDarkMode.checked = darkMode;
