@@ -9,7 +9,7 @@
     <select name="sort_characters" data-sort-select>
       <option value="name-asc" {{ @sort_characters_value === 'name-asc' ? 'selected' : '' }}>Name (A-Z)</option>
       <option value="name-desc" {{ @sort_characters_value === 'name-desc' ? 'selected' : '' }}>Name (Z-A)</option>
-      <option value="created-asc" {{ @sort_characters_value === 'created-asc' ? 'selected' : '' }}>Oldest first</option>
+      <option value="created-asc" {{ @sort_characters_value === 'created-asc' || @sort_characters_value === 'id-asc' ? 'selected' : '' }}>Oldest first</option>
       <option value="created-desc" {{ @sort_characters_value === 'created-desc' ? 'selected' : '' }}>Newest first</option>
       <option value="updated-desc" {{ @sort_characters_value === 'updated-desc' ? 'selected' : '' }}>Recently updated</option>
     </select>

@@ -192,10 +192,10 @@ class Sheet extends \DB\SQL\Mapper {
 
         switch( $sort ) {
             case 'created-desc':
-                $order_by = 'created_at DESC NULLS LAST, id DESC';
+                $order_by = 'id DESC';
                 break;
             case 'created-asc':
-                $order_by = 'created_at ASC NULLS FIRST, id ASC';
+                $order_by = 'id ASC';
                 break;
             case 'name-asc':
                 $order_by = 'name COLLATE NOCASE ASC NULLS LAST, id ASC';
