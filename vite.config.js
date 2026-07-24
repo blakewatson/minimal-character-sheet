@@ -31,6 +31,7 @@ export default defineConfig(({ mode }) => {
         input: {
           app: 'js/app.js',
           dashboard: 'js/dashboard.js',
+          settings: 'js/settings.js',
           print: 'js/print.js',
           styles: 'css/app.css',
         },
