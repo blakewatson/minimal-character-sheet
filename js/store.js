@@ -572,6 +572,11 @@ export function sortSpells(payload) {
   }
 }
 
+export function replaceSpellList(payload) {
+  if (!state.hasOwnProperty(payload.field)) return;
+  state[payload.field].spells = payload.spells;
+}
+
 // Action functions
 
 export function getJSON() {
