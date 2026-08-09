@@ -1,0 +1,37 @@
+<include href="templates/header.html" />
+
+<div class="page mx-auto max-w-180 px-4 py-8">
+  <h1>Manage Posts</h1>
+  <p><a href="/admin">Back to Admin Dashboard</a></p>
+
+  <a href="/admin/posts/create" class="button-primary text-sm">
+    <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
+    Create a post
+  </a>
+
+  <check if="{{ @posts }}">
+    <true>
+      <repeat group="{{ @posts }}" value="{{ @post }}">
+        <div class="my-8">
+          <h2 class="mb-0">
+            <a href="/admin/posts/edit/{{ @post.id }}">{{ @post.title }}</a>
+          </h2>
+          <p class="mb-0">
+            <check if="{{ @post.published_at }}">
+              <true>{{ date('F j, Y', strtotime(@post.published_at )) }}</true>
+              <false>Draft</false>
+            </check>
+          </p>
+          <check if="{{ @post.is_maintenance_message }}">
+            <p class="text-sm">Maintenance message</p>
+          </check>
+        </div>
+      </repeat>
+    </true>
+    <false>
+      <p>No posts found.</p>
+    </false>
+  </check>
+</div>
+
+<include href="templates/footer.html" />

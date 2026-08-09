@@ -67,7 +67,9 @@
 
     input[type='text'],
     input[type='email'],
-    input[type='password'] {
+    input[type='password'],
+    input[type='number'],
+    textarea {
       @apply w-full leading-6;
     }
 

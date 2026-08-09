@@ -90,9 +90,13 @@ class Dashboard {
             }
         }
 
+        $post_mapper = new Post( $f3->get( 'DB' ) );
+        $posts = $post_mapper->get_full_posts();
+
         $f3->set( 'is_admin', $is_admin );
         $f3->set( 'viewing_as_admin', $viewing_as_admin );
         $f3->set( 'sheets', $sheets );
+        $f3->set( 'posts', $posts );
         $f3->set( 'dashboard', true );
         $f3->set( 'sort_characters_value', $sort ?? 'created-asc' );
         $f3->set( 'email', $current_user_email );

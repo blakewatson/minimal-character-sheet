@@ -1,0 +1,67 @@
+<include href="templates/header.html" />
+
+<div class="page mx-auto max-w-180 px-4 py-8">
+  <h1>Edit Post</h1>
+  <p><a href="/admin/posts">Back to Posts</a></p>
+
+  <check if="{{ isset(@error_msg) }}">
+    <div class="text-light-danger dark:text-dark-danger">{{ @error_msg }}</div>
+  </check>
+
+  <form method="POST" action="/admin/posts/edit/{{ @post.id }}" class="mt-6">
+    <label class="block">
+      Title
+      <input type="text" name="title" value="{{ @post.title }}" />
+    </label>
+
+    <label class="mt-6 block">
+      Content
+      <textarea name="body" rows="20">{{ @post.body }}</textarea>
+    </label>
+
+    <div class="mt-6 flex items-center gap-8 max-sm:flex-wrap max-sm:gap-4">
+      <button class="button-primary max-sm:w-full" type="submit">
+        Save Changes
+      </button>
+      <label>
+        <check if="{{ @post.published_at }}">
+          <true
+            ><input
+              type="checkbox"
+              name="is_published"
+              data-publish-checkbox
+              checked
+          /></true>
+          <false
+            ><input type="checkbox" name="is_published" data-publish-checkbox
+          /></false>
+        </check>
+        Publish?
+      </label>
+      
+      <a href="/admin/posts" class="button ml-auto">Cancel</a>
+    </div>
+
+    <div class="mt-6" data-publish-date>
+      <label {{ @post.published_at ? '' : 'hidden' }}>
+        Publish date<br>
+        <input
+          type="datetime-local"
+          name="published_at"
+          value="{{ @post.published_at ? date('Y-m-d\TH:i', strtotime(@post.published_at)) : date('Y-m-d\TH:i', time()) }}"
+        />
+      </label>
+    </div>
+  </form>
+
+  <form action="/admin/posts/delete/{{ @post.id }}" method="POST" class="mt-6">
+    <button
+      type="submit"
+      class="button text-light-danger dark:text-dark-danger border-light-danger dark:border-dark-danger"
+    >
+      Delete
+    </button>
+  </form>
+</div>
+
+<include href="templates/footer.html" />

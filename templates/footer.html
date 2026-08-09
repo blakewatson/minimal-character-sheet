@@ -15,6 +15,22 @@
         <script type="module" src="{{ @BASE }}{{ vite('js/dashboard.js') }}"></script>
     </check>
 
+
+    <check if="{{ str_starts_with(@PATH, '/admin/posts/create') || str_starts_with(@PATH, '/admin/posts/edit') }}">
+        <script>
+            const publishCheckbox = document.querySelector('[data-publish-checkbox]');
+            const publishDateInput = document.querySelector('[data-publish-date]');
+
+            publishCheckbox.addEventListener('change', () => {
+                if (publishCheckbox.checked) {
+                    publishDateInput.removeAttribute('hidden');
+                } else {
+                    publishDateInput.setAttribute('hidden', '');
+                }
+            });
+        </script>
+    </check>
+
 </body>
 
 </html>

@@ -1,0 +1,44 @@
+<include href="templates/header.html" />
+
+<div class="page mx-auto max-w-180 px-4 py-8">
+  <h1>Create Post</h1>
+  <p><a href="/admin/posts">Back to Posts</a></p>
+
+  <check if="{{ isset(@error_msg) }}">
+    <div class="text-light-danger dark:text-dark-danger">{{ @error_msg }}</div>
+  </check>
+
+  <form method="POST" action="/admin/posts/create" class="mt-6">
+    <label class="block">
+      Title
+      <input type="text" name="title" />
+    </label>
+
+    <label class="mt-6 block">
+      Content
+      <textarea name="body" rows="20"></textarea>
+    </label>
+
+    <div class="mt-6 flex items-center gap-8">
+      <button class="button-primary" type="submit">Create Post</button>
+      <label>
+        <input type="checkbox" name="is_published" data-publish-checkbox />
+        Publish?
+      </label>
+      <a href="/admin/posts" class="button ml-auto">Cancel</a>
+    </div>
+
+    <div class="mt-6" data-publish-date hidden>
+      <label>
+        Publish date<br />
+        <input
+          type="datetime-local"
+          name="published_at"
+          value="{{ date('Y-m-d\TH:i', time()) }}"
+        />
+      </label>
+    </div>
+  </form>
+</div>
+
+<include href="templates/footer.html" />

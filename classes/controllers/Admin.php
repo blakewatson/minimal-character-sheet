@@ -28,12 +28,132 @@ class Admin {
         }
     }
 
-    public function admin_dashboard( $f3 ) {
+    public function dashboard( $f3 ) {
         $f3->set( 'admin_dashboard', true );
         echo \Template::instance()->render( 'templates/admin.html' );
     }
+    
+    public function posts( $f3 ) {
+        $post_mapper = new Post( $f3->get( 'DB' ) );
+        $posts = $post_mapper->get_post_list( false );
+        $f3->set( 'posts', $posts );
+        echo \Template::instance()->render( 'templates/admin_posts.html' );
+    }
 
-    public function admin_users( $f3 ) {
+    public function post_create( $f3 ) {
+        if ( $f3->get( 'SERVER.REQUEST_METHOD' ) === 'POST' ) {
+            $title = $f3->get( 'POST.title' );
+            $body = $f3->get( 'POST.body' );
+            $is_published = (bool)$f3->get( 'POST.is_published' );
+
+            if ( !$title || !$body ) {
+                $f3->set( 'error_msg', 'Title and body are required.' );
+                echo \Template::instance()->render( 'templates/admin_post_create.html' );
+                return;
+            }
+
+            $user = new User( $f3->get( 'DB' ) );
+            $user_data = $user->get_by_email( $this->auth->get_logged_in_email() );
+            
+            if ( ! $user_data || ! ($user_data['is_admin'] ?? false) ) {
+                $f3->error( 403 );
+                return;
+            }
+
+            $post_mapper = new Post( $f3->get( 'DB' ) );
+            $post_mapper->create_post(
+                $title,
+                $body,
+                (int)$user_data['id'],
+                $is_published
+            );
+
+            // redirect to posts list
+            $f3->reroute( '/admin/posts' );
+            exit;
+        }
+
+        echo \Template::instance()->render( 'templates/admin_post_create.html' );
+    }
+
+    public function post_edit( $f3, $params ) {
+        if ( $f3->get( 'SERVER.REQUEST_METHOD' ) === 'POST' && isset( $params['id'] ) ) {
+            // handle post edit submission
+            $id = (int)$params['id'];
+            $title = $f3->get( 'POST.title' );
+            $body = $f3->get( 'POST.body' );
+            $is_published = (bool)$f3->get( 'POST.is_published' );
+            $is_maintenance_message = (bool)$f3->get( 'POST.is_maintenance_message' );
+
+            $post_mapper = new Post( $f3->get( 'DB' ) );
+
+            $post_mapper->load( ['id = ?', $id] );
+            if ( $post_mapper->dry() ) {
+                $f3->error( 404 );
+                return;
+            }
+
+            $post_mapper->title = $title;
+            $post_mapper->body = $body;
+            $post_mapper->is_maintenance_message = $is_maintenance_message;
+            $post_mapper->published_at = $is_published ? date('Y-m-d H:i:s') : null;
+            $post_mapper->updated_at = date('Y-m-d H:i:s');
+            $post_mapper->save();
+
+            // redirect to posts list
+            $f3->reroute( '/admin/posts' );
+            exit;
+        }
+
+        if ( !isset( $params['id'] ) ) {
+            $f3->reroute( '/admin/posts' );
+            exit;
+        }
+
+        $post_mapper = new Post( $f3->get( 'DB' ) );
+        $post_mapper->load( ['id = ?', (int)$params['id']] );
+
+        if ( $post_mapper->dry() ) {
+            $f3->error( 404 );
+            return;
+        }
+
+        $f3->set( 'post', [
+            'id' => $post_mapper->id,
+            'title' => $post_mapper->title,
+            'body' => $post_mapper->body,
+            'user_id' => $post_mapper->user_id,
+            'is_maintenance_message' => (bool)$post_mapper->is_maintenance_message,
+            'published_at' => $post_mapper->published_at,
+            'created_at' => $post_mapper->created_at,
+            'updated_at' => $post_mapper->updated_at
+        ] );
+
+        echo \Template::instance()->render( 'templates/admin_post_edit.html' );
+    }
+
+    public function post_delete( $f3, $params ) {
+        if ( ! isset( $params['id'] ) ) {
+            var_dump( $params );
+            $f3->reroute( '/admin/posts' );
+            exit;
+        }
+
+        try {
+            $post_mapper = new Post( $f3->get( 'DB' ) );
+            $post_mapper->delete_post( (int)$params['id'] );
+        } catch (Exception $e) {
+            $f3->set( 'error_msg', 'Error deleting post: ' . $e->getMessage() );
+            echo \Template::instance()->render( 'templates/admin_posts.html' );
+            return;
+        }
+
+        // redirect to posts list
+        $f3->reroute( '/admin/posts' );
+        exit;
+    }
+
+    public function users( $f3 ) {
         $db = $f3->get( 'DB' );
         $users = $db->exec( 'SELECT id, email, confirmed, is_admin FROM user ORDER BY email' );
         $f3->set( 'users', $users );
