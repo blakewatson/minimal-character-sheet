@@ -17,40 +17,38 @@
   </check>
 
   <div
-    class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
+    class="absolute top-0 right-0 flex items-baseline gap-6 p-4 pr-6 text-right text-xs sm:text-base"
   >
-    <span>
-      <strong>Images will be removed.</strong> On
-      <a
-        href="https://www.timeanddate.com/worldclock/fixedtime.html?msg=Minimal+Character+Sheet+dropping+image+support&iso=20260816T14&p1=515"
-        target="_blank"
-        rel="noopener noreferrer"
-        >Sunday, August 16, 2026 at 2pm CDT</a
-      >
-      the site will be dropping support for images in text boxes.
-      <a href="#announcements">Read more</a>
-    </span>
+    <a href="/">Home</a>
+
+    <a href="mailto:blake@blakewatson.com">Email Blake</a>
+
+    <check if="{{ @is_admin }}">
+      <a href="/admin">Admin</a>
+    </check>
+
+    <a href="/logout">Logout</a>
   </div>
 
-  <check if="{{ @show_announcement_banner }}">
+  <repeat group="{{ @banners }}" value="{{ @banner }}">
     <div
-      id="announcement-banner"
+      data-banner
       class="mt-8 -mb-4 flex items-center justify-between rounded border border-neutral-300 bg-neutral-50 px-3 py-2 text-sm dark:border-neutral-700 dark:bg-neutral-950"
     >
-      <span>
-        <strong>New:</strong> The search content panel now includes class
-        features.
-        <a href="#announcements">Read more</a>
-      </span>
-      <button
-        data-dismiss-banner
-        class="button ml-4 cursor-pointer border p-1 text-xs leading-none"
-        aria-label="Dismiss"
-      >
-        <i class="fa-sharp fa-times"></i>
-      </button>
+      <div class="*:last:mb-0">{{ @banner.html | raw }}</div>
+      <check if="{{ @banner.dismissible }}">
+        <button
+          data-dismiss-banner
+          data-banner-id="{{ @banner.id }}"
+          data-cookie-expires="{{ @banner.cookie_expires }}"
+          class="button ml-4 cursor-pointer border p-1 text-xs leading-none"
+          aria-label="Dismiss"
+        >
+          <i class="fa-sharp fa-times"></i>
+        </button>
+      </check>
     </div>
-  </check>
+  </repeat>
 
   <h1 class="mt-8 mb-4">
     <check if="{{ @viewing_as_admin }}">
@@ -241,7 +239,7 @@
     <h2 id="announcements">Announcements</h2>
 
     <repeat group="{{ @posts }}" value="{{ @post }}">
-      <div class="announcement">
+      <div class="announcement" id="post-{{ @post.id }}">
         <h3 class="mb-0 font-bold">{{ @post.title }}</h3>
         <p>{{ date('F j, Y', strtotime(@post.published_at)) }}</p>
         <div class="*:last:mb-0">{{ @post.html | raw }}</div>
@@ -250,20 +248,6 @@
   </check>
 
   <input type="hidden" id="csrf" value="{{ @CSRF }}" />
-
-  <div
-    class="absolute top-0 right-0 flex items-baseline gap-6 p-4 pr-6 text-right text-xs sm:text-base"
-  >
-    <a href="/">Home</a>
-
-    <a href="mailto:blake@blakewatson.com">Email Blake</a>
-
-    <check if="{{ @is_admin }}">
-      <a href="/admin">Admin Dashboard</a>
-    </check>
-
-    <a href="/logout">Logout</a>
-  </div>
 
   <div class="mt-16 text-center">
     <p>

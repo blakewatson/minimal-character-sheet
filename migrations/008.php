@@ -16,8 +16,6 @@ try {
             "title" text not null,
             "body" text not null,
             "user_id" integer,
-            "is_maintenance_message" integer not null default 0
-                check ("is_maintenance_message" in (0, 1)),
             "published_at" text,
             "created_at" text not null default current_timestamp,
             "updated_at" text not null default current_timestamp,
@@ -28,15 +26,13 @@ try {
     $db->exec(
         'CREATE TABLE "banner" (
             "id" integer not null primary key autoincrement,
-            "post_id" integer,
             "body" text not null,
             "dismissible" integer not null default 1
                 check ("dismissible" in (0, 1)),
             "published_at" text,
             "expires_at" text,
             "created_at" text not null default current_timestamp,
-            "updated_at" text not null default current_timestamp,
-            foreign key ("post_id") references "post" ("id") on delete set null
+            "updated_at" text not null default current_timestamp
         );'
     );
 

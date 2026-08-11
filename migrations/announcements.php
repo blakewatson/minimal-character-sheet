@@ -130,8 +130,8 @@ try {
 
         $db->exec(
             'INSERT INTO "post"
-                (title, body, is_maintenance_message, published_at, created_at, updated_at)
-             VALUES (?, ?, 0, ?, ?, ?);',
+                (title, body, published_at, created_at, updated_at)
+             VALUES (?, ?, ?, ?, ?);',
             [
                 $announcement['title'],
                 $announcement['body'],

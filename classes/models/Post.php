@@ -23,7 +23,6 @@ class Post extends \DB\SQL\Mapper {
                 'id' => $this->id,
                 'title' => $this->title,
                 'user_id' => $this->user_id,
-                'is_maintenance_message' => (bool)$this->is_maintenance_message,
                 'published_at' => $this->published_at,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
@@ -34,16 +33,18 @@ class Post extends \DB\SQL\Mapper {
         return $posts;
     }
     
-    public function get_full_posts( $published = true, $maintenance = false ) {
+    public function get_full_posts( $published = true ) {
         $conditions = [];
+        $parameters = [];
 
         if ($published) {
-            $conditions[] = 'published_at IS NOT NULL';
+            $conditions[] = 'published_at IS NOT NULL AND published_at <= ?';
+            $parameters[] = date( 'Y-m-d H:i:s' );
         }
-        if (!$maintenance) {
-            $conditions[] = 'is_maintenance_message = 0';
-        }
-        $this->load( implode( ' AND ', $conditions ), ['order' => 'created_at DESC'] );
+        $filter = $conditions
+            ? array_merge( [implode( ' AND ', $conditions )], $parameters )
+            : null;
+        $this->load( $filter, ['order' => 'published_at DESC, created_at DESC'] );
 
         if ($this->dry()) {
             return [];
@@ -60,7 +61,6 @@ class Post extends \DB\SQL\Mapper {
                 'body' => $this->body,
                 'html' => $Parsedown->text($this->body),
                 'user_id' => $this->user_id,
-                'is_maintenance_message' => (bool)$this->is_maintenance_message,
                 'published_at' => $this->published_at,
                 'created_at' => $this->created_at,
                 'updated_at' => $this->updated_at
@@ -75,8 +75,7 @@ class Post extends \DB\SQL\Mapper {
         string $title,
         string $body,
         int $user_id,
-        bool $is_published = false,
-        bool $is_maintenance_message = false
+        ?string $published_at = null
     ) {
         if (!$title || !$body || !$user_id) {
             throw new Exception('Title, body, and user required');
@@ -85,8 +84,7 @@ class Post extends \DB\SQL\Mapper {
         $this->title = $title;
         $this->body = $body;
         $this->user_id = $user_id;
-        $this->is_maintenance_message = $is_maintenance_message;
-        $this->published_at = $is_published ? date('Y-m-d H:i:s') : null;
+        $this->published_at = $published_at;
         $this->created_at = date('Y-m-d H:i:s');
         $this->updated_at = date('Y-m-d H:i:s');
         
