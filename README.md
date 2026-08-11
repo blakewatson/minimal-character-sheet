@@ -29,6 +29,10 @@ A digital character sheet for D&D 5e. Create, edit, and manage your characters o
 
 4. **Secure private directories and files** - ensure your web server blocks access to the `/data` directory as it contains the SQLite database. You will also want to block access to the `.env` file, the `migrations` directory, and the `etl` directory. I've already included `.htaccess` files to this end.
 
+## Maintenance mode
+
+Set `ENV="MAINTENANCE"` in `.env` to render the maintenance page instead of the app. To use your own maintenance page, create `data/maintenance.html`. If that file is not readable, the app falls back to the bundled `templates/maintenance.html` template.
+
 ## Requirements
 
 - PHP (v8 recommended but older versions may work)
