@@ -217,8 +217,16 @@ $f3->route( 'GET /password-reset/@email/@clear_token', 'Authentication->password
 $f3->route( 'POST /password-reset', 'Authentication->password_reset' );
 
 // admin dashboard
-$f3->route( 'GET /admin', 'Admin->admin_dashboard' );
-$f3->route( 'GET /admin/users', 'Admin->admin_users' );
+$f3->route( 'GET /admin', 'Admin->dashboard' );
+$f3->route( 'GET /admin/posts', 'Admin->posts' );
+$f3->route( 'GET|POST /admin/posts/create', 'Admin->post_create' );
+$f3->route( 'GET|POST /admin/posts/edit/@id', 'Admin->post_edit' );
+$f3->route( 'POST /admin/posts/delete/@id', 'Admin->post_delete' );
+$f3->route( 'GET /admin/banners', 'Admin->banners' );
+$f3->route( 'GET|POST /admin/banners/create', 'Admin->banner_create' );
+$f3->route( 'GET|POST /admin/banners/edit/@id', 'Admin->banner_edit' );
+$f3->route( 'POST /admin/banners/delete/@id', 'Admin->banner_delete' );
+$f3->route( 'GET /admin/users', 'Admin->users' );
 $f3->route( 'GET /admin/stats', 'Admin->stats' );
 $f3->route( 'GET|POST /admin/restore-sheet', 'Admin->restore_sheet' );
 

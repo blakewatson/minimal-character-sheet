@@ -50,12 +50,19 @@ export function initDashboard() {
     bindImportButton(importButton);
   }
 
-  // dismiss announcement banner
-  document
-    .querySelector('[data-dismiss-banner]')
-    ?.addEventListener('click', () =>
-      document.getElementById('announcement-banner').remove(),
-    );
+  const dismissBannerButtons = Array.from(
+    document.querySelectorAll('[data-dismiss-banner]'),
+  );
+
+  dismissBannerButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const bannerId = button.dataset.bannerId;
+      const expires = button.dataset.cookieExpires;
+
+      document.cookie = `banner_dismissed_${bannerId}=1; expires=${expires}; path=/; SameSite=Lax`;
+      button.closest('[data-banner]').remove();
+    });
+  });
 }
 
 function bindCheckboxes(isPublicCheckboxes) {

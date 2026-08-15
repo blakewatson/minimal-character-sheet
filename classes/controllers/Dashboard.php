@@ -2,10 +2,9 @@
 
 class Dashboard {
 
-    public $latest_announcement = '2026-07-21';
-    private $auth;
+    private Authentication $auth;
 
-    public function __construct( $f3, $params ) {
+    public function __construct( \Base $f3, array $params ) {
         $this->auth = new Authentication( $f3 );
         
         // bypass initial auth check if this is a GET on a single sheet or sheet data.
@@ -28,7 +27,7 @@ class Dashboard {
         $this->auth->bounce();
     }
 
-    public function sheet_list( $f3 ) {
+    public function sheet_list( \Base $f3 ) {
         $current_user_email = $this->auth->get_logged_in_email();
 
         // get the current user to check admin status
@@ -77,22 +76,24 @@ class Dashboard {
             $current_user->save();
         }
 
-        // Show announcement banner if user hasn't seen the latest version
-        // Skip if the announcement is older than 3 months to avoid stale notifications
-        $announcement_age = ( new \DateTime() )->diff( new \DateTime( $this->latest_announcement ) )->days;
-        $f3->set( 'show_announcement_banner', false );
-        
-        if( $announcement_age <= 90 ) {
-            $seen = isset( $_COOKIE['announcements_seen'] ) ? $_COOKIE['announcements_seen'] : '';
-            if( $seen !== $this->latest_announcement ) {
-                $f3->set( 'show_announcement_banner', true );
-                setcookie( 'announcements_seen', $this->latest_announcement, time() + 60 * 60 * 24 * 365, '/' );
+        $dismissed_banner_ids = [];
+        foreach ( $_COOKIE as $cookie_name => $cookie_value ) {
+            if ( $cookie_value === '1' && preg_match( '/^banner_dismissed_(\d+)$/', $cookie_name, $matches ) ) {
+                $dismissed_banner_ids[] = (int)$matches[1];
             }
         }
+
+        $banner_mapper = new Banner( $f3->get( 'DB' ) );
+        $banners = $banner_mapper->get_active_banners( $dismissed_banner_ids );
+
+        $post_mapper = new Post( $f3->get( 'DB' ) );
+        $posts = $post_mapper->get_full_posts();
 
         $f3->set( 'is_admin', $is_admin );
         $f3->set( 'viewing_as_admin', $viewing_as_admin );
         $f3->set( 'sheets', $sheets );
+        $f3->set( 'banners', $banners );
+        $f3->set( 'posts', $posts );
         $f3->set( 'dashboard', true );
         $f3->set( 'sort_characters_value', $sort ?? 'created-asc' );
         $f3->set( 'email', $current_user_email );
@@ -101,7 +102,7 @@ class Dashboard {
         echo \Template::instance()->render( 'templates/dashboard.html' );
     }
 
-    public function sheet_single( $f3, $params ) {
+    public function sheet_single( \Base $f3, array $params ) {
         $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $slug );
@@ -153,7 +154,7 @@ class Dashboard {
         echo \Template::instance()->render( 'templates/sheet.html' );
     }
     
-    public function get_sheet_data( $f3, $params ) {
+    public function get_sheet_data( \Base $f3, array $params ) {
         $email = $this->auth->get_logged_in_email();
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $params['sheet_slug'] );
@@ -195,7 +196,7 @@ class Dashboard {
         ]);
     }
 
-    public function add_sheet( $f3 ) {
+    public function add_sheet( \Base $f3 ) {
         if( $f3->get( 'SERVER.REQUEST_METHOD' ) === 'POST' ) {
             $name = $f3->get( 'POST.sheet_name' );
             $email = $this->auth->get_logged_in_email();
@@ -214,7 +215,7 @@ class Dashboard {
         }
     }
 
-    public function save_sheet( $f3, $params ) {
+    public function save_sheet( \Base $f3, array $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
             $f3->status( 400 );
@@ -285,7 +286,7 @@ class Dashboard {
         return;
     }
 
-    public function delete_sheet( $f3, $params ) {
+    public function delete_sheet( \Base $f3, array $params ) {
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
             $f3->status( 400 );
@@ -309,7 +310,7 @@ class Dashboard {
         echo json_encode([ 'success' => $result, 'csrf' => $f3->get( 'CSRF' ), 'status' => 200 ]);
     }
     
-    public function make_sheet_public( $f3, $params ) {
+    public function make_sheet_public( \Base $f3, array $params ) {
         if( ! $this->auth->verify_ajax_csrf()) {
             $this->auth->set_csrf();
             $f3->status( 400 );
@@ -343,7 +344,7 @@ class Dashboard {
         echo json_encode([ 'success' => true, 'csrf' => $f3->get( 'CSRF' ), 'status' => 200 ]);
     }
 
-    public function import_sheet( $f3 ) {
+    public function import_sheet( \Base $f3 ) {
         // 1. Verify CSRF (same pattern as delete_sheet, make_sheet_public)
         if( ! $this->auth->verify_ajax_csrf() ) {
             $this->auth->set_csrf();
@@ -424,7 +425,7 @@ class Dashboard {
         ]);
     }
 
-    public function print_sheet( $f3, $params ) {
+    public function print_sheet(  \Base $f3, array $params ) {
         $slug = $params['sheet_slug'];
         $sheet = new Sheet( $f3->get( 'DB' ) );
         $sheet_data = $sheet->get_sheet_by_slug( $slug );

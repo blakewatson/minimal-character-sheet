@@ -1,0 +1,49 @@
+<include href="templates/header.html" />
+
+<div class="page mx-auto max-w-180 px-4 py-8">
+  <h1>Manage Banners</h1>
+  <p>
+    <a href="/dashboard">Dashboard</a> > <a href="/admin">Admin</a> > Banners
+  </p>
+
+  <a href="/admin/banners/create" class="button-primary text-sm">
+    <i class="fa-sharp fa-regular fa-plus mr-2" role="presentation"></i>
+    Create a banner
+  </a>
+
+  <check if="{{ @banners }}">
+    <true>
+      <repeat group="{{ @banners }}" value="{{ @banner }}">
+        <div class="my-8">
+          <p class="mb-0 font-bold">
+            <a href="/admin/banners/edit/{{ @banner.id }}"
+              >{{ @banner.excerpt }}</a
+            >
+          </p>
+          <p class="mb-0">
+            {{ @banner.status }} · {{ @banner.dismissible ? 'Dismissible' :
+            'Permanent' }}
+          </p>
+          <check if="{{ @banner.published_at }}">
+            <p class="mb-0">
+              Publishes {{ date('F j, Y \a\t g:i a',
+              strtotime(@banner.published_at)) }}
+            </p>
+          </check>
+          <check if="{{ @banner.expires_at }}">
+            <p class="mb-0">
+              Expires {{ date('F j, Y \a\t g:i a',
+              strtotime(@banner.expires_at)) }}
+            </p>
+          </check>
+        </div>
+      </repeat>
+    </true>
+
+    <false>
+      <p class="mt-6">No banners found.</p>
+    </false>
+  </check>
+</div>
+
+<include href="templates/footer.html" />
