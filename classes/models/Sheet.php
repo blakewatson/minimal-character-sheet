@@ -241,45 +241,23 @@ class Sheet extends \DB\SQL\Mapper {
 
         if( $this->dry() ) return false;
 
-        if( !$data || !is_string( $data ) ) {
-            error_log( 'save_sheet: null or non-string data rejected for sheet ID: ' . $id );
+        if( !is_array( $data ) ) {
+            error_log( 'save_sheet: non-array data rejected for sheet ID: ' . $id );
             return false;
         }
 
         $this->set( 'name', $name );
 
-        // Handle both JSON strings and already-decoded data to prevent double-encoding
-        // Frontend sends data as a JSON string, but legacy data may have been double-encoded
-        if( is_string( $data ) ) {
-            // Data is already a JSON string - decode it first to get the actual object/array
-            $decoded_data = json_decode( $data, true );
+        // Sanitize the decoded sheet data before encoding it for storage.
+        $data = QuillSanitizer::sanitize_sheet_data( $data );
+        $encoded = $this->encode_sheet_data( $data, 'save_sheet for sheet ID: ' . $id );
 
-            // If decoding fails, reject the save to prevent overwriting good data with garbage
-            if( $decoded_data === null ) {
-                error_log( 'Failed to decode JSON in save_sheet for sheet ID: ' . $id );
-                return false;
-            }
-
-            $decoded_data = QuillSanitizer::sanitize_sheet_data( $decoded_data );
-
-            // Successfully decoded - re-encode it once for storage
-            // This automatically fixes any legacy double-encoded data
-            $encoded = json_encode( $decoded_data );
-            if( !$encoded ) {
-                error_log( 'Failed to encode JSON in save_sheet for sheet ID: ' . $id );
-                return false;
-            }
-            $this->set( 'data', $encoded );
-        } else {
-            // Data is already decoded (array/object) - encode it once
-            $encoded = json_encode( $data );
-            if( !$encoded ) {
-                error_log( 'Failed to encode JSON in save_sheet for sheet ID: ' . $id );
-                return false;
-            }
-            $this->set( 'data', $encoded );
+        if( !$encoded ) {
+            error_log( 'Failed to encode JSON in save_sheet for sheet ID: ' . $id );
+            return false;
         }
 
+        $this->set( 'data', $encoded );
         $this->set('updated_at', date('Y-m-d H:i:s'));
         return $this->save();
     }

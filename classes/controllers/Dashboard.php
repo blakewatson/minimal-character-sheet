@@ -228,10 +228,18 @@ class Dashboard {
         $name = $f3->get( 'REQUEST.name' );
         $data = $f3->get( 'REQUEST.data' );
 
+        if( !is_string( $data ) || $data === '' ) {
+            error_log( 'Invalid data received in save_sheet. Expected a non-empty JSON string.' );
+            $this->auth->set_csrf();
+            $f3->status( 400 );
+            echo json_encode([ 'success' => false, 'csrf' => $f3->get( 'CSRF' ), 'reason' => 'invalid_json', 'status' => 400 ]);
+            return;
+        }
+
         $decoded_sheet = json_decode( $data, true );
 
-        // Validate that the data is valid JSON and includes a name
-        if( ! $data || $decoded_sheet === null || !$name || !$decoded_sheet['characterName'] ) {
+        // Validate that the data is a JSON object and includes a name
+        if( !is_array( $decoded_sheet ) || !$name || empty( $decoded_sheet['characterName'] ) ) {
             error_log( 'Invalid JSON received in save_sheet. Data: ' . substr( $data, 0, 200 ) );
             $this->auth->set_csrf();
             $f3->status( 400 );
@@ -248,7 +256,7 @@ class Dashboard {
             return;
         }
         
-        $result = $sheet->save_sheet( $sheet_data['id'], $name, $data );
+        $result = $sheet->save_sheet( $sheet_data['id'], $name, $decoded_sheet );
 
         if( ! $result ) {
             $f3->status( 500 );
