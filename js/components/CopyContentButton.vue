@@ -1,29 +1,43 @@
 <template>
   <div
     class="flex items-center gap-2 max-[430px]:flex-col max-[430px]:items-stretch"
+    v-bind="$attrs"
   >
-    <button @click="copyAndClose" class="button-primary text-xs">
+    <app-button
+      :disabled="disabled"
+      :id="`${id}-copy-and-close`"
+      :tooltip="tooltipCopyAndClose"
+      @click="copyAndClose"
+      class="text-xs"
+      primary
+      tooltip-align="start"
+    >
       {{ $t('Copy and close') }}
-    </button>
+    </app-button>
 
-    <button @click="copyOnly" class="button text-xs">
+    <app-button
+      :disabled="disabled"
+      :id="`${id}-copy-only`"
+      :tooltip="tooltipCopyOnly"
+      :tooltip-type="showCopyError ? 'danger' : 'default'"
+      @click="copyOnly"
+      class="button text-xs"
+    >
       {{ $t('Copy') }}
-    </button>
+    </app-button>
 
-    <button
+    <app-button
       @click="copyForOtherApps"
+      :disabled="disabled"
+      :id="`${id}-copy-for-other-apps`"
+      :tooltip="tooltipCopyForOtherApps"
+      :tooltip-type="showCopyForOtherAppsError ? 'danger' : 'default'"
       class="button text-xs min-[431px]:ml-auto"
+      tooltip-align="end"
+      v-if="buildCopyableHtml && buildCopyableText"
     >
       {{ $t('Copy for other apps') }}
-    </button>
-  </div>
-
-  <div v-if="showCopySuccess" class="mt-2 text-green-700 dark:text-green-300">
-    {{ $t('Copied to clipboard!') }}
-  </div>
-
-  <div v-if="showCopyError" class="mt-2 text-red-700 dark:text-red-300">
-    {{ $t('Failed to copy.') }}
+    </app-button>
   </div>
 </template>
 
@@ -47,14 +61,49 @@ export default {
       type: Function,
       required: true,
     },
-    copyAndClose: Boolean,
+    disabled: {
+      type: Boolean,
+      default: false,
+    },
   },
 
   data() {
     return {
-      showCopyError: false,
+      copyTimer: null,
+      id: crypto.randomUUID(),
+      showCopyForOtherAppsSuccess: false,
+      showCopyForOtherAppsError: false,
       showCopySuccess: false,
+      showCopyError: false,
     };
+  },
+
+  computed: {
+    tooltipCopyAndClose() {
+      return this.disabled
+        ? this.$t('No content selected')
+        : this.$t('Copy all selected content and close the dialog');
+    },
+
+    tooltipCopyOnly() {
+      return this.showCopyError
+        ? 'Failed to copy'
+        : this.showCopySuccess
+          ? 'Copied'
+          : this.disabled
+            ? this.$t('No content selected')
+            : this.$t('Copy all selected content');
+    },
+
+    tooltipCopyForOtherApps() {
+      return this.showCopyForOtherAppsError
+        ? 'Failed to copy'
+        : this.showCopyForOtherAppsSuccess
+          ? 'Copied'
+          : this.disabled
+            ? this.$t('No content selected')
+            : this.$t('Copy content for pasting in other apps');
+    },
   },
 
   methods: {
@@ -63,44 +112,63 @@ export default {
         const html = this.buildCopyableHtml();
         const text = this.buildCopyableText();
         await copyHtmlToClipboard(html, text);
-        this.showCopySuccess = true;
-        this.showCopyError = false;
+
+        if (Math.round(Math.random()) > 0.5) {
+          throw new Error('testing');
+        }
       } catch (err) {
         console.error('Failed to copy spell to clipboard:', err);
-        this.showCopyError = true;
-        this.showCopySuccess = false;
         return;
+      } finally {
+        clearTimeout(this.copyTimer);
+        this.copyTimer = setTimeout(() => {
+          this.showCopySuccess = false;
+          this.showCopyError = false;
+          this.showCopyForOtherAppsSuccess = false;
+          this.showCopyForOtherAppsError = false;
+        }, 2000);
       }
-
-      setTimeout(() => {
-        this.showCopySuccess = false;
-        this.showCopyError = false;
-      }, 2000);
     },
 
     async copyToClipboard() {
-      const delta = this.buildCopyableDelta();
-      console.log('Built delta ops for copying:', delta);
+      try {
+        const delta = this.buildCopyableDelta();
 
-      const jsonDelta = JSON.stringify(delta);
+        const jsonDelta = JSON.stringify(delta);
 
-      const textBlob = new Blob([MCS_QUILL_DELTA_PREFIX + jsonDelta], {
-        type: 'text/plain',
-      });
+        const textBlob = new Blob([MCS_QUILL_DELTA_PREFIX + jsonDelta], {
+          type: 'text/plain',
+        });
 
-      const item = new ClipboardItem({
-        'text/plain': textBlob,
-      });
+        const item = new ClipboardItem({
+          'text/plain': textBlob,
+        });
 
-      await navigator.clipboard.write([item]);
+        await navigator.clipboard.write([item]);
+
+        this.showCopySuccess = true;
+        this.showCopyError = false;
+      } catch (error) {
+        console.error('Failed to copy spell to clipboard:', error);
+        this.showCopySuccess = false;
+        this.showCopyError = true;
+      } finally {
+        clearTimeout(this.copyTimer);
+        this.copyTimer = setTimeout(() => {
+          this.showCopySuccess = false;
+          this.showCopyError = false;
+          this.showCopyForOtherAppsSuccess = false;
+          this.showCopyForOtherAppsError = false;
+        }, 2000);
+      }
     },
 
     async copyAndClose() {
       try {
         await this.copyToClipboard();
 
-        const notyf = new Notyf({ duration: 2000 });
-        notyf.success(this.$t('Copied to clipboard!'));
+        // const notyf = new Notyf({ duration: 2000 });
+        // notyf.success(this.$t('Copied to clipboard!'));
 
         this.$emit('close');
       } catch (err) {
@@ -115,7 +183,9 @@ export default {
         await this.copyToClipboard();
 
         const notyf = new Notyf({ duration: 2000 });
-        notyf.success(this.$t('Copied to clipboard!'));
+        notyf.open({
+          message: this.$t('Copied to clipboard!'),
+        });
       } catch (err) {
         console.error('Failed to copy spell to clipboard:', err);
         this.showCopyError = true;

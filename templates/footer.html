@@ -1,4 +1,4 @@
-    <script src="{{ @BASE }}/js/settings.js"></script>
+    <script src="{{ @BASE }}{{ vite('js/settings.js') }}"></script>
 
     <check if="{{ isset(@app) }}">
         <repeat group="{{ viteCssFromJs('js/app.js') }}" value="{{ @cssFile }}">

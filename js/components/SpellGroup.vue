@@ -30,18 +30,28 @@
         ></field>
       </div>
 
-      <button-collapse
-        :collapse-title="
-          $t('Collapse all level {level} spells').replace('{level}', level)
-        "
-        :collapsed="!shouldCollapseAll"
-        :expand-title="
-          $t('Expand all level {level} spells').replace('{level}', level)
-        "
-        @click="updateSpellsCollapsed()"
-        class="mt-1"
-        v-if="!readOnly"
-      ></button-collapse>
+      <div class="mt-1 flex items-center gap-1">
+        <button
+          :title="$t('Move prepared spells to top')"
+          @click="movePreparedSpellsToTop"
+          class="button-icon"
+          v-if="!readOnly"
+        >
+          <i class="fa-sharp fa-regular fa-arrow-up-from-line"></i>
+        </button>
+
+        <button-collapse
+          :collapse-title="
+            $t('Collapse all level {level} spells').replace('{level}', level)
+          "
+          :collapsed="!shouldCollapseAll"
+          :expand-title="
+            $t('Expand all level {level} spells').replace('{level}', level)
+          "
+          @click="updateSpellsCollapsed()"
+          v-if="!readOnly"
+        ></button-collapse>
+      </div>
     </div>
 
     <spell-list :list-field="listField" :read-only="readOnly"></spell-list>
@@ -50,10 +60,11 @@
 
 <script>
 import {
+  replaceSpellList,
   state,
-  updateSpellSlots,
   updateExpendedSlots,
   updateSpellCollapsed,
+  updateSpellSlots,
 } from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import Field from './Field.vue';
@@ -87,6 +98,23 @@ export default {
   },
 
   methods: {
+    movePreparedSpellsToTop() {
+      const spells = state[this.listField].spells;
+      const preparedSpells = spells.filter((spell) => spell.prepared);
+      const unpreparedSpells = spells.filter((spell) => !spell.prepared);
+
+      if (preparedSpells.length === 0 || unpreparedSpells.length === 0) {
+        return;
+      }
+
+      const newOrder = [...preparedSpells, ...unpreparedSpells];
+
+      replaceSpellList({
+        field: this.listField,
+        spells: newOrder,
+      });
+    },
+
     updateSlots(val) {
       updateSpellSlots({
         field: this.listField,

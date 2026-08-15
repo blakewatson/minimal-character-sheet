@@ -1,6 +1,7 @@
 import tailwindcss from '@tailwindcss/vite';
 import vue from '@vitejs/plugin-vue';
 import { defineConfig } from 'vite';
+import vueDevTools from 'vite-plugin-vue-devtools';
 
 const isWatch = process.argv.includes('--watch');
 
@@ -15,6 +16,7 @@ export default defineConfig(({ mode }) => {
         },
       }),
       tailwindcss(),
+      isDev && vueDevTools(),
     ],
     resolve: {
       extensions: ['.mjs', '.js', '.ts', '.jsx', '.tsx', '.json', '.vue'],
@@ -29,6 +31,7 @@ export default defineConfig(({ mode }) => {
         input: {
           app: 'js/app.js',
           dashboard: 'js/dashboard.js',
+          settings: 'js/settings.js',
           print: 'js/print.js',
           styles: 'css/app.css',
         },

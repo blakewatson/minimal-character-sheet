@@ -1,12 +1,12 @@
 name: minimal-character-sheet
 type: php
 docroot: ''
-php_version: '8.3'
+php_version: '8.5'
 webserver_type: nginx-fpm
 xdebug_enabled: false
 additional_hostnames: []
 additional_fqdns: []
-omit_containers: ['db']
+omit_containers: [db]
 use_dns_when_possible: true
 composer_version: '2'
 web_environment: []

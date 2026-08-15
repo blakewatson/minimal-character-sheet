@@ -119,25 +119,25 @@ class Admin {
         $add_stat( 'Activation rate (users with at least one sheet)', $activation_rate );
 
         // sheet activity stats (immediately useful when only sheet.updated_at is reliable)
-        $daily_active_sheets = $db->exec(
-            "SELECT COUNT(*) AS count FROM sheet WHERE updated_at >= datetime('now', '-1 day')"
-        )[0]['count'];
-        $add_stat( 'Daily active sheets', $daily_active_sheets );
+        $daily_activity = $db->exec(
+            "SELECT COUNT(*) AS sheets, COUNT(DISTINCT email) AS users FROM sheet WHERE updated_at >= datetime('now', '-1 day')"
+        )[0];
+        $add_stat( 'Daily active users', $daily_activity['users'] );
+        $add_stat( 'Daily active sheets', $daily_activity['sheets'] );
 
-        $weekly_active_sheets = $db->exec(
-            "SELECT COUNT(*) AS count FROM sheet WHERE updated_at >= datetime('now', '-7 days')"
-        )[0]['count'];
-        $add_stat( 'Weekly active sheets', $weekly_active_sheets );
+        $weekly_activity = $db->exec(
+            "SELECT COUNT(*) AS sheets, COUNT(DISTINCT email) AS users FROM sheet WHERE updated_at >= datetime('now', '-7 days')"
+        )[0];
+        $add_stat( 'Weekly active users', $weekly_activity['users'] );
+        $add_stat( 'Weekly active sheets', $weekly_activity['sheets'] );
 
-        $monthly_active_sheets = $db->exec(
-            "SELECT COUNT(*) AS count FROM sheet WHERE updated_at >= datetime('now', '-30 days')"
-        )[0]['count'];
-        $add_stat( 'Monthly active sheets', $monthly_active_sheets );
+        $monthly_activity = $db->exec(
+            "SELECT COUNT(*) AS sheets, COUNT(DISTINCT email) AS users FROM sheet WHERE updated_at >= datetime('now', '-30 days')"
+        )[0];
+        $add_stat( 'Monthly active users', $monthly_activity['users'] );
+        $add_stat( 'Monthly active sheets', $monthly_activity['sheets'] );
 
-        $recently_active_sheet_creators = $db->exec(
-            "SELECT COUNT(DISTINCT email) AS count FROM sheet WHERE updated_at >= datetime('now', '-30 days')"
-        )[0]['count'];
-        $add_stat( 'Recently active sheet creators (30 days)', $recently_active_sheet_creators );
+        $add_stat( 'Recently active sheet creators (30 days)', $monthly_activity['users'] );
 
         $dormant_sheets = $db->exec(
             "SELECT COUNT(*) AS count FROM sheet WHERE updated_at IS NULL OR updated_at < datetime('now', '-90 days')"

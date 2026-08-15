@@ -210,6 +210,7 @@ const defaultState = {
   lvl9Spells: { slots: 0, expended: 0, spells: [] },
 };
 
+/** @type {typeof defaultState} */
 export const state = reactive(JSON.parse(JSON.stringify(defaultState)));
 
 // UI-only keys are excluded from database serialization
@@ -569,6 +570,11 @@ export function sortSpells(payload) {
     state[field].spells.splice(curIndex + 1, 0, spellToMove);
     return;
   }
+}
+
+export function replaceSpellList(payload) {
+  if (!state.hasOwnProperty(payload.field)) return;
+  state[payload.field].spells = payload.spells;
 }
 
 // Action functions
