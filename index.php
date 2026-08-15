@@ -12,8 +12,14 @@ $dotenv->load();
 
 
 if ( ( $_ENV['ENV'] ?? '' ) === 'MAINTENANCE') {
-    error_log($_ENV['ENV']);
-    echo \Template::instance()->render( 'templates/maintenance.html' );
+    $custom_maintenance_template = __DIR__ . '/data/maintenance.html';
+
+    if ( is_readable( $custom_maintenance_template ) ) {
+        readfile( $custom_maintenance_template );
+    } else {
+        echo \Template::instance()->render( 'templates/maintenance.html' );
+    }
+
     return;
 }
 
