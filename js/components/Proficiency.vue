@@ -66,7 +66,7 @@
           {{ $t('Proficiency override description') }}
         </p>
 
-        <label for="proficiency-bonus" class="small-label text-base">{{
+        <label for="proficiency-bonus" class="small-label mr-4 text-base">{{
           $t('Proficiency bonus')
         }}</label>
 

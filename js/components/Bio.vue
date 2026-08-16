@@ -1,7 +1,7 @@
 <template>
   <section class="pb-2">
     <div class="mb-4">
-      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
+      <span class="mr-2 mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterName" class="small-label">{{ $t('Name') }}</label>
         <field
           :placeholder="$t('Name')"
@@ -14,7 +14,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
+      <span class="mr-2 mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterBackground" class="small-label">{{
           $t('Background')
         }}</label>
@@ -29,7 +29,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
+      <span class="mr-2 mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterRace" class="small-label">
           {{ $t(is_2024 ? 'Species' : 'Race') }}
         </label>
@@ -45,8 +45,10 @@
 
       <br class="hidden sm:block" />
 
-      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
-        <label for="characterClass" class="small-label">{{ $t('Class') }}</label>
+      <span class="mr-2 mb-1 inline-flex max-w-full items-baseline gap-1">
+        <label for="characterClass" class="small-label">{{
+          $t('Class')
+        }}</label>
         <field
           :placeholder="$t('Class')"
           :read-only="readOnly"
@@ -58,8 +60,10 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
-        <label for="characterLevel" class="small-label">{{ $t('Level') }}</label>
+      <span class="mr-2 mb-1 inline-flex max-w-full items-baseline gap-1">
+        <label for="characterLevel" class="small-label">{{
+          $t('Level')
+        }}</label>
         <field
           :placeholder="$t('Level')"
           :read-only="readOnly"
@@ -72,7 +76,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
+      <span class="mr-2 mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterXp" class="small-label">{{ $t('XP') }}</label>
         <field
           :placeholder="$t('XP')"
@@ -85,7 +89,7 @@
         ></field>
       </span>
 
-      <span class="mb-1 inline-flex max-w-full items-baseline gap-1">
+      <span class="mr-2 mb-1 inline-flex max-w-full items-baseline gap-1">
         <label for="characterAlignment" class="small-label">{{
           $t('Alignment')
         }}</label>
@@ -105,7 +109,11 @@
 </template>
 
 <script>
-import { state, updateLevel as storeUpdateLevel, updateBio as storeUpdateBio } from '../store';
+import {
+  state,
+  updateBio as storeUpdateBio,
+  updateLevel as storeUpdateLevel,
+} from '../store';
 import Field from './Field.vue';
 import Vitals from './Vitals.vue';
 
@@ -113,15 +121,33 @@ export default {
   name: 'Bio',
 
   computed: {
-    is_2024() { return state.is_2024; },
-    level() { return state.level; },
-    characterName() { return state.characterName; },
-    className() { return state.className; },
-    race() { return state.race; },
-    background() { return state.background; },
-    alignment() { return state.alignment; },
-    xp() { return state.xp; },
-    readOnly() { return state.readOnly; },
+    is_2024() {
+      return state.is_2024;
+    },
+    level() {
+      return state.level;
+    },
+    characterName() {
+      return state.characterName;
+    },
+    className() {
+      return state.className;
+    },
+    race() {
+      return state.race;
+    },
+    background() {
+      return state.background;
+    },
+    alignment() {
+      return state.alignment;
+    },
+    xp() {
+      return state.xp;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
   },
 
   methods: {
