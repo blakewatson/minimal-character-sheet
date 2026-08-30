@@ -42,11 +42,11 @@
           $t('Temp HP')
         }}</label>
         <field
-          id="temp-hp-field"
-          class="text-center text-lg! sm:text-2xl!"
-          :value="tempHp"
           :read-only="readOnly"
+          :value="tempHp"
           @update-value="updateVitals('tempHp', $event)"
+          class="text-center text-lg! sm:text-2xl!"
+          id="temp-hp-field"
         ></field>
       </div>
 
@@ -154,38 +154,88 @@
 </template>
 
 <script>
-import { state, updateVitals as storeUpdateVitals, updateDeathSaves as storeUpdateDeathSaves } from '../store';
+import { state } from '../store';
 import Field from './Field.vue';
+
+/**
+ * @typedef {(
+ *   'hp' |
+ *   'maxHp' |
+ *   'tempHp' |
+ *   'hitDie' |
+ *   'totalHitDie' |
+ *   'ac' |
+ *   'speed' |
+ *   'conditions' |
+ *   'concentration'
+ * )} VitalField
+ */
 
 export default {
   name: 'Vitals',
 
   computed: {
-    hp() { return state.hp; },
-    maxHp() { return state.maxHp; },
-    tempHp() { return state.tempHp; },
-    hitDie() { return state.hitDie; },
-    totalHitDie() { return state.totalHitDie; },
-    ac() { return state.ac; },
-    speed() { return state.speed; },
-    deathSaves() { return state.deathSaves; },
-    conditions() { return state.conditions; },
-    concentration() { return state.concentration; },
-    readOnly() { return state.readOnly; },
+    hp() {
+      return state.hp;
+    },
+
+    maxHp() {
+      return state.maxHp;
+    },
+
+    tempHp() {
+      return state.tempHp;
+    },
+
+    hitDie() {
+      return state.hitDie;
+    },
+
+    totalHitDie() {
+      return state.totalHitDie;
+    },
+
+    ac() {
+      return state.ac;
+    },
+
+    speed() {
+      return state.speed;
+    },
+
+    deathSaves() {
+      return state.deathSaves;
+    },
+
+    conditions() {
+      return state.conditions;
+    },
+
+    concentration() {
+      return state.concentration;
+    },
+
+    readOnly() {
+      return state.readOnly;
+    },
   },
 
   methods: {
-    update(item, e) {
-      var value = e.target.innerText;
-      this[item] = value;
-    },
-
+    /**
+     * @param {VitalField} field
+     * @param {string} val
+     */
     updateVitals(field, val) {
-      storeUpdateVitals({ field, val });
+      state[field] = val;
     },
 
+    /**
+     * @param {'successes' | 'failures'} key
+     * @param {number} i
+     * @param {boolean} val
+     */
     updateDeathSaves(key, i, val) {
-      storeUpdateDeathSaves({ key, i, val });
+      state.deathSaves[key][i] = val;
     },
   },
 

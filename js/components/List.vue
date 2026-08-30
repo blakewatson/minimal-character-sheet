@@ -83,57 +83,105 @@
 </template>
 
 <script>
-import {
-  state,
-  updateListField,
-  addToListField,
-  deleteFromListField,
-  sortListField,
-} from '../store';
+import { state } from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import QuillEditor from './QuillEditor.vue';
+
+/**
+ * @typedef {(
+ *   'cantripsList'
+ * )} ListField
+ */
 
 export default {
   name: 'List',
 
-  props: ['listField', 'readOnly'],
+  props: {
+    listField: /** @type import('vue').PropType<ListField> */ (String),
+    readOnly: Boolean,
+  },
 
   computed: {
     items() {
+      if (!this.listField) {
+        return [];
+      }
       return state[this.listField];
     },
   },
 
   methods: {
+    /**
+     * @param {number} i
+     * @param {object | null} val
+     * @param {boolean} collapsed
+     */
     updateItem(i, val, collapsed) {
-      updateListField({
-        field: this.listField,
-        i: i,
-        val: val,
-        collapsed: collapsed,
-      });
+      if (!this.listField) {
+        return;
+      }
+
+      state[this.listField][i].val = val;
+      state[this.listField][i].collapsed = collapsed;
     },
 
     addToList() {
-      addToListField({
-        field: this.listField,
-        val: '',
+      if (!this.listField) {
+        return;
+      }
+
+      state[this.listField].push({
+        id: crypto.randomUUID(),
+        val: null,
+        collapsed: false,
       });
     },
 
+    /** @param {number} i */
     deleteItem(i) {
-      deleteFromListField({
-        field: this.listField,
-        i: i,
-      });
+      if (!this.listField) {
+        return;
+      }
+
+      state[this.listField].splice(i, 1);
     },
 
+    /**
+     * @param {string} id
+     * @param {'up' | 'down'} direction
+     */
     sortItems(id, direction) {
-      sortListField({
-        field: this.listField,
-        id,
-        direction,
-      });
+      if (!this.listField) {
+        return;
+      }
+
+      var field = this.listField;
+      var direction = direction;
+      var curIndex = state[field].findIndex((item) => item.id === id);
+
+      if (curIndex === -1) {
+        return;
+      }
+
+      if (direction === 'up') {
+        if (curIndex === 0) {
+          return;
+        }
+        var deletedItems = state[field].splice(curIndex, 1);
+        var itemToMove = deletedItems[0];
+        state[field].splice(curIndex - 1, 0, itemToMove);
+        return;
+      }
+
+      if (direction === 'down') {
+        if (curIndex === state[field].length - 1) {
+          return;
+        }
+        var deletedItems = state[field].splice(curIndex, 1);
+        var itemToMove = deletedItems[0];
+        state[field].splice(curIndex + 1, 0, itemToMove);
+        return;
+      }
     },
   },
 

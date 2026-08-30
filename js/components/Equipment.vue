@@ -35,7 +35,7 @@
 </template>
 
 <script>
-import { state, updateCoins, updateEquipment as storeUpdateEquipment } from '../store';
+import { state } from '../store';
 import Field from './Field.vue';
 import QuillEditor from './QuillEditor.vue';
 
@@ -43,18 +43,29 @@ export default {
   name: 'Equipment',
 
   computed: {
-    coins() { return state.coins; },
-    equipmentText() { return state.equipmentText; },
-    readOnly() { return state.readOnly; },
+    coins() {
+      return state.coins;
+    },
+    equipmentText() {
+      return state.equipmentText;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
   },
 
   methods: {
+    /**
+     * @param {number} i
+     * @param {number} val
+     */
     updateAmount(i, val) {
-      updateCoins({ i, amount: val });
+      state.coins[i].amount = val;
     },
 
+    /** @param {object | null} val */
     updateEquipment(val) {
-      storeUpdateEquipment({ val });
+      state.equipmentText = val;
     },
   },
 

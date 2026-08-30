@@ -143,7 +143,7 @@
 
 <script>
 import diceStore from '../../RandomStore.js';
-import { setDiceMaximized, state } from '../../store';
+import { state } from '../../store';
 import DieButton from './DieButton.vue';
 import ResultList from './ResultList.vue';
 
@@ -168,6 +168,8 @@ import ResultList from './ResultList.vue';
  * @property {string} id
  * @property {number} total
  */
+
+/** @typedef {4 | 6 | 8 | 10 | 12 | 20 | 100} SideNumber */
 
 export default {
   name: 'DicePanel',
@@ -199,8 +201,10 @@ export default {
       get() {
         return state.diceMaximized;
       },
+      /** @param {boolean} val  */
       set(val) {
-        setDiceMaximized(val);
+        state.diceMaximized = val;
+        localStorage.setItem('dicePanelMaximized', val.toString());
       },
     },
   },
@@ -213,18 +217,31 @@ export default {
   },
 
   watch: {
-    maximized(isMaximized) {
-      if (isMaximized) {
-        this.isOpen = true;
-      }
+    maximized: {
+      /**
+       * @param {boolean} isMaximized
+       * @returns {void}
+       */
+      handler(isMaximized) {
+        if (isMaximized) {
+          this.isOpen = true;
+        }
+      },
     },
 
-    isOpen(val) {
-      localStorage.setItem('dicePanelOpen', val);
+    isOpen: {
+      /**
+       * @param {boolean} val
+       * @returns {void}
+       */
+      handler(val) {
+        localStorage.setItem('dicePanelOpen', val.toString());
+      },
     },
   },
 
   methods: {
+    /** @param {SideNumber} sides  */
     addToSelection(sides) {
       this.selected[`d${sides}`]++;
     },
@@ -234,9 +251,15 @@ export default {
     },
 
     reset() {
-      for (const key in this.selected) {
-        this.selected[key] = 0;
-      }
+      this.selected = {
+        d4: 0,
+        d6: 0,
+        d8: 0,
+        d10: 0,
+        d12: 0,
+        d20: 0,
+        d100: 0,
+      };
     },
 
     roll() {
@@ -257,7 +280,9 @@ export default {
         return;
       }
 
-      for (const key in this.selected) {
+      for (const key of /** @type {Array<keyof Hand>} */ (
+        Object.keys(this.selected)
+      )) {
         const sides = parseInt(key.slice(1));
         const count = this.selected[key];
 

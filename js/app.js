@@ -2,13 +2,14 @@ import mitt from 'mitt';
 import { createApp } from 'vue';
 import Button from './components/Button.vue';
 import Sheet from './components/Sheet.vue';
+import { global } from './global';
 import { i18nPlugin } from './i18n';
 import { signedNumString } from './utils';
 
 /* -- Event bus (replaces new Vue() instance) -- */
-window.sheetEvent = mitt();
+global.sheetEvent = mitt();
 
-window.md = window.markdownit({
+global.md = global.markdownit({
   html: true,
   linkify: true,
   typographer: true,

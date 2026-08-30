@@ -72,7 +72,7 @@
 
         <field
           :readOnly="readOnly"
-          :value="proficiencyOverrideValue"
+          :value="proficiencyOverrideValue || 0"
           @update-value="proficiencyOverrideValue = $event"
           id="proficiency-bonus"
           class="min-w-14 text-center text-lg!"
@@ -94,14 +94,7 @@
 </template>
 
 <script>
-import {
-  state,
-  proficiencyBonus as storeProficiencyBonus,
-  updateInitiative as storeUpdateInitiative,
-  updateInspiration as storeUpdateInspiration,
-  updateShortRests as storeUpdateShortRests,
-  updateProficiencyOverride,
-} from '../store';
+import { state, proficiencyBonus as storeProficiencyBonus } from '../store';
 import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
 
@@ -110,6 +103,7 @@ export default {
 
   data() {
     return {
+      /** @type {number | null} */
       proficiencyOverrideValue: null,
       showProficiencyDialog: false,
     };
@@ -137,55 +131,36 @@ export default {
   },
 
   methods: {
+    /** @param {string} val */
     updateInitiative(val) {
-      storeUpdateInitiative(val);
+      state.initiative = val;
     },
 
-    updateInspiration(val) {
-      storeUpdateInspiration(val.target.checked);
+    /** @param {InputEvent} event */
+    updateInspiration(event) {
+      state.inspiration = /** @type {HTMLInputElement} */ (
+        event.target
+      ).checked;
     },
 
+    /** @param {number | null} val */
     updateShortRests(val) {
-      val = val ? parseInt(val) : 0;
-      storeUpdateShortRests(val);
+      state.shortRests = val ?? 0;
     },
 
     openProficiencyDialog() {
-      this.proficiencyOverrideValue = this.proficiencyBonus.toString();
+      this.proficiencyOverrideValue = this.proficiencyBonus;
       this.showProficiencyDialog = true;
     },
 
     saveProficiencyOverride() {
-      let override =
-        this.proficiencyOverrideValue === ''
-          ? null
-          : (this.proficiencyOverrideValue ?? null);
-
-      if (override !== null && override !== undefined) {
-        const overrideStr = String(override);
-        const validPattern = /^[+\-\d]\d*$/;
-
-        if (validPattern.test(overrideStr)) {
-          try {
-            override = parseInt(overrideStr, 10);
-            if (isNaN(override)) {
-              override = null;
-            }
-          } catch (error) {
-            override = null;
-          }
-        } else {
-          override = null;
-        }
-      }
-
-      updateProficiencyOverride(override);
+      state.proficiencyOverride = this.proficiencyOverrideValue ?? null;
       this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },
 
     removeProficiencyOverride() {
-      updateProficiencyOverride(null);
+      state.proficiencyOverride = null;
       this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },

@@ -29,16 +29,18 @@
           type="checkbox"
           :id="`skill-prof-${i}`"
           :checked="skill.proficient"
-          :disabled="readOnly || skill.doubleProficient"
+          :disabled="readOnly || (skill.proficient && skill.doubleProficient)"
           @change="setProficiency(i, 'proficient')"
         />
 
         <button
-          :class="{ underline: Boolean(skill.modifierOverride) }"
+          :class="{
+            underline: !isNullOrUndefined(skill.modifierOverride),
+          }"
           :disabled="readOnly"
           :title="$t('Override modifier')"
           @click="openOverrideDialog(skill)"
-          class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right dark:hover:border-neutral-400"
+          class="hover:border-light-foreground w-10 cursor-pointer rounded-xs border border-transparent px-1 text-right decoration-2 dark:hover:border-neutral-400"
         >
           {{ $signedNumString(getSkillModifier(skill)) }}
         </button>
@@ -76,11 +78,11 @@
       v-if="showOverrideDialog"
     >
       <template #content>
-        <p class="mb-2">
+        <p class="mb-2 text-sm">
           {{ $t('Proficiency override description') }}
         </p>
 
-        <label class="small-label text-base" for="skill-modifier">{{
+        <label class="small-label mr-4 text-base" for="skill-modifier">{{
           selectedSkill?.name ? $t(selectedSkill.name) : ''
         }}</label>
         <field
@@ -105,30 +107,50 @@
 </template>
 
 <script>
-import { state, modifiers as storeModifiers, proficiencyBonus as storeProficiencyBonus, updateSkillProficiency, updateSkillModifierOverride, updatePassivePerceptionOverride } from '../store';
+import {
+  state,
+  modifiers as storeModifiers,
+  proficiencyBonus as storeProficiencyBonus,
+} from '../store';
+import { isNullOrUndefined } from '../utils';
 import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
+
+/** @typedef {import('../store').Skill} Skill */
 
 export default {
   name: 'Skills',
 
   data() {
     return {
+      /** @type {number | null} */
       modifierOverride: null,
+      /** @type {Skill | null} */
       selectedSkill: null,
       showOverrideDialog: false,
     };
   },
 
   computed: {
-    skills() { return state.skills; },
-    readOnly() { return state.readOnly; },
-    passivePerceptionOverride() { return state.passivePerceptionOverride; },
-    modifiers() { return storeModifiers.value; },
-    proficiencyBonus() { return storeProficiencyBonus.value; },
+    skills() {
+      return state.skills;
+    },
+    readOnly() {
+      return state.readOnly;
+    },
+    passivePerceptionOverride() {
+      return state.passivePerceptionOverride;
+    },
+    modifiers() {
+      return storeModifiers.value;
+    },
+    proficiencyBonus() {
+      return storeProficiencyBonus.value;
+    },
   },
 
   methods: {
+    /** @param {Partial<Skill>} skill */
     getSkillModifier(skill) {
       var mod = this.modifiers.reduce((acc, m) => {
         if (m.ability === skill.ability) return acc + m.val;
@@ -153,21 +175,22 @@ export default {
       return mod;
     },
 
+    /**
+     * @param {number} i
+     * @param {'proficient' | 'doubleProficient'} prop
+     */
     setProficiency(i, prop) {
       var proficient = this.skills[i].proficient;
       var doubleProficient = this.skills[i].doubleProficient;
 
       if (prop === 'proficient') {
         proficient = !proficient;
-      } else if (prop === 'doubleProficient') {
-        doubleProficient = !doubleProficient;
+        state.skills[i].proficient = proficient;
+        return;
       }
 
-      updateSkillProficiency({
-        i,
-        proficient,
-        doubleProficient,
-      });
+      doubleProficient = !doubleProficient;
+      state.skills[i].doubleProficient = doubleProficient;
     },
 
     getPassivePerception() {
@@ -183,26 +206,32 @@ export default {
       const perceptionSkill = this.skills.find(
         (skill) => skill.name === 'Perception',
       );
+
       if (perceptionSkill) {
         return 10 + this.getSkillModifier(perceptionSkill);
       }
+
       // Fallback to just Wisdom modifier if Perception skill not found
       return 10 + this.getSkillModifier({ ability: 'WIS' });
     },
 
+    isNullOrUndefined,
+
+    /** @param {Skill} skill */
     openOverrideDialog(skill) {
       this.selectedSkill = skill;
-      this.modifierOverride = this.getSkillModifier(skill).toString();
+      this.modifierOverride = this.getSkillModifier(skill);
       this.showOverrideDialog = true;
     },
 
     openPassivePerceptionDialog() {
       // Create a pseudo-skill object for passive perception
+      // @ts-ignore
       this.selectedSkill = {
         name: 'Passive Perception',
         isPassivePerception: true,
       };
-      this.modifierOverride = this.getPassivePerception().toString();
+      this.modifierOverride = this.getPassivePerception();
       this.showOverrideDialog = true;
     },
 
@@ -213,38 +242,20 @@ export default {
     },
 
     saveOverride() {
-      let override =
-        this.modifierOverride === '' ? null : (this.modifierOverride ?? null);
-
-      // Validate and parse the override value
-      if (override !== null && override !== undefined) {
-        const overrideStr = String(override);
-
-        // Check if string starts with +, -, or digit and rest are digits
-        const validPattern = /^[+\-\d]\d*$/;
-
-        if (validPattern.test(overrideStr)) {
-          try {
-            override = parseInt(overrideStr, 10);
-            // Check if parsing resulted in a valid number
-            if (isNaN(override)) {
-              override = null;
-            }
-          } catch (error) {
-            override = null;
-          }
-        } else {
-          override = null;
-        }
-      }
+      let override = this.modifierOverride ?? null;
 
       // Check if this is passive perception or a regular skill
-      if (this.selectedSkill.isPassivePerception) {
-        updatePassivePerceptionOverride(override);
+      if (this.selectedSkill?.isPassivePerception) {
+        state.passivePerceptionOverride = override;
       } else {
-        updateSkillModifierOverride({
-          skillName: this.selectedSkill.name,
-          modifierOverride: override,
+        state.skills = state.skills.map((skill) => {
+          if (skill.name === this.selectedSkill?.name) {
+            return {
+              ...skill,
+              modifierOverride: override,
+            };
+          }
+          return skill;
         });
       }
 
@@ -255,12 +266,17 @@ export default {
 
     removeOverride() {
       // Check if this is passive perception or a regular skill
-      if (this.selectedSkill.isPassivePerception) {
-        updatePassivePerceptionOverride(null);
+      if (this.selectedSkill?.isPassivePerception) {
+        state.passivePerceptionOverride = null;
       } else {
-        updateSkillModifierOverride({
-          skillName: this.selectedSkill.name,
-          modifierOverride: null,
+        state.skills = state.skills.map((skill) => {
+          if (skill.name === this.selectedSkill?.name) {
+            return {
+              ...skill,
+              modifierOverride: null,
+            };
+          }
+          return skill;
         });
       }
       this.showOverrideDialog = false;

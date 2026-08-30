@@ -108,14 +108,25 @@
   </section>
 </template>
 
-<script>
-import {
-  state,
-  updateBio as storeUpdateBio,
-  updateLevel as storeUpdateLevel,
-} from '../store';
+<script lang="js">
+// @ts-check
+
+import { state } from '../store';
 import Field from './Field.vue';
 import Vitals from './Vitals.vue';
+
+/** @typedef {import('../store').AppState} AppState */
+
+/**
+ * @typedef {(
+ *   'characterName' |
+ *   'race' |
+ *   'background' |
+ *   'className' |
+ *   'xp' |
+ *   'alignment'
+ * )} BioField
+ */
 
 export default {
   name: 'Bio',
@@ -151,12 +162,30 @@ export default {
   },
 
   methods: {
+    /** @param {string | number} level */
     updateLevel(level) {
-      storeUpdateLevel({ level: parseInt(level) });
+      state.level = typeof level === 'number' ? level : parseInt(level);
     },
 
+    /**
+     * @param {BioField} field
+     * @param {string | number} val
+     */
     updateBio(field, val) {
-      storeUpdateBio({ field, val });
+      if (field === 'xp') {
+        if (typeof val !== 'number') {
+          return;
+        }
+
+        state.xp = val;
+        return;
+      }
+
+      if (typeof val !== 'string') {
+        return;
+      }
+
+      state[field] = val;
     },
   },
 

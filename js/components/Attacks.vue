@@ -21,11 +21,12 @@
           v-for="(a, i) in attacksAndNotes"
           :key="a.id"
           :class="{
-            'border-t border-neutral-400 dark:border-neutral-500': a.isAttack,
+            'border-t border-neutral-400 dark:border-neutral-500':
+              'isAttack' in a,
           }"
           :style="{ 'z-index': attacks.length - i }"
         >
-          <td v-if="a.isAttack" class="p-2">
+          <td v-if="'isAttack' in a" class="p-2">
             <field
               :auto-size="false"
               :placeholder="$t('Weapon')"
@@ -36,7 +37,10 @@
             ></field>
           </td>
 
-          <td v-if="a.isAttack" class="w-px p-2 text-right whitespace-nowrap">
+          <td
+            v-if="'isAttack' in a"
+            class="w-px p-2 text-right whitespace-nowrap"
+          >
             <field
               :class="isMobile ? 'text-sm!' : ''"
               :read-only="readOnly"
@@ -46,7 +50,7 @@
             ></field>
           </td>
 
-          <td v-if="a.isAttack" class="p-2">
+          <td v-if="'isAttack' in a" class="p-2">
             <field
               :auto-size="false"
               :read-only="readOnly"
@@ -57,7 +61,7 @@
             ></field>
           </td>
 
-          <td v-if="a.isAttack" class="w-px p-2 whitespace-nowrap">
+          <td v-if="'isAttack' in a" class="w-px p-2 whitespace-nowrap">
             <div class="flex items-center justify-end gap-1">
               <button
                 :disabled="readOnly"
@@ -103,7 +107,7 @@
             </div>
           </td>
 
-          <td v-if="a.isNote" colspan="4">
+          <td v-if="'isNote' in a" colspan="4">
             <div class="flex items-center gap-2 pb-2">
               <span class="small-label">{{ $t('Notes') }}</span>
               <quill-editor
@@ -232,16 +236,23 @@
 </template>
 
 <script>
-import {
-  state,
-  modifiers as storeModifiers,
-  updateAttacks as storeUpdateAttacks,
-  deleteAttack as storeDeleteAttack,
-  sortAttacks as storeSortAttacks,
-  addAttack,
-} from '../store';
+import { state, modifiers as storeModifiers } from '../store';
 import Field from './Field.vue';
 import QuillEditor from './QuillEditor.vue';
+
+/** @typedef {import('../store').Attack} Attack */
+
+/**
+ * @typedef {Object} NoteRow
+ * @property {string} id
+ * @property {boolean} isNote
+ * @property {number} attackId
+ * @property {object | null} weaponNotes
+ */
+
+/**
+ * @typedef {Attack & { isAttack: boolean }} AttackRow
+ */
 
 export default {
   name: 'Attacks',
@@ -249,6 +260,7 @@ export default {
   data() {
     return {
       isMobile: false,
+      /** @type {MediaQueryList | null} */
       mediaQuery: null,
     };
   },
@@ -265,9 +277,10 @@ export default {
     },
 
     attacksAndNotes() {
+      /** @type {Array<AttackRow | NoteRow>} */
       const rows = [];
 
-      this.attacks.forEach((attack, index) => {
+      this.attacks.forEach((attack) => {
         rows.push({
           ...attack,
           isAttack: true,
@@ -290,7 +303,10 @@ export default {
 
   beforeUnmount() {
     if (this.mediaQuery) {
-      this.mediaQuery.removeListener(this.handleMediaQueryChange);
+      this.mediaQuery.removeEventListener(
+        'change',
+        this.handleMediaQueryChange,
+      );
     }
   },
 
@@ -298,30 +314,78 @@ export default {
     setupMediaQuery() {
       this.mediaQuery = window.matchMedia('(max-width: 675px)');
       this.isMobile = this.mediaQuery.matches;
-      this.mediaQuery.addListener(this.handleMediaQueryChange);
+      this.mediaQuery.addEventListener('change', this.handleMediaQueryChange);
     },
 
+    /** @param {MediaQueryListEvent} event */
     handleMediaQueryChange(event) {
       this.isMobile = event.matches;
     },
 
+    /**
+     * @param {string | number} id
+     * @param {keyof Omit<Attack, 'id'>} field
+     * @param {string | number | object | null} val
+     */
     updateAttacks(id, field, val) {
-      if (id.toString().endsWith('-note')) {
+      if (typeof id === 'string' && id.endsWith('-note')) {
         id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for attack ID
       }
-      storeUpdateAttacks({ id, field, val });
+
+      state.attacks = state.attacks.map((attack) => {
+        if (attack.id === id) {
+          return {
+            ...attack,
+            [field]: val,
+          };
+        }
+        return attack;
+      });
     },
 
+    /** @param {number} id */
     deleteAttack(id) {
-      storeDeleteAttack({ id });
+      state.attacks = state.attacks.filter((attack) => attack.id !== id);
     },
 
     addAttack() {
-      addAttack();
+      /** @type {Attack} */
+      const attack = {
+        id: Date.now(),
+        name: '',
+        attackBonus: '0',
+        damage: '',
+        weaponNotes: null,
+      };
+      state.attacks.push(attack);
     },
 
+    /**
+     * @param {number} id
+     * @param {'up' | 'down'} direction
+     */
     sortAttacks(id, direction) {
-      storeSortAttacks({ id, direction });
+      let curIndex = state.attacks.findIndex((a) => a.id === id);
+
+      if (curIndex === -1) {
+        return;
+      }
+
+      if (direction === 'up') {
+        if (curIndex === 0) return;
+        var deletedAttacks = state.attacks.splice(curIndex, 1);
+        var attackToMove = deletedAttacks[0];
+        state.attacks.splice(curIndex - 1, 0, attackToMove);
+        return;
+      }
+
+      if (direction === 'down') {
+        if (curIndex === state.attacks.length - 1) return;
+        var deletedAttacks = state.attacks.splice(curIndex, 1);
+        var attackToMove = deletedAttacks[0];
+        state.attacks.splice(curIndex + 1, 0, attackToMove);
+        return;
+      }
     },
   },
 

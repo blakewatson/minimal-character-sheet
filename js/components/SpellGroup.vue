@@ -54,26 +54,24 @@
       </div>
     </div>
 
-    <spell-list :list-field="listField" :read-only="readOnly"></spell-list>
+    <spell-list :spell-group="spellGroup" :read-only="readOnly"></spell-list>
   </div>
 </template>
 
 <script>
-import {
-  replaceSpellList,
-  state,
-  updateExpendedSlots,
-  updateSpellCollapsed,
-  updateSpellSlots,
-} from '../store';
+import { state } from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import Field from './Field.vue';
 import SpellList from './SpellList.vue';
 
+/** @typedef {import('../store').SpellGroupKey} SpellGroupKey */
+
 export default {
   name: 'SpellGroup',
 
-  props: ['level'],
+  props: {
+    spellGroup: /** @type {import('vue').PropType<SpellGroupKey>} */ (String),
+  },
 
   computed: {
     readOnly() {
@@ -81,25 +79,41 @@ export default {
     },
 
     totalSlots() {
-      return state[this.listField].slots;
+      if (!this.spellGroup) {
+        return 0;
+      }
+      return state[this.spellGroup].slots;
     },
 
     expendedSlots() {
-      return state[this.listField].expended;
-    },
-
-    listField() {
-      return `lvl${this.level}Spells`;
+      if (!this.spellGroup) {
+        return 0;
+      }
+      return state[this.spellGroup].expended;
     },
 
     shouldCollapseAll() {
-      return state[this.listField].spells.some((spell) => !spell.collapsed);
+      if (!this.spellGroup) {
+        return false;
+      }
+      return state[this.spellGroup].spells.some((spell) => !spell.collapsed);
+    },
+
+    level() {
+      if (!this.spellGroup) {
+        return '';
+      }
+      return this.spellGroup.substring(3, 4);
     },
   },
 
   methods: {
     movePreparedSpellsToTop() {
-      const spells = state[this.listField].spells;
+      if (!this.spellGroup) {
+        return;
+      }
+
+      const spells = state[this.spellGroup].spells;
       const preparedSpells = spells.filter((spell) => spell.prepared);
       const unpreparedSpells = spells.filter((spell) => !spell.prepared);
 
@@ -109,37 +123,36 @@ export default {
 
       const newOrder = [...preparedSpells, ...unpreparedSpells];
 
-      replaceSpellList({
-        field: this.listField,
-        spells: newOrder,
-      });
+      state[this.spellGroup].spells = newOrder;
     },
 
+    /** @param {number} val */
     updateSlots(val) {
-      updateSpellSlots({
-        field: this.listField,
-        val: parseInt(val),
-      });
+      if (!this.spellGroup) {
+        return;
+      }
+      state[this.spellGroup].slots = val;
     },
 
+    /** @param {number} val  */
     updateExpended(val) {
-      updateExpendedSlots({
-        field: this.listField,
-        val: parseInt(val),
-      });
+      if (!this.spellGroup) {
+        return;
+      }
+      state[this.spellGroup].expended = val;
     },
 
     updateSpellsCollapsed() {
-      const newState = this.shouldCollapseAll;
+      if (!this.spellGroup) {
+        return;
+      }
 
-      const spells = state[this.listField].spells;
-      spells.forEach((_, i) => {
-        updateSpellCollapsed({
-          field: this.listField,
-          i,
-          collapsed: newState,
-        });
-      });
+      state[this.spellGroup].spells = state[this.spellGroup].spells.map(
+        (spell) => ({
+          ...spell,
+          collapsed: this.shouldCollapseAll,
+        }),
+      );
     },
   },
 

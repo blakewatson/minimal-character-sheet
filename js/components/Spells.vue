@@ -25,7 +25,7 @@
         <span class="text-center text-sm">{{ $t('Ability') }}</span>
         <select
           v-if="!readOnly"
-          @input="updateSpellInfo('spAbility', $event.target.value)"
+          @input="updateSpellAbility"
           class="hover:text-light-accent focus:text-light-accent dark:hover:text-dark-accent dark:focus:text-dark-accent outline-light-accent dark:outline-dark-accent dark:focus:outline-dark-accent rounded-xs border border-transparent px-1 py-0.5 text-center text-sm hover:bg-neutral-100 focus:bg-neutral-100 dark:hover:border-neutral-700 dark:hover:bg-black dark:focus:bg-black dark:focus:outline-2"
         >
           <option
@@ -100,29 +100,26 @@
       <list list-field="cantripsList" :read-only="readOnly"></list>
     </div>
 
-    <spell-group level="1"></spell-group>
-    <spell-group level="2"></spell-group>
-    <spell-group level="3"></spell-group>
-    <spell-group level="4"></spell-group>
-    <spell-group level="5"></spell-group>
-    <spell-group level="6"></spell-group>
-    <spell-group level="7"></spell-group>
-    <spell-group level="8"></spell-group>
-    <spell-group level="9"></spell-group>
+    <spell-group spell-group="lvl1Spells"></spell-group>
+    <spell-group spell-group="lvl2Spells"></spell-group>
+    <spell-group spell-group="lvl3Spells"></spell-group>
+    <spell-group spell-group="lvl4Spells"></spell-group>
+    <spell-group spell-group="lvl5Spells"></spell-group>
+    <spell-group spell-group="lvl6Spells"></spell-group>
+    <spell-group spell-group="lvl7Spells"></spell-group>
+    <spell-group spell-group="lvl8Spells"></spell-group>
+    <spell-group spell-group="lvl9Spells"></spell-group>
   </section>
 </template>
 
 <script>
-import {
-  state,
-  modifiers as storeModifiers,
-  updateSpellInfo as storeUpdateSpellInfo,
-  updateListField,
-} from '../store';
+import { state, modifiers as storeModifiers } from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import Field from './Field.vue';
 import List from './List.vue';
 import SpellGroup from './SpellGroup.vue';
+
+/** @typedef {import('../store').AbilityName} AbilityName */
 
 export default {
   name: 'Spells',
@@ -163,21 +160,37 @@ export default {
   },
 
   methods: {
+    /** @param {InputEvent} event */
+    updateSpellAbility(event) {
+      const val = /** @type {HTMLSelectElement} */ (event.target).value;
+
+      if (
+        val === 'STR' ||
+        val === 'DEX' ||
+        val === 'CON' ||
+        val === 'INT' ||
+        val === 'WIS' ||
+        val === 'CHA'
+      ) {
+        state.spAbility = val;
+        return;
+      }
+    },
+
+    /**
+     * @param {'spAttack' | 'spClass' | 'spSave'} field
+     * @param {string} val
+     */
     updateSpellInfo(field, val) {
-      storeUpdateSpellInfo({ field, val });
+      state[field] = val;
     },
 
     updateCantripsCollapsed() {
-      const newState = this.shouldCollapseAll;
-
-      this.cantripsList.forEach((item, i) => {
-        updateListField({
-          field: 'cantripsList',
-          i,
-          val: item.val,
-          collapsed: newState,
-        });
-      });
+      console.log('update collapsed');
+      state.cantripsList = state.cantripsList.map((item) => ({
+        ...item,
+        collapsed: this.shouldCollapseAll,
+      }));
     },
   },
 

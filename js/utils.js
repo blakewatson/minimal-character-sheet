@@ -1,5 +1,7 @@
 import { Delta } from 'quill';
 
+/** @typedef {import('quill').Delta} */
+
 const now =
   Date.now ||
   function () {
@@ -10,6 +12,12 @@ export const MCS_QUILL_DELTA_PREFIX = 'MCS_QUILL_DELTA:v1:';
 
 export const DISALLOWED_QUILL_EMBEDS = ['image'];
 
+/** @param {any} val  */
+export function isNullOrUndefined(val) {
+  return val === null || val === undefined;
+}
+
+/** @param {Delta} delta */
 export function removeDisallowedEmbedsFromDelta(delta) {
   if (!delta || !Array.isArray(delta.ops)) {
     return delta;

@@ -36,11 +36,11 @@
           :key="field.id"
           :class="{
             'border-t border-neutral-400 dark:border-neutral-500':
-              field.isField,
+              'isField' in field,
           }"
           :style="{ 'z-index': trackableFields.length - i }"
         >
-          <td v-if="field.isField" class="p-2">
+          <td v-if="'isField' in field" class="p-2">
             <field
               :auto-size="false"
               :placeholder="$t('Name')"
@@ -52,7 +52,7 @@
           </td>
 
           <td
-            v-if="field.isField"
+            v-if="'isField' in field"
             class="w-px p-2 text-center whitespace-nowrap"
           >
             <field
@@ -64,7 +64,7 @@
           </td>
 
           <td
-            v-if="field.isField"
+            v-if="'isField' in field"
             class="w-px p-2 text-center whitespace-nowrap"
           >
             <field
@@ -76,7 +76,7 @@
           </td>
 
           <td
-            v-if="field.isField"
+            v-if="'isField' in field"
             class="w-px p-2 whitespace-nowrap"
             style="gap: 0.2em; justify-content: flex-end"
           >
@@ -125,7 +125,7 @@
             </div>
           </td>
 
-          <td v-if="field.isNote" colspan="4">
+          <td v-if="'isNote' in field" colspan="4">
             <div class="flex items-center gap-2 pb-2">
               <span class="small-label">{{ $t('Notes') }}</span>
               <quill-editor
@@ -276,16 +276,24 @@
 </template>
 
 <script>
-import {
-  state,
-  updateTrackableField as storeUpdateTrackableField,
-  deleteTrackableField as storeDeleteTrackableField,
-  sortTrackableField as storeSortTrackableField,
-  addTrackableField,
-} from '../store';
+import { state } from '../store';
 import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
 import QuillEditor from './QuillEditor.vue';
+
+/** @typedef {import('../store').TrackableField} TrackableField */
+
+/**
+ * @typedef {Object} NoteRow
+ * @property {string} id
+ * @property {boolean} isNote
+ * @property {number} fieldId
+ * @property {object | null} notes
+ */
+
+/**
+ * @typedef {TrackableField & { isField: boolean }} TrackableFieldRow
+ */
 
 export default {
   name: 'TrackableFields',
@@ -293,6 +301,7 @@ export default {
   data() {
     return {
       isMobile: false,
+      /** @type {MediaQueryList | null} */
       mediaQuery: null,
       showInfoDialog: false,
     };
@@ -307,6 +316,7 @@ export default {
     },
 
     trackableFieldsAndNotes() {
+      /** @type {Array<TrackableFieldRow | NoteRow>} */
       const rows = [];
 
       this.trackableFields.forEach((field, index) => {
@@ -332,7 +342,10 @@ export default {
 
   beforeUnmount() {
     if (this.mediaQuery) {
-      this.mediaQuery.removeListener(this.handleMediaQueryChange);
+      this.mediaQuery.removeEventListener(
+        'change',
+        this.handleMediaQueryChange,
+      );
     }
   },
 
@@ -340,30 +353,78 @@ export default {
     setupMediaQuery() {
       this.mediaQuery = window.matchMedia('(max-width: 675px)');
       this.isMobile = this.mediaQuery.matches;
-      this.mediaQuery.addListener(this.handleMediaQueryChange);
+      this.mediaQuery.addEventListener('change', this.handleMediaQueryChange);
     },
 
+    /** @param {MediaQueryListEvent} event */
     handleMediaQueryChange(event) {
       this.isMobile = event.matches;
     },
 
+    /**
+     * @param {number | string} id
+     * @param {keyof Omit<TrackableField, 'id'>} field
+     * @param {string | number | object | null} val
+     */
     updateTrackableField(id, field, val) {
-      if (id.toString().endsWith('-note')) {
+      if (typeof id === 'string' && id.endsWith('-note')) {
         id = parseInt(id.slice(0, -5)); // Remove '-note' suffix for field ID
       }
-      storeUpdateTrackableField({ id, field, val });
+
+      state.trackableFields = state.trackableFields.map((f) => {
+        if (f.id === id) {
+          return { ...f, [field]: val };
+        }
+        return f;
+      });
     },
 
+    /** @param {number} id */
     deleteTrackableField(id) {
-      storeDeleteTrackableField({ id });
+      state.trackableFields = state.trackableFields.filter((f) => f.id !== id);
     },
 
     addTrackableField() {
-      addTrackableField();
+      const field = {
+        id: Date.now(),
+        name: '',
+        used: 0,
+        max: 0,
+        notes: null,
+      };
+      state.trackableFields.push(field);
     },
 
+    /**
+     * @param {number} id
+     * @param {'up' | 'down'} direction
+     */
     sortTrackableField(id, direction) {
-      storeSortTrackableField({ id, direction });
+      const curIndex = state.trackableFields.findIndex((f) => f.id === id);
+
+      if (curIndex === -1) {
+        return;
+      }
+
+      if (direction === 'up') {
+        if (curIndex === 0) {
+          return;
+        }
+        const deletedFields = state.trackableFields.splice(curIndex, 1);
+        const fieldToMove = deletedFields[0];
+        state.trackableFields.splice(curIndex - 1, 0, fieldToMove);
+        return;
+      }
+
+      if (direction === 'down') {
+        if (curIndex === state.trackableFields.length - 1) {
+          return;
+        }
+        const deletedFields = state.trackableFields.splice(curIndex, 1);
+        const fieldToMove = deletedFields[0];
+        state.trackableFields.splice(curIndex + 1, 0, fieldToMove);
+        return;
+      }
     },
   },
 

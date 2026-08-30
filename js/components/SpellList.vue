@@ -98,74 +98,157 @@
 </template>
 
 <script>
-import {
-  state,
-  updateSpellName as storeUpdateSpellName,
-  updateSpellPrepared as storeUpdateSpellPrepared,
-  updateSpellCollapsed as storeUpdateSpellCollapsed,
-  addSpell as storeAddSpell,
-  deleteSpell as storeDeleteSpell,
-  sortSpells as storeSortSpells,
-} from '../store';
+import { state } from '../store';
 import ButtonCollapse from './ButtonCollapse.vue';
 import QuillEditor from './QuillEditor.vue';
+
+/** @typedef {import('../store').SpellGroupKey} SpellGroupKey */
 
 export default {
   name: 'SpellList',
 
-  props: ['listField', 'readOnly'],
+  props: {
+    spellGroup: /** @type {import('vue').PropType<SpellGroupKey>} */ (String),
+    readOnly: Boolean,
+  },
 
   computed: {
     spellItems() {
-      return state[this.listField].spells;
+      if (!this.spellGroup) {
+        return [];
+      }
+
+      return state[this.spellGroup].spells;
     },
   },
 
   methods: {
+    /**
+     * @param {number} i
+     * @param {object | null} name
+     */
     updateSpellName(i, name) {
-      storeUpdateSpellName({
-        field: this.listField,
-        i: i,
-        name: name,
-      });
+      if (!this.spellGroup) {
+        return;
+      }
+
+      state[this.spellGroup].spells = state[this.spellGroup].spells.map(
+        (spell, idx) => {
+          if (i === idx) {
+            return {
+              ...spell,
+              name,
+            };
+          }
+          return spell;
+        },
+      );
     },
 
+    /**
+     * @param {number} i
+     * @param {Event} e
+     */
     updateSpellPrepared(i, e) {
-      storeUpdateSpellPrepared({
-        field: this.listField,
-        i: i,
-        prepared: e.target.checked,
-      });
+      if (!this.spellGroup) {
+        return;
+      }
+
+      const prepared = /** @type {HTMLInputElement} */ (e.target).checked;
+
+      state[this.spellGroup].spells = state[this.spellGroup].spells.map(
+        (spell, idx) => {
+          if (i === idx) {
+            return {
+              ...spell,
+              prepared,
+            };
+          }
+          return spell;
+        },
+      );
     },
 
+    /**
+     * @param {number} i
+     * @param {boolean} collapsed
+     */
     updateSpellCollapsed(i, collapsed) {
-      storeUpdateSpellCollapsed({
-        field: this.listField,
-        i: i,
-        collapsed: collapsed,
-      });
+      if (!this.spellGroup) {
+        return;
+      }
+
+      state[this.spellGroup].spells = state[this.spellGroup].spells.map(
+        (spell, idx) => {
+          if (i === idx) {
+            return {
+              ...spell,
+              collapsed,
+            };
+          }
+          return spell;
+        },
+      );
     },
 
     addSpell() {
-      storeAddSpell({
-        field: this.listField,
-        item: { prepared: false, name: '', url: '', id: Date.now() },
+      if (!this.spellGroup) {
+        return;
+      }
+
+      state[this.spellGroup].spells.push({
+        id: crypto.randomUUID(),
+        name: null,
+        prepared: false,
+        collapsed: false,
       });
     },
 
+    /** @param {number} i */
     deleteSpell(i) {
-      storeDeleteSpell({
-        field: this.listField,
-        i: i,
-      });
+      if (!this.spellGroup) {
+        return;
+      }
+
+      state[this.spellGroup].spells.splice(i, 1);
     },
 
+    /**
+     * @param {string} id
+     * @param {'up' | 'down'} direction
+     */
     sortSpells(id, direction) {
-      storeSortSpells({
-        field: this.listField,
-        id,
-        direction,
-      });
+      if (!this.spellGroup) {
+        return;
+      }
+
+      var field = this.spellGroup;
+      var direction = direction;
+      var curIndex = state[field].spells.findIndex((spell) => spell.id === id);
+
+      if (curIndex === -1) {
+        return;
+      }
+
+      if (direction === 'up') {
+        if (curIndex === 0) {
+          return;
+        }
+        var deletedSpells = state[field].spells.splice(curIndex, 1);
+        var spellToMove = deletedSpells[0];
+        state[field].spells.splice(curIndex - 1, 0, spellToMove);
+        return;
+      }
+
+      if (direction === 'down') {
+        if (curIndex === state[field].spells.length - 1) {
+          return;
+        }
+        var deletedSpells = state[field].spells.splice(curIndex, 1);
+        var spellToMove = deletedSpells[0];
+        state[field].spells.splice(curIndex + 1, 0, spellToMove);
+        return;
+      }
     },
   },
 

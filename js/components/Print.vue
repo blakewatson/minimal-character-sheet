@@ -135,7 +135,12 @@
             {{ ability.score }}
           </div>
 
-          <div v-if="savingThrows[i].proficient">
+          <div
+            v-if="
+              savingThrows[i].proficient ||
+              !isNullOrUndefined(savingThrows[i].modifierOverride)
+            "
+          >
             <div
               class="print-field-label text-center"
               style="
@@ -146,9 +151,9 @@
                 width: auto;
               "
             >
-              {{
-                $signedNumString(modifiers[i].val + proficiencyBonus)
-              }}&nbsp;{{ $t('Save (throw)') }}
+              {{ $signedNumString(getSaveBonus(i)) }}&nbsp;{{
+                $t('Save (throw)')
+              }}
             </div>
           </div>
         </div>
@@ -408,7 +413,7 @@ import {
   modifiers as storeModifiers,
   proficiencyBonus as storeProficiencyBonus,
 } from '../store';
-import { signedNumString } from '../utils';
+import { isNullOrUndefined, signedNumString } from '../utils';
 import PrintField from './PrintField.vue';
 
 export default {
@@ -718,6 +723,27 @@ export default {
       return 10 + this.getSkillModifier({ ability: 'WIS' });
     },
 
+    /** @param {number} i  */
+    getSaveBonus(i) {
+      const savingThrow = this.savingThrows[i];
+      const modifier = this.modifiers[i];
+
+      const bonus = savingThrow.proficient
+        ? modifier.val + this.proficiencyBonus
+        : modifier.val;
+
+      if (
+        savingThrow.modifierOverride !== null &&
+        savingThrow.modifierOverride !== undefined
+      ) {
+        return savingThrow.isAdditive
+          ? savingThrow.modifierOverride + bonus
+          : savingThrow.modifierOverride;
+      }
+
+      return bonus;
+    },
+
     getSkillModifier(skill) {
       var mod = this.modifiers.reduce((acc, m) => {
         if (m.ability === skill.ability) return acc + m.val;
@@ -761,6 +787,8 @@ export default {
     signedNumString(num) {
       return signedNumString(num);
     },
+
+    isNullOrUndefined,
   },
 
   created() {
