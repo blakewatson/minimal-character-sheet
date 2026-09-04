@@ -5,7 +5,7 @@
   >
     <slot>
       <form @submit.prevent="submitForm">
-        <h2 class="mb-2 text-lg font-bold">{{ title }}</h2>
+        <h2 class="mb-2 text-base font-bold">{{ title }}</h2>
 
         <slot name="content"></slot>
 

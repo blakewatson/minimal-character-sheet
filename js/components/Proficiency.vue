@@ -21,8 +21,8 @@
     >
       <div class="small-label">{{ $t('Proficiency bonus') }}</div>
       <span
-        class="min-[500px]:text-xl sm:text-2xl"
-        :class="{ underline: Boolean(proficiencyOverride) }"
+        class="decoration-2 min-[500px]:text-xl sm:text-2xl"
+        :class="{ underline: !isNullOrUndefined(proficiencyOverride) }"
         >{{ $signedNumString(proficiencyBonus) }}</span
       >
     </button>
@@ -95,6 +95,7 @@
 
 <script>
 import { state, proficiencyBonus as storeProficiencyBonus } from '../store';
+import { isNullOrUndefined } from '../utils';
 import AppDialog from './AppDialog.vue';
 import Field from './Field.vue';
 
@@ -164,6 +165,8 @@ export default {
       this.showProficiencyDialog = false;
       this.proficiencyOverrideValue = null;
     },
+
+    isNullOrUndefined,
   },
 
   components: {

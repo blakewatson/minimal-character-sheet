@@ -47,7 +47,7 @@
       }"
       :disabled="readOnly"
       @click="openSavingThrowOverrideDialog"
-      class="hover:border-light-foreground my-1 rounded-xs border border-transparent px-2 text-center decoration-1 dark:hover:border-neutral-400"
+      class="hover:border-light-foreground my-1 rounded-xs border border-transparent px-2 text-center decoration-2 dark:hover:border-neutral-400"
       type="button"
     >
       {{ $signedNumString(saveBonus) }}

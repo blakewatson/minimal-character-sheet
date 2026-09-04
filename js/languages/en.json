@@ -28,6 +28,7 @@
   "Save (throw)": "Save",
   "Saving throw bonus override": "Saving throw bonus override",
   "Saving throw bonus override description": "By default, the value you enter here replaces the save bonus. Check the box below if you want the value entered to be added to the standard calculation instead (negative numbers allowed). Click 'Remove override' to revert back to the standard calculation.",
+  "Skill bonus override description": "By default, the value you enter here replaces the skill bonus. Check the box below if you want the value entered to be added to the standard calculation instead (negative numbers allowed). Click 'Remove override' to revert back to the standard calculation.",
   "Remove override": "Remove override",
   "Cancel": "Cancel",
   "Inspiration": "Inspiration",

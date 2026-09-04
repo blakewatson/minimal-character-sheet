@@ -416,6 +416,8 @@ import {
 import { isNullOrUndefined, signedNumString } from '../utils';
 import PrintField from './PrintField.vue';
 
+/** @typedef {import('../store').Skill} Skill */
+
 export default {
   name: 'Print',
 
@@ -744,28 +746,31 @@ export default {
       return bonus;
     },
 
+    /** @param {Skill} skill  */
     getSkillModifier(skill) {
       var mod = this.modifiers.reduce((acc, m) => {
         if (m.ability === skill.ability) return acc + m.val;
         return acc;
       }, 0);
 
+      let bonus = mod;
+
+      if (skill.doubleProficient) {
+        bonus = mod + this.proficiencyBonus * 2;
+      } else if (skill.proficient) {
+        bonus = mod + this.proficiencyBonus;
+      }
+
       if (
         skill.modifierOverride !== null &&
         skill.modifierOverride !== undefined
       ) {
-        return skill.modifierOverride;
+        return skill.isAdditive
+          ? skill.modifierOverride + bonus
+          : skill.modifierOverride;
       }
 
-      if (skill.doubleProficient) {
-        return mod + this.proficiencyBonus * 2;
-      }
-
-      if (skill.proficient) {
-        return mod + this.proficiencyBonus;
-      }
-
-      return mod;
+      return bonus;
     },
 
     hasQuillContent(delta) {

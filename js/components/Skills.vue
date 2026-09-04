@@ -79,7 +79,7 @@
     >
       <template #content>
         <p class="mb-2 text-sm">
-          {{ $t('Proficiency override description') }}
+          {{ $t('Skill bonus override description') }}
         </p>
 
         <label class="small-label mr-4 text-base" for="skill-modifier">{{
@@ -94,6 +94,14 @@
           style="min-width: 50px"
           type="number"
         ></field>
+
+        <label
+          class="mt-2 flex items-center gap-2"
+          v-if="!selectedSkill?.isPassivePerception"
+        >
+          <input type="checkbox" v-model="modifierOverrideIsAdditive" />
+          <span class="text-sm">Add to standard calculation</span>
+        </label>
       </template>
 
       <template #actions>
@@ -125,6 +133,7 @@ export default {
     return {
       /** @type {number | null} */
       modifierOverride: null,
+      modifierOverrideIsAdditive: false,
       /** @type {Skill | null} */
       selectedSkill: null,
       showOverrideDialog: false,
@@ -157,22 +166,24 @@ export default {
         return acc;
       }, 0);
 
+      let bonus = mod;
+
+      if (skill.doubleProficient) {
+        bonus = mod + this.proficiencyBonus * 2;
+      } else if (skill.proficient) {
+        bonus = mod + this.proficiencyBonus;
+      }
+
       if (
         skill.modifierOverride !== null &&
         skill.modifierOverride !== undefined
       ) {
-        return skill.modifierOverride;
+        return skill.isAdditive
+          ? skill.modifierOverride + bonus
+          : skill.modifierOverride;
       }
 
-      if (skill.doubleProficient) {
-        return mod + this.proficiencyBonus * 2;
-      }
-
-      if (skill.proficient) {
-        return mod + this.proficiencyBonus;
-      }
-
-      return mod;
+      return bonus;
     },
 
     /**
@@ -220,7 +231,10 @@ export default {
     /** @param {Skill} skill */
     openOverrideDialog(skill) {
       this.selectedSkill = skill;
-      this.modifierOverride = this.getSkillModifier(skill);
+      this.modifierOverride = skill.isAdditive
+        ? skill.modifierOverride
+        : this.getSkillModifier(skill);
+      this.modifierOverrideIsAdditive = skill.isAdditive;
       this.showOverrideDialog = true;
     },
 
@@ -253,6 +267,7 @@ export default {
             return {
               ...skill,
               modifierOverride: override,
+              isAdditive: this.modifierOverrideIsAdditive,
             };
           }
           return skill;
@@ -274,6 +289,7 @@ export default {
             return {
               ...skill,
               modifierOverride: null,
+              isAdditive: false,
             };
           }
           return skill;
@@ -282,6 +298,7 @@ export default {
       this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
+      this.modifierOverrideIsAdditive = false;
     },
   },
 
