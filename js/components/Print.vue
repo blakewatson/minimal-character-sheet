@@ -714,15 +714,31 @@ export default {
     },
 
     getPassivePerception() {
+      // Default to just Wisdom modifier
+      let passivePerception = 10 + this.getSkillModifier({ ability: 'WIS' });
+
       // Find the Perception skill
       const perceptionSkill = this.skills.find(
         (skill) => skill.name === 'Perception',
       );
+
       if (perceptionSkill) {
-        return 10 + this.getSkillModifier(perceptionSkill);
+        // This will account for proficiency bonuses.
+        passivePerception = 10 + this.getSkillModifier(perceptionSkill);
       }
-      // Fallback to just Wisdom modifier if Perception skill not found
-      return 10 + this.getSkillModifier({ ability: 'WIS' });
+
+      // Check for override
+      if (
+        state.passivePerceptionOverride !== null &&
+        state.passivePerceptionOverride !== undefined
+      ) {
+        // If the override is found, it either replaces or adds to the existing bonus.
+        passivePerception = state.passivePerceptionOverrideIsAdditive
+          ? passivePerception + state.passivePerceptionOverride
+          : state.passivePerceptionOverride;
+      }
+
+      return passivePerception;
     },
 
     /** @param {number} i  */
@@ -746,7 +762,7 @@ export default {
       return bonus;
     },
 
-    /** @param {Skill} skill  */
+    /** @param {Partial<Skill>} skill  */
     getSkillModifier(skill) {
       var mod = this.modifiers.reduce((acc, m) => {
         if (m.ability === skill.ability) return acc + m.val;

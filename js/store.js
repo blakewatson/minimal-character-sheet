@@ -151,6 +151,7 @@ import levelData from './level-data';
  * @property {object | null} notesText
  * @property {boolean} diceMaximized
  * @property {number | null} passivePerceptionOverride
+ * @property {boolean} passivePerceptionOverrideIsAdditive
  * @property {string} spClass
  * @property {AbilityName} spAbility
  * @property {string} spSave
@@ -409,6 +410,7 @@ const defaultState = {
   notesText: {},
   diceMaximized: false,
   passivePerceptionOverride: null,
+  passivePerceptionOverrideIsAdditive: false,
   spClass: '',
   spAbility: 'WIS',
   spSave: '',

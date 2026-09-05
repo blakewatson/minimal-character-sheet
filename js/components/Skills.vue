@@ -62,7 +62,7 @@
         :disabled="readOnly"
         :title="$t('Override passive perception')"
         @click="openPassivePerceptionDialog"
-        class="hover:border-light-foreground cursor-pointer rounded-xs border border-transparent px-1 dark:hover:border-neutral-400"
+        class="hover:border-light-foreground cursor-pointer rounded-xs border border-transparent px-1 decoration-2 dark:hover:border-neutral-400"
       >
         <strong class="">{{ getPassivePerception() }}</strong>
       </button>
@@ -95,10 +95,7 @@
           type="number"
         ></field>
 
-        <label
-          class="mt-2 flex items-center gap-2"
-          v-if="!selectedSkill?.isPassivePerception"
-        >
+        <label class="mt-2 flex items-center gap-2">
           <input type="checkbox" v-model="modifierOverrideIsAdditive" />
           <span class="text-sm">Add to standard calculation</span>
         </label>
@@ -149,6 +146,9 @@ export default {
     },
     passivePerceptionOverride() {
       return state.passivePerceptionOverride;
+    },
+    passivePerceptionOverrideIsAdditive() {
+      return state.passivePerceptionOverrideIsAdditive;
     },
     modifiers() {
       return storeModifiers.value;
@@ -205,13 +205,8 @@ export default {
     },
 
     getPassivePerception() {
-      // Check for override first
-      if (
-        this.passivePerceptionOverride !== null &&
-        this.passivePerceptionOverride !== undefined
-      ) {
-        return this.passivePerceptionOverride;
-      }
+      // Default to just Wisdom modifier
+      let passivePerception = 10 + this.getSkillModifier({ ability: 'WIS' });
 
       // Find the Perception skill
       const perceptionSkill = this.skills.find(
@@ -219,11 +214,22 @@ export default {
       );
 
       if (perceptionSkill) {
-        return 10 + this.getSkillModifier(perceptionSkill);
+        // This will account for proficiency bonuses.
+        passivePerception = 10 + this.getSkillModifier(perceptionSkill);
       }
 
-      // Fallback to just Wisdom modifier if Perception skill not found
-      return 10 + this.getSkillModifier({ ability: 'WIS' });
+      // Check for override
+      if (
+        this.passivePerceptionOverride !== null &&
+        this.passivePerceptionOverride !== undefined
+      ) {
+        // If the override is found, it either replaces or adds to the existing bonus.
+        passivePerception = this.passivePerceptionOverrideIsAdditive
+          ? passivePerception + this.passivePerceptionOverride
+          : this.passivePerceptionOverride;
+      }
+
+      return passivePerception;
     },
 
     isNullOrUndefined,
@@ -245,7 +251,11 @@ export default {
         name: 'Passive Perception',
         isPassivePerception: true,
       };
-      this.modifierOverride = this.getPassivePerception();
+      this.modifierOverride = this.passivePerceptionOverrideIsAdditive
+        ? this.passivePerceptionOverride
+        : this.getPassivePerception();
+      this.modifierOverrideIsAdditive =
+        this.passivePerceptionOverrideIsAdditive;
       this.showOverrideDialog = true;
     },
 
@@ -261,6 +271,8 @@ export default {
       // Check if this is passive perception or a regular skill
       if (this.selectedSkill?.isPassivePerception) {
         state.passivePerceptionOverride = override;
+        state.passivePerceptionOverrideIsAdditive =
+          this.modifierOverrideIsAdditive;
       } else {
         state.skills = state.skills.map((skill) => {
           if (skill.name === this.selectedSkill?.name) {
@@ -277,12 +289,14 @@ export default {
       this.showOverrideDialog = false;
       this.selectedSkill = null;
       this.modifierOverride = null;
+      this.modifierOverrideIsAdditive = false;
     },
 
     removeOverride() {
       // Check if this is passive perception or a regular skill
       if (this.selectedSkill?.isPassivePerception) {
         state.passivePerceptionOverride = null;
+        state.passivePerceptionOverrideIsAdditive = false;
       } else {
         state.skills = state.skills.map((skill) => {
           if (skill.name === this.selectedSkill?.name) {
