@@ -66,7 +66,7 @@
         {{ $t('Saving throw bonus override description') }}
       </p>
 
-      <label class="small-label mr-2 text-base" for="skill-modifier">{{
+      <label class="small-label mr-4 text-base" for="skill-modifier">{{
         ability.name ? $t(ability.name) : ''
       }}</label>
 
@@ -74,7 +74,8 @@
         :readOnly="readOnly"
         :value="savingThrowModifierOverride"
         @update-value="savingThrowModifierOverride = $event"
-        class="min-w-14 bg-neutral-100 text-center text-lg!"
+        class="min-w-14 text-center text-lg!"
+        has-bg
         id="skill-modifier"
         style="min-width: 50px"
         type="number"

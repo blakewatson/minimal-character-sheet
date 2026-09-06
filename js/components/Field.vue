@@ -1,6 +1,10 @@
 <template>
   <input
-    :class="computedClasses"
+    :class="{
+      'box-content': autoSize,
+      'box-border': !autoSize,
+      'bg-neutral-100 dark:bg-black': hasBg,
+    }"
     :disabled="isReadOnly"
     :id="id"
     :placeholder="placeholder ?? ''"
@@ -25,6 +29,7 @@ export default {
       default: true,
     },
     classNames: String,
+    hasBg: Boolean,
     id: String,
     placeholder: String,
     readOnly: Boolean,

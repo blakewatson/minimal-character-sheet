@@ -62,7 +62,7 @@
       v-if="showProficiencyDialog"
     >
       <template #content>
-        <p class="mb-2">
+        <p class="mb-2 text-sm">
           {{ $t('Proficiency override description') }}
         </p>
 
@@ -76,6 +76,7 @@
           @update-value="proficiencyOverrideValue = $event"
           id="proficiency-bonus"
           class="min-w-14 text-center text-lg!"
+          has-bg
           type="number"
         ></field>
       </template>

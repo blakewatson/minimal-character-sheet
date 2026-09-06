@@ -89,7 +89,8 @@
           :readOnly="readOnly"
           :value="modifierOverride"
           @update-value="modifierOverride = $event"
-          class="min-w-14 bg-neutral-100 text-center text-lg!"
+          class="min-w-14 text-center text-lg!"
+          has-bg
           id="skill-modifier"
           style="min-width: 50px"
           type="number"
